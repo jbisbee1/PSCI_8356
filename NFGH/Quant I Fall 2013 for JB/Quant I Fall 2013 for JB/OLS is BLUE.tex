@@ -1,0 +1,193 @@
+
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[abbr]{harvard}
+\usepackage{amssymb}
+\usepackage{setspace,graphics,epsfig,amsmath,rotating,amsfonts,mathpazo}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2960}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{Created=Thursday, September 11, 2008 15:11:56}
+%TCIDATA{LastRevised=Sunday, December 01, 2013 19:46:04}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Articles\SW\article.egan">}
+
+\topmargin=0 in \headheight=0in \headsep=0in \topskip=0in \textheight=9in \oddsidemargin=0in \evensidemargin=0in \textwidth=6.5in
+\input{tcilatex}
+\begin{document}
+
+
+New York University
+
+Wilf Family Department of Politics
+
+\begin{center}
+{\large \textbf{Quantitative Research in Political\ Science I}}
+
+Professor Patrick Egan
+
+\bigskip
+
+\textbf{A Proof that OLS is the Best Linear Unbiased Estimator (BLUE) for }$%
+\mathbf{\beta }$\bigskip 
+\end{center}
+
+In our work with the linear model $\mathbf{y}=\mathbf{X\beta }+\mathbf{u}$,
+we required four {\small assumptions to establish that the OLS estimator }$%
+\widehat{\mathbf{\beta }}{\small \equiv }\left( \mathbf{X}^{\prime }\mathbf{X%
+}\right) ^{-1}\mathbf{X}^{\prime }\mathbf{y}$ is unbiased for $\mathbf{\beta
+:}$
+
+\begin{enumerate}
+\item The DGP can accurately be written as $\mathbf{y}=\mathbf{X\beta }+%
+\mathbf{u}$, where $\mathbf{X}$ is an $N\times K$ matrix;
+
+\item No perfect multicollinearity among the $x$'s, i.e. that $rank\left( 
+\mathbf{X}\right) =K$;
+
+\item {\small We have a random sample, making our observations i.i.d.;}
+
+\item $E\left( u|\mathbf{X}\right) =0$ [no omitted variables correlated with
+both $\mathbf{X}$ and $y$]; implies fixed $\mathbf{X.}$\bigskip 
+\end{enumerate}
+
+Together, these assumptions established that {\small \ }${\small E}\left( 
+\widehat{\mathbf{\beta }}\right) =\mathbf{\beta .}$ \ Unbiasedness is of
+course a very nice property for an estimator to have. \ But another question
+that arises when we consider the desirability of an estimator is its
+precision. \ In particular, we would like an estimator that is as precise as
+possible. \ In fact, when examining estimators that are otherwise similar,
+the estimator whose sampling distribution has the smallest variance is
+considered, intuitively, to be the \textquotedblleft best\textquotedblright\
+of these estimators. \ 
+
+Recall that we invoked an additional assumption in order to fully specify
+the sampling distribution of $\widehat{\mathbf{\beta }}$ and thus establish
+that $VAR\left( \widehat{\mathbf{\beta }}\right) =\sigma ^{2}\left( \mathbf{X%
+}^{\prime }\mathbf{X}\right) ^{-1}$: \ 
+
+\begin{enumerate}
+\item[5.] This assumption has two parts, together which are known as
+\textquotedblleft sphericality of errors\textquotedblright : 
+
+\begin{enumerate}
+\item No autocorrelation: $cov\left( u_{i},u_{j}\right) =0\forall i\neq j;$%
+{\small \ }
+
+\item Homoskedasticity: $var\left( u_{1}\right) =var\left( u_{2}\right)
+=...=var\left( u_{N}\right) =\sigma ^{2}.$\bigskip 
+\end{enumerate}
+\end{enumerate}
+
+With Assumptions 1 through 5 in place, it can be shown that {\small the OLS
+estimator }$\widehat{\mathbf{\beta }}{\small \equiv }\left( \mathbf{X}%
+^{\prime }\mathbf{X}\right) ^{-1}\mathbf{X}^{\prime }\mathbf{y}$ is not only
+an unbiased linear estimator of $\widehat{\mathbf{\beta }}$; it's the 
+\textit{best }linear unbiased estimator (BLUE). \ Together, Assumptions 1-5
+are known as the \textit{Gauss-Markov Assumptions}. \ The \textbf{%
+Gauss-Markov Theorem} demonstrates that {\small OLS is (the) BLUE. \ A proof
+follows:}\bigskip 
+
+Consider some alternate linear unbiased estimator for $\mathbf{\beta ,}$
+which we will write as $\widetilde{\mathbf{\beta }}.$ \ By \textquotedblleft
+unbiased,\textquotedblright\ we of course mean $E\left( \widetilde{\mathbf{%
+\beta }}\right) =\mathbf{\beta }.$ \ By \textquotedblleft
+linear,\textquotedblright\ we mean that $\widetilde{\mathbf{\beta }}$ can be
+written as a linear function of $\mathbf{y}$ and some set of weights, $%
+\mathbf{C}$:%
+\begin{equation*}
+\widetilde{\mathbf{\beta }}\equiv \mathbf{Cy.}
+\end{equation*}%
+Specifically, let's rewrite $\mathbf{C}$ as our OLS estimator plus some $%
+K\times N$ matrix $\mathbf{D}$:  
+\begin{eqnarray*}
+\mathbf{C} &\mathbf{\equiv }&\left( \mathbf{X}^{\prime }\mathbf{X}\right)
+^{-1}\mathbf{X}^{\prime }+\mathbf{D}\text{ and so} \\
+\widetilde{\mathbf{\beta }} &=&\left[ \left( \mathbf{X}^{\prime }\mathbf{X}%
+\right) ^{-1}\mathbf{X}^{\prime }+\mathbf{D}\right] \mathbf{y} \\
+\widetilde{\mathbf{\beta }} &=&\left[ \left( \mathbf{X}^{\prime }\mathbf{X}%
+\right) ^{-1}\mathbf{X}^{\prime }+\mathbf{D}\right] \mathbf{X\beta }+\mathbf{%
+u.}
+\end{eqnarray*}%
+Goal is to show that no $\widetilde{\mathbf{\beta }}$ exists such that $%
+var\left( \widetilde{\beta }_{k}\right) <var\left( \widehat{\beta }%
+_{k}\right) $ for any $k.$ \ First let's consider $E\left( \widetilde{%
+\mathbf{\beta }}\right) :$%
+\begin{eqnarray*}
+E\left( \widetilde{\mathbf{\beta }}\right)  &=&E\left\{ \left[ \left( 
+\mathbf{X}^{\prime }\mathbf{X}\right) ^{-1}\mathbf{X}^{\prime }+\mathbf{D}%
+\right] \mathbf{X\beta }+\mathbf{u}\right\}  \\
+&=&E\left[ \left( \mathbf{X}^{\prime }\mathbf{X}\right) ^{-1}\mathbf{X}%
+^{\prime }\mathbf{X\beta }\right] +E\left[ \left( \mathbf{X}^{\prime }%
+\mathbf{X}\right) ^{-1}\mathbf{X}^{\prime }\mathbf{u}\right] +E\left[ 
+\mathbf{DX\beta }\right] +E\left[ \mathbf{Du}\right]  \\
+&=&E\left( \mathbf{\beta }\right) +\mathbf{0}+E\left[ \mathbf{DX\beta }%
+\right] +\mathbf{D}E\left[ \mathbf{u}\right]  \\
+&=&\mathbf{\beta +DX\beta }\text{ \ (Treating }\mathbf{D,X}\text{ as fixed; }%
+E\left[ \mathbf{u}\right] =\mathbf{0}\text{)} \\
+&=&\left( \mathbf{I+DX}\right) \mathbf{\beta .}
+\end{eqnarray*}%
+For $\widetilde{\mathbf{\beta }}$ to be unbiased, it must be that\ $E\left( 
+\widetilde{\mathbf{\beta }}\right) =\left( \mathbf{I+DX}\right) \mathbf{%
+\beta =\beta .}$ \ Thus $\mathbf{DX}$ must be equal to zero. \ Let's use
+this to rewrite $\widetilde{\mathbf{\beta }}.$ \ From above we have%
+\begin{eqnarray*}
+\widetilde{\mathbf{\beta }} &=&\left[ \left( \mathbf{X}^{\prime }\mathbf{X}%
+\right) ^{-1}\mathbf{X}^{\prime }+\mathbf{D}\right] \mathbf{X\beta }+\mathbf{%
+u} \\
+&=&\mathbf{\beta +}\left( \mathbf{X}^{\prime }\mathbf{X}\right) ^{-1}\mathbf{%
+X}^{\prime }\mathbf{u+Du.}
+\end{eqnarray*}
+Now let's consider $var\left( \widetilde{\mathbf{\beta }}\right) :$%
+\begin{eqnarray*}
+var\left( \widetilde{\mathbf{\beta }}\right)  &\equiv &E\left\{ \left[ 
+\widetilde{\mathbf{\beta }}-E\left( \widetilde{\mathbf{\beta }}\right) %
+\right] \left[ \widetilde{\mathbf{\beta }}-E\left( \widetilde{\mathbf{\beta }%
+}\right) \right] ^{\prime }\right\}  \\
+&=&E\left[ \left( \widetilde{\mathbf{\beta }}-\mathbf{\beta }\right) \left( 
+\widetilde{\mathbf{\beta }}-\mathbf{\beta }\right) ^{\prime }\right] \text{
+\ (since }\widetilde{\mathbf{\beta }}\text{ is unbiased for }\mathbf{\beta }%
+\text{)} \\
+&=&E\left\{ \left[ \left( \mathbf{X}^{\prime }\mathbf{X}\right) ^{-1}\mathbf{%
+X}^{\prime }\mathbf{u+Du}\right] \left[ \left( \mathbf{X}^{\prime }\mathbf{X}%
+\right) ^{-1}\mathbf{X}^{\prime }\mathbf{u+Du}\right] ^{\prime }\right\} 
+\text{ \ (the }\mathbf{\beta }\text{'s drop out)} \\
+&=&E\left\{ \left[ \left( \mathbf{X}^{\prime }\mathbf{X}\right) ^{-1}\mathbf{%
+X}^{\prime }\mathbf{+D}\right] \mathbf{uu}^{\prime }\left[ \mathbf{D}%
+^{\prime }+\mathbf{X}\left( \mathbf{X}^{\prime }\mathbf{X}\right) ^{-1}%
+\right] \right\} \text{ \ (factor out }\mathbf{u}\text{'s, take the
+transpose)}
+\end{eqnarray*}%
+Relying on the assumption of sphericality, this simplifies to 
+\begin{eqnarray*}
+var\left( \widetilde{\mathbf{\beta }}\right)  &=&\mathbf{\sigma }^{2}\left[
+\left( \mathbf{X}^{\prime }\mathbf{X}\right) ^{-1}\mathbf{X}^{\prime }%
+\mathbf{+D}\right] \left[ \mathbf{D}^{\prime }+\mathbf{X}\left( \mathbf{X}%
+^{\prime }\mathbf{X}\right) ^{-1}\right]  \\
+&=&\mathbf{\sigma }^{2}\left[ \left( \mathbf{X}^{\prime }\mathbf{X}\right)
+^{-1}\mathbf{X}^{\prime }\mathbf{D}^{\prime }\mathbf{+DX}\left( \mathbf{X}%
+^{\prime }\mathbf{X}\right) ^{-1}+\left( \mathbf{X}^{\prime }\mathbf{X}%
+\right) ^{-1}+\mathbf{DD}^{\prime }\right]  \\
+&=&\mathbf{\sigma }^{2}\left[ \left( \mathbf{X}^{\prime }\mathbf{X}\right)
+^{-1}+\mathbf{DD}^{\prime }\right] \text{ \ (}\mathbf{DX=0=X}^{\prime }%
+\mathbf{D}^{\prime }\text{)} \\
+&=&\mathbf{\sigma }^{2}\left( \mathbf{X}^{\prime }\mathbf{X}\right) ^{-1}+%
+\mathbf{\sigma }^{2}\mathbf{DD}^{\prime }
+\end{eqnarray*}%
+The first term in this expression for $var\left( \widetilde{\mathbf{\beta }}%
+\right) $ should look familiar$.$ $\ $It's $var\left( \widehat{\mathbf{\beta 
+}}\right) $! \ So for $var\left( \widetilde{\mathbf{\beta }}\right)
+<var\left( \widehat{\mathbf{\beta }}\right) ,$ the diagonal elements of $%
+\mathbf{DD}^{\prime }$ must be negative. \ But multiplying a matrix by its
+transpose yields a matrix with sums of squares on its diagonal, which must
+be non-negative. \ Thus it must be that $var\left( \widetilde{\mathbf{\beta }%
+}\right) \geq var\left( \widehat{\mathbf{\beta }}\right) $, and so no
+unbiased linear estimator for $\mathbf{\beta }$ exists that is more precise
+(a.k.a. is \textquotedblleft better\textquotedblright ) than $\widehat{%
+\mathbf{\beta }}.$ \ So $\widehat{\mathbf{\beta }}$ is (the) BLUE for $%
+\mathbf{\beta .}$ $\ \ \mathbf{\square .}$  
+
+\end{document}

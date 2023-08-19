@@ -1,0 +1,108 @@
+
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[abbr]{harvard}
+\usepackage{amssymb}
+\usepackage{setspace,graphics,epsfig,amsmath,rotating,amsfonts,mathpazo}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2960}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{Created=Thursday, September 11, 2008 15:11:56}
+%TCIDATA{LastRevised=Wednesday, October 09, 2013 13:00:23}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Articles\SW\article.egan">}
+
+\topmargin=0 in \headheight=0in \headsep=0in \topskip=0in \textheight=9in \oddsidemargin=0in \evensidemargin=0in \textwidth=6.5in
+\input{tcilatex}
+\setcounter{section}{0}
+
+\begin{document}
+
+
+New York University
+
+Wilf Family Department of Politics
+
+Fall 2010: distributed Oct. 18\bigskip
+
+\begin{center}
+{\large \textbf{Quantitative Research in Political\ Science I}}
+
+(G53.1250)
+
+Professor Patrick Egan
+
+\bigskip
+
+\textbf{Some Helpful Probability Concepts}\bigskip
+\end{center}
+
+\section{Univariate Analysis\protect\bigskip}
+
+\subsection{For a \textit{discrete} random variable, $Y$\protect\bigskip}
+
+\begin{tabular}{ll}
+probability function & $p(y)\equiv P(Y=y)$%
+\end{tabular}%
+\bigskip
+
+\subsection{For a \textit{continuous} random variable, $Y$\protect\bigskip}
+
+\begin{tabular}{ll}
+cumulative distribution function, or CDF & $F(y)\equiv P(Y\leq
+y)=\int\limits_{-\infty }^{y}f(t)dt$ \\ 
+&  \\ 
+probability density function, or PDF & $f(y)\equiv \frac{dF(y)}{dy}%
+=F^{\prime }(y)$%
+\end{tabular}%
+\bigskip \newpage
+
+\section{Multivariate Analysis\protect\bigskip}
+
+\subsection{For two \textit{discrete} random variables $Y_{1}$ and $Y_{2}$%
+\protect\bigskip}
+
+\begin{tabular}{ll}
+joint probability function & $p(y_{1},y_{2})\equiv
+P(Y_{1}=y_{1},Y_{2}=y_{2}) $ \\ 
+&  \\ 
+joint distribution function, or joint CDF & $F(y_{1},y_{2})\equiv
+P(Y_{1}\leq y_{1},Y_{2}\leq y_{2})=\sum_{t_{1}\leq y_{1}}\sum_{t_{2}\leq
+y_{2}}p(t_{1},t_{2})$ \\ 
+&  \\ 
+marginal probability function of $Y_{1}$ & $p_{1}(y_{1})\equiv
+P(Y_{1}=y_{1})=\sum_{all\text{ }y_{2}}p(y_{1},y_{2})$ \\ 
+&  \\ 
+conditional probability function of $Y_{1}$ given $Y_{2}$ & $%
+p(y_{1}|y_{2})\equiv P(Y_{1}=y_{1}|Y_{2}=y_{2})=\frac{p(y_{1},y_{2})}{%
+p_{2}(y_{2})},$ $\ p_{2}(y_{2})>0.$%
+\end{tabular}%
+\bigskip
+
+\subsection{For two \textit{jointly} \textit{continuous} random variables $%
+Y_{1}$ and $Y_{2}$\protect\bigskip}
+
+\begin{tabular}{ll}
+joint distribution function, or joint CDF & $F(y_{1},y_{2})\equiv
+P(Y_{1}\leq y_{1},Y_{2}\leq y_{2})=\int_{-\infty }^{y_{1}}\int_{-\infty
+}^{y_{2}}f(t_{1},t_{2})dt_{2}dt_{1}\text{ }$ \\ 
+&  \\ 
+joint density function, or joint PDF & $f(y_{1},y_{2})\equiv \frac{\partial
+^{2}F(y_{1},y_{2})}{\partial y_{1}\partial y_{2}}$ \\ 
+&  \\ 
+marginal density function of $Y_{1}$ & $f_{1}(y_{1})\equiv \int_{-\infty
+}^{\infty }f(y_{1},y_{2})dy_{2}$ \\ 
+&  \\ 
+conditional distribution function\textbf{\ }of $Y_{1}$ given $Y_{2}$ & $%
+F(y_{1}|y_{2})\equiv P(Y_{1}\leq y_{1}|Y_{2}=y_{2})=\int_{-\infty }^{y_{1}}%
+\frac{f(t_{1},y_{2})}{f_{2}(y_{2})}dt_{1}$ \\ 
+&  \\ 
+conditional density function of $Y_{1}$ given $Y_{2}=y_{2}$ & $%
+f(y_{1}|y_{2})\equiv \frac{f(y_{1},y_{2})}{f_{2}(y_{2})},$ $\
+f_{2}(y_{2})>0. $%
+\end{tabular}
+
+\end{document}

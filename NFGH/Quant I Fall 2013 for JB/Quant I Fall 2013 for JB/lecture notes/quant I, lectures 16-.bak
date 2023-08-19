@@ -1,0 +1,1102 @@
+
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[abbr]{harvard}
+\usepackage{amssymb}
+\usepackage{setspace,graphics,epsfig,amsmath,rotating,amsfonts,mathpazo}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2960}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{Created=Sunday, September 21, 2008 09:09:16}
+%TCIDATA{LastRevised=Wednesday, November 20, 2013 12:25:37}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Articles\SW\article.egan">}
+
+\parskip=0pt
+\topmargin=0 in \headheight=0in \headsep=0in \topskip=0in \textheight=9in \oddsidemargin=0in \evensidemargin=0in \textwidth=6.5in
+\input{tcilatex}
+\setcounter{section}{15}
+
+\begin{document}
+
+
+\singlespacing
+
+\textbf{NYU Department of Politics - Quant I}
+
+\textbf{Fall 2013 - Prof.\ Patrick Egan}
+
+\doublespacing
+
+\section{Lecture 16}
+
+\subsection{Confounds, revisited}
+
+[Go over "identify the potential confound."]
+
+\subsection{Omitted variable bias}
+
+\begin{itemize}
+\item We've just explored several different ways that one might go about
+controlling for a variable. \ We are about to go into detail on one of the
+simplest (and perhaps least satisfying) way to do this: including an
+additive term with the potential confound, Z, in the linear model. \ 
+
+\item Although this technique may seem overly simple, it can still provide
+us with unbiased estimates of the \textit{ceteris paribus }relationship
+between X and Y if certain assumptions hold. \ To see this, let's first
+analyze what happens when we don't control for Z:
+
+\item Assume that the true model is%
+\begin{equation*}
+y=\beta _{0}+\beta _{1}x+\beta _{2}z+u
+\end{equation*}
+
+\item Notice that we're making a big assumption here about z: no interaction
+between x and z, and z enters into the DGP in a linear fashion.
+
+\item Because this model is properly specified, $\nu $ is an error term that
+does not covary with either $x$ or $z$ conditional on the other variable:
+i.e., $cov\left( u|x,z\right) =cov\left( u|z,x\right) =0$.
+
+\item But let's say instead we regress y only on x, falsely assuming that
+the model is 
+\begin{equation*}
+y=\beta _{0}+\beta _{1}x+\nu ,
+\end{equation*}
+
+\item and thus incorrectly assuming that $cov\left( \nu ,x\right) =0.$
+
+\item then what we are really doing is moving $\beta _{2}z$ to the error
+term, $\nu :$%
+\begin{eqnarray*}
+y &=&\beta _{0}+\beta _{1}x+(\beta _{2}z+u)\mathbf{,} \\
+\text{ where }\nu &=&(\beta _{2}z+u).
+\end{eqnarray*}
+
+\item You'll recall that in the bivariate case that our estimator is%
+\begin{equation*}
+\widehat{\beta }_{1}=\frac{S_{xy}}{S_{xx}}=\frac{cov\left( x,y\right) }{%
+var\left( x\right) }
+\end{equation*}%
+(here writing $\nu $ instead of $u)$: 
+\begin{equation*}
+\widehat{\beta }_{1}=\beta _{1}+\frac{\sum \left( x_{i}-\overline{x}\right)
+\nu _{i}}{SST_{x}},
+\end{equation*}
+
+\item Here rely on the assumption that the covariance of x and $\nu $ is
+zero to make the final term dissappear, and thus say that $E\left( \widehat{%
+\beta }_{1}\right) =\beta _{1}.$ \ But now consider%
+\begin{equation*}
+\widehat{\beta }_{1}=\beta _{1}+\frac{\sum \left( x_{i}-\overline{x}\right)
+\left( \beta _{2}z_{i}+u_{i}\right) }{SST_{x}}.
+\end{equation*}
+
+\item Taking expectations, we now have%
+\begin{eqnarray*}
+E\left( \widehat{\beta }_{1}\right) &=&E\left( \beta _{1}\right) +E\left[ 
+\frac{\sum \left( x_{i}-\overline{x}\right) \left( \beta
+_{2}z_{i}+u_{i}\right) }{SST_{x}}\right] \\
+&=&\beta _{1}+\frac{E\left( \sum x_{i}\beta _{2}z_{i}+x_{i}u_{i}-\overline{x}%
+\beta _{2}z_{i}-\overline{x}u_{i}\right) }{SST_{x}}
+\end{eqnarray*}
+
+\item Now we do two things. \ We (1) assume the z's are fixed (just as we do
+the x's in the bivariate case) and (2) we invoke the (correct) assumption
+that $E\left( u|x,z\right) =0$. \ Now we can write:%
+\begin{eqnarray*}
+&=&\beta _{1}+\frac{\sum x_{i}\beta _{2}z_{i}-\overline{x}\beta _{2}z_{i}}{%
+SST_{x}}\text{or more helpfully,} \\
+E\left( \widehat{\beta }_{1}\right) &=&\beta _{1}+\beta _{2}\left[ \frac{%
+\sum z_{i}\left( x_{i}-\overline{x}\right) }{SST_{x}}\right] .
+\end{eqnarray*}
+
+\item With a little manipulation, we see that 
+\begin{equation*}
+\frac{\sum z_{i}\left( x_{i}-\overline{x}\right) }{SST_{x}}=\frac{\sum
+z_{i}x_{i}-\sum z_{i}\overline{x}}{\sum \left( x_{i}-\overline{x}\right) ^{2}%
+}=\frac{\sum z_{i}x_{i}-n\overline{z}\overline{x}}{\sum \left( x_{i}-%
+\overline{x}\right) ^{2}}=\frac{S_{xz}}{S_{xx}}=\frac{cov(x,z)}{var(x)}
+\end{equation*}
+
+\item And so it turns out that $z_{i}\frac{\sum \left( x_{i}-\overline{x}%
+\right) }{SST_{x}}=\frac{cov(x,z)}{var(x)},$ which is the slope coefficient
+we would obtain if we simply regressed z on x! \ So quite simply, we can
+write:%
+\begin{equation*}
+E\left( \widehat{\beta }_{1}\right) =\beta _{1}+\beta _{2}\frac{cov(x,z)}{%
+var(x)},
+\end{equation*}
+
+\item and thus 
+\begin{equation*}
+BIAS\left( \widehat{\beta }_{1}\right) =E\left( \widehat{\beta }_{1}\right)
+-\beta _{1}=\beta _{2}\frac{cov(x,z)}{var(x)}.
+\end{equation*}
+
+\item What if we wanted to say something about the sign of the bias? \ Well,
+note that $sign\left[ \frac{cov(x,z)}{var(x)}\right] =sign\left[ cov(x,z)%
+\right] .$ \ So if we omit $z$ from our equation, we can now say that sign
+of $\widehat{\beta }_{1}$'s bias is 
+\begin{equation*}
+sign\left[ cov(x,z)\times \beta _{2}\right]
+\end{equation*}%
+\ 
+
+\item What does this mean in practice? \ Consider a regression in which you
+model feelings toward Barack Obama as a function of Democratic Party
+identification. \ You omit a dummy variable for whether an individual is
+African-American. \ In what direction is your estimate of $\beta _{1}$
+almost assuredly biased?
+
+\item That is, you assume the model is%
+\begin{eqnarray*}
+\text{ObamaFT} &=&\beta _{0}+\beta _{1}\left( \text{DEM}\right) +\nu \text{,
+when the true model is} \\
+\text{ObamaFT} &=&\beta _{0}+\beta _{1}\left( \text{DEM}\right) +\beta
+_{2}\left( \text{BLACK}\right) +u.
+\end{eqnarray*}
+
+\item Well, we're pretty sure that $\beta _{2}>0$ and $cov\left( \text{DEM,
+BLACK}\right) >0.$
+
+\item So our estimate of $\beta _{1}$ will have a bias greater than zero. \
+A.k.a., it is "biased upward,": we will overestimate the effect of
+Democratic Party identification because we are not accounting for
+African-American racial identity.
+
+\item What happens if $cov(x,z)=0?$ \ What happens if $\beta _{2}=0?$ \ 
+
+\begin{itemize}
+\item That's right: as we've said before, when a variable is omitted, TWO\
+problems must be present in order for it to cause bias:
+
+\begin{enumerate}
+\item it is correlated with one or more $x$'s in your model.
+
+\item its partial effect on $y$ is not zero.
+\end{enumerate}
+
+\item Why, then, do we love randomly assigning individuals to $x$? \
+Because\ by construction, $cov(x,z)$ (for any omitted $z$ you can think of)
+is zero, making $\widehat{\beta }_{1}$unbiased.
+\end{itemize}
+
+\item This is a nice simple example, but it gets more complicated in a
+multivariate context. \ You'll see this shortly. \ 
+
+\begin{itemize}
+\item \lbrack If the class asks: that's because the term $\beta _{2}\left[ 
+\frac{\sum z_{i}\left( x_{i}-\overline{x}\right) }{SST_{x}}\right] $ becomes 
+$\beta _{2}\left[ \frac{1}{N}\left( X^{\prime }X\right) ^{-1}\left(
+X^{\prime }z\right) \right] ,$ which takes into account the extent to which
+the omitted variable $\left( z\right) $ is collinear with all the included $%
+x $'s in the model. \ In practice, the sign of this bias is hard to consider
+in such a back-of-the-envelope fashion.]
+\end{itemize}
+
+\item Take-home point: if you leave out a variable that is BOTH correlated
+with included $x$'s and has a separate effect on $y$, your estimates will
+suffer from omitted variable bias. \ 
+
+\item If this omitted variable enters into the true DGP in an additive
+linear fashion, we can obtain unbiased estimates of $\beta _{1}$ and $\beta
+_{2}$--that is, the \textit{ceteris paribus} relationships of $y$ and $x,$
+and $y$ and $z,$ respectively--by moving to multiple regression. \ But to do
+that, we need a little matrix algebra.\bigskip
+\end{itemize}
+
+\subsection{Revisiting matrix algebra}
+
+\begin{itemize}
+\item Here, go over:
+
+\begin{itemize}
+\item Matrix algebra handout I, pp. 1-3;
+
+\item Handout IV (entire)
+\end{itemize}
+\end{itemize}
+
+\section{Lecture 17}
+
+\subsection{The sampling distribution of $\protect\widehat{\protect\beta }$}
+
+\begin{itemize}
+\item Be sure to talk about the intepretation of a \textit{t}-statistic:
+
+\begin{itemize}
+\item Hypothesized mean of zero;
+
+\item two-tailed tests
+
+\item asterisks with \textit{p}-values.
+\end{itemize}
+
+\item There may be times when we want to know something different than
+whether some $\beta $ is equal to zero; perhaps $\beta _{1}=1$ in the model
+[NEXT\ YEAR, NEW\ EXAMPLE. \ THIS\ ONE\ DOESN'T QUITE\ WORK; or elaborate.%
+\begin{equation*}
+FT\_othergroup=\beta _{0}+\beta _{1}\left( FT\_owngroup\right) +\mathbf{%
+Z\beta }+u,
+\end{equation*}%
+\ where $\mathbf{Z}$ is a matrix of covariates. \ Here,%
+\begin{eqnarray*}
+H_{0} &:&\beta =1;H_{A}:\beta \neq 1. \\
+\text{test statistic is }t &=&\frac{\widehat{\beta }-1}{\widehat{se\left( 
+\widehat{\beta }\right) }}.
+\end{eqnarray*}
+
+\item Note that you can find $\widehat{se\left( \widehat{\beta }\right) }$
+by looking at the appropriate diagonal entry of the variance-covariance
+matrix of the vector $\widehat{\beta }.$ \ It contains $\widehat{var\left( 
+\widehat{\beta }\right) },$ and so $\widehat{se\left( \widehat{\beta }%
+\right) }$ is the square root of this entry.
+\end{itemize}
+
+\subsection{Interpreting an OLS regression equation}
+
+\begin{itemize}
+\item Consider the estimated equation%
+\begin{equation*}
+\widehat{income}=-17,431+2,708(educyears)+1,050(income16)
+\end{equation*}
+
+\item Here, the estimates $\widehat{\beta }_{1}=2,708$ and $\widehat{\beta }%
+_{2}=1,050$ have partial effect, or ceteris paribus, interpretations. \ Note
+that 
+\begin{equation*}
+\frac{\partial \widehat{income}}{\partial educyears}=2,708\text{ and }\frac{%
+\partial \widehat{income}}{\partial income16}=1,050
+\end{equation*}
+
+\item Thus we can write a statement like, "Holding family income at age 16
+constant, each additional year of education is associated with an addition
+\$2,700 in income." \ Other ways to say this:
+
+\begin{itemize}
+\item Holding family income \textit{fixed}
+
+\item Education has a ceteris paribus association of \$2,708 in income for
+each additional year of education
+\end{itemize}
+
+\item Note that we can also use the equation to generate predictions about y
+for different values of x.
+\end{itemize}
+
+\subsection{Goodness of Fit}
+
+\begin{itemize}
+\item Just as in the simple regression case,%
+\begin{equation*}
+R^{2}=\frac{\sum \left( \widehat{y}_{i}-\overline{y}\right) ^{2}}{\sum
+\left( y_{i}-\overline{y}\right) ^{2}}=\frac{SSE}{SST}=1-\frac{SSR}{SST}
+\end{equation*}
+
+\item R$^{2}$ never decreases--and usually increases--whenever we add
+additional x's to the model by construction. This is because the denominator
+doesn't change, but the numerator usually increases with the addition of $x$%
+'s.
+
+\item For this reason, when comparing the goodness of fit statistics across
+models, it is better to compare their adjusted R-squared, which is calculated%
+\begin{equation*}
+R_{adj}^{2}=1-\left[ \frac{\frac{SSR}{\left( n-k-1\right) }}{\frac{SST}{%
+\left( n-1\right) }}\right] =1-\frac{\frac{\widehat{\sigma }_{u}^{2}}{\left(
+n-k-1\right) }}{\frac{SST}{\left( n-1\right) }}
+\end{equation*}
+
+\item By construction, $R_{adj}^{2}$ increases with the introduction of a
+new regressor into a model if and only if the $t$-statistic on the new
+variable's coefficient is greater than one in absolute value.
+
+\item Simple algebra gives%
+\begin{equation*}
+R_{adj}^{2}=1-\frac{\left( 1-R^{2}\right) \left( n-1\right) }{\left(
+n-k-1\right) }.
+\end{equation*}
+
+\item When are $R^{2}$ and $R_{adj}^{2}$ likely to be different? \ When are
+they likely to be similar?
+\end{itemize}
+
+\subsection{Too many variables}
+
+\begin{itemize}
+\item \lbrack for this and next subsection, draw familiar diagram of X Y Z
+on the board; now include W [here] and remove correlation between X and Z
+[below]
+
+\item we call a variable \textbf{irrelevant }if it has no partial effect on $%
+y$ in the population. \ that is, a variable $W$ is irrelevant if:%
+\begin{equation*}
+\frac{\partial y}{\partial W}=0
+\end{equation*}
+
+\item the inclusion of an irrelevant variable in your model (aka
+\textquotedblleft overspecifying the model\textquotedblright ) has no effect
+on the unbiasedness of the estimates of any of the betas, as it does not
+violate any of the assumptions 1 through 4.
+
+\item so if the true model is%
+\begin{equation*}
+y=\beta _{0}+\beta _{1}X+u
+\end{equation*}%
+but you estimate%
+\begin{equation*}
+y=\beta _{0}+\beta _{1}X+\beta _{2}W+u,
+\end{equation*}%
+the estimates generated of all the betas (including $\beta _{2})$ will be
+unbiased: \ $E(\widehat{\beta }_{0})=\beta _{0},$ etc. \ 
+
+\item however, including an irrelvant variable in the model is harmful to
+the extent that this variable is collinear with other X's in the model. \
+Recall that  
+\begin{equation*}
+Var\left( \widehat{\beta }_{j}\right) =\frac{\sigma ^{2}}{n\cdot
+var(x_{j})\cdot \left( 1-R_{j}^{2}\right) },
+\end{equation*}
+
+where $R_{j}^{2}$ is the R-squared obtained from regressing $x_{j}$ on all
+other independent variables in the model. \ Well, to the extent that the
+irrelevant variable $W$ covaries with $x$'s included in your model, the
+variances of the estimated coefficients associated with those $x$'s will
+become inflated.
+
+\begin{itemize}
+\item The result is that your estimates become less efficient: that is,
+their statistical power decreases, which increases the likelihood of falsely
+accepting the null that\ $\beta _{j}=0.$
+
+\item To assess the threat of multicollinearity, you can generate the $%
+R_{j}^{2}$ yourself for each variable $x_{j}$.
+
+\item One way to think about the size of this threat is a quantity known as
+the variance inflation factor (VIF) associated with each of the $x$'s in
+your model. \ It is calculated as 
+\begin{equation*}
+VIF\left( \widehat{\beta }_{j}\right) =\frac{1}{1-R_{j}^{2}},
+\end{equation*}
+
+and it has the nice property that%
+\begin{equation*}
+\widehat{\sigma }_{\widehat{\beta }_{j}}=\sqrt{VIF\left( \widehat{\beta }%
+_{j}\right) }\left( \widehat{\sigma }_{\widehat{\beta }%
+_{j}}|cov(x_{j},x_{i})=0\forall i\neq j\right) .
+\end{equation*}
+
+(Why?) Calculate VIF if $R_{j}^{2}=0.$ \ Now calculate $Var\left( \widehat{%
+\beta }_{j}\right) .$ \ See how it no longer depends on collinearity with
+the other $x$'s$?$
+\end{itemize}
+
+\item We don't always take variables that have zero effect out of a model. \
+\ Sometimes we include a variable that we know to have zero effect in order
+to show our readers that we have controlled for it, and thus we are more
+certain that the estimates on the x's we care about are unbiased.
+\end{itemize}
+
+\subsection{Correlated with $y$, but not with $x$}
+
+\begin{itemize}
+\item Recalling that%
+\begin{equation*}
+Var\left( \widehat{\beta }_{j}\right) =\frac{\sigma ^{2}}{n\cdot
+var(x_{j})\cdot \left( 1-R_{j}^{2}\right) },
+\end{equation*}
+note that we will often want to include covariates $Z$ that predict $y$ in a
+model even if we don't think they are confounds with the $x$'s we care
+about. \ That is, it can often be wise to include predictors Z where%
+\begin{equation*}
+\frac{\partial x}{\partial Z}=0\text{ but }\frac{\partial y}{\partial Z}\neq
+0
+\end{equation*}
+\ 
+
+\item Why? \ To the extent that they help explain $y$, they improve the
+model's predictive power and thus lower $\sigma ^{2},$ making all of our
+estimates more efficient, even estimates on predictors uncorrelated with
+these covariates.
+
+\begin{itemize}
+\item Country/state/regional fixed effects--which we often include to
+control for potential confounders--can also be a good example of this.
+\end{itemize}
+\end{itemize}
+
+\section{Lecture 18}
+
+\subsection{Interpreting Categorical Dummy Variables}
+
+\begin{itemize}
+\item Go over handout.
+\end{itemize}
+
+\subsection{Interaction terms}
+
+\begin{itemize}
+\item When the effect of one variable x1 changes the effect of another x2 on
+y, we say that an interaction effect exists between x1 and x2. \ \ 
+
+\item We model an interaction effect by creating a new variable that is the
+product of x1 and x2 and including it in our equation.%
+\begin{equation*}
+y=\beta _{0}+\beta _{1}x_{1}+\beta _{2}x_{2}+\beta _{3}\left( x_{1}\cdot
+x_{2}\right) +u
+\end{equation*}
+
+\item Note that 
+\begin{equation*}
+\frac{\partial y}{\partial x_{1}}=\beta _{1}+\beta _{3}x_{2}
+\end{equation*}%
+So that the slope of the line describing the relationship between each x and
+y varies by the value of the other x. \ Consider the cases where we estimate:%
+\begin{equation*}
+y=1+3x_{1}+2x_{2}+4\left( x_{1}\cdot x_{2}\right) +u
+\end{equation*}
+
+\item Here's what y looks like at three different values of x2 (2, 5, and
+10):\FRAME{itbpF}{2.8245in}{2.0712in}{0in}{}{}{Figure}{\special{language
+"Scientific Word";type "GRAPHIC";maintain-aspect-ratio TRUE;display
+"USEDEF";valid_file "T";width 2.8245in;height 2.0712in;depth
+0in;original-width 5.5927in;original-height 4.0932in;cropleft "0";croptop
+"1";cropright "1";cropbottom "0";tempfilename
+'MW7GI200.wmf';tempfile-properties "XPR";}}
+
+\item In this case, increasing values of x2 \textit{amplify} the effect of
+x1 on y, increasing the magnitude of the slope in the signed direction.
+
+\item Now consider%
+\begin{equation*}
+y=1+3x_{1}+2x_{2}-4\left( x_{1}\cdot x_{2}\right) +u
+\end{equation*}
+
+\item Here's what y looks like at three different values of x2 (2, 5, and
+10):
+
+\FRAME{itbpF}{3.5258in}{2.5849in}{0in}{}{}{Figure}{\special{language
+"Scientific Word";type "GRAPHIC";maintain-aspect-ratio TRUE;display
+"USEDEF";valid_file "T";width 3.5258in;height 2.5849in;depth
+0in;original-width 5.5927in;original-height 4.0932in;cropleft "0";croptop
+"1";cropright "1";cropbottom "0";tempfilename
+'MW7GI201.wmf';tempfile-properties "XPR";}}
+
+\item In this case, increasing values of x2 \textit{dampen} the effect of x1
+on y, increasing the magnitude of the slope in the signed direction.
+
+\item To get a sense of interaction effects, you generally need to plot
+predicted probabilities of y by holding the value of one of the x's constant
+while varying the other value. \ You should label each plot accordingly.
+
+\item Statistical software programs can't tell the difference between
+constituitive terms and interaction terms, and so they blindly spit back
+incorrect standard errors. \ We have calculated%
+\begin{equation*}
+\frac{\partial y}{\partial x_{1}}=\widehat{\beta }_{1}+\widehat{\beta }%
+_{3}x_{2}
+\end{equation*}
+
+and so we are interested in 
+\begin{equation*}
+\widehat{\sigma }_{\frac{\partial y}{\partial x_{1}}}=\sqrt{var\left( 
+\widehat{\beta }_{1}+\widehat{\beta }_{3}x_{2}\right) }=\sqrt{var\left( 
+\widehat{\beta }_{1}\right) +x_{2}^{2}var\left( \widehat{\beta }_{3}\right)
++2x_{2}cov\left( \widehat{\beta }_{1},\widehat{\beta }_{3}\right) }
+\end{equation*}
+
+\item Why? \ Recall that $var\left( x+ay\right)
+=var(x)+a^{2}var(y)+2acov(x,y).$ \ 
+
+\item Note how the variance is non constant across values of $x_{2}$. \ 
+
+\item Not easily calculated, but is definitely available from Stata (go over
+handout).
+
+\item What do we do with $\widehat{\sigma }_{\frac{\partial y}{\partial x_{1}%
+}}?$ \ We typically use it to see at what values of $x_{2}$ the variable $%
+x_{1}$ has a non-zero ceteris paribus effect on $y$. \ That is, since $T=%
+\frac{\widehat{\beta }_{1}+\widehat{\beta }_{3}x_{2}-0}{\sqrt{var\left( 
+\widehat{\beta }_{1}+\widehat{\beta }_{3}x_{2}\right) }}$ is distributed $t$
+with $N-K-1$ degrees of freedom, we can run the usual significance tests
+across the entire range of $x_{2}$. \ The values of $x_{2}$for which $T$
+surpasses the significance threshold is where $x_{1}$ has a significant
+effect on $y$. \ This may be all, some or only a range of the values of $%
+x_{2}$.
+\end{itemize}
+
+\subsection{Partialling out}
+
+\begin{itemize}
+\item Here's another way to calculate the OLS estimator of, say, $\beta
+_{1}: $%
+\begin{equation*}
+\widehat{\beta }_{1}=\frac{\sum \widehat{u}_{i1}y_{i}}{\sum \left( \widehat{u%
+}_{i1}\right) ^{2}}=\frac{cov\left( \widehat{u}_{i1},y_{i}\right) }{%
+var\left( \widehat{u}_{i1}\right) },
+\end{equation*}
+
+where $\widehat{u}_{i1}$ are the residuals from a regression of $x_{1}$ on
+all the other $x$'s in the model--that is the variation in $x_{1}$ that is
+not explained by a linear combination of the other $x$'s.
+
+\item So one way to think about this estimate is that its numerator is the
+proportion of this unexplained variation in $x_{1}$ that covaries with $y$.
+\ 
+\end{itemize}
+
+\subsection{BLUE}
+
+\begin{itemize}
+\item The first five assumptions discussed regarding OLS together form the
+Gauss-Markov assumptions. \ 
+
+\item When these assumptions hold, it is not only the case that
+
+\begin{itemize}
+\item the OLS estimates are unbiased: $E\left( \widehat{\beta }_{j}\right)
+=\beta _{j}$ for all $j,$ and
+
+\item the variances of the OLS estimators are\ $Var\left( \widehat{\beta }%
+_{j}\right) =\frac{\sigma ^{2}}{SST_{x_{j}}\cdot \left( 1-R_{j}^{2}\right) }$
+for all $j.$
+
+\begin{itemize}
+\item A reminder: we estimate this as $\widehat{Var\left( \widehat{\beta }%
+_{j}\right) }=\frac{\widehat{\sigma ^{2}}}{SST_{x_{j}}\cdot \left(
+1-R_{j}^{2}\right) }=\frac{\frac{SSR}{N-K-1}}{SST_{x_{j}}\cdot \left(
+1-R_{j}^{2}\right) }.$
+
+\item Since $SST_{x_{j}}=\sum_{i}\left( x_{ij}-\overline{x}_{j}\right) ^{2}$
+and the empirical variance $var\left( x_{j}\right) =\frac{\sum_{i}\left(
+x_{ij}-\overline{x}_{j}\right) ^{2}}{n},$ $SST_{x_{j}}=n\cdot var\left(
+x_{j}\right) .$
+
+\item So we can write the population variance as $Var\left( \widehat{\beta }%
+_{j}\right) =\frac{\sigma ^{2}}{n\cdot var\left( x_{j}\right) \cdot \left(
+1-R_{j}^{2}\right) }$ and our estimate of this variance as $\widehat{%
+Var\left( \widehat{\beta }_{j}\right) }=\frac{\widehat{\sigma ^{2}}}{%
+SST_{x_{j}}\cdot \left( 1-R_{j}^{2}\right) }=\frac{\frac{SSR}{N-K-1}}{n\cdot
+var\left( x_{j}\right) \cdot \left( 1-R_{j}^{2}\right) }.$
+\end{itemize}
+\end{itemize}
+
+\item BUT ALSO (this is new), the OLS estimator (the vector $\widehat{\beta }%
+)$ is the \textbf{Best Linear Unbiased Estimator\ (BLUE)} of the vector of
+population parameters $\beta $. \ An estimator $\widehat{\beta }$ of
+parameter $\beta $ is BLUE if
+
+\begin{itemize}
+\item 
+\begin{itemize}
+\item It is a linear function of random variables (it is). \ For example,
+we've just discussed how $\widehat{\beta }_{1}=\frac{\sum \widehat{u}%
+_{i1}y_{i}}{\sum \left( \widehat{u}_{i1}\right) ^{2}},$ which is a linear
+function of the $x$'s in the model and $y$.
+
+\item It is unbiased (it is)
+
+\item And $VAR\left( \widehat{\beta }\right) <VAR\left( \beta ^{\ast
+}\right) $ for any other possible linear unbiased estimator $\beta ^{\ast }$
+of the parameter $\beta .$
+
+\begin{itemize}
+\item this is known as the Gauss-Markov theorem, and it is meaningful: it
+means that if the G-M assumptions hold, we can't do any better at estimating 
+$\beta $ than the estimates provided by OLS.
+\end{itemize}
+
+\item A proof that the OLS estimator (the vector $\widehat{\beta })$ is the
+BLUE of $\beta $ may be found in pp.115-116 of Wooldridge.
+\end{itemize}
+\end{itemize}
+
+\item Furthermore, if we add the (recall, troubling) assumption that the
+population errors $u$ are distributed Normal, then $\widehat{\beta }$ is not
+only the BLUE of $\beta $, it is also the \textbf{minimum variance unbiased
+estimator (MVUE) }of $\beta $. \ That is, no other unbiased estimator of $%
+\beta $ exists--whether linear or not--that has a lower variance (i.e., is
+more efficient)$.$
+\end{itemize}
+
+\subsection{Hypotheses about Parameters}
+
+\begin{itemize}
+\item So far, we have focused on hypothesis tests about one parameter (a $%
+\widehat{\beta _{j}})$ at a time. \ But there are instances in which you
+want to test hypotheses involving more than one parameter. \ Your book has
+the example where researchers are interested whether the effect on income of
+an additional year of education at a junior college is as much as the effect
+of an additional year of education at four-year university. \ The idea here
+is that jc's are lower status in the U.S. than universities, so maybe
+employers value these years of education less. \ (A complementary hypothesis
+would be that a jc education may be of lower quality.) \ The model assumed is%
+\begin{equation*}
+\log (wage)=\beta _{0}+\beta _{1}jc+\beta _{2}univ+\beta _{3}work+u,
+\end{equation*}
+
+where%
+\begin{eqnarray*}
+jc &=&\text{\# years attending a junior college} \\
+univ &=&\text{\# years attending a university} \\
+work &=&\text{\# months in the workforce.}
+\end{eqnarray*}
+
+\item If we are interested in whether there is a difference in return to
+education from junior colleges and universities, what is an appopriate null
+hypothesis? \ It's%
+\begin{equation*}
+H_{0}:\beta _{1}=\beta _{2}.
+\end{equation*}
+
+\item And an appropriate alternative is%
+\begin{equation*}
+H_{1}:\beta _{1}<\beta _{2}.
+\end{equation*}
+
+\item Is a one-sided test appropriate here? \ Yes: theory justifies this
+hypothesis.
+
+\item So in the case of, say whether two groups have different means, what
+kind of tests did we run? \ (Encourage class to come up with them.)
+
+\item Rewrite null and alternative as%
+\begin{eqnarray*}
+H_{0} &:&\beta _{1}-\beta _{2}=0 \\
+H_{1} &:&\beta _{1}-\beta _{2}<0
+\end{eqnarray*}
+
+\item We are interested in hypotheses about the quantity $\beta _{1}-\beta
+_{2}.$ \ The statistic 
+\begin{equation*}
+\frac{\widehat{\beta }_{1}-\widehat{\beta }_{2}}{se(\widehat{\beta }_{1}-%
+\widehat{\beta }_{2})}
+\end{equation*}
+
+is distributed $t.$ \ 
+
+\item But how do we get $se(\widehat{\beta }_{1}-\widehat{\beta }_{2})?$ \
+Well,%
+\begin{eqnarray*}
+se(\widehat{\beta }_{1}-\widehat{\beta }_{2}) &=&\sqrt{var(\widehat{\beta }%
+_{1}-\widehat{\beta }_{2})},\text{ and} \\
+var(\widehat{\beta }_{1}-\widehat{\beta }_{2}) &=&var\left( \widehat{\beta }%
+_{1}\right) +var\left( \widehat{\beta }_{2}\right) -2cov\left( \widehat{%
+\beta }_{1},\widehat{\beta }_{3}\right) .\text{ \ So} \\
+se(\widehat{\beta }_{1}-\widehat{\beta }_{2}) &=&\sqrt{var\left( \widehat{%
+\beta }_{1}\right) +var\left( \widehat{\beta }_{2}\right) -2cov\left( 
+\widehat{\beta }_{1},\widehat{\beta }_{3}\right) }
+\end{eqnarray*}
+
+\item Here we reject $H_{0}:\beta _{1}=\beta _{2}$ if $\widehat{\beta }_{1}-%
+\widehat{\beta }_{2}+t_{crit}\left[ se(\widehat{\beta }_{1}-\widehat{\beta }%
+_{2})\right] <0.$
+
+\item We can pull these from the variance-covariance matrix of the estimated
+betas as we did when estimating the standard errors associated with
+interaction effects (an example in a minute).
+
+\item But there is a much easier way to do this, as described on page 142 of
+your text. \ We care about $\beta _{1}-\beta _{2},$ so let's call this a
+parameter, $\theta =\beta _{1}-\beta _{2},$ and thus $\beta _{1}=\theta
++\beta _{2}.$ \ Now%
+\begin{eqnarray*}
+\log (wage) &=&\beta _{0}+\beta _{1}jc+\beta _{2}univ+\beta _{3}work+u\text{
+\ becomes} \\
+&=&\beta _{0}+\left( \theta +\beta _{2}\right) jc+\beta _{2}univ+\beta
+_{3}work+u \\
+&=&\beta _{0}+\theta jc+\beta _{2}\left( univ+jc\right) +\beta _{3}work+u.
+\end{eqnarray*}
+
+\item So if we create a new variable, $univ+jc,$ and run the regression%
+\begin{equation*}
+\text{\texttt{reg lnwage jc univplusjc work}}
+\end{equation*}
+
+\item the coefficient on jc will be the parameter we care about, and its
+standard error will be exactly that calculated by Stata.
+
+\item Go over example from handout.
+\end{itemize}
+
+\subsection{Multiple Linear Restrictions}
+
+\begin{itemize}
+\item The tests we've described so far are about what we call single \textit{%
+restrictions. \ }That is, we are testing whether the data justify rejecting
+a hypothesized restriction that $\beta _{k}=0$ (in the single parameter
+case) or $\beta _{k}$ is equal to, greater than, or less than some other $%
+\beta _{j}.$
+
+\item But there are times when one will wish to conduct tests with multiple
+linear restrictions, as well. \ The most common such test is whether a group
+of variables has no effect on the dependent variable, $y$.
+
+\item Write the \textit{unrestricted} model as%
+\begin{equation*}
+y=\beta _{0}+\beta _{1}x_{1}+...+\beta _{k}x_{k}+u\text{ \ \ \ \ \ \ \ \ \ \
+\ \ (UR)}
+\end{equation*}
+
+\item The number of variables we decide to restrict as equal to zero is $q,$
+and for convenience we assume that the restricted variables are included in
+the model after the unrestricted variables, then we can state the null as%
+\begin{equation*}
+H_{0}:\beta _{k-q+1}=\beta _{k-q+2}=...=\beta _{k}=0
+\end{equation*}
+
+\item Thus the \textit{restricted }model is%
+\begin{equation*}
+y=\beta _{0}+\beta _{1}x_{1}+...+\beta _{k-q}x_{k-q}+u\text{ \ \ \ \ \ \ \ \
+\ \ \ \ \ \ (R)}
+\end{equation*}
+
+\item If we define the F-statistic as%
+\begin{equation*}
+F\equiv \frac{(SSR_{r}-SSR_{ur})/q}{SSR_{ur}/(n-k-1)},
+\end{equation*}
+
+\item it has an F-distribution with $q$ \textquotedblleft numerator d.f."
+and $n-k-1$ \textquotedblleft denominator d.f.\textquotedblright
+
+\item Note that because $SSR_{r}\geq SSR_{ur}$ (since ur has more variables
+than r), $F$ is always non-negative. \ And what we're really testing here is
+whether the explanatory power of ur is significantly greater than r. \ Under
+the null, 
+\begin{equation*}
+F\symbol{126}F_{q,n-k-1}
+\end{equation*}
+
+\item The F-distribution is the ratio of two independent chi-square random
+variables, divided by their respective degrees of freedom. \ (Recall that a
+chi-square is the sum of the squares of independent standard normal RVs,
+which is what the SSRs are.)
+
+\item Like any distribution, we can use the F's density to determine the
+likelihood that we'd get the F-statistic we see due to chance variation in
+our data. \ We reject the null if it's extremely unlikely that we'd obtain
+the F-statistic by chance.
+
+\item If H$_{0}$ is rejected, we say that the excluded variables are \textbf{%
+jointly significant}. \ If the null is not rejected, then we say that they
+are \textbf{jointly insignificant}. \ It's also common to report the $p$%
+-value associated with an F-test.
+
+\item A tidbit: the $F$ statistic obtained by testing the exclusion of a
+single variable is equal to the square of the the $t$-statistic obtained on
+its coefficient via OLS:%
+\begin{equation*}
+F_{\text{exclude }\widehat{\beta }_{k}}=\left( \frac{\widehat{\beta }_{k}}{%
+\widehat{\sigma }_{\widehat{\beta }_{k}}}\right) ^{2}
+\end{equation*}
+
+\item Note that Stata's regression output includes a statistic it calls F,
+along with \textquotedblleft Prob \TEXTsymbol{>}F.\textquotedblright\ \
+These are the (hardly ever used) F-statistic and p-value associated with the
+test that all coefficients associated with the variables you've included in
+your regression are zero.
+\end{itemize}
+
+\subsection{Quadratics}
+
+\begin{itemize}
+\item When the relationship is curvilinear between a Y and an X, we create
+the square of X, and include it in our model:
+
+\item (see \textquotedblleft handout on polynomials\textquotedblright )
+\end{itemize}
+
+\section{Lecture 19}
+
+\subsection{Heteroskedasticity and What to Do About It}
+
+\begin{itemize}
+\item As discussed earlier in the course, we assume homoskedasticity of the
+errors across all observations in order to vastly simplify our calculation
+of $Var\left( \widehat{\beta }_{j}\right) .$ \ By assumiming that $\sigma
+_{i}^{2}=\sigma ^{2}$ for all $i$, we can then write 
+\begin{eqnarray*}
+Var\left( \widehat{\beta }_{j}\right) &=&\frac{\sigma ^{2}}{n\cdot
+var(x_{j})\cdot \left( 1-R_{j}^{2}\right) } \\
+\widehat{Var\left( \widehat{\beta }_{j}\right) } &=&\frac{\widehat{\sigma }%
+^{2}}{n\cdot var(x_{j})\cdot \left( 1-R_{j}^{2}\right) }
+\end{eqnarray*}
+
+\item We also needed the homoskedasticity assumption in order for the
+Gauss-Markov theorem to hold that OLS is the best linear unbiased estimator
+of the parameters of a linear population model.
+
+\item What to do? \ There are two approaches:
+
+\begin{itemize}
+\item Heteroskedasticity of unknown form (the safe, but ignorant and often
+inefficient approach)
+
+\item Modeling heteroskedasticity (requires more assumptions, but if
+assumptions are correct the efficient approach)
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Heteroskedasticity of unknown form: use robust
+(\textquotedblleft White\textquotedblright ) standard errors}
+
+\begin{itemize}
+\item In the simple bivariate case, we of course write the model%
+\begin{equation*}
+y_{i}=\beta _{0}+\beta _{1}x_{1i}+u_{i}
+\end{equation*}
+
+\item The presence of heteroskedasticity means that we can no longer write%
+\begin{equation*}
+VAR(u_{i}|x_{i})=\sigma ^{2}.
+\end{equation*}
+
+\item We of course need to write instead%
+\begin{equation*}
+VAR(u_{i}|x_{i})=\sigma _{i}^{2},
+\end{equation*}
+
+because the value of $\sigma ^{2}$ now depends on the value of $x_{i}$.
+
+\item Recall that in our final step of deriving the OLS estimator in scalar
+form we write%
+\begin{equation*}
+\widehat{\beta }_{1}=\beta _{1}+\frac{\sum \left( x_{i}-\overline{x}\right)
+u_{i}}{\sum \left( x_{i}-\overline{x}\right) ^{2}}.
+\end{equation*}
+
+\item So now consider 
+\begin{eqnarray*}
+VAR\left( \widehat{\beta }_{1}\right) &=&VAR\left[ \frac{\sum \left( x_{i}-%
+\overline{x}\right) u_{i}}{\sum \left( x_{i}-\overline{x}\right) ^{2}}\right]
+\\
+&=&\left[ \frac{1}{SST_{x}^{{}}}\right] ^{2}\sum \left( x_{i}-\overline{x}%
+\right) ^{2}VAR(u_{i}|x_{i}) \\
+&=&\frac{\sum \left( x_{i}-\overline{x}\right) ^{2}\sigma _{i}^{2}}{%
+SST_{x}^{2}}.
+\end{eqnarray*}
+
+\item What to do? \ Well, in 1980 (in the most cited economics paper in the
+past 35 years), Halbert White showed that a valid estimator for $VAR\left( 
+\widehat{\beta }_{1}\right) $ in the presence of heteroskedasticity (if the
+other Gauss-Markov assumptions hold) is%
+\begin{equation*}
+\widehat{VAR\left( \widehat{\beta }_{1}\right) }=\frac{\sum \left( x_{i}-%
+\overline{x}\right) ^{2}\widehat{u}_{i}^{2}}{SST_{x}^{2}},
+\end{equation*}
+
+where $\widehat{u}_{i}^{2}$ is simply the squared residual associated with
+each observation $i$. \ 
+
+\item A similar formula holds in the multiple regression model, where we
+write%
+\begin{equation*}
+\widehat{VAR\left( \widehat{\beta }_{1}\right) }=\frac{\sum \widehat{r}%
+_{ij}^{2}\widehat{u}_{i}^{2}}{SSR_{j}^{2}},
+\end{equation*}
+
+where
+
+\begin{itemize}
+\item $\widehat{r}_{ij}$ is the residual obtained for observation $i$ when
+regressing $x_{j}$ on all the other $x$'s, and
+
+\item $SSR_{j}^{2}$ is the sum of squared residuals from this regression.
+
+\item Note the similarities to the formula in the bivariate case.
+\end{itemize}
+
+\item I hope it is obvious then that the estimated standard error of $%
+\widehat{\beta }_{1}$ is 
+\begin{equation*}
+\sqrt{\frac{\sum \widehat{r}_{ij}^{2}\widehat{u}_{i}^{2}}{SSR_{j}^{2}}}.
+\end{equation*}
+
+\item These standard errors have lots of different names:
+
+\begin{itemize}
+\item \textquotedblleft White standard errors\textquotedblright
+
+\item \textquotedblleft Huber-White standard errors\textquotedblright
+
+\item \textquotedblleft Robust standard errors\textquotedblright\ (because
+the se's are \textquotedblleft robust\textquotedblright\ in the presence of
+heteroskedasticity)
+
+\item \textquotedblleft Heteroskedasticity-robust standard
+errors\textquotedblright
+
+\item These all mean the same thing.
+\end{itemize}
+
+\item It is often--but not always--the case that robust standard errors are
+larger than OLS standard errors. \ 
+\end{itemize}
+
+\subsubsection{Testing for heteroskedasticity}
+
+\begin{itemize}
+\item We can blithely report robust standard errors to be sure that our
+hypothesis tests are correct in the presence of heteroskedasticity. \ 
+
+\item But, remember that if heteroskedasticity is present, OLS is no longer
+the best linear unbiased estimator. \ As we will see, you can obtain a
+better estimator when the form of heteroskedasticity is known.
+
+\item We are interested in tests that detect error variance that depends on
+the value of x. \ We start with the linear model%
+\begin{equation*}
+y=\beta _{0}+\beta _{1}x_{1}+...+\beta _{k}x_{k}+u.
+\end{equation*}
+
+\item Now let's specify the null hypothesis 
+\begin{equation*}
+H_{0}:VAR(u|x_{1},x_{2},...x_{k})=\sigma ^{2}
+\end{equation*}
+
+\item Under the zero condition mean assumption this is equivalent to%
+\begin{equation*}
+H_{0}:E(u^{2}|x_{1},x_{2},...x_{k})=E\left( u^{2}\right) =\sigma ^{2}.
+\end{equation*}
+
+\item So how do we test whether $u^{2}$ is related to the x's? \ How about
+assuming a linear function%
+\begin{equation*}
+u^{2}=\delta _{0}+\delta _{1}x_{1}+...+\delta _{k}x_{k}+\nu
+\end{equation*}
+
+(Why am I using delta's instead of beta's here?)
+
+\item The null hypothesis now becomes%
+\begin{equation*}
+H_{0}:\delta _{0}=\delta _{1}=...\delta _{k}=0.
+\end{equation*}
+
+\item We of course do not have $u^{2}$ - these are population values that we
+never see. \ But we have estimates of $u^{2}$--our squared residuals, the $%
+\widehat{u}^{2}.$ \ So if we estimate the equation%
+\begin{equation*}
+\widehat{u}^{2}=\delta _{0}+\delta _{1}x_{1}+...+\delta _{k}x_{k}+error
+\end{equation*}
+
+we now have a test to see the extent to which the errors in the population
+are related to one or more of the x's.
+
+\item One approach would be to see if any of the delta's are statistically
+significant. \ But what might be a better way?
+
+\item Look at the F-statistic from this regression, which tells us whether
+the x's are \textit{jointly }significant in explaining the squared
+residuals. \ (For once, the dumb F-stat provided by typical OLS output is
+helpful here!) \ \ You'll recall that we defined the F-statistic as 
+\begin{equation*}
+F\equiv \frac{(SSR_{r}-SSR_{ur})/q}{SSR_{ur}/(n-k-1)}
+\end{equation*}
+
+\item Noting that $SST=SSE+SSR$ and $R^{2}=\frac{SSE}{SST}$ and $1-R^{2}=%
+\frac{SSR}{SST},$ we can write $SSR=SST\left( 1-R^{2}\right) .$ \ Now
+rewrite $F$ as%
+\begin{eqnarray*}
+F &\equiv &\frac{\left[ SST_{r}\left( 1-R_{r}^{2}\right) -SST_{ur}\left(
+1-R_{ur}^{2}\right) \right] /q}{\left[ SST_{ur}\left( 1-R_{ur}^{2}\right) %
+\right] /(n-k-1)} \\
+&=&\frac{\left[ \left( 1-R_{r}^{2}\right) -\left( 1-R_{ur}^{2}\right) \right]
+/q}{\left( 1-R_{ur}^{2}\right) /(n-k-1)}\text{ \ [since }SST_{r}=SST_{ur}%
+\text{]} \\
+&=&\frac{\left( R_{ur}^{2}-R_{r}^{2}\right) /q}{\left( 1-R_{ur}^{2}\right)
+/(n-k-1)}.
+\end{eqnarray*}
+
+\item In the case where we are testing the joint significance of all the
+coefficients in a model, the restricted equation is%
+\begin{equation*}
+y=\beta _{0}+u.
+\end{equation*}
+
+\item Note that this equation explains none of the variation in y, as there
+is nothing on the right-hand side that varies except $u$. \ Thus $%
+R_{r}^{2}=0,$ and so the F-statistic in this case (and in any case where the
+test is that all the variables in the model are jointly insignificant) is
+equal to%
+\begin{equation*}
+F=\frac{\left( R_{ur}^{2}\right) /k}{\left( 1-R_{ur}^{2}\right) /(n-k-1)}.
+\end{equation*}
+
+\item Note that in this case $q=k$, as we have restricted the values of each
+of the $k$ $x$'s to be zero.
+
+\item This statistic as approximately a $F_{k,n-k-1}$ distribution under $%
+H_{0},$ and so the p-value associated with this $F$-statistic is the
+probability that we could have obtained the coefficients we see by chance if
+there were no heteroskedasticity. \ So where $p<.05$ (or as Stata puts it,
+\textquotedblleft Prob \TEXTsymbol{>} $F$\textquotedblleft\ is less than
+.05, we reject $H_{0}$ at the .05 level and decide that heteroskedasticity
+is present.
+
+\item There are lots of other tests for heteroskedasticity. \ They all
+follow the same general pattern but with more complexity. \ Read about them
+if you like on pages. 271-276 of your text.
+\end{itemize}
+
+\subsubsection{Modeling Heteroskedasticity}
+
+\begin{itemize}
+\item We don't have time to cover the ways heteroskedasticity is modeled and
+corrected for using what is called generalized least squares. \ (Neal is
+likely to pick this topic up in Week 1 or Week 2 of Quant II.) \ The preview
+is this:
+
+\begin{itemize}
+\item Model the heteroskedasticity using versions of the linear model we
+used above.
+
+\item Determine the extent to which the errors change with each observation.
+
+\item Instead of running OLS, which counts each observation the same when it
+minimizes the sum of squared residuals...
+
+\item ...run weighted least squares, which \textit{downweights }those
+observations with a higher error variance when minimizing the sum of squared
+residuals.
+
+\item If you have modeled the heteroskedasticity correctly, you now have
+estimators that are BLUE.
+
+\item If you haven't modeled it correctly, you have biased estimates of the $%
+\beta $s.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{What to do}
+
+\begin{itemize}
+\item Generally you want to be able to say that your results are robust to
+the threat of heteroskedasticity.
+
+\item By presenting robust standard errors, you can assure your reader that
+the statistical significance of a particular $\widehat{\beta }_{k}$ is not
+due to an improperly estimated $VAR\left( \widehat{\beta }_{k}\right) $.
+
+\item Notice that because robust se's are (generally) larger than OLS se's,
+you're taking the safe route.
+
+\item HOWEVER, what if your paper relies on the idea that $\beta _{k}$ is
+zero--a failure to reject the null? \ Then you'll probably want to venture
+into modeling heteroskedasticity, because proper modeling yields results
+that are more efficient--that is, less likely to get a false negative result.
+
+\item This is complicated. \ You'll learn more in\ Quant II.
+\end{itemize}
+
+\subsection{Transformations of Variables}
+
+\begin{itemize}
+\item Go over \textquotedblleft Tranforming Nonlinearity\textquotedblright\
+from\ Fox.
+\end{itemize}
+
+\end{document}

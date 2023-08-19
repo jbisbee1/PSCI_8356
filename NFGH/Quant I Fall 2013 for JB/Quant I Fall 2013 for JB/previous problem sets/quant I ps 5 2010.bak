@@ -1,0 +1,124 @@
+
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[abbr]{harvard}
+\usepackage{amssymb}
+\usepackage{setspace,graphics,epsfig,amsmath,rotating,amsfonts,mathpazo}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2953}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{Created=Thursday, September 11, 2008 15:11:56}
+%TCIDATA{LastRevised=Wednesday, October 27, 2010 13:26:41}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Articles\SW\article.egan">}
+
+\topmargin=0 in \headheight=0in \headsep=0in \topskip=0in \textheight=9in \oddsidemargin=0in \evensidemargin=0in \textwidth=6.5in
+\input{tcilatex}
+\begin{document}
+
+
+New York University
+
+Wilf Family Department of Politics
+
+Fall 2010
+
+\begin{center}
+{\large \textbf{Quantitative Research in Political\ Science I}}
+
+(G53.1250)
+
+Professor Patrick Egan
+
+\bigskip
+
+\textbf{PROBLEM\ SET 5: Due Monday, November 1 at beginning of class.}
+\end{center}
+
+\textit{A reminder: you may work with others in the class on this problem
+set, and you are in fact encouraged to do so. \ However, the work you hand
+in must be your own. \ Handwritten work is acceptable, but word-processed
+work (e.g., using LaTeX) is preferred.}
+
+\bigskip
+
+\begin{enumerate}
+\item Show that%
+\begin{equation*}
+S_{U}^{2}\equiv \frac{\sum\nolimits_{i}\left( Y_{i}-\overline{Y}\right) ^{2}%
+}{n-1}
+\end{equation*}
+
+is an unbiased estimator for the population variance, $\sigma ^{2}.$\medskip 
+
+\item WMS Exercise 8.1.
+
+\item WMS Exercise 8.2.
+
+\item WMS\ Exercise 8.3.
+
+\item WMS Exercise 8.4.
+
+\item WMS Exercise 8.5.
+
+\item WMS Exercise 8.6.
+
+\item WMS Exercise 8.8.
+
+\item As your text does on page 445, define the \textit{relative efficiency }%
+of two unbiased estimators $\widehat{\theta }_{1}$ and $\widehat{\theta }_{2}
+$ of a parameter $\theta $ as $\frac{VAR\left( \widehat{\theta }_{2}\right) 
+}{VAR\left( \widehat{\theta }_{1}\right) }.$ \ Now consider the following
+proposed estimators for $\mu $ constructed from a random sample $%
+Y_{1},Y_{2}...Y_{n}$ from a population with mean $\mu $ and variance $\sigma
+^{2}:$%
+\begin{equation*}
+\widehat{\mu }_{1}\equiv \frac{1}{2}\left( Y_{1}+Y_{2}\right) \qquad 
+\widehat{\mu }_{2}\equiv \frac{1}{4}Y_{1}+\frac{1}{2}\left[ \frac{%
+Y_{2}+Y_{3}+...+Y_{n+1}}{\left( n-2\right) }\right] +\frac{1}{4}Y_{n}.
+\end{equation*}
+
+\begin{enumerate}
+\item Show that $\widehat{\mu }_{1}$ and $\widehat{\mu }_{2}$ are unbiased
+for $\mu .$
+
+\item Calculate $VAR\left( \widehat{\mu }_{1}\right) $ and $VAR\left( 
+\widehat{\mu }_{2}\right) .$
+
+\item What is their relative efficiency?
+
+\item What is the relative efficiency of any two sample means whose sample
+sizes differ by one unit (i.e., sample 1 has $n$ units, while sample 2 has $%
+n+1$ units) when both samples are drawn from the same population? 
+\end{enumerate}
+\end{enumerate}
+
+\begin{center}
+[MORE\ ON\ NEXT\ PAGE]
+\end{center}
+
+\begin{enumerate}
+\item[10.] You have a client who wishes to estimate the mean age of the
+population of a certain neighborhood by drawing a sample of people and
+asking them their age. \ The population has mean age $\mu $ and variance $%
+\sigma ^{2}.$ \ Assume that a cost of \$5 is incurred per each person
+sampled.
+
+\begin{enumerate}
+\item Your client suggests a budget of \$1,000. \ With that budget, how far
+on average will the sample estimate $\overline{Y}$ fall from the true
+population mean $\mu $ ?
+
+\item If you know that $\sigma =16,\ $can you give your client a more
+precise answer to (a)?
+
+\item If your client wants to be 90 percent confident that the estimate of
+the population's mean age is no more than one year away from the true mean,
+does she need to spend more or less money? \ How much more or less?
+\end{enumerate}
+\end{enumerate}
+
+\end{document}

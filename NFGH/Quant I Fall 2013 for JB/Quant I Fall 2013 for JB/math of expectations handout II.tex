@@ -1,0 +1,285 @@
+
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[abbr]{harvard}
+\usepackage{amssymb}
+\usepackage{setspace,graphics,epsfig,amsmath,rotating,amsfonts,mathpazo}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2960}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{Created=Thursday, September 11, 2008 15:11:56}
+%TCIDATA{LastRevised=Wednesday, October 09, 2013 09:12:17}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Articles\SW\article.egan">}
+
+\topmargin=0 in \headheight=0in \headsep=0in \topskip=0in \textheight=9in \oddsidemargin=0in \evensidemargin=0in \textwidth=6.5in
+\input{tcilatex}
+\setcounter{section}{0}
+
+\begin{document}
+
+
+New York University
+
+Wilf Family Department of Politics
+
+\bigskip 
+
+\begin{center}
+{\large \textbf{Quantitative Research in Political\ Science I}}
+
+Professor Patrick Egan
+
+\bigskip
+
+\textbf{Some Additional Helpful Results Regarding the Math of Expectations}
+\end{center}
+
+\bigskip In all cases, $Y_{1}$ and $Y_{2}$ are assumed to be random
+variables with respective means $\mu _{1}$, $\mu _{2}$ and variances $\sigma
+_{1}^{2}$, $\sigma _{2}^{2}.$ \bigskip
+
+\section{Definitions}
+
+\bigskip
+
+\begin{eqnarray*}
+COV(Y_{1},Y_{2}) &\equiv &E[(Y_{1}-\mu _{1})(Y_{2}-\mu _{2})]. \\
+\text{correlation coefficient} &\equiv &\rho _{Y_{1}Y_{2}}\equiv \frac{%
+COV(Y_{1},Y_{2})}{\sigma _{1}\sigma _{2}}
+\end{eqnarray*}%
+\bigskip
+
+\section{Decomposing covariance\protect\bigskip}
+
+\begin{equation*}
+COV(Y_{1},Y_{2})=E(Y_{1}Y_{2})-E(Y_{1})E(Y_{2})=E(Y_{1}Y_{2})-\mu _{1}\mu
+_{2}.
+\end{equation*}
+
+Proof:%
+\begin{eqnarray*}
+COV(Y_{1},Y_{2}) &\equiv &E[(Y_{1}-\mu _{1})(Y_{2}-\mu _{2})] \\
+&=&E[Y_{1}Y_{2}-Y_{1}\mu _{2}-Y_{2}\mu _{1}+\mu _{1}\mu _{2}]\text{ \
+(cross-multiplying)} \\
+&=&E(Y_{1}Y_{2})-E(Y_{1}\mu _{2})-E(Y_{2}\mu _{1})+E(\mu _{1}\mu _{2})\text{
+\ (distributing expectations)} \\
+&=&E(Y_{1}Y_{2})-\mu _{2}E(Y_{1})-\mu _{1}E(Y_{2})+\mu _{1}\mu _{2}\text{ \ (%
+}\mu _{1},\mu _{2}\text{ are constants)} \\
+&=&E(Y_{1}Y_{2})-\mu _{2}\mu _{1}-\mu _{1}\mu _{2}+\mu _{1}\mu _{2}\text{ \
+(definition of }E(Y)\text{)} \\
+&=&E(Y_{1}Y_{2})-\mu _{1}\mu _{2}.\;\blacksquare .
+\end{eqnarray*}%
+\newpage 
+
+\section{Covariance of independent random variables\protect\bigskip}
+
+\begin{itemize}
+\item If $Y_{1}$, $Y_{2}$ independent, then
+\end{itemize}
+
+\begin{equation*}
+COV(Y_{1},Y_{2})=0.
+\end{equation*}
+
+Proof: \ 
+
+From above,%
+\begin{equation*}
+COV(Y_{1},Y_{2})=E(Y_{1}Y_{2})-E(Y_{1})E(Y_{2}).
+\end{equation*}
+
+But $Y_{1}$,$Y_{2}$ independent$\Rightarrow $ $%
+E(Y_{1}Y_{2})=E(Y_{1})E(Y_{2}),$ so%
+\begin{eqnarray*}
+Y_{1},Y_{2}\text{ independent} &\Rightarrow
+&COV(Y_{1},Y_{2})=E(Y_{1})E(Y_{2})-E(Y_{1})E(Y_{2}) \\
+&=&0.
+\end{eqnarray*}
+
+\begin{itemize}
+\item However, the converse is not true. \ That is, $COV(Y_{1},Y_{2})=0$
+does not imply independence of $Y_{1}$, $Y_{2}$.\bigskip
+\end{itemize}
+
+\section{Expected value and variance of linear functions of random variables%
+\protect\bigskip}
+
+\begin{itemize}
+\item Consider $U_{1}$, a linear function of the random variables $%
+Y_{1},Y_{2},...Y_{n}$ and constants $a_{1},a_{2},...a_{n}$,%
+\begin{equation*}
+U_{1}=a_{1}Y_{1}+a_{2}Y_{2}+...+a_{n}Y_{n}=\sum_{i=1}^{n}a_{i}Y_{i},
+\end{equation*}
+
+and similarly%
+\begin{equation*}
+U_{2}=\sum_{j=1}^{m}b_{j}X_{j},
+\end{equation*}
+
+where $Y_{1},Y_{2},...Y_{n}$ are random variables with $E(Y_{i})=\mu _{i}$
+and $X_{1},X_{2},...X_{n}$ are random variables with $E(X_{i})=\xi _{i}$
+[\textquotedblleft ksi-sub-i\textquotedblright ]. \ Then (1), (2) and (3)
+below follow.\bigskip
+\end{itemize}
+
+\subsection{Expected value of a function of RVs\protect\bigskip}
+
+\begin{equation}
+E(U_{1})=\sum_{i=1}^{n}a_{i}\mu _{i}.  \tag{1}
+\end{equation}%
+Proof:%
+\begin{eqnarray*}
+E(U_{1}) &=&E(a_{1}Y_{1})+E(a_{2}Y_{2})+...+E(a_{n}Y_{n})\text{ \
+(distributing expections)} \\
+&=&a_{1}E(Y_{1})+a_{2}E(Y_{2})+...+a_{n}E(Y_{n})\text{ \ (factoring out
+constants)} \\
+&=&a_{1}\mu _{1}+a_{2}\mu _{2}+...+a_{n}\mu _{n}\text{ \ (definition of
+expected value)} \\
+&=&\sum_{i=1}^{n}a_{i}\mu _{i}\text{ \ \ }\blacksquare .
+\end{eqnarray*}%
+\newpage
+
+\subsection{Variance of a function of RVs\protect\bigskip 
+\protect\begin{equation}
+VAR(U_{1})=\sum_{i=1}^{n}a_{i}^{2}VAR(Y_{i})+2%
+\sum_{i<j}a_{i}a_{j}COV(Y_{i},Y_{j}),\text{ }   \tag{2}
+\protect\end{equation}%
+}
+
+where the final sum is over all pairs $(i,j)$ with $i<j$. \ (What does this
+mean in practice? \ That the covariance of each pair of RVs is taken only
+once under the summation sign.)\medskip
+
+Proof:%
+\begin{eqnarray*}
+VAR(U_{1}) &\equiv &E\left\{ [U_{1}-E(U_{1})]^{2}\right\} \text{ \ [since }%
+U_{1}\text{ is itself a random variable]} \\
+&=&E\left[ \left( \sum_{i=1}^{n}a_{i}Y_{i}-\sum_{i=1}^{n}a_{i}\mu
+_{i}\right) ^{2}\right] \text{ \ (from above)} \\
+&=&E\left[ \left( \sum_{i=1}^{n}a_{i}\left( Y_{i}-\mu _{i}\right) \right)
+^{2}\right] \text{ \ (factoring out constant)}
+\end{eqnarray*}
+
+Note that the square of a sum always equals the sum of all the squares$+$
+sum of all the (2 $\times $cross products). \ So for example%
+\begin{eqnarray*}
+\left( b_{1}+b_{2}\right) ^{2} &=&\left( b_{1}\right) ^{2}+\left(
+b_{2}\right) ^{2}+2b_{1}b_{2} \\
+\left( b_{1}+b_{2}+b_{3}\right) ^{2} &=&\left( b_{1}\right) ^{2}+\left(
+b_{2}\right) ^{2}+\left( b_{3}\right)
+^{2}+2b_{1}b_{2}+2b_{1}b_{3}+2b_{2}b_{3}=\sum_{i=1}^{3}b_{i}^{2}+2%
+\sum_{i<j}^{3}b_{i}b_{j}
+\end{eqnarray*}
+
+and generally
+
+\begin{equation*}
+\left( \sum_{i=1}^{n}b_{i}\right) ^{2}=\left( b_{1}+b_{2}+...+b_{n}\right)
+^{2}=\sum_{i=1}^{n}b_{i}^{2}+2\sum_{i<j}^{n}b_{i}b_{j}.
+\end{equation*}
+
+\medskip Now we can write
+
+\begin{eqnarray*}
+E\left[ \left( \sum_{i=1}^{n}a_{i}\left( Y_{i}-\mu _{i}\right) \right) ^{2}%
+\right] &=&E\left[ \sum_{i=1}^{n}a_{i}^{2}\left( Y_{i}-\mu _{i}\right)
+^{2}+\sum_{i<j}^{n}2a_{i}a_{j}\left( Y_{i}-\mu _{i}\right) \left( Y_{j}-\mu
+_{j}\right) \right] \\
+&=&\sum_{i=1}^{n}a_{i}^{2}E\left[ \left( Y_{i}-\mu _{i}\right) ^{2}\right]
++\sum_{i<j}2a_{i}a_{j}E\left[ \left( Y_{i}-\mu _{i}\right) \left( Y_{j}-\mu
+_{j}\right) \right] \text{ \ (distributing expectations)} \\
+&=&\sum_{i=1}^{n}a_{i}^{2}VAR(Y_{i})+2\sum_{i<j}a_{i}a_{j}COV(Y_{i},Y_{j}).%
+\text{ \ (def. of variance and covariance) }\blacksquare .
+\end{eqnarray*}%
+\newpage
+
+\subsection{Covariance of two functions of RVs\protect\bigskip}
+
+\begin{equation}
+COV(U_{1},U_{2})=\sum_{i=1}^{n}\sum_{j=1}^{m}a_{i}b_{j}COV(Y_{i},X_{j}). 
+\tag{3}
+\end{equation}
+
+Proof:%
+\begin{equation*}
+COV(U_{1},U_{2})=E\left[ \left(
+\sum_{i=1}^{n}a_{i}Y_{i}-\sum_{i=1}^{n}a_{i}\mu _{i}\right) \left(
+\sum_{j=1}^{m}b_{j}X_{j}-\sum_{i=1}^{m}b_{j}\xi _{i}\right) \right] \text{ }
+\end{equation*}
+
+\begin{center}
+(by def. of covariance, since $U_{1},U_{2}$ are themselves RVs)
+\end{center}
+
+\begin{eqnarray*}
+&=&E\left[ \left( \sum_{i=1}^{n}a_{i}\left( Y_{i}-\mu _{i}\right) \right)
+\left( \sum_{j=1}^{m}b_{j}\left( X_{j}-\xi _{i}\right) \right) \right] \text{
+(simplifying)} \\
+&=&E\left[ \sum_{i=1}^{n}\sum_{j=1}^{m}a_{i}b_{j}\left( Y_{i}-\mu
+_{i}\right) \left( X_{j}-\xi _{i}\right) \right] \text{ \ (cross-multiplying)%
+} \\
+&=&\sum_{i=1}^{n}\sum_{j=1}^{m}a_{i}b_{j}E\left[ \left( Y_{i}-\mu
+_{i}\right) \left( X_{j}-\xi _{i}\right) \right] \text{ \ (distributing
+expectations)} \\
+&=&\sum_{i=1}^{n}\sum_{j=1}^{m}a_{i}b_{j}COV(Y_{i},X_{j}).\text{ \
+(definition of covariance) }\blacksquare .
+\end{eqnarray*}
+
+\textit{Ask yourself:} observe that $COV(Y_{i},Y_{i})=VAR(Y_{i})$. \ Do you
+see a link between statements (2) and (3) above?\bigskip
+
+\section{The expected value and variance of the sample mean\protect\bigskip}
+
+\begin{itemize}
+\item Now consider \textit{independent} random variables $%
+Y_{1},Y_{2},...Y_{n}$ that have the \textit{same }mean and the \textit{same }%
+variance, that is:%
+\begin{equation*}
+E(Y_{i})=\mu \text{ and }VAR(Y_{i})=\sigma ^{2}\text{ }\forall \text{ }i.
+\end{equation*}
+
+If we define the \textbf{sample mean} as the statistic%
+\begin{equation*}
+\overline{Y}=\frac{1}{n}\sum_{i=1}^{n}Y_{i},
+\end{equation*}
+
+then%
+\begin{equation*}
+E(\overline{Y})=\mu \text{ and }VAR(\overline{Y})=\frac{\sigma ^{2}}{n}.
+\end{equation*}%
+\newpage
+
+Proof:
+
+Note that $\overline{Y}$ is a linear function of the independent random
+variables $Y_{1},Y_{2},...Y_{n}$ with all constants $a_{i}$ equal to $1/n.$
+So:%
+\begin{eqnarray*}
+E(\overline{Y}) &=&E\left( \frac{1}{n}Y_{1}\right) +E\left( \frac{1}{n}%
+Y_{2}\right) +...+E\left( \frac{1}{n}Y_{n}\right) \\
+&=&\frac{1}{n}E(Y_{1})+\frac{1}{n}E(Y_{2})+...+\frac{1}{n}E(Y_{n}) \\
+&=&\frac{1}{n}\mu +\frac{1}{n}\mu +...+\frac{1}{n}\mu \\
+&=&\sum_{i=1}^{n}\frac{1}{n}\mu \\
+&=&\mu \text{ \ \ }\blacksquare .
+\end{eqnarray*}%
+\bigskip
+
+And:%
+\begin{eqnarray*}
+VAR(\overline{Y}) &=&\sum_{i=1}^{n}\left( \frac{1}{n}\right)
+^{2}VAR(Y_{i})+2\sum_{i<j}\frac{1}{n}\frac{1}{n}COV(Y_{i},Y_{j})\text{ (from
+above)} \\
+&=&\sum_{i=1}^{n}\left( \frac{1}{n}\right) ^{2}VAR(Y_{i})+0\text{ \ \ \ \
+(independence }\Rightarrow COV(Y_{i},Y_{j})=0\forall Y_{i},Y_{j}\text{)} \\
+&=&\left( \frac{1}{n}\right) ^{2}\sum_{i=1}^{n}\sigma ^{2}\text{ (factoring
+out constants, def. of variance)} \\
+&=&\left( \frac{1}{n}\right) ^{2}n\sigma ^{2} \\
+&=&\frac{\sigma ^{2}}{n}\text{ \ \ }\blacksquare .
+\end{eqnarray*}
+\end{itemize}
+
+\end{document}

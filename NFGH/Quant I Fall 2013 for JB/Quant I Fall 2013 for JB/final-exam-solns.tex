@@ -1,0 +1,606 @@
+\documentclass[12pt]{article}
+\usepackage{inputenc}
+\usepackage[hmargin=2cm,vmargin=3cm]{geometry} %set horizontal and vertical margins
+\usepackage{setspace} %to change space between lines
+\singlespace
+% Math extension from the American Mathematical Society
+\usepackage{amssymb} % high quality math symbols
+\usepackage{amsmath} % high quality math formulas
+\usepackage{booktabs} % publication quality tables
+\usepackage{graphicx} % importation of graphics files
+\usepackage{dcolumn}
+\usepackage{float}
+
+\begin{document}
+
+\def\sumi{\sum_{i=1}^N}
+\def\yi{y_i}
+\def\ybar{\bar{y}}
+\def\xbar{\bar{x}}
+\def\Ybar{\bar{Y}}
+\def\Xbar{\bar{X}}
+\def\eqc{&=&}
+\def\thhat{\hat{\theta}}
+\def\muhat{\hat{\mu}}
+\def\expct{\mathbb{E}}
+\def\hpl{\hat{p}_L}
+\def\hpi{\hat{p}_I}
+\def\hb0{\hat{\beta}_0}
+\def\hb1{\hat{\beta}_1}
+\def\sigx{\sigma_X}
+\def\sigy{\sigma_Y}
+%\def\sigyx{\sigma_{\var{Y} - \var{X} } }
+
+\title{Quant I: Final Exam Solutions}
+%\author{Andrew Peterson}
+\date{December  2013}
+\maketitle
+
+\raggedright
+
+
+\section{Written Part}
+
+\vspace{4mm} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Question 1.} \hspace{3mm} Simple OLS example.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{4mm} 
+\renewcommand{\theenumi}{\alph{enumi}}
+\begin{enumerate}
+  \item Show that OLS estimates $\hat{\beta}_0 \approx -2.89$ and $\hb1 \approx 1.57$.
+  
+The formula for the beta matrix is $(X'X)^{-1}(X'Y)$.
+
+We are already given $(X'X)^{-1}$.\\
+
+%\[
+%X'=\left[
+%\begin{array}{cccc}
+%1&1&1 & 1\\
+%2 & 3 & -1 & 4 \end{array} \right]
+%\]
+
+\[
+X'Y=\left[
+\begin{array}{cccc}
+1&1&1 & 1\\ 2 & 3 & -1 & 4 \end{array} \right]  \left[ \begin{array}{r} 4 \\ 2 \\ -6 \\1 \end{array} \right] = \left[ \begin{array}{c} 1 \\24 \end{array} \right] 
+\]
+
+\[
+(X'X)^{-1}(X'Y) = \left[\begin{array}{cc} .536 & -.143 \\ -.143 & .071 \end{array} \right] \left[ \begin{array}{c} 1 \\24 \end{array} \right] =  \left[ \begin{array}{r} -2.89 \\ 1.57 \end{array} \right] = \mathbf{\hat{\beta} }
+\]
+
+%
+%\[\mathbf{(X'X)^{-1}X'Y} = \left[\begin{array}{cc}2.71 & -.714\\ -.714 & .214 \end{array}\right] \left[
+%\begin{array}{c}
+%3\\
+%20\end{array} \right] = \left[\begin{array}{c}-6.15\\2.138\end{array} \right] = \mathbf{\beta}
+%\]
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+\vspace{5mm}
+
+  \item Show that $\hat{\sigma} \equiv SEE\approx  3.33$
+  
+\[
+\hat{\sigma} = \sqrt{\frac{\mathbf{\hat{e}'\hat{e}}}{N-K-1}} = \sqrt{\frac{1}{N-K-1} \mathbf{(y - \hat{y})'(y - \hat{y})}}
+\]
+
+First we can calculate $\hat{\mathbf{y}}$:
+
+\[
+\left[ \begin{array}{cr} 1& 2 \\ 1&3\\  1 & -1\\ 1 & 4 \end{array} \right]   \left[ \begin{array}{r} -2.89 \\ 1.57 \end{array} \right] =  \left[ \begin{array}{r}  .25 \\ 1.82 \\ -4.46 \\ 3.39 \end{array} \right]
+\]
+
+\[
+\hat{\sigma} = \frac{1}{\sqrt{2}} [( \mathbf{\left[\begin{array}{r} 4 \\ 2\\-6 \\1 \end{array}\right] - \left[\begin{array}{c}  .25 \\ 1.82 \\ -4.46 \\ 3.39 \end{array}\right]})' (\mathbf{\left[\begin{array}{r} 4 \\ 2\\-6 \\1 \end{array}\right] - \left[\begin{array}{c}  .25 \\ 1.82 \\ -4.46 \\ 3.39 \end{array}\right]})]^{\frac{1}{2}}
+\]
+
+\[
+{} = (\left[\begin{array}{c} 3.75\\ 0.18\\-1.54 \\ -2.39 \end{array}\right]'\left[\begin{array}{c} 3.75\\ 0.18\\-1.54\\ -2.39 \end{array}\right])^{\frac{1}{2}}
+\]
+\[
+\approx \frac{\sqrt{22.2} }{\sqrt{2} } = 3.33
+\]
+
+  
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Show that $R^2\approx .61$
+
+
+%\begin{align*}
+
+\[
+R^2 = 1 - \frac{\mathbf{\hat{e}'\hat{e}}}{\mathbf{(y - \bar{y})'(y-\bar{y})}}
+\]
+
+From the solution for $\mathbf{\hat{e}'\hat{e}}$ above:
+
+\[
+R^2 = 1 - \frac{22.2}{\mathbf{(y - \bar{y})'(y-\bar{y})}}
+\]
+
+\[
+\bar{y} = \frac{\sum_i y_i}{n} = \frac{1}{4}
+\]
+
+\[
+\mathbf{(y - \bar{y})'(y-\bar{y})} = (\left[\begin{array}{c}4\\2\\-6\\1\end{array}\right] - \left[\begin{array}{c}\frac{1}{4}
+\\\frac{1}{4} \\\frac{1}{4} \\\frac{1}{4} \end{array}\right])' (\left[\begin{array}{c}4\\2\\-6\\1\end{array}\right] - \left[\begin{array}{c}\frac{1}{4}
+\\\frac{1}{4} \\\frac{1}{4} \\\frac{1}{4} \end{array}\right]) = 56.75
+\]
+
+\[
+R^2 = 1 - \frac{22.2}{56.75} \approx 0.61
+\]
+
+\end{enumerate}
+
+%\vspace{4mm} 
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Question 2.} \hspace{3mm} Consider four random variables W, X, Y and Z, where:
+
+\begin{align*}
+cov(W,Y) > 0 ~&~ cov(W, X)=0;\\
+cov(Z,Y) = 0 ~&~ cov(Z, X) <0;\\
+\text{and}~cov(X,Y)~\text{is unknown}.
+\end{align*}
+Say whether the following statements are TRUE or FALSE, and explain why. Assume we
+have a large number of observations of the joint distribution of all four variables from an
+i.i.d. random sample.
+
+\vspace{4mm} 
+
+\begin{enumerate}
+\item If we estimate the equation $\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i$, $\hat{\beta}_1$ is a \emph{biased} estimate of the parameter $\beta_1$ due to the omission of $w$ and $z$.
+
+\vspace{4mm} 
+
+    \textbf{False.}  $\hat{\beta}_1$ is biased due to the omission of $w$ iff $cov(W,X) \neq 0 ~\&~ cov(W,Y) \neq 0$.  But, from the above, $cov(W,X) = 0$, implying that $\hat{\beta}_1$ is not biased due to the omission of $w$.  Analogously, $\hat{\beta}_1$ is biased by the omission of $z$ iff $cov(Z,X) \neq 0 ~\&~ cov(Z,Y) \neq 0$.  But, from the above $cov(Z,Y) = 0$, therefore $\hat{\beta}_1$ is not biased due to the omission of $z$.
+
+\item The estimate of the parameter $\beta_1$ we obtain from the estimated equation $\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i$ will be \emph{more efficient} than the estimate obtained from the equation $\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i + \hat{\beta}_2 z_i$.
+
+\vspace{4mm} 
+
+    \textbf{True.}  $\hat{\beta}_1$ will be distributed normally with mean $\beta_1$ and variance $\frac{\sigma^2}{\sum_i(x_i-\bar{x})^2 (1-R^2_x)}$ where $R^2_x$ is the $R^2$ from a regression of $x$ on all other regressors.  Since there are no other regressors in the first model $R^2_x =0$.  And since $cov(X,Z)<0$ the $R^2_x$ from the second model is strictly greater than zero.  Thus, the variance of $\hat{\beta}_1$ is greater for the second model than for the first.
+
+\vspace{4mm} 
+
+\item The estimate of the parameter $\beta_1$ we obtain from the estimated equation $\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i$ will be \emph{more efficient} than the estimate obtained from the equation $\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i + \hat{\beta}_2 w_i$.
+
+\vspace{4mm} 
+
+    \textbf{True.}  Note that while the inclusion of $w$ in the regression will not affect the true variance of $\hat{\beta}_1$ given by $\frac{\sigma^2}{\sum_i(x_i-\bar{x})^2 (1-R^2_x)}$ since the $R^2$ from a regression of $x$ on $z$ is zero; our \emph{estimated variance of $\hat{\beta}_1$ will be affected}.  This is because we do not observe the true population parameter $\sigma^2$.  Rather, we must estimate this value by substituting $\hat{\sigma}^2 = \frac{\sum_i \hat{u_i}^2}{N-K-1}$, to obtain $\widehat{Var(\hat{\beta}_1)}$.  Since we are increasing the value $K$ (reducing our degrees of freedom), we are reducing the precision of our estimates in any finite sample.  Though the magnitude of this effect will be declining as $N$ increases.
+\end{enumerate}
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Question 3.} \hspace{3mm} Consider the three variables X, Y, and Z, where in the population
+\begin{itemize}
+\item X takes on the value zero 50 percent of the time and the value one 50 percent of the
+time, while
+\item Z takes on the value zero 3 percent of the time and the value one 97 percent of the time.
+\end{itemize}
+You are interested in estimating the \emph{ceteris paribus} association of X with Y as well as the \emph{ceteris paribus} association of Z with Y. To do so, you use the model $y_i = \beta_0 + \beta_1 x_i + \beta_2 z_i + u_i$.  Assume that this model is properly specified and the Gauss-Markov assumptions hold.
+    \begin{enumerate}
+    \item One or more of the following (omitted) statements is true.  In a few sentences, identify the correct statement(s) and explain:
+
+\vspace{4mm} 
+
+    The expression $var(\hat{\beta}_1) = \frac{\sigma^2}{n var(x)(1-R^2_x)}$ is correct.  As is the expression $\widehat{var(\hat{\beta}_1)} = \frac{\hat{\sigma}^2}{n var(x)(1-R^2_x)}$.  First, note that the expression $Var(\beta_1)$ makes no sense in a frequentist framework.  There exists a unique true value $\beta_1$ and thus it has a variance of zero.  The expression for $Var(\hat{\beta}_1)$ is given by $\frac{\sigma^2}{\sum_i (x_i-\bar{x})^2 (1-R^2_x)}$.  Note that $Var(x) = \frac{1}{n} \sum_i (x_i - \bar{x})^2 \Rightarrow Var(\hat{\beta}_1) = \frac{\sigma^2}{n Var(x) (1-R^2_x)}$.  Now, since we do not observe the true value of $\sigma^2$ we have to estimate this using $\hat{\sigma}^2$.  Thus, our estimated variance for the parameter $\hat{\beta}_1$ is $\widehat{Var(\hat{\beta}_1)} = \frac{\hat{\sigma}^2}{n var(x)(1-R^2_x)}$.  Since this expression is correct, the final expression given cannot be correct.
+%    \item Show that, in the model above, $R^2_x = R^2_z$.
+%
+%    \textbf{Proof: By Construction.}
+%    \begin{align}
+%    \text{Demean the data} \notag\\
+%    R^2_x = \frac{\sum_i \hat{x}_i^2}{\sum_i x_i^2}~\text{From the regression}~\hat{x} = \hat{\gamma}_1 z \notag\\
+%    R^2_z = \frac{\sum_i \hat{z}_i^2}{\sum_i z_i^2}~\text{From the regression}~\hat{z} = \hat{\delta}_1 x \notag\\
+%\text{Note}~\hat{\gamma}_1 = \frac{\sum_i z_i x_i}{\sum_i z_i^2}~and~\hat{\delta}_1 = \frac{\sum_i x_i z_i}{\sum_i x_i^2} \notag\\
+%\Rightarrow \hat{\gamma}_1 = \frac{\hat{\delta}_1 \sum_i x_i^2}{\sum_i z_i^2}\\
+%\text{By the definition of}~R^2,~R_x^2 = \frac{\sum_i \hat{x}_i^2}{\sum_i x_i^2} = \frac{\hat{\gamma}_i^2 \sum_i z_i^2}{\sum_i x_i^2} \notag\\
+%\text{Substituting from 1}~\Rightarrow (\frac{\hat{\delta}_1^2 \sum_i x_i^2}{\sum_i z_i^2})^2(\frac{\sum_i z_i^2}{\sum_i x_i^2}) \notag\\
+%= \frac{\hat{\delta}^2 \sum_i x_i^2}{\sum_i z_i^2} = \frac{\sum_i \hat{z}_i^2}{\sum_i z_i^2} = R_z^2~ \notag
+%\end{align}
+
+\vspace{4mm} 
+
+\item Why can we say for sure that $var(\hat{\beta}_1) < var(\hat{\beta}_2)$?
+
+Note that the expression $var(\hat{\beta}_j) = \frac{\sigma}{\sum_i (x_{j,i} - \bar{x_j})^2 (1-R_{x_j})}$ for any variable $x_j$ with associated coefficient $\hat{\beta}_j$.  Note further that we can think of $X$ as being drawn from a Bernoulli distribution with $p=0.5$.  $Z$ is also drawn from a Bernoulli distribution with $p=0.03$.  For any variable $x_j$ drawn from a Bernoulli distribution $\sum_i (x_{j,i}-\bar{x_j})^2 = np(1-p)$ where $p \in [0,1]$.  Note that this value reaches a maximum when $p=0.5$.  Therefore, the denominator of the expression for $var(\hat{\beta}_1)$ is greater than the denominator for $var(\hat{\beta}_2)$, implying that $var(\hat{\beta}_1) < var(\hat{\beta}_2)$.
+\item All things being equal, with which of the two findings should you be more comfortable?
+\begin{itemize}
+\item A failure to reject the null that the ceteris paribus association between Z and Y is
+zero.
+\item A failure to reject the null that the ceteris paribus association between X and Y is
+zero.
+\end{itemize}
+
+\vspace{4mm} 
+
+Given that the $Var(\hat{\beta}_1)<Var(\hat{\beta}_2)$, I would be more comfortable failing to reject the null that the association between $Z$ and $Y$ is zero.  The larger variance on $\hat{\beta}_2$ implies that my confidence interval for this estimate will be wider than that for $\hat{\beta}_1$.  As a result, the confidence interval on $\hat{\beta}_2$ is more likely to contain zero - all else equal - than that on $\hat{\beta}_1$.
+\end{enumerate}
+
+
+\vspace{4mm} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Question 4.} \textbf{25 Points} Consider the Stata output on the following page. It is an OLS analysis of ratings given to Barak Obama (on a zero to 100 scale) in the 2012 American National Election Studies by a nationally representative sample of American adults. Be sure to explain your answers and show your work.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \begin{enumerate}
+    \item What proportion of the respondents in the sample own guns?
+        
+ \vspace{4mm}
+ 
+See the summary statistics following the \textsf{sum} command, from which can see from the minimum and maximum that it is a dummy variable, with mean $32.57$.
+
+ \item What is the rating predicted to be given to Obama by a (non-Hispanic) African American man born in the US whose education and age are equal to the American average, whose household income is \$60,000 and who is a military veteran and a union member but not a gun owner?
+
+ \[
+ \hat{y} = 71.74 + 24.16\cdot black +(-.1059)\cdot age  +  (.2807)*black\cdot age + (-8.29)\cdot educ + {}
+ \]
+ \[
+  1.44\cdot educ^2 + (-.555)\cdot ln(income) -3.14\cdot vet + 4.9\cdot union = 88.34
+ \]
+ 
+ \[
+ % int      black      age                   black*age               educ          educ2        income                 vet     union
+  \hat{y} = 71.74 + 24.16*1 +(-.1059)*  49.8  +  (.2807)* 49.8 + (-8.29)*3 + {}
+ \]
+ \[
+  1.44* 9 + (-.555)* ln(60,000) -3.14*1 + 4.9*1 =  94.4
+ \]
+\normalsize
+
+ \item How many standard deviations away from $y$ is the typical prediction $\hat{y}$?
+ 
+ \vspace{4mm}
+ 
+ According to the ``Root MSE'', on average, our predictions miss the true value of $y$ by 29.78 feeling thermometer units. We know that the standard deviation of $y$ in the sample is $28.5$ from the summary statistics table, so we have:
+ \[
+ \frac{29.78}{34.499} = 0.863
+ \]
+
+\vspace{5mm}
+
+ \item The constant term is about 72. Describe the hypothetical American whose predicted rating of Obama is described by this term.
+  
+ \vspace{4mm}
+ 
+Male, age = 0, non-black, non-hispanic, US-born, not a Veteran, not a gun owner, not a Union member, \$1 income, education category 1.
+
+\vspace{5mm}
+ 
+ \item What is the approximate predicted difference in ratings given to Obama between someone with a household income of \$30,000 and someone with an income of \$ 45,000, holding all other covariates constant?
+ 
+$(log(45,000) - log(30,000) *(-.5553) = -.23$
+
+\vspace{5mm}
+
+\item What is $\frac{\partial ObamaFT}{\partial AGE}$?
+
+The relevant part of our model, ignoring other covariates that don't vary with \verb|AGE|, is $y =  \beta_{AGE} \cdot age + \beta_{BLACK*AGE} \cdot age$. So the change is given by:
+\[
+\frac{\partial ObamaFT}{\partial AGE} = \beta_{AGE}  + \beta_{BLACK*AGE} \cdot \mathbf{1}_{black}
+\]
+where $\mathbf{1}_{black}$ is the dummy variable for whether the respondent is black.
+
+\vspace{5mm}
+
+\item What is $\frac{\partial ObamaFT}{\partial EDUC}$?
+
+Here the relevant part of our model, ignoring other covariates that don't vary with \verb|EDUC|, is $y =  \beta_{EDUC} \cdot EDUC + \beta_{EDUC^2} \cdot EDUC^2$. This gives:
+
+\[
+\frac{\partial ObamaFT}{\partial EDUC} = \beta_{EDUC}  + 2\beta_{EDUC^2} \cdot EDUC
+\]
+
+meaning that $y$ attains an extremum  w.r.t. \verb|EDUC| at \verb|EDUC| $= \frac{\beta_{EDUC}}{2 \beta_{EDUC^2}}$, which is a maximum if $\beta_{EDUC} > 0$ and $\beta_{EDUC^2} < 0$ and a minimum if $\beta_{EDUC} < 0$ and $\beta_{EDUC^2} > 0$.
+
+\end{enumerate}
+
+\clearpage
+
+\section{Statistical Computing Part} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Question 1.} \hspace{3mm} Run the command that lists the names of variables, their formats and labels.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{4mm} 
+The command is \verb|describe|
+\begin{verbatim}
+  obs:         5,870                          
+ vars:             8                          
+ size:       187,840                          
+------------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------------
+age             float   %9.0g                 age (in years)
+bush_favorabi~y float   %25.0g     caa01      0=very unfavorable, 10=very favorable
+economic_situ~n float   %10.0g     ccb04      personal economic situation today
+female          float   %9.0g      female     sex (0 = male, 1 = female)
+ideology        float   %17.0g     cma06      conservative or liberal
+income          float   %24.0g     income     total hh income before taxes
+kerry_favorab~y float   %25.0g     cab01      0=very unfavorable, 10=very favorable
+pid             float   %14.0g     cma01      party identification
+------------------------------------------------------------------------------------------------------------------------ 
+
+\end{verbatim}
+
+\vspace{4mm} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Question 2.} \hspace{3mm} (18 points) \verb|bush_favorability| is a measure of respondents? favorability ratings of George W. Bush on a scale of zero (least favorable) to ten (most favorable). (NOTE: For reasons that should be obvious, you will need to create a recoded version of this variable.)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{4mm} 
+\renewcommand{\theenumi}{\alph{enumi}}
+\begin{enumerate}
+\item What is the mode of \verb|bush_favorability|? From tab \verb|bush_favorability|: 0
+\item What is the mean? 5.28
+\item What is the 95\% confidence interval about this mean? (5.19, 5.37)
+\item What is the 90\% confidence interval about this mean? (5.21, 5.36)
+\item Who rates Bush more favorably, men or women? Men rate Bush more favorably, and difference is statistically significant. From the t-test, the difference between men and women is $0.37$, with a t-value of $3.91$. We get the same results from the simple regression, where the coefficient on \verb|female| is $-0.37$ with an associated t-value of $3.91$. 
+
+
+\item Are higher income Americans more likely to assess Bush favorably?
+
+After recoding, if we simply run \verb|regress bush_favorability income| the coefficient is significant and although it is very small ($4.6x10^6$), this reflects the fact that income ranges from \$2,500 to \$150,000. If we run margins after this, however, it is clear that income does have a non-trivial effect:
+
+%\begin{verbatim}
+%
+%. qui regress bush_favorability inc
+%. levelsof inc
+%2500 12500 20000 30000 42500 62500 87500 125000 150000
+%
+%. margins, at(inc=(`r(levels)'))
+%[...]
+%------------------------------------------------------------------------------
+%             |            Delta-method
+%             |     Margin   Std. Err.      t    P>|t|     [95% Conf. Interval]
+%-------------+----------------------------------------------------------------
+%         _at |
+%          1  |   4.969185   .0856585    58.01   0.000     4.801259    5.137112
+%          2  |   5.015538   .0758439    66.13   0.000     4.866852    5.164224
+%          3  |   5.050302   .0690461    73.14   0.000     4.914943    5.185662
+%          4  |   5.096655   .0610405    83.50   0.000      4.97699     5.21632
+%          5  |   5.154595   .0534888    96.37   0.000     5.049735    5.259456
+%          6  |     5.2473   .0498685   105.22   0.000     5.149537    5.345063
+%          7  |   5.363181   .0613728    87.39   0.000     5.242865    5.483498
+%          8  |   5.537003   .0965756    57.33   0.000     5.347674    5.726332
+%          9  |   5.652884   .1243411    45.46   0.000     5.409123    5.896645
+%------------------------------------------------------------------------------
+%
+%\end{verbatim}
+
+
+A better approach is to include the log, and the square of the log, which suggests there is a positive and significant effect of age on \verb|bush_favorability| which is substantively important, with a difference of more than ten percentage points moving from the lowest to the highest category of income.
+
+\begin{table}[H] \centering
+\begin{tabular}{l*{2}{c}}
+\hline\hline
+                                                  &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+
+\hline
+income &        .000***&               \\
+                                                  &      (.000)   &               \\
+income (log)                                           &               &       3.209***\\
+                                                  &               &      (.720)   \\
+income sq (log)                                      &               &       -.143***\\
+                                                  &               &      (.036)   \\
+Constant                                          &       4.958***&     -12.592***\\
+                                                  &      (.088)   &     (3.580)   \\
+\hline
+N                                                 &        5204   &        5204   \\
+\hline\hline
+\end{tabular}
+\end{table}
+
+
+\end{enumerate}
+
+
+\vspace{4mm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Question 3.} \hspace{3mm} (20 points) \verb|kerry_favorability| is a measure of respondents? ratings of John Kerry on the same scale as \verb|bush_favorability|. Create a new variable (as done in class) called \verb|rating_diff| that is equal to \verb|bush_favorability| minus \verb|kerry_favorability|. (You'll again need to do some recoding.)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace{4mm} 
+\renewcommand{\theenumi}{\alph{enumi}}
+\begin{enumerate}
+\item Model I: \verb| reg rating_diff age female ln_inc|
+
+	
+\begin{table}[H] \centering 
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{3}{c}}
+\hline\hline
+                                                  &\multicolumn{1}{c}{I}&\multicolumn{1}{c}{II}&\multicolumn{1}{c}{III}\\
+
+\hline
+\hline
+age (in years)                                    &        .007   &       -.008+  &       -.008+  \\
+                                                  &      (.005)   &      (.005)   &      (.005)   \\
+sex (0 = male, 1 = female)                        &       -.772***&       -.534***&       -.500***\\
+                                                  &      (.165)   &      (.148)   &      (.147)   \\
+ln\_inc                                            &        .717***&        .713***&        .719***\\
+                                                  &      (.083)   &      (.076)   &      (.075)   \\
+conservative or liberal                           &               &      -2.648***&               \\
+                                                  &               &      (.073)   &               \\
+2.conservative or liberal                         &               &               &       -.833** \\
+                                                  &               &               &      (.292)   \\
+3.conservative or liberal                         &               &               &      -4.702***\\
+                                                  &               &               &      (.284)   \\
+4.conservative or liberal                         &               &               &      -7.142***\\
+                                                  &               &               &      (.308)   \\
+5.conservative or liberal                         &               &               &      -8.646***\\
+                                                  &               &               &      (.397)   \\
+Constant                                          &      -7.603***&        .674   &      -3.072***\\
+                                                  &      (.943)   &      (.882)   &      (.878)   \\
+\hline
+N                                                 &        4827   &        4706   &        4706   \\
+r2                                                &           0.02   &           0.23   &           0.24   \\
+rmse                                              &           5.68   &    5.02        &          4.98   \\
+\hline\hline
+\end{tabular}
+\end{table}
+
+\vspace{4mm}
+\vspace{4mm}
+
+\item How well does Model I explain variation in the dependent variable? \\
+
+\vspace{4mm}
+
+Not very well. The $R^2$ is only $0.02$ so we are only ``explaining'' about 2\% of the variation in the variation in the dependent variable.  The root mean square error is $5.68$, so the standard deviation of the predicted values from the observed $y$ is about 5.68. This is barely smaller than the standard deviation of $y$ itself, which is $5.78$.
+
+\vspace{4mm}
+
+\item Now run a regression of \verb+rating_diff+ that also includes \verb|ideology| -- a variable in which respondents rate themselves very conservative (1) to very liberal (5) on a five--point scale. (For the moment, treat ideology as an interval-level variable. Note that some recoding may be necessary.) We'll call this Model II.\\
+\vspace{4mm}
+
+i. In a few sentences, explain what happens to the coefficient on female between Model I and Model II and your substantive interpretation of this change.\\
+\vspace{4mm}
+
+The coefficient becomes smaller, which reflects that women are more likely to identify as liberal (although the correlation between \verb|female| and \verb|ideology| is only $\rho = .0483$.
+
+\vspace{4mm}
+ii. How well does Model II explain variation in the dependent variable compared to Model I?\\
+\vspace{4mm}
+
+Definitely better; the $r^2$ is now $.23$ and the the root mean square prediction error has reduced to $5.02$.
+
+\vspace{4mm}
+iii. What does Model II predict is the difference in \verb|rating_diff| between those who are very conservative and those who are very liberal, holding the other factors constant? Approximately what percentage of the range of the dependent variable is this difference equal to?
+
+\vspace{4mm}
+
+The difference is 10.59, which is about $50.4\%$ of the variation in \verb|rating_diff|.
+
+\vspace{4mm}
+
+iv. What do your answers to (ii) and (iii) suggest about the importance of ideology in explaining the dependent variable compared to the other variables in Model II?
+\vspace{4mm}
+
+Not surprisingly, ideology is a very significant predictor of feeling thermometer ratings for Bush vs. Kerry. Changing from the lowest to the highest category is associated with more than 8 percentage points change in \verb|rating_diff|, while switching from male to female is only associated with half a percentage point difference, while income is only associated with less than four percentage points difference, and age even less (although the coefficient on age may understate the case because the effect could be non-linear.
+
+\item Finally, run the estimation in a way that does not require that we assume ideology is an interval--level variable. Call this equation Model III.\
+\vspace{4mm}
+
+i. Now think carefully: what would we need to see in Model III that would give us confidence in treating \verb|ideology| as an interval--level variable in the present context? Do we see this here?
+\vspace{4mm}
+
+We would like to see that the OLS assumption that the dependent variable is a linear function of the regressors.  One way to check this is to dummy out the ideology categories, run a regression, and look at the \verb|marginsiplot|. Using this approach, we see that, while not perfect, the assumption of linearity is not far off:
+
+\begin{figure}[H]% \label{econ_ads}
+	\begin{center} %\caption{}
+	\includegraphics[width=8cm]{ideol.pdf}
+	\end{center} 
+	\end{figure}
+
+\vspace{4mm}
+ii. In a few sentences, say what Model III tells us about the ceteris paribus relationship between ideology and \verb|rating_diff|.
+\vspace{4mm}
+
+Moving from category 1 to category 5 of ideology is associated with an 8.6 point increase in one's relative liking for Bush compared to Kerry, controlling for sex, age and income. This is clearly a substantial and clear relationship. At the same time, the difference in feeling for Bush vs Kerry does not reduce to differences captured by the ideology question, since this captures less than one-quarter of the observed variation.
+
+\end{enumerate}
+
+
+
+
+\vspace{4mm} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Question 4.} \hspace{3mm} Explore the following question using OLS. (25 points)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{4mm} 
+
+\renewcommand{\theenumi}{\alph{enumi}}
+\begin{enumerate}
+
+\item We expect that voters who rated their personal economic situation as poor in 2004 would be likely to blame the incumbent (Bush), and thus have lower values of \verb|rating_diff| than those in better economic circumstances. However, we might theorize that the ceteris paribus association between a voter's personal economic situation and \verb|rating_diff| is even stronger for Independent voters (who are not affiliated with either the Democratic or Republican parties), as these Independents do not have the cue of party identification to rely upon when rating the two candidates.
+
+\item To explore this question, use the variables \verb|pid| (a categorical variable that is a measure of voters' party identification) and \verb|economic_situation| (a variable measuring how voters rate their personal economic situation on a scale of 1 (excellent) to 4 (poor) ). For purposes of this question, you may treat this variable as interval--level.
+
+\item From here, you're on your own. You will need to create new variables, estimate the appropriate model, present results both in tabular and graphical form, and interpret the results. Do your estimates confirm the theory? Make sure to describe your results in plain English.\\
+
+\vspace{4mm} 
+
+Rather than assuming linearity of age or income, I use dummies for deciles of each of these variables. I interact the \verb|independent| dummy with the \verb|economic_situation| dummies.  We see that the difference in economic situation is associated with different levels of rating Bush vs. Kerry for non-independents, and essentially unrelated for independents. This may be as the question suggests that independents do not rely on party cues, or are less informed.
+
+\begin{figure}[H]% \label{econ_ads}
+	\begin{center} %\caption{}
+	\includegraphics[width=12cm]{marginsplot_econsituation-indep.pdf}
+	\end{center} 
+	\end{figure}
+	
+\begin{table} \centering \footnotesize
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{1}{c}}
+\hline\hline
+                                                  &\multicolumn{1}{c}{(1)}\\
+\hline
+2.personal economic situation today               &      -1.335***\\
+                                                  &      (.312)   \\
+3.personal economic situation today               &      -3.299***\\
+                                                  &      (.333)   \\
+4.personal economic situation today               &      -4.685***\\
+                                                  &      (.394)   \\
+indep                                           &      -2.084***\\
+                                                  &      (.623)   \\
+2.economic\_situation *indep                      &       1.790** \\
+                                                  &      (.668)   \\
+3.economic\_situation * indep                      &       2.975***\\
+                                                  &      (.683)   \\
+4.economic\_situation * indep                      &       4.531***\\
+                                                  &      (.745)   \\
+2.10 quantiles of age                             &       -.155   \\
+                                                  &      (.319)   \\
+3.10 quantiles of age                             &       -.536   \\
+                                                  &      (.336)   \\
+4.10 quantiles of age                             &       1.142***\\
+                                                  &      (.325)   \\
+5.10 quantiles of age                             &       -.306   \\
+                                                  &      (.333)   \\
+6.10 quantiles of age                             &       -.207   \\
+                                                  &      (.324)   \\
+7.10 quantiles of age                             &       -.419   \\
+                                                  &      (.319)   \\
+8.10 quantiles of age                             &        .706*  \\
+                                                  &      (.336)   \\
+9.10 quantiles of age                             &       -.507   \\
+                                                  &      (.329)   \\
+10.10 quantiles of age                            &       -.526   \\
+                                                  &      (.335)   \\
+sex (0 = male, 1 = female)                        &       -.350*  \\
+                                                  &      (.147)   \\
+10 quantiles of ln\_inc                            &        .003   \\
+                                                  &      (.031)   \\
+2.conservative or liberal                         &       -.837** \\
+                                                  &      (.290)   \\
+3.conservative or liberal                         &      -4.361***\\
+                                                  &      (.284)   \\
+4.conservative or liberal                         &      -6.871***\\
+                                                  &      (.309)   \\
+5.conservative or liberal                         &      -8.274***\\
+                                                  &      (.396)   \\
+
+\hline
+N                                                 &        4602   \\
+$r^2$                                                &           0.28   \\
+rmse                                              &           4.87   \\
+\hline\hline
+\end{tabular}
+\end{table}
+
+\end{enumerate}
+\end{document}
+
+%\begin{eqnarray*}
+% \text{P(Type II error)} \eqc \beta = \text{P(Reject} H_0 | H_A \text{ true)} \\ 
+% \vspace{5mm}\\
+% \eqc P(\thhat < \theta_0 + z_\alpha \sigma_{\thhat} | \theta = \theta_A ) \\
+% \eqc \Phi \Bigg( \frac{\theta_0 - \theta_A}{ \sigma_{\thhat}} + z_\alpha \Bigg) \text{, so} \\
+% \beta \eqc \Phi   \Bigg( \frac{\theta_0 - \theta_A}{ \frac{\sigma }{\sqrt n}  } + z_\alpha \Bigg)
+%\end{eqnarray*}
+

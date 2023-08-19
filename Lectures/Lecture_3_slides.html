@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Lecture 3</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Prof. Bisbee" />
+    <script src="libs/header-attrs-2.23/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/lexis.css" type="text/css" />
+    <link rel="stylesheet" href="css/lexis-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Lecture 3
+]
+.subtitle[
+## Quantitative Political Science
+]
+.author[
+### Prof. Bisbee
+]
+.institute[
+### Vanderbilt University
+]
+.date[
+### Lecture Date: 2023/09/05
+Slides Updated: 2023-08-18
+]
+
+---
+
+
+&lt;style type="text/css"&gt;
+.small .remark-code { /*Change made here*/
+  font-size: 85% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+&lt;/style&gt;
+
+
+
+# Agenda
+
+1. Random variables
+
+2. Probability distributions
+
+3. Expectations
+
+4. Theoretical probability models
+
+---
+
+# Quick recap
+
+- We now have an intellectual foundation for probability
+
+  - Probabilistic events in the context of an **experiment** and **simple events**
+  
+  - All possible events define the **sample space**
+  
+  - 3 axioms for how to assign probabilities to events
+  
+  - 4 tools to decompose and compose events of interest
+  
+---
+
+# One additional tool
+
+- Assigning probabilities in a sample space consisting of **equiprobable events**
+
+- `\(S\)` consists of `\(n\)` **equiprobable** events `\(E\)` such that `\(P(E_1) = P(E_2) = \dots = P(E_n)\)`
+
+  - Recall we define `\(A\)` as a subset of `\(S\)`: some subset of sample points that make up `\(S\)`
+  
+  - Then `\(P(A) = \frac{|A|}{n}\)` where `\(|A|\)` indicates the number of elements in `\(A\)`
+  
+---
+
+# Quick proof
+  
+- How can we arrive here using the axioms?
+
+  1. `\(P(E_i) = \frac{1}{n} \forall\;i = \{1,2,\dots,n\}\)` because
+  
+  2. `\(P(S) = P(E_1 \cup E_2 \cup \dots E_n) = P(E_1) + P(E_2) + \dots P(E_n) = 1\)` (Axiom 3, then Axiom 2)
+  
+  3. `\(P(E_1) + P(E_2) + \dots P(E_n) = nP(E_1) = 1\)` (definition of equiprobability)
+  
+  4. `\(P(E_1) = \frac{1}{n}\)` and `\(P(E_i) = \frac{1}{n} \forall \; i = \{1,2,\dots,n\}\)`
+  
+  5. `\(P(A) = \sum_{E_i \in A} P(E_i)\)` (Axiom 3 again)
+  
+  6. `\(P(A) = \sum_{E_i \in A}\frac{1}{n} = \frac{|A|}{n} \blacksquare\)`
+  
+---
+
+# Random Variables
+
+- Experiment where events of interest are **numerical**
+
+  - Identified in a meaningful way by numbers
+  
+  - I.e., number of seats held by Republican Party in the House after a midterm election
+  
+  - We assign a *real number* to each point in the sample space
+  
+  - Call this number the variable `\(Y\)`
+  
+- What is a variable?
+
+--
+
+  - A logical grouping of attributes
+  
+  - Take on values that are **exhaustive** and **mutually exclusive**
+
+--
+
+- Thus each sample point can only take on one value of `\(Y\)`, but the same values of `\(Y\)` may be assigned to multiple sample points
+
+---
+
+# Functions
+
+- We **map** numeric values using a **function**
+
+- Thus the numeric random variable `\(Y\)` is a **function** of the sample points in `\(S\)`
+
+- A function is a mathematical relation assigning each element of one set (the source) to one and only one element of another set (the target)
+
+  - The function's **source** is `\(S\)` and its **target** is `\(Y\)`
+  
+  - `\(f: S \rightarrow Y\)`
+  
+  - This function (and by extension, `\(Y\)`) is a **random variable**
+  
+- Whenever we talk about a random variable, *we are really talking about a function* that maps each simple event in a sample space `\(S\)` to a meaningful number
+
+---
+
+# Notation
+
+- Random variables expressed with capital letters: i.e., `\(Y\)`
+
+- Interested in the probability a random variable takes on some value
+
+  - Probability that `\(Y = 0\)` written as `\(P(Y = 0)\)`
+  
+- Denote observed or hypothetical values of `\(Y\)` with lowercase letters
+
+  - `\(P(Y = y)\)`
+  
+- Still fundamentally interested in **events of interest** `\(A\)`, but denote with numbers `\(a\)`
+
+  - `\(A \equiv \{\text{all sample points such that }Y = a\}\)`
+  
+---
+
+# Random Samples
+
+- Our experiment is the drawing of a **sample** from a population
+
+  - **Sample**: the units selected for analysis
+  
+  - **Population**: the group of units about which we want to make inferences
+  
+- The **design** of our experiment is the method of sampling
+
+  - Do we sample *with replacement*? Units are put back into the population after being sampled, and we might re-sample them again
+  
+- Most common design is **random sampling**
+
+  - Let `\(N\)` be the number of elements in the population and `\(n\)` be the number of elements in our sample
+  
+  - How many different samples without replacement can we draw?
+  
+--
+
+  - `\(\bigg(\frac{N}{n}\bigg) = \frac{N!}{n!(N - n)!}\)`
+  
+  - If we draw these `\(n\)` elements with equal probability, this is a **random sample**
+  
+---
+
+# Probability Distributions
+
+- Start with **discrete** random variables
+
+  - `\(Y\)` is discrete if it can only take on finite or countably infinite number of distinct values
+  
+  - "Countably infinite": a one-to-one correspondence with the integers
+  
+- To make inferences about the **population** based on a **sample**:
+
+  - Need to know the probability of observing a particular event
+  
+    - Events are numerical events corresponding to values `\(y\)` of discrete random variables `\(Y\)`
+    
+  - `\(P(Y = y)\)` for all the values `\(Y\)` can take on
+  
+  - The collection of these probabilities is a **probability distribution**
+  
+---
+
+# Example: dice
+
+- Experiment: roll a pair of six-sided dice and record the sum of their faces
+
+  - Sample space consists of 36 simple events
+  
+  - Random variable `\(Y\)` is the sum of the faces
+  
+  - `\(P(Y = y) = \sum_{E_i: Y(E_i) = y}P(E_i)\)`
+  
+  - Sometimes written as `\(p(y)\)`
+  
+- Can express `\(Y\)`'s probability distribution as a **table**, a **formula**, or a **graph**
+
+---
+
+# Probability Distribution: Table
+
+
+```
+##     y samples       Pr_y
+## 1   2       1 0.02777778
+## 2   3       2 0.05555556
+## 3   4       3 0.08333333
+## 4   5       4 0.11111111
+## 5   6       5 0.13888889
+## 6   7       6 0.16666667
+## 7   8       5 0.13888889
+## 8   9       4 0.11111111
+## 9  10       3 0.08333333
+## 10 11       2 0.05555556
+## 11 12       1 0.02777778
+```
+
+---
+
+# Probability Distribution: Graph
+
+
+```r
+p %&gt;%
+  ggplot(aes(x = y,y = Pr_y)) + 
+  geom_bar(stat = 'identity')
+```
+
+&lt;img src="Lecture_3_slides_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Probability Distribution: Function
+
+`$$P(Y = y) = p(y) = \frac{6 - |7-y|}{36},\; y = \{1,2,\dots,6\}$$`
+
+- Also called a **probability mass function** or **PMF**
+
+  - The "mass of a random variable at `\(y\)`" is the PMF evaluated at `\(y\)`, or `\(p(y)\)`
+  
+---
+
+# Expectations
+
+- The probability distribution of a random variable is a **theoretical model** for the empirical distribution of data associated with a real population
+
+  - If we roll a pair of dice over and over again, the empirical distribution would look *like* (but not *identical to*) the theoretical probability distribution
+  
+- We can summarize a random variable with its central tendency and dispersion
+  
+- We can specify and manifuplate formulas describing random variables using the **expectations operator**
+
+  - **Expected value** of `\(Y\)` is `\(E(Y) \equiv \sum_y yp(y)\)`
+  
+  - Each possible value of `\(Y\)` multiplied by the probability of it appearing, summed up over all `\(y\)`
+  
+  - Apply this to the dice example!
+  
+- The **expected value** is how we talk about the central tendency of a random variable with a theoretical probability distribution
+
+  - Equivalent to the concept of the *mean of an empirical frequency distribution*
+  
+---
+
+# Expectations
+
+- Recall that the probability distribution of a random variable is a *theoretical model* for the empirical distribution of data **associated with a real population**
+
+  - If the theoretical model is **accurate**, then `\(E(Y) = \mu\)`
+  
+- `\(\mu\)` is the **population mean** which is a "parameter"
+  
+  - **Parameter**: characteristic of the distribution `\(Y\)` in the population that we never actually observe
+  
+- The expected value concent can be applied to any **function of a random variable**
+
+  - Consider any real-valued function of `\(Y\)`, denoted `\(g(Y)\)`
+  
+  - `\(E[g(Y)] = \sum_y g(y)p(y)\)`
+  
+- Instead of summing over the discrete values of `\(y\)` multiplied by their probability `\(p(y)\)`, we are summing over the discrete values of `\(y\)` that are transformed with the function `\(g(y)\)`
+
+- NB: `\(E[g(Y)] = \sum_y g(y)p(y)\)` is not a definition. We have to **prove** it.
+
+---
+
+# A proof
+
+- Denote a random variable `\(Y\)` taking on `\(n\)` values `\(y_1, y_2, \dots, y_n\)`
+
+- Denote a function `\(g(y)\)` that takes on `\(m\)` different values `\(g_1, g_2, \dots, g_m,\; m\leq n\)`
+
+- Note that `\(g(Y)\)` is itself a random variable
+
+  - This means we can denote a new probability function `\(p^*\)` that describes the probability that `\(g\)` takes on a value `\(g_i\)`
+  
+  - `\(p^*(g_i) = P[g(Y) = g_i]\)`
+  
+  - `\(p^*(g_i) = \sum_{y_j:g(y_j) = g_i} p(y_j)\)`
+  
+  - Definition: `\(y_j:g(y_j) = g_i\)` means "all `\(y_j\)` such that `\(g = g_i\)` when evaluated at `\(y_j\)`
+  
+---
+
+# Proof contd
+
+- Definition of expected value: `\(E[g(Y)] = \sum_{i = 1}^m g_ip^*(g_i)\)`
+
+- Substitute: `\(E[g(Y)] = \sum_{i = 1}^m g_i \bigg(\sum_{y_j:g(y_j) = g_i} p(y_j)\bigg)\)`
+
+- Rearrange: `\(E[g(Y)] = \sum_{i = 1}^m \bigg(\sum_{y_j:g(y_j) = g_i} g_i p(y_j)\bigg)\)`
+
+- Substitute: `\(E[g(Y)] = \sum_{i = 1}^m g(y_j) p(y_j)\)`
+
+- Simplify: `\(E[g(Y)] = \sum_y g(y)p(y) \blacksquare\)`
+
+---
+
+# Variance
+
+- Using these tools, we can also define the variance of `\(Y\)`
+
+- Remember that the variance of an empirical variable is `\(s^2 = \frac{1}{N}\sum_{i = 1}^N (y_i - \bar{y})^2\)`
+
+- Same idea for a random variable!
+
+- `\(\textit{VAR}(Y) \equiv E[(Y-E(Y))^2]\)`
+
+- If `\(Y\)` accurately describes the population distribution, then `\(\textit{VAR}(Y) = E[(Y - \mu)^2]\)`
+
+- Denote `\(\textit{VAR}(Y) = \sigma^2\)` and the standard deviation of `\(Y\)` is `\(\sqrt{\sigma^2} = \sigma\)`
+
+---
+
+# Example
+
+&lt;center&gt;&lt;img src="figs/example_3_2.png" width="30%"&gt;&lt;/center&gt;
+
+- What is the mean, variance, and standard deviation of `\(Y\)`?
+
+--
+
+- Mean: `\(E(Y) = \sum_{y = 0}^3 yp(y) = (0)(1/8) + (1)(1/4) + (2)(3/8) + (3)(1/4) = 1.75\)`
+
+- Variance: `\(\sigma^2 = E[(Y - \mu)^2] = \sum_{y = 0}^3 (y - \mu)^2 p(y)\)`
+
+  - `\((0 - 1.75)^2(1/8) + (1 - 1.75)^2(1/8) + (2 - 1.75)^2(1/8) + (3 - 1.75)^2(1/8) = 0.9375\)`
+  
+- Standard deviation: `\(\sigma = \sqrt{\sigma^2} = \sqrt{0.9375} = 0.97\)`
+
+---
+
+# Helpful results
+
+- `\(E(c) = c\)`
+
+  - Let `\(g(Y) \equiv c\)`
+  
+  - `\(E(c) = \sum_y cp(y)\)`
+  
+  - `\(E(c) = c\sum_y p(y)\)`
+  
+  - Axiom 2: `\(\sum_y p(y) = 1\)`
+  
+  - Thus `\(E(c) = c\;\blacksquare\)`
+  
+---
+
+# Helpful results
+
+- `\(E[cg(Y)] = cE[g(Y)]\)`
+
+  - `\(E[cg(Y)] = \sum_y cg(y)p(y)\)`
+  
+  - `\(E[cg(Y)] = c\sum_y g(y)p(y)\)`
+  
+  - `\(E[cg(Y)] = cE[g(Y)]\; \blacksquare\)`
+  
+---
+
+# Helpful results
+
+- We can **distribute expectations**: consider `\(k = 2\)`
+
+  - `\(g_1(Y) + g_2(Y)\)` is a function of `\(Y\)`: `\(E[g_1(Y) + g_2(Y)] = \sum_y[g_1(y) + g_2(y)]p(y)\)`
+  
+  - `\(E[g_1(Y) + g_2(Y)] \sum_y[g_1(y)p(y)] + \sum_y[g_2(y)p(y)]\)`
+  
+  - `\(E[g_1(Y) + g_2(Y)] = E[g_1(Y)] + e[g_2(Y)]\; \blacksquare\)`
+  
+---
+
+# Theoretical Probability Models
+
+- Three examples
+
+  - the Bernoulli
+  
+  - the Binomial
+  
+  - the Poisson
+  
+---
+
+# Bernoulli
+
+- A Bernoulli experiment is the *observation of an experiment consisting of one trial with two outcomes: zero or one*
+
+  - `\(Y = \{0,1\}\)`
+  
+  - I.e., coin toss, whether someone approves of Biden's performance, whether a country signs a treaty
+  
+- A Bernoulli random variable is characterized by one parameter `\(\pi\)`: the probability of "success"
+
+- A Bernoulli probability distribution is:
+
+  - `\(p(y = 1) = \pi\)`
+  
+  - `\(p(y = 0) = 1-\pi\)`
+  
+  - Or `\(p(y) = \pi^y (1-\pi)^{(1-y)}\)`
+  
+- Practice proof: show that `\(E(Y) = \pi\)` and `\(\textit{VAR}(Y) = \pi(1-\pi)\)`
+
+---
+
+# The Binomial
+
+- A Binomial experiment is the *observation of an experiment consisting of a sequence of identical and independent Bernoulli trials*
+
+  - `\(Y\)` is the number of successes observed during the `\(n\)` trials
+  
+  - I.e., # of heads observed in `\(n\)` coin tosses, # of people approving of Biden's performance out of `\(n\)` people, # of countries signing a treaty out of `\(n\)` eligible countries
+  
+- Let's find the Binomial probability distribution!
+
+  - Let our event of interest be `\(Y = y\)` where `\(y\)` is either success or failure ($S$ or `\(F\)`)
+  
+  - One event might be `\(S,S,F,S,F,F,F,S,F,S,\dots,F,S\)`
+  
+  - Reorder to `\(S_1,S,S,S,\dots,S,S_y\)` and `\(F_1,F,F,\dots,F,F_{n-y}\)`
+  
+  - The number of successes is simply `\(y\)`, and the number of failures is `\(n-y\)`
+  
+---
+
+# The Binomial contd
+
+- This event can be expressed with set notation as the **intersection** of `\(n\)` simple events: `\(S_1 \cap S_2 \cap \dots S_y \cap F_1 \cap F_2 \cap \dots F_{n-y}\)`
+
+  - These are **independent** events, meaning `\(P(S_1 \cap S_2 \cap \dots S_y \cap F_1 \cap F_2 \cap \dots F_{n-y}) = P(S_1)P(S_2)\dots P(S_y)P(F_1)P(F_2)\dots P(F_{n-y})\)`
+  
+  - This is just `\(\pi^y(1-\pi)^{n-y}\)`...same as Bernoulli!
+  
+  - BUT! Not probability of `\(Y=y\)` because the event `\(Y=y\)` can happen in many different ways than the above order.
+  
+- How many different ways are there to order `\(y\)` `\(S\)`'s and `\(n-y\)` `\(F\)`'s?
+
+  - Number of different ways we can choose `\(y\)` elements out of a total of `\(n\)` elements
+  
+  - `\(n \choose y\)` or `\(\frac{n!}{y!(n - y)!}\)`
+  
+- Thus the Binomial probability distribution is `\(p(y) = \frac{n!}{y!(n-y)!} \pi^y(1-\pi)^{n-y}\)`
+
+---
+
+# Example
+
+- 9 students in class, 5 males. If I pick 6 at random with replacement, what is the chance I pick the same number of males and females?
+
+  - Call "success" a female: `\(\pi = \frac{4}{9}\)`
+  
+  - `\(n = 6\)` (number of trials)
+  
+  - `\(y = 3\)` (number of successes)
+  
+- Thus `\(p(Y = 3) = \frac{6!}{3!(6-3)!} \bigg(\frac{4}{9}\bigg)^3\bigg(1 - \frac{4}{9}\bigg)^{6-3} \approx 0.30\)`
+
+- What if I draw six students at random with replacement, on average how many females will I pick? And how much will this number vary over repeated draws of six?
+
+---
+
+# The Poisson
+
+- A Poisson experiment is *the observation of a count of events that occur in an interval, broadly defined*.
+
+  - An **interval**: a given space, time period, or any other dimension
+  
+  - I.e., environmental laws per Congressional session
+  
+  - Errors per page
+  
+  - Government shutdowns per decade
+  
+  - Homeless centers per census tract
+  
+- A Poisson can be understood as a Binomial experiment as the number of trials approaches infinity
+
+---
+
+# The Poisson contd
+
+- Split the interval into `\(n\)` subintervals, each so small that at most one event could occur in it
+
+  - Thus, each subinterval can be thought of as a Bernoulli trial: `\(p(y) = \pi^y(1-\pi)^{1-y}\)`
+  
+  - And `\(n\)` subintervals can be thought of as a Binomial: `\(p(y) = \frac{n!}{y!(n-y)!} \pi^y(1-\pi)^{n-y}\)`
+  
+- How many subintervals are required? Who knows. But we can make them infinitely small by taking the limit of the Binomial as `\(n \rightarrow \infty\)`
+
+  - Interested in the number of successes over the interval: `\(\lambda = n\pi\)`
+  
+  - `\(\lim_{n\rightarrow\infty} \frac{n!}{y!(n-y)!} \pi^y(1-\pi)^{n-y}\)`
+  
+  - `\(\lim_{n\rightarrow\infty} \frac{n!}{y!(n-y)!} \bigg(\frac{\lambda}{n}\bigg)^y \bigg(1 - \frac{\lambda}{n}\bigg)^{n-y}\)`
+  
+---
+
+# The Poisson contd
+
+- Note that, by the definition of `\(e\)`, `\(\lim_{n\rightarrow\infty}\bigg(1 - \frac{\lambda}{n}\bigg)^n = e^{-\lambda}\)`
+  - `\(\lim_{n\rightarrow\infty} \frac{n!}{y!(n-y)!} \bigg(\frac{\lambda}{n}\bigg)^y \bigg(1 - \frac{\lambda}{n}\bigg)^{n} \bigg(1 - \frac{\lambda}{n}\bigg)^{-y}\)`
+  
+- Thus:
+
+  - `\(\lim_{n\rightarrow\infty} \frac{n!}{y!(n-y)!} \frac{\lambda^y}{n^y}e^{-\lambda}(1)\)`
+  
+  - `\(\frac{e^{-\lambda}\lambda^y}{y!} \lim_{n \rightarrow\infty} \frac{n!}{(n-y)!n^y}\)`
+  
+  - `\(\frac{\lambda^y}{y!}e^{-\lambda} \lim_{n \rightarrow\infty} \frac{n(n-1)(n-2)\dots(n-y+1)}{n^y}\)`
+  
+  - `\(\frac{\lambda^y}{y!}e^{-\lambda} \lim_{n \rightarrow\infty} \frac{n}{n} \frac{(n-1)}{n} \frac{n-2}{n} \dots \frac{n - y + 1}{n}\)`
+
+---
+
+# The Poisson contd
+
+- And finally
+
+  - `\(\frac{\lambda^y}{y!}e^{-\lambda} \lim_{n \rightarrow\infty} 1 \bigg(1 - \frac{1}{n}\bigg)\bigg(1 - \frac{2}{n}\bigg)\dots \bigg(1 - \frac{(y + 1)}{n}\bigg)\)`
+  
+  - `\(\frac{\lambda^y}{y!}e^{-\lambda} (1)\)`
+  
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

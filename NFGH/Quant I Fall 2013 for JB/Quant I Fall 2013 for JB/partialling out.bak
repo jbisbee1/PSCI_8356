@@ -1,0 +1,121 @@
+
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[abbr]{harvard}
+\usepackage{amssymb}
+\usepackage{setspace,graphics,epsfig,amsmath,rotating,amsfonts,mathpazo}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2960}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{Created=Thursday, September 11, 2008 15:11:56}
+%TCIDATA{LastRevised=Monday, November 18, 2013 12:40:30}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Articles\SW\article.egan">}
+
+\topmargin=0 in \headheight=0in \headsep=0in \topskip=0in \textheight=9in \oddsidemargin=0in \evensidemargin=0in \textwidth=6.5in
+\input{tcilatex}
+\begin{document}
+
+
+New York University
+
+Wilf Family Department of Politics
+
+Fall 2013
+
+\begin{center}
+{\large \textbf{Quantitative Research in Political\ Science I}}
+
+Professor Patrick Egan
+
+\bigskip
+
+\textbf{Partialling Out\footnote{%
+borrowing heavily from\ Angrist and Pischke's \textit{Mostly Harmless
+Econometrics} (pp. 35-36).}}
+\end{center}
+
+Another way to write the $k$'th element of the vector of OLS estimates $%
+\widehat{\mathbf{\beta }}=\left( \mathbf{X}^{\prime }\mathbf{X}\right) ^{-1}%
+\mathbf{X}^{\prime }\mathbf{y}$ is:%
+\begin{equation*}
+\widehat{\beta }_{k}=\frac{cov\left( y_{i},\widetilde{x}_{ki}\right) }{%
+var\left( \widetilde{x}_{ki}\right) },
+\end{equation*}
+
+where $\widetilde{x}_{ki}$ is the residual of the regression of $x_{k}$ on
+all the other $x$'s in the model, i.e.,%
+\begin{eqnarray*}
+x_{ki} &=&\widehat{\delta }_{0}+\sum\limits_{j\neq k}\widehat{\delta }%
+_{j}x_{ji}+\widetilde{x}_{ki} \\
+\widetilde{x}_{ki} &=&x_{ki}-\widehat{\delta }_{0}-\sum\limits_{j\neq k}%
+\widehat{\delta }_{j}x_{ji} \\
+\widetilde{x}_{ki} &=&x_{ki}-\widehat{x}_{ki}
+\end{eqnarray*}
+
+This shows us that each coefficient in a multivariate regression is the
+bivariate slope coefficient for the corresponding regressor after \textbf{%
+partialling out }the variation of all the other covariates with $y$ and
+their covariation with $x_{k}$.\bigskip\ \ 
+
+A [plain-language] proof: re-write $y_{i}$ as:%
+\begin{equation*}
+y_{i}=\widehat{\beta }_{0}+\widehat{\beta }_{1}x_{1i}+...+\widehat{\beta }%
+_{k}x_{ki}+...+\widehat{\beta }_{K}x_{Ki}+\widehat{u}_{i}
+\end{equation*}
+
+Now note that:
+
+\begin{itemize}
+\item because $\widetilde{x}_{k}$ is a linear combination of all the $x$'s,
+it is by construction uncorrelated with the $\widehat{u}$;
+
+\item because $\widetilde{x}_{k}$ is a residual from a regression on all the
+other $x$'s in the model, it is by construction uncorrelated with these $x$'s
+
+\item and for the same reason, $cov\left( \widetilde{x}_{ki},x_{ki}\right) $
+is just $var\left( \widetilde{x}_{ki}\right) $
+
+\item thus $cov\left( y_{i},\widetilde{x}_{ki}\right) $ simplifies to    
+\begin{eqnarray*}
+cov\left( y_{i},\widetilde{x}_{ki}\right)  &=&cov\left( \widehat{\beta }%
+_{k}x_{ki},\widetilde{x}_{ki}\right)  \\
+&=&\widehat{\beta }_{k}var\left( \widetilde{x}_{ki}\right) 
+\end{eqnarray*}%
+so%
+\begin{equation*}
+\widehat{\beta }_{k}=\frac{cov\left( y_{i},\widetilde{x}_{ki}\right) }{%
+var\left( \widetilde{x}_{ki}\right) }.
+\end{equation*}
+\end{itemize}
+
+Note that the magnitude of $\widehat{\beta }_{k}$ is larger to the extent
+that $y$ varies with the variation in $x_{k}$ after accounting for $x_{k}$'s
+covariation with the other $x$'s in the model. \ This nicely corresponds to
+our notion of $\widehat{\beta }_{k}$ as an estimate of the \textit{ceteris
+paribus}/all things being equal relationship between $y$ and $x_{k}$%
+.\bigskip 
+
+It can also be shown that 
+\begin{equation*}
+\widehat{\beta }_{k}=\frac{cov\left( \widetilde{y}_{ki},\widetilde{x}%
+_{ki}\right) }{var\left( \widetilde{x}_{ki}\right) },
+\end{equation*}%
+where $\widetilde{y}_{ki}$ is the residual from the regression of $y$ on all
+the $x$'s \textit{except }$x_{k}$ in the model. \bigskip 
+
+One thing that's nice about both of these formulations is that in a
+bivariate plot of either $y$ on $\widetilde{x}_{k}$ or $\widetilde{y}_{k}$
+on $\widetilde{x}_{k}$, the slope of the (bivariate) best-fit line is, in
+fact, $\widehat{\beta }_{k}.$ \ Here's an example from my book. \ I'm
+interested in the relationship between the extent to which a political
+party's \textquotedblleft owned\textquotedblright\ issues are salient in a
+U.S. presidential election campaign and how well the party performs in the
+election. \ The table displays a series of regression equations modeling $y$
+(election performance) as a function of $x_{k}$ (the salience of the party's
+owned issues) and other potential confounding $x$'s:
+
+\end{document}

@@ -1,0 +1,240 @@
+
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[abbr]{harvard}
+\usepackage{amssymb}
+\usepackage{setspace,graphics,epsfig,amsmath,rotating,amsfonts,mathpazo}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2960}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{Created=Thursday, September 11, 2008 15:11:56}
+%TCIDATA{LastRevised=Thursday, December 12, 2013 17:50:19}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Articles\SW\article.egan">}
+
+\topmargin=0 in \headheight=0in \headsep=0in \topskip=0in \textheight=9in \oddsidemargin=0in \evensidemargin=0in \textwidth=6.5in
+\input{tcilatex}
+\begin{document}
+
+
+New York University
+
+Wilf Family Department of Politics
+
+Fall 2013\bigskip 
+
+\begin{center}
+{\large \textbf{Quantitative Research in Political\ Science I}}
+
+Professor Patrick Egan
+
+\bigskip
+\end{center}
+
+\bigskip
+
+\begin{center}
+\textbf{FINAL\ EXAMINATION: WRITTEN PART}
+
+(70 POINTS\ TOTAL)\textbf{\bigskip }
+
+\textit{This exam is open-book, open-note.}
+
+\bigskip
+
+\bigskip
+
+\newpage
+
+\bigskip
+\end{center}
+
+\begin{enumerate}
+\item \textbf{(15 points)} \ \ Consider the following (admittedly simple)
+example. \ A DGP defined by the population model $y=\beta _{0}+\beta _{1}x+u$
+gives rise to the following dataset of 4 observations:%
+\begin{equation*}
+\mathbf{y}=%
+\begin{bmatrix}
+4 \\ 
+2 \\ 
+-6 \\ 
+1%
+\end{bmatrix}%
+\qquad \text{and \ \ \ \ }\mathbf{X}=%
+\begin{bmatrix}
+1 & 2 \\ 
+1 & 3 \\ 
+1 & -1 \\ 
+1 & 4%
+\end{bmatrix}%
+,
+\end{equation*}
+
+where the second column of $\mathbf{X}$ is composed of observations of the
+variable $x$. \ In answering the following questions, be sure to show all
+your work. \ \bigskip
+
+\begin{enumerate}
+\item Show that the OLS estimates $\widehat{\beta }_{0}\approx -2.89$ and $%
+\widehat{\beta }_{1}\approx 1.57.$ \ You will be glad to know that 
+\begin{equation*}
+\left( \mathbf{X}^{\prime }\mathbf{X}\right) ^{-1}\approx 
+\begin{bmatrix}
+.536 & -.143 \\ 
+-.143 & .071%
+\end{bmatrix}%
+.
+\end{equation*}
+
+\item Show that $\widehat{\sigma }\equiv SEE\approx 3.33$.\bigskip
+
+\item Show that $R^{2}\approx .61$ .\newpage
+\end{enumerate}
+
+\item \textbf{(15 points)} \ Consider four random variables $W,$ $X,$ $Y$
+and $Z$, where%
+\begin{gather*}
+cov(W,Y)>0;\quad cov(W,X)=0; \\
+cov(Z,Y)=0;\quad cov(Z,X)<0\text{, } \\
+\text{and }cov(X,Y)\text{ is unknown.}
+\end{gather*}%
+\smallskip
+
+Say whether the following statements are TRUE or FALSE, and explain why. \
+Assume we have a large number of observations of the joint distribution of
+all four variables from an i.i.d. random sample.
+
+\begin{enumerate}
+\item If we estimate the equation%
+\begin{equation*}
+\widehat{y_{i}}=\widehat{\beta }_{0}+\widehat{\beta }_{1}x_{i},
+\end{equation*}%
+$\widehat{\beta }_{1}$ is a \textit{biased} estimate of the parameter $\beta
+_{1}$ due to the omission of $w$ and $z$. \bigskip \bigskip
+
+\item The estimate of the parameter $\beta _{1}$ we obtain from the
+estimated equation 
+\begin{equation*}
+\widehat{y_{i}}=\widehat{\beta }_{0}+\widehat{\beta }_{1}x_{i}
+\end{equation*}%
+will be \textit{more efficient} than the estimate of the parameter $\beta
+_{1}$ obtained from the equation%
+\begin{equation*}
+\widehat{y_{i}}=\widehat{\beta }_{0}+\widehat{\beta }_{1}x_{i}+\widehat{%
+\beta }_{2}z_{i}.
+\end{equation*}%
+\bigskip
+
+\item The estimate of the parameter $\beta _{1}$ we obtain from the
+estimated equation%
+\begin{equation*}
+\widehat{y_{i}}=\widehat{\beta }_{0}+\widehat{\beta }_{1}x_{i}
+\end{equation*}%
+will be \textit{more efficient} than the estimate of $\beta _{1}$ obtained
+from the equation%
+\begin{equation*}
+\widehat{y_{i}}=\widehat{\beta }_{0}+\widehat{\beta }_{1}x_{i}+\widehat{%
+\beta }_{2}w_{i}.
+\end{equation*}%
+\newpage
+\end{enumerate}
+
+\item \textbf{(15 points) \ }Consider three variables $X,$ $Y$ and $Z$,
+where in the population
+
+\begin{itemize}
+\item $X$ takes on the value zero 50 percent of the time and the value one
+50 percent of the time, while
+
+\item $Z$ takes on the value zero 3 percent of the time and the value one 97
+percent of the time.
+\end{itemize}
+
+\bigskip
+
+You are interested in estimating the \textit{ceteris paribus }association of 
+$X$ with $Y$ as well as the \textit{ceteris paribus }association of $Z$ with 
+$Y.$ \ To do so, you use the model 
+\begin{equation*}
+y_{i}=\beta _{0}+\beta _{1}x_{i}+\beta _{2}z_{i}+u_{i}.
+\end{equation*}
+
+Assume that this model is properly specified, and the Gauss-Markov
+assumptions hold.\bigskip
+
+\begin{enumerate}
+\item One or more of the following four statements is true. \ In a few
+sentences, identify the correct statement(s) and explain:%
+\begin{eqnarray*}
+var\left( \beta _{1}\right) &=&\frac{\sigma ^{2}}{n\cdot var\left( x\right)
+\cdot \left( 1-R_{x}^{2}\right) }\text{ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }%
+\widehat{var\left( \widehat{\beta _{1}}\right) }=\frac{\widehat{\sigma }^{2}%
+}{n\cdot var\left( x\right) \cdot \left( 1-R_{x}^{2}\right) } \\
+var\left( \widehat{\beta _{1}}\right) &=&\frac{\sigma ^{2}}{n\cdot var\left(
+x\right) \cdot \left( 1-R_{x}^{2}\right) }\text{ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+\ \ \ }\widehat{var\left( \widehat{\beta _{1}}\right) }=\frac{\sigma ^{2}}{%
+n\cdot var\left( x\right) \cdot \left( 1-R_{x}^{2}\right) }
+\end{eqnarray*}%
+\bigskip
+
+\item It is the case that $R_{x}^{2}=R_{z}^{2}.$ \ Why can we say for sure
+that 
+\begin{equation*}
+var\left( \widehat{\beta _{1}}\right) <var\left( \widehat{\beta _{2}}\right) 
+\text{ \ ?}
+\end{equation*}%
+\bigskip
+
+\item All things being equal, with which of the two findings should you be
+more comfortable? \ Why?
+
+\begin{itemize}
+\item A failure to reject the null that the \textit{ceteris paribus }%
+association between $Z$ and $Y$ is zero.
+
+\item A failure to reject the null that the \textit{ceteris paribus }%
+association between $X$ and $Y$ is zero. \newpage
+\end{itemize}
+\end{enumerate}
+
+\item \textbf{(25 points) \ }Consider the Stata output on the following
+page. \ It is an OLS analysis of "feeling thermometer" ratings given to
+Barack Obama (on a zero to 100 scale) in the 2012 American National\
+Election\ Studies by a nationally representative sample of American adults.
+\ Be sure to explain your answers and show your work.\bigskip 
+
+\begin{enumerate}
+\item What proportion of the respondents in the sample own guns?\bigskip 
+
+\item What is the rating predicted to be given to\ Obama by a
+(non-Hispanic)\ African American man born in the U.S. whose education and
+age are equal to the American average, whose household income is \$60,000,
+and who is a military veteran and a union member but who is not a gun
+owner?\bigskip 
+
+\item How many standard deviations away from $y$ is the typical prediction $%
+\widehat{y}$ ?\bigskip 
+
+\item The constant term in the regression $\approx 72.$ \ Describe the
+hypothetical American whose predicted rating of Obama is indicated by this
+term (however nonsensical the prediction may be).\bigskip 
+
+\item What is the approximate predicted difference in ratings given to Obama
+between someone with a household income of \$30,000 and someone with an
+income of \$45,000, holding all other covariates constant?\bigskip 
+
+\item What is $\frac{\partial ObamaFT}{\partial AGE}$? \ Your response
+should include both a mathematical expression and a few sentences of
+explanation.\bigskip 
+
+\item What is $\frac{\partial ObamaFT}{\partial EDUC}$? \ Your response
+should include both a mathematical expression and a few sentences of
+explanation.
+\end{enumerate}
+\end{enumerate}
+
+\end{document}

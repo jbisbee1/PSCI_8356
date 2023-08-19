@@ -1,0 +1,134 @@
+
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[abbr]{harvard}
+\usepackage{amssymb}
+\usepackage{setspace,graphics,epsfig,amsmath,rotating,amsfonts,mathpazo}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2953}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{Created=Thursday, September 11, 2008 15:11:56}
+%TCIDATA{LastRevised=Wednesday, November 17, 2010 16:55:02}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Articles\SW\article.egan">}
+
+\topmargin=0 in \headheight=0in \headsep=0in \topskip=0in \textheight=9in \oddsidemargin=0in \evensidemargin=0in \textwidth=6.5in
+\input{tcilatex}
+\begin{document}
+
+
+New York University
+
+Wilf Family Department of Politics
+
+Fall 2010
+
+\begin{center}
+{\large \textbf{Quantitative Research in Political\ Science I}}
+
+(G53.1250)
+
+Professor Patrick Egan
+
+\bigskip
+
+\textbf{PROBLEM\ SET 7: Due Monday, November 22 at beginning of class.}
+\end{center}
+
+\textit{A reminder: you may work with others in the class on this problem
+set, and you are in fact encouraged to do so. \ However, the work you hand
+in must be your own. \ Your work must be word-processed in order for you to
+receive credit for the assignment.}
+
+\bigskip
+
+For this assigment, you are to use the "\textit{cps sample.dta}"\textit{\ }%
+dataset found on our class Blackboard site. \ As mentioned in class, this is
+a sample of $N=5,000$ from the Current Population Survey, conducted every
+month by the U.S.\ Census Bureau with a representative sample of U.S.
+households. \ The \textit{cps sample.dta }datafile is from the CPS survey
+conducted in November 2004.\bigskip\ \ 
+
+\textit{Note: }the questions require that you analyze the CPS's household
+income variable (\texttt{hufaminc}). \ It is coded at the ordinal level, but
+the analyses require that it be at an interval level. \ To do this, create a
+recoded version\ of \texttt{hufaminc }in which each case is assigned a
+household income equal to the midpoint of their interval of \texttt{%
+hufaminc. }Pick some reasonable value for the highest interval of \texttt{%
+hufaminc. }\bigskip
+
+\begin{enumerate}
+\item The following scatterplot was produced by an analyst interested in
+exploring the relationship between turnout (measured with variable \texttt{%
+pes1}) and household income (\texttt{hufaminc}). \ The Stata command
+generating the scatterplot was \texttt{twoway (scatter hufaminc pes1 ).}%
+\bigskip
+
+\FRAME{dtbphF}{3.6322in}{2.6628in}{0pt}{}{}{Figure}{\special{language
+"Scientific Word";type "GRAPHIC";maintain-aspect-ratio TRUE;display
+"USEDEF";valid_file "T";width 3.6322in;height 2.6628in;depth
+0pt;original-width 5.5945in;original-height 4.0949in;cropleft "0";croptop
+"1";cropright "1";cropbottom "0";tempfilename
+'LC1TUA00.wmf';tempfile-properties "XPR";}}
+
+\begin{enumerate}
+\item There are many, many things wrong with this figure with regard to both
+accuracy and style. \ Name as many as you can.\bigskip
+
+\item Construct a well-designed figure that best displays the relationship
+between household income and turnout. \ This will require recoding variables
+and thinking carefully about the levels at which both variables are
+measured. \ Provide the Stata (or, if you prefer to use it, \textit{R})
+commands you used to recode variables and construct the figure. In a brief
+paragraph, explain why you made the choices that you did.\bigskip
+
+\item In a few sentences, describe the relationship you see between income
+and turnout.\bigskip
+\end{enumerate}
+
+\item Which relationship--that between income and turnout, or education and
+turnout--best approximates a linear relationship? \ Name the proper
+statistic to be used in answering this question, calculate it, and answer
+the question. \ The variable to use for educational attainment is \texttt{%
+peeduca}. Note that it, like \texttt{hufaminc}, is coded at the ordinal
+level but you want to analyze it as an interval-level variable. \ \bigskip
+
+\item You want to investigate the relationship between country of birth and
+current income. \ 
+
+\begin{enumerate}
+\item You wish to divide the sample into three groups: (1) those not born in
+the U.S.; (2) those born in the U.S. but who have at least one parent not
+born in the U.S.; and (3) those born in the U.S. with both parents born in
+the U.S. \ Using the variables \texttt{hufaminc, penatvty}, \texttt{pemntvty}%
+, and \texttt{pefntvty}, construct a boxplot which displays the distribution
+of household income for each of these three groups. \ \textit{Hint}: doing
+this will require creating new variables from \texttt{penatvty}, \texttt{%
+pemntvty}, and \texttt{pefntvty.} \ You will also need to make choices about
+how to deal with missing values. \ Justify any choices you make in a note
+accompanying the figure.\bigskip
+
+\item Using the proper statistical tests with an $\alpha =.05$, answer the
+following questions. \ Note that additional recoding may be necessary.
+
+\begin{enumerate}
+\item Do native-born Americans have higher incomes than non-native born
+Americans?
+
+\item Do native-born Americans whose parents were born in the U.S. have
+higher incomes than native-born Americans with at least one parent \textit{%
+not }born in the U.S.?
+
+\item Do Americans with a foreign-born father and a native-born mother have
+lower incomes than Americans with a foreign-born mother and a native-born
+father?\bigskip
+\end{enumerate}
+
+\item In a few sentences, describe your results. \ \texttt{\ \ }
+\end{enumerate}
+\end{enumerate}
+
+\end{document}

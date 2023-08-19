@@ -1,0 +1,2291 @@
+
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[abbr]{harvard}
+\usepackage{amssymb}
+\usepackage{setspace,graphics,epsfig,amsmath,rotating,amsfonts,mathpazo}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2960}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{Created=Sunday, September 21, 2008 09:09:16}
+%TCIDATA{LastRevised=Sunday, November 03, 2013 15:35:52}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Articles\SW\article.egan">}
+%TCIDATA{<META NAME="PrintViewPercent" CONTENT="100">}
+%TCIDATA{ComputeDefs=
+%$Y$
+%}
+
+
+\parskip=0pt
+\topmargin=0 in \headheight=0in \headsep=0in \topskip=0in \textheight=9in \oddsidemargin=0in \evensidemargin=0in \textwidth=6.5in
+\input{tcilatex}
+\setcounter{section}{6}
+
+\begin{document}
+
+
+\singlespacing
+
+\textbf{NYU Department of Politics - Quant I}
+
+\textbf{Fall 2013 - Prof.\ Patrick Egan}
+
+\doublespacing
+
+\section{Lecture 7}
+
+\subsection{Sampling, sample statistics and sampling distributions}
+
+\begin{itemize}
+\item Let's think about our journey through the world of inferential
+statistics so far. \ Our goal the entire time has been to come up with the
+best possible way to make inferences about populations from samples. \ To do
+this, we have:
+
+\begin{itemize}
+\item recast social phenomena as \textit{experiments }that yield
+observations for analysis.
+
+\begin{itemize}
+\item we called the outcomes of these experiments \textit{events}
+
+\item and defined the \textit{sample space }of an experiment as the set of
+all the events that are possible
+
+\item and considered carefully how we assign probabilities to events of
+interest.
+\end{itemize}
+
+\item we then defined a \textit{random variable} as a function mapping a
+sample space to the real numbers
+
+\begin{itemize}
+\item and then discussed the ways we describe the probability distribution
+of a random variable...
+
+\item and the probability distribution of a \textit{function }of random
+variables.
+\end{itemize}
+\end{itemize}
+
+\item In this context, observed social phenomena (election results,
+outbreaks of war, passage of legislation) can all be considered realizations
+of random variables.
+
+\begin{itemize}
+\item Let's be a little more clear about this. \ The phenomena that social
+scientists study are random events.
+
+\item This may sound odd: in common usage we say something is "random" when
+it cannot be anticipated.
+
+\item Social scientists use this term differently. \ When we say an event is
+random, we mean that it is probabilistic rather than deterministic.
+
+\item For a random event, we attempt to specify the causal processes that
+alter the chance that it occurs. \ But we cannot specified the causal
+process that guarantee the event will occur. \ If we could, we would be
+studying a deterministic event.
+
+\begin{itemize}
+\item An election is a good example of a random event. \ The best we can do
+is develop a theory that specifies factors important to determining election
+winners and then hypothesize that these factors change the odds of a
+particular result.
+\end{itemize}
+
+\item Thus, saying that teh variables in our theories are random variables
+amounts to saying that we expect that the values of these variables that we
+observe are draws from from an associated probability distribution.
+\end{itemize}
+
+\item Finally, we arrived at a very powerful result. \ If the probability
+distribution is an accurate representation of the population frequency
+distribution, then the \textit{expected value }of a random variable is the
+population mean, $\mu ,$ where we define expected value as%
+\begin{eqnarray*}
+E\left( Y\right) &\equiv &\sum_{y}yp\left( y\right) \text{ in the discrete
+case and} \\
+E\left( Y\right) &\equiv &\int_{y}yf\left( y\right) dy\text{ in the
+continuous case.}
+\end{eqnarray*}%
+\ 
+
+\item Now it's time to put all this theory to work helping us undertake the
+fundamental challenge we face in statistics: making inferences from samples
+to populations.
+
+\item The relevance of what we've learned previously to this task is that
+estimates are almost always functions of the $n$ random observations that
+appear in a sample. \ Therefore, they are:
+
+\begin{itemize}
+\item outcomes of experiments that are themselves random variables with
+their own probability distributions.
+\end{itemize}
+
+\item If we can be very specific about the process giving rise to the
+sample, we can develop an \textbf{estimator} to make inferences from the
+sample to the population. \ 
+
+\item An \textbf{estimator }is a \textit{rule}, often expressed as a
+formula, that tells us how to calculate an estimate from a sample.
+
+\item As an example, consider the following as an estimator for the
+population mean, $\mu :$
+
+\begin{itemize}
+\item Draw a random sample of $n$ observations, $y_{1},y_{2},...y_{n},$ from
+the population and employ the observed sample mean%
+\begin{equation*}
+\overline{Y}\equiv \frac{y_{1}+y_{2}+...+y_{n}}{n}=\frac{1}{n}\sum_{i}y_{i}
+\end{equation*}
+\end{itemize}
+
+\item As an estimator for $\mu ,$ Y-bar seems pretty intuitive. \ But let's
+be precise about just how good this estimate is for $\mu .$
+
+\begin{itemize}
+\item To do this, we first think of each of the $n$ draws that gave rise to
+the sample as a realization of a random variable. \ 
+
+\item An example: we want to know the mean income of the American
+population, $\mu .$
+
+\item To do so, I draw a sample of the American population and ask each
+person in the sample one question: what is your annual income?
+
+\item Denote the response given by the first person in my sample, draw
+number 1, as $y_{1}.$ \ 
+
+\item Now here's the key concept: $y_{1}$ is one of literally millions of
+responses I could have observed in my first survey participant. \ Therefore
+it is a realization of the random variable $Y_{1}.$
+
+\item Now do this again: pick participant number 2 and ask him or her the
+same question. \ My observation $y_{2}$ is again one of millions of
+responses I could have observed for respondent number 2. \ Therefore it is a
+realization of the random variable $Y_{2}$.
+
+\item So if we think about it this way, a sample of n observations is the
+realization of how many random variables? \ $n$: \ from $%
+Y_{1},Y_{2},...Y_{n}.$
+
+\item OK, now let's think again about Y-bar. \ 
+\begin{equation*}
+\overline{Y}=\frac{1}{n}\sum_{i}Y_{i},
+\end{equation*}
+
+\item In this context, our sample of $n$ observations is just one possible
+realization of Y-bar.
+
+\item That is, Y-bar is a \textit{function }of random variables, and
+therefore is \textit{itself }a random variable. \ \ 
+
+\item Note use of capital letters here, we are talking about theoretical,
+not observed, quantitites. \ In keeping with our convention, little\ $\bar{y}
+$ is a realization of the random variable $\overline{Y}.$ \ 
+
+\item Because it is a random variable, $\overline{Y}$ has a probability
+distribution. \ To specify it, we will stipulate some simple but powerful
+assumptions that hold whenever we have a \textbf{random sample}. \ (Recall
+how we defined random sample: each of the $\binom{N}{n}$ different possible
+samples has an equal probability of being drawn.) \ 
+\end{itemize}
+
+\item This generates the canonical case, in which we have a function of the
+random variables $Y_{1},Y_{2},...Y_{n}$ observed in a random sample from a
+population of interest.
+
+\begin{itemize}
+\item When we have a random sample from a large enough population, we can
+safely assume that the RVs $Y_{1},Y_{2},...Y_{n}$ are independent and
+identically distributed (\textquotedblleft i.i.d.\textquotedblright ). \ 
+
+\begin{itemize}
+\item To recall: $Y_{1},Y_{2},...Y_{n}$ are said to be \textbf{independent}
+iff%
+\begin{equation*}
+F(y_{1},y_{2},...y_{n})=F_{1}(y_{1})F_{2}(y_{2})\cdot ...\cdot F_{n}(y_{n})%
+\text{ for every }n\text{-tuple }(y_{1},y_{2},...y_{n})\text{, and}
+\end{equation*}
+\end{itemize}
+
+\item Now we introduce another concept: $Y_{1},Y_{2},...Y_{n}$ are said to
+be \textbf{identically distributed} iff%
+\begin{equation*}
+F_{1}(y_{1})=F_{2}(y_{2})=...=F_{n}(y_{n})=F(y)\text{ for }%
+y_{1},y_{2},...y_{n}.
+\end{equation*}
+
+\item In this context, $\overline{Y}=\frac{1}{n}\sum_{i}Y_{i}$ is a \textbf{%
+sample statistic}, which we define as a function of the observable random
+variables in a sample and known constants.\ 
+\end{itemize}
+
+\item We know (from the handout last time) that $E(\overline{Y})=\mu $,
+[note that this is due to the identicality assumption] and so we can be
+assured that, on average, $\overline{Y}$ should equal $\mu .$ \ So now let's
+ask, how good of an estimate is it? \ 
+
+\begin{itemize}
+\item A straightforward measure of \textquotedblleft
+goodness\textquotedblright\ would be how far off we can expect any
+realization of $\overline{Y}$ to be from the population mean, $\mu .$ \ 
+
+\item And since the mean of $\overline{Y}$ is $\mu ,$ this quantity is just
+the standard deviation of $\overline{Y},$or $\sigma _{\overline{Y}}$. $\ $%
+But THIS of course is just $\sqrt{VAR(\overline{Y})}$, which we showed last
+time to be $\sqrt{\frac{\sigma ^{\NEG{2}}}{n}}=\frac{\sigma }{\sqrt{n}}.$
+[recall that we need BOTH identicality and independence to achieve this
+result.]
+
+\item Well, because sample statistics are themselves random variables, they
+have probability distributions (recall: table, graph, formula). \ We have a
+special term for the probability distributions of sample statistics: \textbf{%
+sampling distributions}. \ The sampling distribution of a sample statistic
+is a theoretical model for the possible values of the statistic we would
+expect to observe through repeated sampling.
+
+\item The expected value and the variance of a sample statistic are
+important properties of the statistic's sampling distribution. \ For
+example, here are graphs depicting two sampling distributions of Y-bar: \
+Y-bar and Y-bar-prime:
+\end{itemize}
+\end{itemize}
+
+\begin{center}
+\FRAME{ftbpF}{6.4823in}{2.7264in}{0pt}{}{}{var of y-bar.tif}{\special%
+{language "Scientific Word";type "GRAPHIC";maintain-aspect-ratio
+TRUE;display "USEDEF";valid_file "F";width 6.4823in;height 2.7264in;depth
+0pt;original-width 8.0323in;original-height 3.3624in;cropleft "0";croptop
+"1";cropright "1";cropbottom "0";filename 'var of y-bar.tif';file-properties
+"XNPEU";}}
+\end{center}
+
+\begin{itemize}
+\item Y-bar and Y-bar-prime have the same expected value: $\mu .$ \ But
+clearly Y-bar prime, which has a smaller variance, is a better estimate of $%
+\mu $ than Y-bar. \ It's closer, on average, to $\mu $ than Y-bar. \ 
+
+\item So:
+
+\begin{itemize}
+\item we've got $\overline{Y}$, an estimate for $\mu $ that, on average,
+equals $\mu .$
+
+\item we now also know how good an estimate this is: on average, it is $%
+\frac{\sigma }{\sqrt{n}}$ units away from $\mu .$
+\end{itemize}
+
+\item But now an additional question arises$:$ what does the distribution of
+the random variable $Y$ look like? \ Often, we'll be drawing samples from
+populations about whose frequency distribution we have no idea. \ E.g., I
+want to estimate $\mu $, the mean number of potatoes eaten by the average
+American per month. \ Does the distribution of $Y$ look like this? \ Or
+this? \ Or this? \ 
+
+\FRAME{ftbpF}{4.2889in}{3.3715in}{0pt}{}{}{distributions.tif}{\special%
+{language "Scientific Word";type "GRAPHIC";maintain-aspect-ratio
+TRUE;display "USEDEF";valid_file "F";width 4.2889in;height 3.3715in;depth
+0pt;original-width 6.6384in;original-height 5.2121in;cropleft "0";croptop
+"1";cropright "1";cropbottom "0";filename
+'distributions.tif';file-properties "XNPEU";}}
+
+\item If possible, we'd really like to avoid making assumptions about the
+shape of the population distribution of $Y$ in order to describe the
+distribution of $Y$-bar.
+
+\item And, it turns out, we can...
+\end{itemize}
+
+\subsection{The Central\ Limit Theorem}
+
+\begin{itemize}
+\item ...because if my sample size is large enough, I don't need any
+assumptions about the distribution of $Y$ to describe the sampling
+distribution of $Y$-bar. \ For it turns out that if $Y_{1}...Y_{n}$ are
+i.i.d, then:
+
+\begin{itemize}
+\item $Y$-bar has a sampling distribution that is approximately Normal
+
+\item as the sample size becomes large. \ 
+
+\item This is the \textbf{central limit theorem}.
+\end{itemize}
+
+\item Before digging into the math (and we won't dig that far), let's have a
+look at a few distributions that convey the intuition (go over handout:
+\textquotedblleft Probability Distributions of $Y$ and Simulated Sampling
+Distributions of $\overline{Y}$\textquotedblright )
+
+\item The CLT is more formally stated as follows:
+
+\item Let $Y_{1},Y_{2},...Y_{n}$ be i.i.d. random variables with $%
+E(Y_{i})=\mu $ and $VAR(Y_{i})=\sigma ^{2}.$ Define%
+\begin{equation*}
+U_{n}\equiv \frac{\overline{Y}-\mu }{\sigma /\sqrt{n}}.
+\end{equation*}
+
+That is, we standardize Y-bar by (1) subtracting its hypothesized mean $(\mu
+)$ and then (2) dividing this difference by Y-bar's standard deviation $(%
+\frac{\sigma }{\sqrt{n}}).$ \ Then the CDF of $U_{n}$ converges in
+probability to (where "converges in probability to" means "as $n$ becomes
+large it is distributed as") the standard normal\ CDF. \ That is,%
+\begin{equation*}
+\underset{n\rightarrow \infty }{\lim }F_{U_{n}}(u)=\underset{n\rightarrow
+\infty }{\lim }P(U_{n}\leq u)=P(Z\leq u)=\int_{-\infty }^{u}\frac{1}{\sqrt{%
+2\pi }}e^{-t^{2}/2}dt\text{ for all }u\text{.}
+\end{equation*}
+
+\item Take a moment to appreciate the power of the CLT. \ It yields the
+sampling distribution of Y-bar \textit{without requiring any assumptions
+about the probability distribution of Y}. \ We will not cover the proof of
+the CLT in this class, as it requires knowledge of moment generating
+functions, which itself requires knowledge of Taylor series expansions. \
+Those equipped with these tools who want to satisfy themselves with a proof
+may see section 7.4 of the text.
+\end{itemize}
+
+\subsection{Estimation}
+
+\begin{itemize}
+\item With the sampling distributions yielded by the CLT in hand, we can
+develop \textbf{estimators }of population parameters. \ An estimator is a
+rule--often expressed as a formula--that tells us how to calculate an
+estimate of a population parameter. \ 
+
+\begin{itemize}
+\item Two kinds of estimates that we'll focus on here include
+
+\begin{itemize}
+\item \textbf{point estimates}--in which a single value, or point, is given
+as the estimate of the parameter
+
+\item \textbf{interval estimates}-in which two values are used to construct
+an interval that we believe contains/traps/encloses the parameter of
+interest.
+\end{itemize}
+\end{itemize}
+
+\item So the sample mean, $\overline{Y}=\frac{1}{n}\sum_{i}Y_{i},$ is one
+possible point estimator of the population mean $\mu .$
+
+\item But there are lots of others. \ For example, consider the estimator $%
+\overline{Y_{B}}=\frac{1}{n}\sum_{i}(Y_{i}+1).$ \ 
+
+\item Intuitively, we know this is a worse estimator than $Y$-bar. \ But can
+we put some meat on this intuition? \ We do this by specifying two desirable
+criteria for evaluating a potential estimator:
+
+\begin{itemize}
+\item 1. unbiasedness
+
+\item 2. (relatively) small variance, which is also known as \textbf{%
+efficiency} or \textbf{precision}.
+\end{itemize}
+
+\item First, some terminology. \ We typically write the population parameter
+for which we seek a point estimate as $\theta ,$ and a proposed estimator
+for this parameter as $\widehat{\theta }.$ \ 
+
+\item Now, here is why we've spent a fair amount of time learning about the
+math of expectations: we can use these tools to show whether an estimator is
+unbiased and to determine how precise it is.
+
+\item In fact, we define an estimator as unbiased if--in expectation--it is
+equal to the parameter it claims to estimate. \ That is, an estimator is
+unbiased if the expected value of its distribution is the parameter. $\ $%
+Formally,
+
+\begin{itemize}
+\item $\widehat{\theta }$ is an \textbf{unbiased estimator} for $\theta $ if 
+$E(\widehat{\theta })=\theta .$ \ 
+
+\item If $E(\widehat{\theta })\neq \theta ,$ then we say $\widehat{\theta }$
+is \textbf{biased}. \ 
+
+\item The \textbf{bias }of a point estimator is given by $B(\widehat{\theta }%
+)=$ $E(\widehat{\theta })-\theta .$
+\end{itemize}
+
+\item E.g. \ So one way to say that the estimator $\overline{Y_{B}}$ isn't a
+good estimator is to show that it is a biased estimator for $\mu .$ \ We do
+that by showing that $E(\overline{Y_{B}})\neq \mu $, and thus that $B(%
+\overline{Y_{B}})\neq 0.$ 
+\begin{eqnarray*}
+E(\overline{Y_{B}}) &=&E\left[ \frac{1}{n}\sum_{i}(Y_{i}+1)\right] \\
+&=&\frac{1}{n}\left\{ \left[ \sum_{i}E(Y_{i})\right] +nE(1)\right\} \\
+&=&\frac{1}{n}\left\{ \left[ n\mu \right] +n\right\} \\
+&=&\mu +1\neq \mu ,\text{ and }B(\overline{Y_{B}})=1.
+\end{eqnarray*}
+
+\item So much for the first criterion. \ Our second criterion is that we'd
+like our estimator to be as close\ as possible to $\theta $ in repeated
+sampling. \ In mathematical terms, we of course want the variance of the
+sampling distribution of our estimator to be as small as possible. \
+Recalling the definition of the variance of a random variable, we write the
+variance of an estimator $\widehat{\theta }$ as $VAR(\widehat{\theta }%
+)=E\left\{ [\widehat{\theta }-E(\widehat{\theta })]^{2}\right\} .$ In an
+ideal world, we wish for this to be as small as possible.
+
+\item Sometimes we face a tradeoff between reducing an estimator's bias and
+reducing its variance. \ One way to evaluate the tradeoff is to minimize an
+estimator's \textbf{mean square error (MSE)}, which is defined as the
+expected value of the square of the distance between the estimator and the
+parameter 
+\begin{equation*}
+MSE(\widehat{\theta })=E\left[ \left( \widehat{\theta }-\theta \right) ^{2}%
+\right] .
+\end{equation*}
+
+\item It can be shown that the MSE is equal to the sum of an estimator's
+variance plus the square of its bias:%
+\begin{equation*}
+MSE(\widehat{\theta })=VAR(\widehat{\theta })+\left[ B(\widehat{\theta })%
+\right] ^{2}.
+\end{equation*}
+
+\begin{itemize}
+\item Ask: Why does this measure include the square of its bias?
+\end{itemize}
+\end{itemize}
+
+\subsection{An example}
+
+\begin{itemize}
+\item For example, let us say that we wish estimate the parameter $\mu
+_{1}-\mu _{2},$ the difference in means of two different populations drawn
+from independent samples. \ Is the intuitive estimator, $\overline{Y_{1}}-%
+\overline{Y_{2}},$ unbiased? \ Let's see:%
+\begin{eqnarray*}
+E(\overline{Y_{1}}-\overline{Y_{2}}) &=&E(\overline{Y_{1}})-E(\overline{Y_{2}%
+}) \\
+&=&\mu _{1}-\mu _{2}.
+\end{eqnarray*}
+
+\item Yes, $\overline{Y_{1}}-\overline{Y_{2}}\ $is an unbiased estimator for 
+$\mu _{1}-\mu _{2}.$ \ Now what is its variance? \ Well,%
+\begin{eqnarray*}
+VAR(\overline{Y_{1}}-\overline{Y_{2}}) &=&VAR(\overline{Y_{1}})+VAR(%
+\overline{Y_{2}})+2COV(\overline{Y_{1}},\overline{Y_{2}}) \\
+&=&VAR(\overline{Y_{1}})+VAR(\overline{Y_{2}})\text{ \ [}\overline{Y_{1}},%
+\overline{Y_{2}}\text{ independent]} \\
+&=&\frac{\sigma _{1}^{2}}{n_{1}}+\frac{\sigma _{2}^{2}}{n_{2}},\text{ \
+[variance of Y-bar]}
+\end{eqnarray*}
+
+where $\sigma _{1}^{2}$ and $\sigma _{2}^{2}$ are the variances of
+populations 1 and 2 respectively.
+
+\item Note that we can talk about the standard error of an estimator $%
+\widehat{\theta },$ which we write $\sigma _{\widehat{\theta }}.$ \ It is
+just the square root of the variance of the estimator. \ The standard error
+of the estimator $\overline{Y_{1}}-\overline{Y_{2}}$ is thus $\sqrt{\frac{%
+\sigma _{1}^{2}}{n_{1}}+\frac{\sigma _{2}^{2}}{n_{2}}}.$
+
+\item Another variant of the CLT (which does not require identicality, but
+instead requires some other conditions) tells us that the sampling
+distribution of a sum of independent random variables (like $\overline{Y_{1}}
+$ and $\overline{Y_{2}}$) approximates the Normal as $n$ becomes large. \
+And so 
+\begin{equation*}
+\overline{Y_{1}}-\overline{Y_{2}}\symbol{126}N\left( \mu _{1}-\mu _{2},\frac{%
+\sigma _{1}^{2}}{n_{1}}+\frac{\sigma _{2}^{2}}{n_{2}}\right) \text{ as }%
+n_{1},n_{2}\longrightarrow \infty .
+\end{equation*}
+\end{itemize}
+
+\section{Lecture 8}
+
+\subsection{The Intuitive Estimator Is Not Always the Unbiased\ Estimator!}
+
+\begin{itemize}
+\item You are probably not surprised to learn that $\overline{Y}$ is an
+unbiased estimator for $\mu $ while $\overline{Y}_{B}$ is a biased
+estimator. \ After all, $\overline{Y}$ is the mean of the sample and so
+intuitively it seems like it should be unbiased estimator for the population
+mean. \ The same for $\overline{Y_{1}}-\overline{Y_{2}}$ as an estimator of $%
+\mu _{1}-\mu _{2}.$
+
+\item HOWEVER, it is not always the case that the intuitive estimator is the
+unbiased estimator. \ We'll illustrate this in a way that explains the
+distinction statisticians draw between sample variance and population
+variance.
+
+\item It would seem natural to estimate the variance of a population, $%
+\sigma ^{2}$, with the sample variance $S^{2}=\frac{\sum\nolimits_{i}\left(
+Y_{i}-\overline{Y}\right) ^{2}}{n}.$ \ But we can show that this is in fact
+a \textit{biased} estimator for $\sigma ^{2}$:
+\end{itemize}
+
+\begin{center}
+\begin{eqnarray*}
+E\left( S^{2}\right) &=&E\left( \frac{\sum\nolimits_{i}\left( Y_{i}-%
+\overline{Y}\right) ^{2}}{n}\right) \\
+&=&E\left[ \frac{\sum\nolimits_{i}(Y_{i})^{2}}{n}-\left( \overline{Y}\right)
+^{2}\right] \text{ [remember this from PS 1?]} \\
+&=&\frac{1}{n}E\left[ \sum\nolimits_{i}(Y_{i})^{2}-n\left( \overline{Y}%
+\right) ^{2}\right] \text{ [multiplying terms by }\frac{n}{n}\text{]} \\
+&=&\frac{1}{n}\left\{ \left( \sum\nolimits_{i}E\left[ (Y_{i})^{2}\right]
+\right) -nE\left[ \left( \overline{Y}\right) ^{2}\right] \right\} \text{\
+[distributing expectations]} \\
+&=&\frac{1}{n}\left\{ \left( \sum\nolimits_{i}VAR(Y)+\left[ E(Y)\right]
+^{2}\right) -n\left( VAR(\overline{Y}\right) +\left[ E\left( \overline{Y}%
+\right) \right] ^{2}\right\}
+\end{eqnarray*}%
+[using the identity $VAR(Y)=E(Y^{2})-\left[ E(Y)\right] ^{2}$, and
+identicality of $Y_{i}$]%
+\begin{eqnarray*}
+&=&\frac{1}{n}\left\{ \left( \sum\nolimits_{i}\sigma ^{2}+\mu ^{2}\right)
+-n\left( \frac{\sigma ^{2}}{n}+\mu ^{2}\right) \right\} \text{ [substituting
+identities]} \\
+&=&\frac{1}{n}\left\{ n\left( \sigma ^{2}+\mu ^{2}\right) -n\left( \frac{%
+\sigma ^{2}}{n}+\mu ^{2}\right) \right\} \\
+&=&\frac{1}{n}\left\{ n\sigma ^{2}-\sigma ^{2}\right\} =\frac{n-1}{n}\sigma
+^{2}\neq \sigma ^{2}.
+\end{eqnarray*}
+\end{center}
+
+\begin{itemize}
+\item Now consider an alternate estimator, $S_{U}^{2}=\frac{%
+\sum\nolimits_{i}\left( Y_{i}-\overline{Y}\right) ^{2}}{n-1}.$ \ Well, $%
+E\left( S_{U}^{2}\right) =\frac{1}{n-1}E\left[ \sum\nolimits_{i}\left( Y_{i}-%
+\overline{Y}\right) ^{2}\right] =\frac{n-1}{n-1}\sigma ^{2}=\sigma ^{2}$
+[will be on homework] and hence is unbiased. \ 
+
+\item When describing the variance of a sample, we will write $S^{2}$ and
+use the formula we've been using so far this semester. \ But when describing
+the unbiased estimator of a population variance, we will write $S_{U}^{2}$
+and use this new formula. \ Note the difference between this practice and
+your text.
+
+\item But we are probably making a mountain out of a molehill. \ Because
+what is $B(S^{2})?$ \ What is $\underset{n\rightarrow \infty }{\lim }%
+B(S^{2})?$ \ What is the implication of this?%
+\begin{eqnarray*}
+B(S^{2}) &=&E\left( S^{2}\right) -\sigma ^{2} \\
+&=&\frac{n-1}{n}\sigma ^{2}-\sigma ^{2} \\
+&=&\left( \frac{n-1}{n}-1\right) \sigma ^{2} \\
+&=&-\sigma ^{2}/n.\text{ \ } \\
+\text{So} &\text{:}&\underset{n\rightarrow \infty }{\lim }B(S^{2})=\underset{%
+n\rightarrow \infty }{\lim }-\sigma ^{2}/n=0.
+\end{eqnarray*}
+
+\item Make sure to talk notation: we'll use the notation $S_{U}^{2}$ to
+specify the unbiased estimator for the population variance, where $%
+S_{U}^{2}\equiv \frac{\sum\nolimits_{i}\left( Y_{i}-\overline{Y}\right) ^{2}%
+}{n-1}.$ \ 
+\end{itemize}
+
+\subsection{Confidence Intervals}
+
+\begin{itemize}
+\item Last time we talked about point estimators and two desirable
+properties: unbiasedness and relatively small variance. \ Today we'll
+discuss another kind of estimator: interval estimators.
+
+\item An \textbf{interval estimator }is:
+
+\begin{itemize}
+\item a rule
+
+\item specifying how we use the sample to calculate two numbers
+
+\item that form the endpoints of an interval
+
+\item containing/trapping/enclosing a parameter of interest, $\theta $.
+\end{itemize}
+
+\item Intervals have two desirable properties. \ We want them to:
+
+\begin{itemize}
+\item Contain the parameter of interest, $\theta $
+
+\item Be relatively narrow (sound familiar?)
+\end{itemize}
+
+\item As with point estimators, the length and location of the interval are
+random quantitites, so our goal is to find an interval estimator that
+generates narrow intervals with a high probability of trapping $\theta .$
+
+\item \lbrack Distribute handout about here.]
+
+\item Interval estimators are commonly called \textbf{confidence intervals
+(CIs)}. \ 
+
+\begin{itemize}
+\item CIs are constructed of two quantities called the \textbf{upper }and%
+\textbf{\ lower confidence limits} (or \textbf{upper }and\textbf{\ lower
+bounds).}
+
+\item The probability that a random CI will enclose $\theta $ is called the 
+\textbf{confidence coefficient: }it is:
+
+\begin{itemize}
+\item the fraction of the time,
+
+\item in repeated sampling,
+
+\item that the CI will contain $\theta .$ \ 
+\end{itemize}
+
+\item We thus like confidence coefficient associated with our CI to be high.
+
+\item The confidence coefficient is written $\left( 1-\alpha \right) .$ \ If 
+$\widehat{\theta }_{L}$ and $\widehat{\theta }_{H}$ are the random lower and
+upper confidence limits, then 
+\begin{equation*}
+P(\widehat{\theta }_{L}\leq \theta \leq \widehat{\theta }_{U})=(1-\alpha ).
+\end{equation*}
+\end{itemize}
+
+\item We typically call a CI with confidence coefficient $(1-\alpha )$ a
+\textquotedblleft $\lbrack 100\cdot (1-\alpha )]-$percent confidence
+interval.\textquotedblright\ Sometimes we also say a \textquotedblleft CI
+with alpha=[$\alpha $].\textquotedblright\ \ 
+
+\item Here we discuss how to construct a confidence interval for a sample
+statistic $\widehat{\theta }$ that is Normally distributed with mean $\mu $
+and standard error $\sigma _{\widehat{\theta }}.$ \ (What would be an
+example of such a statistic? \ \ The CLT tells us that one example would be
+Y-bar constructed from a large sample.)
+
+\item Let's standardize the statistic as follows:%
+\begin{equation*}
+Z=\frac{\widehat{\theta }-\theta }{\sigma _{\widehat{\theta }}},
+\end{equation*}
+
+Now it is distributed approxmately standard Normal, as we have substracted
+the estimator's hypothesized mean and divided by its standard deviation.
+
+\item To construct a confidence interval for $\widehat{\theta },$ pick two
+values $-z_{\alpha /2},z_{\alpha /2}$ such that 
+\begin{equation*}
+P(-z_{\alpha /2}\leq Z\leq z_{\alpha /2})=\int_{-z_{\alpha /2}}^{z_{\alpha
+/2}}\frac{1}{\sqrt{2\pi }}e^{-t^{2}/2}dt=1-\alpha .
+\end{equation*}
+
+\item Substituting for $Z$, we have%
+\begin{eqnarray*}
+P(-z_{\alpha /2} &\leq &\frac{\widehat{\theta }-\theta }{\sigma _{\widehat{%
+\theta }}}\leq z_{\alpha /2})=1-\alpha \\
+P(-z_{\alpha /2}\sigma _{\widehat{\theta }} &\leq &\widehat{\theta }-\theta
+\leq z_{\alpha /2}\sigma _{\widehat{\theta }})=1-\alpha \\
+P(\widehat{\theta }-z_{\alpha /2}\sigma _{\widehat{\theta }} &\leq &\theta
+\leq \widehat{\theta }+z_{\alpha /2}\sigma _{\widehat{\theta }})=1-\alpha .
+\end{eqnarray*}
+
+\item And therefore $\widehat{\theta }_{L}=\widehat{\theta }-z_{\alpha
+/2}\sigma _{\widehat{\theta }},$ and $\widehat{\theta }_{H}=\widehat{\theta }%
++z_{\alpha /2}\sigma _{\widehat{\theta }}.$
+
+\item And how to find $-z_{\alpha /2}$ and $z_{\alpha /2}$? \ Well, (Draw
+Normal curve on board.) Help class figure out that $z_{\alpha /2}$ is the
+value satisfying $P(Z\geq z_{\alpha /2})=\frac{\alpha }{2}.$
+
+\item Interlude for a bit of notation: recall that we write the standard
+Normal\ CDF (the probability that the standardized Normal RV $Z$ will be
+less than or equal to $z$) as $\Phi \left( z\right) .$ \ Looking at the
+Normal curve, it is evident that $\Phi \left( -z\right) =1-\Phi \left(
+z\right) .$ \ Furthermore, it is often helpful to talk about the \textit{%
+inverse }of the Normal\ CDF--that is, a function whose argument is a
+probability and which returns a value of $Z$. \ We write this $\Phi
+^{-1}\left( p\right) ,$where $p$ is the probability and $P(Z\leq \Phi
+^{-1}\left( p\right) )=p.$ \ Similarly, $P(Z\geq -\Phi ^{-1}\left( p\right)
+)=p.$
+
+\item So in this case, if we're trying to find the $z_{\alpha /2}$ that
+satisfies $P(Z\geq z_{\alpha /2})=\frac{\alpha }{2},$ we can also write $%
+z_{\alpha /2}=-\Phi ^{-1}\left( \frac{\alpha }{2}\right) $ and $-z_{\alpha
+/2}=\Phi ^{-1}\left( \frac{\alpha }{2}\right) .$
+
+\item In Stata, we type
+
+$.$\textbf{display invnormal(\textit{p}) }to find $\Phi ^{-1}\left( p\right)
+.$
+
+\item So when I type \textbf{display invnormal(.025)}, I get \textbf{%
+-1.959964. \ }
+
+\begin{itemize}
+\item This is the $z$-score associated with a $1-2\left( .025\right) =.95$
+CI. \ And so if $\alpha =.05,$ then $z_{\alpha /2}=1.96.$
+
+\item and when I type \textbf{display invnormal(.05)}, I get \textbf{%
+-1.6448536.}
+
+\item and when I type \textbf{display invnormal(.005), I get -2.5758293.}
+\end{itemize}
+
+\item So a 95\% confidence interval for an estimator $\widehat{\theta }$
+whose sampling distribution is Normally distributed is constructed as%
+\begin{equation*}
+\lbrack \widehat{\theta }-\left( 1.96\right) \sigma _{\widehat{\theta }},%
+\widehat{\theta }+\left( 1.96\right) \sigma _{\widehat{\theta }},
+\end{equation*}
+
+Now, what is $\sigma _{\widehat{\theta }}$? \ Why, we've already learned
+that: it's $\sigma _{\widehat{\theta }}=\sqrt{VAR(\widehat{\theta })}=\sqrt{%
+\frac{\sigma ^{2}}{n}=}\frac{\sigma }{\sqrt{n}}.$
+
+\item What about a 99\% CI? \ A 90\% CI?
+
+\item So let's do an example. \ [Do Example 8.7 on page 412, but do not
+specify the variance, leave it as unknown.]
+\end{itemize}
+
+\subsection{What is $\protect\sigma ^{2}$?}
+
+\begin{itemize}
+\item As you'll recall, the CLT tells us that if $Y_{1},Y_{2},...Y_{n}$ be
+i.i.d. random variables with $E(Y_{i})=\mu $ and $VAR(Y_{i})=\sigma ^{2},$%
+then%
+\begin{equation*}
+U_{n}\equiv \frac{\overline{Y}-\mu }{\sigma /\sqrt{n}}
+\end{equation*}%
+converges in probability to the standard normal\ CDF.
+
+\item Note that we've been dancing around a little bit of a problem. \ We've
+been using the CLT to construct interval estiamtors for $\mu $, but they
+remain unquantified because they're in terms of $\sigma ^{2}$, the
+population standard variance. \ 
+
+\item This is a problem because it is very unusual to know the value of $%
+\sigma ^{2}.$ \ Lots of homework problems and exercises will supply you the
+value of $\sigma ^{2}$, but in practice we almost never have any reason to
+know what it actually is.
+
+\item So we need to estimate it with $S_{U}^{2}\equiv \frac{%
+\sum\nolimits_{i}\left( Y_{i}-\overline{Y}\right) ^{2}}{n-1}$, our unbiased
+estimator for $\sigma ^{2}.$ \ 
+
+\item At first seems intuitive. \ We have an unbiased estimate of $\sigma
+^{2}$ and we should be comfortable substituting $S_{U}^{2}$ for $\sigma
+^{2}. $ \ It turns out that to justify this move, we need a bit more theory.
+\end{itemize}
+
+\subsection{Interlude: the property of consistency}
+
+\begin{itemize}
+\item In order to justify the estimation, we need to learn a new property of
+estimators: \textbf{consistency}. \ An estimator $\widehat{\theta }_{n}$
+constructed from a sample of size $n$ (subscripted to indicate just that) is
+a \textit{consistent estimator }for $\theta $ if for any positive number $%
+\varepsilon ,$%
+\begin{equation*}
+\underset{n\rightarrow \infty }{\lim }P(|\widehat{\theta }_{n}-\theta
+|>\varepsilon )=0.
+\end{equation*}
+
+\item That is, as the sample size used to construct a consistent estimator
+becomes large, the chance that the error of the estimator is non-zero
+converges to zero. \ (Let's say this again...) \ We sometimes equivalently
+say that \textquotedblleft $\widehat{\theta }_{n}$ converges in probability
+to $\theta ,$\textquotedblright\ or $\widehat{\theta }_{n}\overset{p}{%
+\rightarrow }\theta $
+
+\item Are unbiased estimators consistent estimators? \ Often, but not
+necessarily. \ Intuitively, this is because you could have an unbiased
+estimator that--even as n gets large--bounces around $\theta $ in a random,
+unbiased fashion but never centers on $\theta .$ \ Mathematically, this can
+be expressed as the helpful result (we'll omit proof here, it's on p. 450 of
+your text) that an unbiased estimator $\widehat{\theta }_{n}$ for $\theta $
+is a consistent estimator for $\theta $ if its variance converges in
+probability to zero, that is: 
+\begin{eqnarray*}
+E(\widehat{\theta }_{n}) &=&\theta \text{ and $\underset{n\rightarrow \infty 
+}{\lim }$ }VAR\text{($\widehat{\theta }_{n}$)=0 }\Rightarrow \underset{%
+n\rightarrow \infty }{\lim }P(|\widehat{\theta }_{n}-\theta |>\varepsilon
+)=0,i.e. \\
+\widehat{\theta }\text{ \textit{unbiased} for }\theta \text{ and $\underset{%
+n\rightarrow \infty }{\lim }$ }VAR(\widehat{\theta }_{n}) &=&0\Rightarrow 
+\widehat{\theta }\text{ \textit{consistent} for }\theta .
+\end{eqnarray*}
+
+\item This result, for example, means that $\overline{Y}$ is not only an
+unbiased estimator for $\mu ,$ but because $VAR(\overline{Y})=\frac{\sigma
+^{2}}{n}$ and thus $\underset{n\rightarrow \infty }{\lim }VAR(\overline{Y}%
+)=0,$ $\overline{Y}$ is a consistent estimator for $\mu .$ \ The fact that $%
+\overline{Y}\overset{p}{\rightarrow }\mu $ is sometimes referred to as the 
+\textit{law of large numbers}. \ It is the formal way of saying the
+intuitive idea that the average of many independent measures from a
+population should be quite close to the true population mean with high
+probability.
+
+\item Note that an estimator $\widehat{\theta }$ can be \textit{consistent }%
+for $\theta $ but not \textit{unbiased} for $\theta .$ \ 
+
+\begin{itemize}
+\item E.g., $S^{2}$ as an estimator for $\sigma ^{2}.$
+\end{itemize}
+
+\item An estimator can be unbiased for $\theta $ but not consistent for $%
+\theta .$if its variance does not become monotonically smaller as $n$ goes
+to infinity.
+
+\item Some helpful results are that if we have two estimators $\widehat{%
+\theta }$ and $\widehat{\theta }^{\prime }$ (I'm now going to drop the
+subscripts $n$ to keep notation cleaner) such that $\widehat{\theta }\overset%
+{p}{\rightarrow }\theta $ and $\widehat{\theta }^{\prime }\overset{p}{%
+\rightarrow }\theta ^{\prime },$ then [put these on left-hand board for
+reference later]:%
+\begin{eqnarray*}
+&&\widehat{\theta }+\widehat{\theta }^{\prime }\overset{p}{\rightarrow }%
+\theta +\theta ^{\prime } \\
+&&\widehat{\theta }\times \widehat{\theta }^{\prime }\overset{p}{\rightarrow 
+}\theta \times \theta ^{\prime } \\
+\frac{\widehat{\theta }}{\widehat{\theta }^{\prime }}\overset{p}{\rightarrow 
+}\frac{\theta }{\theta ^{\prime }},(\theta ^{\prime } &\neq &0). \\
+&&\text{Furthermore if }g(\cdot )\text{ continuous at }\theta ,\text{then }g(%
+\widehat{\theta })\overset{p}{\rightarrow }g(\theta ).
+\end{eqnarray*}
+\end{itemize}
+
+\subsection{Back to $\protect\sigma ^{2}$}
+
+\begin{itemize}
+\item Recall that the reason we discuss consistency was to help us justify
+estimating the population variance with $S_{U}^{2}.$
+
+\item Note that if we were simply estimating $\sigma ^{2}$ in a vacuum, we'd
+be perfectly comfortable using $S_{U}^{2}.$ \ After all $E\left(
+S_{U}^{2}\right) =\sigma ^{2}.$ \ 
+
+\item But our task is a little more complicated here. \ We typically wish to
+substitute $S_{U}^{2}$ for $\sigma ^{2}$ in the ratio $U_{n}\equiv \frac{%
+\overline{Y}-\mu }{\sqrt{\sigma ^{2}/n}}$ (which the CLT tells us is
+distributed standard Normal as $n$ becomes large)$,$ and be assured that the
+resulting ratio, $\frac{\overline{Y}-\mu }{\sqrt{S_{U}^{2}/n}}$ (or, as we
+usually write it, $\frac{\overline{Y}-\mu }{S_{U}/\sqrt{n}}$) is itself
+distributed standard Normal as $n$ becomes large.
+
+\item That is, we wish to show that $F\left( \frac{\overline{Y}-\mu }{S_{U}/%
+\sqrt{n}}\right) $ $\overset{p}{\rightarrow }$\ $\Phi .$ \ (Put box around
+this to keep eyes on the prize during rest of tedious derivation.)
+
+\item Intuitively, it seems like it should. \ But this is definitely a more
+complicated question, because where in the original ratio $\sigma ^{2}$ was
+a parameter, $S_{U}^{2}$ is a random variable.
+
+\item To begin, let's first show that $S_{U}^{2}$ is not only unbiased for $%
+\sigma ^{2};$ it's also consistent for $\sigma ^{2}.$
+
+\item Rewrite%
+\begin{eqnarray*}
+S_{U}^{2} &\equiv &\frac{\sum\nolimits_{i}\left( Y_{i}-\overline{Y}\right)
+^{2}}{n-1} \\
+&=&\frac{1}{n-1}\left[ \sum\nolimits_{i}Y_{i}^{2}+\sum\nolimits_{i}\overline{%
+Y}^{2}-\sum\nolimits_{i}2Y_{i}\overline{Y}\right] \\
+&=&\frac{1}{n-1}\left[ \left( \sum\nolimits_{i}Y_{i}^{2}\right) +n\overline{Y%
+}^{2}-2n\left( \overline{Y}\overline{Y}\right) \right] \\
+&=&\frac{1}{n-1}\left[ \left( \sum\nolimits_{i}Y_{i}^{2}\right) -n\overline{Y%
+}^{2}\right] \\
+&=&\frac{n}{n-1}\left( \frac{1}{n}\sum\nolimits_{i}Y_{i}^{2}-\overline{Y}%
+^{2}\right)
+\end{eqnarray*}
+
+\item Now let's consider%
+\begin{eqnarray*}
+\underset{n\rightarrow \infty }{\lim }\frac{1}{n}\sum\nolimits_{i}Y_{i}^{2}-%
+\overline{Y}^{2} &=&\underset{n\rightarrow \infty }{\lim }\frac{1}{n}%
+\sum\nolimits_{i}Y_{i}^{2}-\underset{n\rightarrow \infty }{\lim }\frac{1}{n}%
+\sum\nolimits_{i}\overline{Y}^{2} \\
+&=&\mu _{Y^{2}}-\left( \mu _{Y}\right) ^{2},
+\end{eqnarray*}
+
+where the first result is due to the law of large numbers (as $n\rightarrow
+\infty ,$ the sample mean converges to the population mean--in this case,
+the population mean of $Y^{2},$ which I write $\mu _{Y^{2}}$). \ The second
+result is due to $g(\widehat{\theta })\overset{p}{\rightarrow }g(\theta ),$
+since the function $g(x)=x^{2}$ is continuous and since $\overline{Y}\overset%
+{p}{\rightarrow }\mu $, $g(\overline{Y})\overset{p}{\rightarrow }g(\mu ),$
+or $\underset{n\rightarrow \infty }{\lim }\frac{1}{n}\sum\nolimits_{i}%
+\overline{Y}^{2}=\left( \mu _{Y}\right) ^{2}.$
+
+\item Note that $\mu _{Y^{2}}-\left( \mu _{Y}\right) =E(Y^{2})-\mu ^{2},$
+and now we have something that should look familiar once we recall the
+variance decomposition formula%
+\begin{equation*}
+\sigma ^{2}=E(Y^{2})-\mu ^{2}.
+\end{equation*}%
+Thus 
+\begin{equation*}
+\underset{n\rightarrow \infty }{\lim }\frac{1}{n}\sum\nolimits_{i}Y_{i}^{2}-%
+\overline{Y}^{2}=\mu _{Y^{2}}-\left( \mu _{Y}\right) ^{2}=\sigma ^{2}.
+\end{equation*}
+
+\item Now the multiplicand $\frac{n}{n-1}.$ \ But what is $\underset{%
+n\rightarrow \infty }{\lim }\frac{n}{n-1}?$ \ It is a sequence of numbers
+converging to $1$. \ Thus 
+\begin{eqnarray*}
+\underset{n\rightarrow \infty }{\lim }\frac{n}{n-1}\left( \frac{1}{n}%
+\sum\nolimits_{i}Y_{i}^{2}-\overline{Y}^{2}\right) &=&1\sigma ^{2}=\sigma
+^{2},\text{and} \\
+&&S_{U}^{2}\overset{p}{\rightarrow }\sigma ^{2}.
+\end{eqnarray*}
+
+\item And so $S_{U}^{2}$ is a consistent estimator for $\sigma ^{2}.$
+\end{itemize}
+
+\section{Lecture 9}
+
+\subsection{Where we are}
+
+Just to quickly review:
+
+\begin{itemize}
+\item We are keenly interested in identifying a good estimator for the
+population mean, $\mu ,$ from a random sample of data from that population.
+
+\item $\overline{Y}\equiv \frac{1}{n}\sum\nolimits_{i}Y_{i}$, the sample
+mean, is an obvious choice for such an estimator.
+
+\item We proceed by modeling the sampling process yielding $n$ observations
+as a series of random variables $Y_{1},Y_{2},...Y_{n}.$ They are
+independent, and they are identically distributed: that is, they all have
+the some CDF $F$, the same mean $\mu $ and the same variance $\sigma ^{2}$.
+\ With this in hand, we:
+
+\begin{itemize}
+\item established that $\overline{Y}$ is an unbiased estimator of $\mu ,$
+i.e. that $E\left( \overline{Y}\right) =\mu .$
+
+\item we showed that its variance is $VAR\left( \overline{Y}\right) =\sigma
+_{\overline{Y}}^{2}=\frac{\sigma ^{2}}{n}$, and thus its standard deviation$%
+\sqrt{VAR\left( \overline{Y}\right) }=\sigma _{\overline{Y}}=\frac{\sigma }{%
+\sqrt{n}}.$
+\end{itemize}
+
+\item That's good. \ Now we want to know how close, on average, the
+estimator Y-bar is to $\mu .$
+
+\begin{itemize}
+\item Well, the central limit theroem tells us that the sampling
+distribution of Y-bar is distributed Normal as n becomes large. \ We
+typically find it more useful to write this in terms of the \textit{%
+standardized }version of Y-bar, that is%
+\begin{equation*}
+U_{n}\equiv Z\equiv \frac{\overline{Y}-\mu }{\sigma _{\overline{Y}}}=\frac{%
+\overline{Y}-\mu }{\sigma /\sqrt{n}},
+\end{equation*}
+
+\item where the CLT tells us that this converges in probability to the 
+\textit{standard }Normal:%
+\begin{equation*}
+F\left( \frac{\overline{Y}-\mu }{\sigma /\sqrt{n}}\right) \overset{p}{%
+\rightarrow }\Phi .
+\end{equation*}
+\end{itemize}
+
+\item This allows us to begin to quantify how close Y-bar is, on average, to 
+$\mu .$ \ Since Y-bar is distributed Normal, when n is large it is generated
+through a process that yields intervals trapping $\mu $ in repeated sampling 
+$1-\alpha $ percent of the time, where $\alpha $ and $z_{\alpha /2}$ satisfy%
+\begin{equation*}
+P(\overline{Y}-z_{\alpha /2}\sigma _{\overline{Y}}\leq \mu \leq \overline{Y}%
++z_{\alpha /2}\sigma _{\overline{Y}})=1-\alpha .
+\end{equation*}
+
+\item For any $\alpha $ we pick, we can find the appropriate $z_{\alpha /2}$
+with statistical software or tables; it is the value at with the CDF of the
+standard Normal is evaluated that yields $\alpha /2.$
+
+\item And because $\sigma _{\overline{Y}}=\frac{\sigma }{\sqrt{n}},$ we know
+that%
+\begin{equation*}
+P(\overline{Y}-z_{\alpha /2}\frac{\sigma }{\sqrt{n}}\leq \mu \leq \overline{Y%
+}+z_{\alpha /2}\frac{\sigma }{\sqrt{n}})=1-\alpha .
+\end{equation*}
+
+\item But to quantify the distribution of Y-bar, we need one more thing. \
+We need to contend with $\sigma ,$ the standard deviation of $Y$. \ To deal
+with this, we:
+
+\begin{itemize}
+\item Identified an estimator $S_{U}^{2}\equiv \frac{\sum\nolimits_{i}\left(
+Y_{i}-\overline{Y}\right) ^{2}}{n-1}$, and showed that it is unbiased for $%
+\sigma ^{2},$ the population variance.
+
+\item We also showed that this estimator is \textit{consistent }for $\sigma
+^{2};$ i.e. that $S_{U}^{2}\overset{p}{\rightarrow }\sigma ^{2}.$
+
+\item We want to get to the point where we can justify substituting $S_{U}\ $%
+for $\sigma $ and saying%
+\begin{equation*}
+F\left( \frac{\overline{Y}-\mu }{S_{U}/\sqrt{n}}\right) \overset{p}{%
+\rightarrow }\Phi .
+\end{equation*}
+
+\item This is exactly what we are about to do.
+\end{itemize}
+\end{itemize}
+
+\subsection{Slutzky's Theorem}
+
+\begin{itemize}
+\item To justify our substitution of $S_{U}$ for $\sigma ,$ we'll need one
+more tool: \ \textit{Slutzky's Theorem} (love that name). \ [Put this on
+separate board.] \ This theorem tells us that:
+
+\begin{itemize}
+\item if the distribution of some function is such that $F\left(
+U_{n}\right) $ $\overset{p}{\rightarrow }\Phi $ and
+
+\item if the distribution of some other function $W_{n}$ is such that $%
+F\left( W_{n}\right) \overset{p}{\rightarrow }1,$ then
+
+\item $F\left( \frac{U_{n}}{W_{n}}\right) \overset{p}{\rightarrow }\Phi .$
+
+\item In words, Slutzky's theorem tells us that the ratio of a function that
+converges to the Standard Normal over a function that converges to 1 itself
+converges to the Standard Normal.
+\end{itemize}
+\end{itemize}
+
+\subsection{Putting it all together}
+
+\begin{itemize}
+\item OK, now we're ready to prove the powerful result we've been seeking:%
+\begin{equation*}
+F\left( \frac{\overline{Y}-\mu }{S_{U}/\sqrt{n}}\right) \overset{p}{%
+\rightarrow }\Phi .
+\end{equation*}
+
+Proof:
+
+\begin{itemize}
+\item Begin by re-writing $F\left( \frac{\overline{Y}-\mu }{S_{U}/\sqrt{n}}%
+\right) =F\left( \frac{\frac{\overline{Y}-\mu }{\sqrt{n}}\cdot \frac{1}{%
+\sigma }}{S_{U}\cdot \frac{1}{\sigma }}\right) =F\left( \frac{\frac{%
+\overline{Y}-\mu }{\sigma /\sqrt{n}}}{\frac{S_{U}}{\sigma }}\right) .$ \ If
+we can show this final expression converges to the standard Normal, then we
+know that $\frac{\overline{Y}-\mu }{S_{U}/\sqrt{n}}$ does, too.
+
+\item Note that $\frac{\frac{\overline{Y}-\mu }{\sigma /\sqrt{n}}}{\frac{%
+S_{U}}{\sigma }}$ is a ratio of a function that converges to the Standard
+Normal over the function $\frac{S_{U}}{\sigma }$:
+
+\begin{itemize}
+\item The CLT tells us that 
+\begin{equation*}
+F\left( \frac{\overline{Y}-\mu }{\sigma /\sqrt{n}}\right) \overset{p}{%
+\rightarrow }\Phi .
+\end{equation*}
+
+\item So if we can show that $\frac{S_{U}}{\sigma }$ converges to 1, then
+Slutzky's Theorem implies that 
+\begin{equation*}
+F\left( \frac{\frac{\overline{Y}-\mu }{\sigma /\sqrt{n}}}{\frac{S_{U}^{{}}}{%
+\sigma }}\right) \overset{p}{\rightarrow }\Phi .
+\end{equation*}
+\end{itemize}
+
+\item To do this,
+
+\item recall that we've shown $S_{U}^{2}\overset{p}{\rightarrow }\sigma ^{2}$
+\ [consistency of $S_{U}^{2}$ .]
+
+\item Now note that $\frac{S_{U}^{{}}}{\sigma }=+\sqrt{\frac{S_{U}^{2}}{%
+\sigma ^{2}}}.$ Because the function $g(x)=+\sqrt{\frac{x}{c}}$ is
+continuous if both $x,c$ positive, then we can invoke the rule that if $%
+\widehat{\theta }\overset{p}{\rightarrow }\theta $ and $g(\cdot )$
+continuous at $\theta ,$ then $g(\widehat{\theta })\overset{p}{\rightarrow }%
+g(\theta ).$
+
+\item Here $\frac{S_{U}^{2}}{\sigma ^{2}}\overset{p}{\rightarrow }\frac{%
+\sigma ^{2}}{\sigma ^{2}}=1,$ and $\sqrt{}$is clearly continuous at 1, so $%
+\frac{S_{U}}{\sigma }=+\sqrt{\frac{S_{U}^{2}}{\sigma ^{2}}}$ $\overset{p}{%
+\rightarrow }$ $\sqrt{\frac{\sigma ^{2}}{\sigma ^{2}}}=1.$
+
+\item Now we invoke Slutzky's Theorem to show that the distribution of this
+ratio, and therefore the distribution of $\frac{\overline{Y}-\mu }{\sigma /%
+\sqrt{n}},$ converges in probability to the standard Normal.
+\end{itemize}
+
+\item Whew, that was a lot of work! \ What does it buy us? \ It tells us
+that when $n$ is large,$\frac{\overline{Y}-\mu }{S_{U}^{{}}/\sqrt{n}}$ is
+distributed approximately standard Normal, whatever the distribution of the
+underlying population. \ 
+
+\item Therefore it follows that%
+\begin{eqnarray*}
+P\left[ -z_{\alpha /2}\leq \frac{\overline{Y}-\mu }{S_{U}/\sqrt{n}}\leq
+z_{\alpha /2}\right] &\approx &1-\alpha \text{ and so} \\
+P\left[ \overline{Y}-z_{\alpha /2}\left( \frac{S_{U}}{\sqrt{n}}\right) \leq
+\mu \leq \overline{Y}+z_{\alpha /2}\left( \frac{S_{U}}{\sqrt{n}}\right) %
+\right] &\approx &1-\alpha .
+\end{eqnarray*}
+
+\item Thus $\overline{Y}\pm z_{\alpha /2}\left( \frac{S_{U}}{\sqrt{n}}%
+\right) $ forms a valid \textbf{large-sample CI}\textit{\ }for $\mu .$ \ And
+this is the challenge we originally faced. \ We can now substitute $\frac{%
+S_{U}}{\sqrt{n}}$ for $\sigma _{\widehat{\theta }}.$
+\end{itemize}
+
+\subsection{Examples of Large-Sample\ CIs}
+
+\begin{itemize}
+\item Let's revisit the notion of a large-sample CI with an example.
+
+\item The American Community Study\ (ACS) is a program of the Census Bureau
+that estimates quantities of interest in the population using a large-sample
+survey.
+
+\item For example, the mean household income of New York\ State was
+estimated to be \$76,247 using a sample of about 350,000 households. \ The
+unbiased estimate of the population standard deviation is $S_{U}=61,427.$ \
+What is the 90\% CI associated with this estimate?
+
+\begin{itemize}
+\item Recall that we write the $100\left( 1-\alpha \right) $ percent CI for
+the population mean, $\mu $ as%
+\begin{equation*}
+\overline{Y}\pm z_{\alpha /2}\left( \sigma _{\overline{Y}}\right) ,\text{%
+where }z_{\alpha /2}=-\Phi ^{-1}\left( \frac{\alpha }{2}\right) \text{ and }%
+\sigma _{\overline{Y}}=\frac{\sigma }{\sqrt{n}}.
+\end{equation*}
+
+\item Let's first find $z_{\alpha /2}.$
+
+\item What is alpha here? \ It's $1$ minus the confidence coefficient (in
+this case, .90), or .10 .
+
+\item So what is $z_{.10/2}=z_{.05}$? \ It's $z_{.05}=-\Phi ^{-1}\left(
+.05\right) .$ \ Calculate this by typing \textbf{di invnormal(.05)} in
+Stata, obtaining -1.64. \ So $z_{.05}=1.64.$
+
+\item We're almost there. \ Our 90\% CI can be written%
+\begin{equation*}
+\overline{Y}\pm z_{\alpha /2}\left( \sigma _{\overline{Y}}\right)
+=\$76,247\pm \left( 1.64\right) \text{ }\sigma _{\overline{Y}}.
+\end{equation*}
+
+\item Recall that we've shown we can substitute%
+\begin{eqnarray*}
+S_{U} &=&\sqrt{\frac{\sum \left( y_{i}-\overline{y}\right) ^{2}}{n-1}}\text{
+for the population standard deviation, } \\
+&&\text{and thus can rewrite our CI as} \\
+\overline{Y}\pm z_{\alpha /2}\left( \sigma _{\overline{Y}}\right)
+&=&\$76,247\pm \left( 1.64\right) \text{ }\left( \frac{S_{U}}{\sqrt{n}}%
+\right) \\
+&=&\$76,247\pm \left( 1.64\right) \text{ }\left( \frac{61,427}{\sqrt{350,000}%
+}\right) \\
+&=&\$76,247\pm \left( 1.64\right) \text{ }\left( 103.83\right) \\
+&=&\$76,247\pm 170.28,\text{ or }\left[ \$76,077,\text{ }\$76,417\right] .
+\end{eqnarray*}
+\end{itemize}
+\end{itemize}
+
+\subsection{Another example of a large-sample\ CI: proportions}
+
+\begin{itemize}
+\item CNN poll, Oct 16-18, 2009 with sample of 1,038 American adults.
+
+\item Finding: \ 64 percent say they have a "favorable" opinion of Michelle
+Obama; 36\% do not.\ 
+
+\item Let's construct a 95\% large-sample CI around this estimate.
+
+\item Before proceeding, let's think:
+
+\begin{itemize}
+\item In the previous example, we wrote our CI for the population mean, $\mu
+,$ as%
+\begin{equation*}
+\widehat{\mu }_{LB},\widehat{\mu }_{UB}=\overline{Y}\pm z_{\alpha /2}\left(
+\sigma _{\overline{Y}}\right) ,\text{where }z_{\alpha /2}=-\Phi ^{-1}\left( 
+\frac{\alpha }{2}\right) \text{ and }\sigma _{\overline{Y}}=\frac{\sigma }{%
+\sqrt{n}}.
+\end{equation*}
+
+\item But recall that the CLT tells us we can also write this more
+generically for \textit{any }estimator that is a linear combination of
+random variables that are i.i.d. as%
+\begin{equation*}
+\widehat{\theta }_{LB},\widehat{\theta }_{UB}=\widehat{\theta }\pm z_{\alpha
+/2}\left( \sigma _{\widehat{\theta }}\right) .
+\end{equation*}
+
+\item And in this example, our parameter of interest is $p$: the proportion
+of Americans viewing Michelle Obama favorably. \ Our estimator is $\widehat{p%
+}=\frac{Y}{n}$, where $Y=0$ if Obama is viewed unfavorably and $Y=1$ if she
+is viewed favorably. \ We've shown previously that $\widehat{p}$ is unbiased
+for $p$. \ So let's write $\widehat{p}=.64.$
+
+\item Now rewrite our CI of interest as%
+\begin{equation*}
+\widehat{p}_{LB},\widehat{p}_{UB}=\widehat{p}\pm z_{\alpha /2}\left( \sigma
+_{\widehat{p}}\right)
+\end{equation*}
+
+\item Now think:
+
+\begin{itemize}
+\item We have $\widehat{p}.$
+
+\item We'll find $z_{\alpha /2}$ the usual way. \ (It's equal to - \textbf{%
+invnormal}$\left( .025\right) $ = 1.96.)
+
+\item What about $\sigma _{\widehat{p}}?$
+\end{itemize}
+
+\item A few lectures ago we showed that%
+\begin{equation*}
+VAR\left( \widehat{p}\right) =VAR\left( \frac{Y}{n}\right) =\frac{1}{n^{2}}%
+VAR\left( Y\right) =\frac{np\left( 1-p\right) }{n^{2}}=\frac{p\left(
+1-p\right) }{n}.
+\end{equation*}
+
+\item And so%
+\begin{equation*}
+\sigma _{\widehat{p}}=\sqrt{\frac{p\left( 1-p\right) }{n}}.
+\end{equation*}
+
+\item We can substitute $\widehat{p},$ our estimate of $p,$ in the formula
+for $\sigma _{\widehat{p}},$and so a large-sample CI for a population
+proportion $p$ can be written%
+\begin{equation*}
+\widehat{p}_{LB},\widehat{p}_{UB}=\widehat{p}\pm z_{\alpha /2}\left( \sqrt{%
+\frac{\widehat{p}\left( 1-\widehat{p}\right) }{n}}\right) .
+\end{equation*}
+\end{itemize}
+
+\item To return to our example, we can write the 95\% CI about our estimate
+of the proportion of the population having a favorable opinion of Michelle
+Obama as 
+\begin{eqnarray*}
+&&.64\pm 1.96\left( \sqrt{\frac{.64\left( 1-.64\right) }{1038}}\right) \\
+&=&.64\pm .029
+\end{eqnarray*}
+
+\item This corresponds to the poll's published "Margin of Error" of "plus or
+minus 3 percentage points." \ When you see this reported with any poll, it
+is shorthand for saying how big the 95\% CI is around the polling result.
+\end{itemize}
+
+\subsection{A large-sample CI for the difference between two proportions}
+
+\begin{itemize}
+\item The same logic underlies the construction of a large-sample confidence
+interval for the difference between two proportions. \ Consider this example:
+
+\begin{itemize}
+\item 
+\begin{itemize}
+\item In a Zogby Poll conducted with 1,203 likely voters nationwide between
+Oct 24-26, 2008, Barack Obama led John McCain, 52.5 percent to 47.5 percent,
+among those expressing a preference.
+
+\item This is a tracking poll. \ In the previous three-day window of the
+poll\ (Oct 21-23), Obama led McCain 55.6 to 44.4 percent (N=1,203).
+
+\item According to the poll, Obama's lead shrunk by about six points in
+three days. \ How confident are we that this change is not due to sampling
+error?
+
+\item Set it up:
+
+\item The parameter we seek is now $p_{1}-p_{2},$ where $p_{1}=$ Obama's
+true support in the first poll (Oct 21-23) and \ $p_{2}=$ Obama's true
+support in the second poll.
+
+\item The polls may be considered two binomial experiments in which $Y_{1}$
+is the number of \textquotedblleft successes\textquotedblright\ (here, the
+\# favoring Obama) in the first poll, (no ideological agenda) and $Y_{2}$ is
+the number of of such \textquotedblleft successes\textquotedblright\ in the
+second poll.
+
+\item An intuitive estimator for this quantity would be $\widehat{p}_{1}-%
+\widehat{p}_{2},$ where the p-hats are the proportions of respondents
+favoring Obama in the two polls. \ Is it an unbiased estimator for $%
+p_{1}-p_{2}$? $\ $%
+\begin{eqnarray*}
+E(\widehat{p}_{1}-\widehat{p}_{2}) &=&E(\widehat{p}_{1})-E(\widehat{p}_{2})
+\\
+&=&E\left( \frac{Y_{1}}{n_{1}}\right) -E\left( \frac{Y_{2}}{n_{2}}\right) 
+\text{ [}\widehat{p_{1}}\text{ and }\widehat{p_{2}}\text{ are functions of
+the RVs }Y_{1},Y_{2}\text{]} \\
+&&\frac{1}{n_{1}}E\left( Y_{1}\right) -\frac{1}{n_{2}}E\left( Y_{2}\right) \\
+&=&\frac{1}{n_{1}}n_{1}p_{1}-\frac{1}{n_{2}}n_{2}p_{2}\text{ \ [}E\left(
+Y\right) =np\text{ if }Y\text{ is distributed binomial]} \\
+&=&p_{1}-p_{2}.
+\end{eqnarray*}
+
+\item Our next step is to say how precise $\widehat{p}_{1}-\widehat{p}_{2}$
+tends to be as an estimator of $p_{1}-p_{2}.$ \ 
+
+\item We do this by figuring out what the estimator's standard error is. \
+It's 
+\begin{eqnarray*}
+\sqrt{VAR(\widehat{p}_{1}-\widehat{p}_{2})} &=&\sqrt{VAR(\widehat{p}%
+_{1})+VAR(\widehat{p}_{2})}\text{ \ [assume samples drawn independently]} \\
+&=&\sqrt{\frac{\sigma _{1}^{2}}{n_{1}}+\frac{\sigma _{2}^{2}}{n_{2}}}
+\end{eqnarray*}
+
+\item We make the substitution%
+\begin{equation*}
+\left( \widehat{p}_{1}-\widehat{p}_{2}\right) \pm z_{\alpha /2}\sqrt{\frac{%
+\widehat{p}_{1}(1-\widehat{p}_{1})}{n_{1}}+\frac{\widehat{p}_{2}(1-\widehat{p%
+}_{2})}{n_{2}}}
+\end{equation*}
+
+\item Plugging in, we have%
+\begin{eqnarray*}
+&&\left( 55.6-52.5\right) \pm z_{\alpha /2}\sqrt{\frac{\left( 55.6\right)
+\left( 100-55.6\right) }{1,203}+\frac{(52.5)(100-52.5)}{1,203}} \\
+&&3.1\pm z_{\alpha /2}(2.031).
+\end{eqnarray*}
+
+\item Do you recall how we find $z_{\alpha /2}?$ We type \textbf{display
+invnormal(}$\frac{\alpha }{2}$\textbf{)}, substituting our chosen $\alpha $%
+\textbf{.} \ You'll remember that $z_{\alpha /2}$ associated with an $\alpha
+=.05$ is $z_{.025}=-1.96.$ \ So our 95\% CI is:%
+\begin{equation*}
+3.1\pm 1.96(2.031)=3.1\pm 3.98,\text{ or }[-.9,7.1].
+\end{equation*}
+
+\item We are 95\% confident that the true change between the two polls was
+between -.9 and 7.1 percentage points. \ 
+\end{itemize}
+\end{itemize}
+
+\item Note that this CI includes zero. \ So another interpretation of this
+CI is that we are \textbf{not }95\% confident that there was zero change
+between the two polls. \ And this, of course, is what we really wanted to
+know: was there truly any movement between Oct 21-23 and Oct 24-26?\ 
+
+\item Now, does the 90\% confidence interval about our point estimate
+include zero? \ 
+
+\begin{itemize}
+\item Let's see: our alpha is .10.
+
+\item typing \textbf{display invnormal(}$.05$\textbf{) }gives us -1.64. \ So
+our 90\% CI is:%
+\begin{equation*}
+3.1\pm 1.64(2.031)=3.1\pm 3.33,\text{ or }[-.23,\text{ }6.43].
+\end{equation*}
+\end{itemize}
+
+\item Still no cigar. \ At what level of confidence would we be satisfied
+that there was movement between the two surveys? \ 
+
+\item Think: \ we wish to find some $\alpha ^{\ast }$ such that the lower
+bound of the $100\ast (1-\alpha )$ \ CI is greater than zero. \ That is,
+find some $\alpha ^{\ast }$ meeting this criterion:%
+\begin{equation*}
+\alpha ^{\ast }:3.1-z_{\alpha ^{\ast }/2}(2.031)>0.
+\end{equation*}
+
+\item To do this, manipulate the expression%
+\begin{eqnarray*}
+-z_{\alpha ^{\ast }/2}(2.031) &>&-3.1 \\
+z_{\alpha ^{\ast }/2} &<&\frac{3.1}{2.031} \\
+z_{\alpha ^{\ast }/2} &<&1.5263
+\end{eqnarray*}
+
+\item So for any alpha such that $z_{\alpha /2}<1.5263,$ we will be $100\ast
+(1-\alpha )$ percent confident that the true change was greater than zero. \
+How do we find this $\alpha $? \ Well, if 
+\begin{eqnarray*}
+z_{\frac{\alpha }{2}} &=&-\Phi ^{-1}\left( \frac{\alpha }{2}\right) ,\text{
+then} \\
+\Phi \left( -z_{\frac{\alpha }{2}}\right) &=&\frac{\alpha }{2}\text{, and} \\
+\alpha &=&2\Phi \left( -z_{\frac{\alpha }{2}}\right) .
+\end{eqnarray*}
+
+\item So in this particular case, $\alpha =2\Phi \left( -1.5263\right) .$ \ 
+
+\begin{itemize}
+\item To find this alpha, we now type \textbf{di normal(-1.5263)} in Stata,
+which is the CDF of the standard Normal evaluated at its argument. \ This
+returns \textbf{.063}. \ 
+
+\item Thus $\alpha /2=.063$ and alpha is thus .126. \ 
+
+\item And thus if we are working with confidence intervals of $100\ast
+(1-.126)=87.4\%$ or smaller, we will conclude that there was true movement
+between the two polls.
+\end{itemize}
+
+\item Keep this in mind: it will connect to other concepts we'll be covering
+today and next lecture.
+\end{itemize}
+
+\subsection{Hypothesis Testing}
+
+\begin{itemize}
+\item This way of framing the question motivates a process known as \textbf{%
+hypothesis testing}. \ A hypothesis test consists of four elements:
+
+\begin{enumerate}
+\item A \textbf{null hypothesis about a parameter}, which we write as $H_{0}$%
+.
+
+\begin{itemize}
+\item This is typically either what the \textquotedblleft conventional
+wisdom\textquotedblright\ says is the the value of the parameter--or that
+the parameter is equal to zero.
+\end{itemize}
+
+\item An \textbf{alternative hypothesis about the parameter}, $H_{A}$.
+
+\begin{itemize}
+\item This is typically that the parameter is equal to \textit{something
+different }than the null hypothesis. \ It may be more specific: that the
+parameter is either greater than or less than the null hypothesis.
+\end{itemize}
+
+\item A \textbf{test statistic derived from an estimator of the parameter.}
+
+\item A \textbf{rejection region}.
+
+\begin{itemize}
+\item The RR specifies the range of values of the test statistic for which
+the null $H_{0}$ is to be \textit{rejected }in favor of the alternative $%
+H_{A}$.
+\end{itemize}
+\end{enumerate}
+
+\item Choosing the rejection region:
+
+\begin{itemize}
+\item RR's are associated with two kinds of error:
+
+\begin{itemize}
+\item Type I error (a.k.a. a \textquotedblleft false
+positive\textquotedblright ) is made if $H_{0}$ is rejected when $H_{O}$ is
+actually true.
+
+\begin{itemize}
+\item $Pr($Type I error$)=\alpha .$ \ (Yes, the very same $\alpha $ we've
+been working with.)
+\end{itemize}
+
+\item Type II error (a.k.a. a \textquotedblleft false
+negative\textquotedblright ) is made if $H_{0}$ is accepted when $H_{A}$ is
+actually true.
+
+\begin{itemize}
+\item $Pr($Type II error$)=\beta .$ \ 
+\end{itemize}
+\end{itemize}
+
+\item $\alpha $ and $\beta $ are two very practical ways to measure the
+goodness of a statistical test. \ We call $\alpha $ the test's \textbf{level
+of significance}. \ We call the quantity $1-\beta $ the test's \textbf{%
+statistical power}. \ \ In the best of all worlds, we want a test's level of
+significance to be low and its power to be high. \ In reality, we always
+face a tradeoff between these two goals.
+
+\item To illustrate this tradeoff, consider the data from which we
+constructed the earlier CI about Obama and McCain. \ Let's re-pose this
+question in terms of a hypothesis test, where%
+\begin{eqnarray*}
+H_{0} &:&p_{1}-p_{2}=0 \\
+H_{A} &:&p_{1}-p_{2}>0
+\end{eqnarray*}
+
+\item Here our \textit{test statistic }is the difference between our two
+sample proportions, $\widehat{p}_{1}-\widehat{p}_{2}.$ \ And our rejection
+region includes the values of the statistic for which we reject the null for
+our chosen $\alpha .$
+
+\begin{itemize}
+\item Here, the rejection region are those values of $\widehat{p}_{1}-%
+\widehat{p}_{2}$ for which the constructed CI does not include zero. \ This
+would lead us to say (with $100\ast (1-\alpha )\%$ confidence) that the
+change between the two polls was greater than zero. \ 
+
+\item What is this region? \ Let's look at our CI again:%
+\begin{equation*}
+\left( \widehat{p}_{1}-\widehat{p}_{2}\right) \pm z_{\alpha /2}\sqrt{\frac{%
+\widehat{p}_{1}(1-\widehat{p}_{1})}{n_{1}}+\frac{\widehat{p}_{2}(1-\widehat{p%
+}_{2})}{n_{2}}}.
+\end{equation*}
+
+\item Had $\left( \widehat{p}_{1}-\widehat{p}_{2}\right) $ been big enough
+that $\left( \widehat{p}_{1}-\widehat{p}_{2}\right) -z_{\alpha /2}\sqrt{%
+\frac{\widehat{p}_{1}(1-\widehat{p}_{1})}{n_{1}}+\frac{\widehat{p}_{2}(1-%
+\widehat{p}_{2})}{n_{2}}}>0,$ then our CI would not have incorporated zero.
+\ That is, if 
+\begin{eqnarray*}
+\left( \widehat{p}_{1}-\widehat{p}_{2}\right) &>&z_{\alpha /2}\sqrt{\frac{%
+\widehat{p}_{1}(1-\widehat{p}_{1})}{n_{1}}+\frac{\widehat{p}_{2}(1-\widehat{p%
+}_{2})}{n_{2}}} \\
+\frac{\left( \widehat{p}_{1}-\widehat{p}_{2}\right) }{\sqrt{\frac{\widehat{p}%
+_{1}(1-\widehat{p}_{1})}{n_{1}}+\frac{\widehat{p}_{2}(1-\widehat{p}_{2})}{%
+n_{2}}}} &>&z_{\alpha /2},
+\end{eqnarray*}
+
+we should reject the null and accept $H_{A}$.
+
+\item So, a few questions:
+
+\item what sample sizes would we have needed for our difference in sample
+proportions $(\widehat{p}_{1}-\widehat{p}_{2})$ to have been found
+statistically different from zero with 95\% confidence? \ (Assume $n_{1}$=$%
+n_{2}=n$.)%
+\begin{eqnarray*}
+\frac{3.1}{\sqrt{\frac{\left( 55.6\right) \left( 100-55.6\right) }{n}+\frac{%
+(52.5)(100-52.5)}{n}}} &>&1.96 \\
+\frac{3.1}{\sqrt{\frac{4962.4}{n}}} &>&1.96 \\
+\frac{3.1}{1.96} &>&\sqrt{\frac{4962.4}{n}} \\
+\left( \frac{3.1}{1.96}\right) ^{2} &>&\frac{4962.4}{n} \\
+n &>&1,983.7
+\end{eqnarray*}
+
+\item We would have needed two samples of at least 1,984 in size.
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsection{Hypothesis tests vis-a-vis confidence intervals}
+
+\begin{itemize}
+\item Just to be clear about what we're doing here:
+
+\begin{itemize}
+\item We have an estimate (typically $\overline{Y}$ for the parameter $\mu ,$
+but let's be agnostic about this and call it the estimator $\widehat{\theta }
+$ for the parameter $\theta ).$
+
+\item We'd like to say something about the confidence we have in our
+estimate.
+
+\item One way to do this is to construct a confidence interval around the
+estimate with confidence coefficient $1-\alpha .$ \ This is the probability
+that the process used to contruct the CI will trap the parameter in repeated
+samples.
+\end{itemize}
+
+\item Recall that the way we did this was:
+
+\begin{itemize}
+\item we know that CLT tells us that the standardized version of \textit{any 
+}estimator $\widehat{\theta }$ that is a linear combination of i.i.d.random
+variables is distributed standard Normal in large samples: $\ \frac{\widehat{%
+\theta }-E\left( \widehat{\theta }\right) }{\sigma _{\widehat{\theta }}}%
+\symbol{126}N\left( 0,1\right) .$
+
+\begin{itemize}
+\item we have observed $\widehat{\theta }$
+
+\item if $\widehat{\theta }$ unbiased than by definition $E\left( \widehat{%
+\theta }\right) =\theta .$
+
+\item and we've got various ways to get $\sigma _{\widehat{\theta }}$ from
+our data.
+\end{itemize}
+
+\item so rewrite as $\frac{\widehat{\theta }-\theta }{\sigma _{\widehat{%
+\theta }}}\symbol{126}N\left( 0,1\right) .$
+
+\item Now we can back out a CI for $\theta ,$ the thing we care about, since:%
+\begin{eqnarray*}
+\Pr \left( a\leq \frac{\widehat{\theta }-\theta }{\sigma _{\widehat{\theta }}%
+}\leq b\right) &=&\Pr \left( a\sigma _{\widehat{\theta }}\leq \widehat{%
+\theta }-\theta \leq b\sigma _{\widehat{\theta }}\right) \\
+&=&\Pr \left( a\sigma _{\widehat{\theta }}-\widehat{\theta }\leq -\theta
+\leq b\sigma _{\widehat{\theta }}-\widehat{\theta }\right) \\
+&=&\Pr \left( \widehat{\theta }-a\sigma _{\widehat{\theta }}\geq \theta \geq 
+\widehat{\theta }-b\sigma _{\widehat{\theta }}\right) \\
+&=&\Pr \left( \widehat{\theta }-b\sigma _{\widehat{\theta }}\leq \theta \leq 
+\widehat{\theta }-a\sigma _{\widehat{\theta }}\right)
+\end{eqnarray*}
+
+\item Then we take advantage of the fact that $a=-b$ in our particular case
+and use this to choose the $z_{\frac{\alpha }{2}}$ that goes with our
+confidence coefficient $\left( 1-a\right) ,$ and construct the CI as%
+\begin{eqnarray*}
+\Pr \left( \widehat{\theta }-z_{\frac{\alpha }{2}}\sigma _{\widehat{\theta }%
+}\leq \theta \leq \widehat{\theta }+z_{\frac{\alpha }{2}}\sigma _{\widehat{%
+\theta }}\right) &=&\Phi \left( -z_{\frac{\alpha }{2}}\right) -\Phi \left(
+z_{\frac{\alpha }{2}}\right) \text{, or} \\
+\Pr \left( \widehat{\theta }_{LB}\leq \theta \leq \widehat{\theta }%
+_{UB}\right) &=&1-\alpha .
+\end{eqnarray*}
+\end{itemize}
+
+\item But another way to do this is to pose the following question:
+
+\begin{itemize}
+\item Having obtained a point estimate $\widehat{\theta }$, how sure am I
+now that $\theta $ is not equal to some value I care about, $\theta _{0}$? \ 
+
+\item This is the question we ask when we conduct \textit{hypothesis tests}.
+
+\item Often this value is $\theta _{0}=0,$ but in practice it can be any
+value.
+
+\item The link between the two methods is this: we reject the "null
+hypothesis," that $\theta =\theta _{0}$ in favor of the "alternative
+hypothesis" $\theta \neq \theta _{0}$ when the CI we construct does not
+include $\theta _{0}.$
+
+\item Use diagrams on board.
+
+\item In this context, the process by which we decide whether to accept or
+reject the null is known as a \textit{two-tailed test}. \ You'll see why in
+a minute.
+\end{itemize}
+\end{itemize}
+
+\subsection{A One-Tailed Hypothesis Test}
+
+\begin{itemize}
+\item Now let's turn it around a bit.
+
+\item Consider the case where $\theta $ equals some hypothesized value of $%
+\theta ,$ $\theta _{0}.$
+
+\item If this were true, than our unbiased estimator of $\theta ,$ $\widehat{%
+\theta }$ would be distributed Normal around $\theta _{0}$ with standard
+deviation $\sigma _{\widehat{\theta }}.$ \ (Draw "One-Tailed Test" on
+diagram on board.)
+
+\item Pick any value $k.$ \ What is $\Pr (\widehat{\theta }>k|\theta =\theta
+_{0})?$ \ 
+
+\item Well, we know from before that that $\frac{\widehat{\theta }-\theta }{%
+\sigma _{\widehat{\theta }}}\symbol{126}N\left( 0,1\right) $ and so $\Pr
+\left( \frac{\widehat{\theta }-\theta }{\sigma _{\widehat{\theta }}}\geq
+k\right) =1-\Phi \left( k\right) .$
+
+\item And so in the case where $\theta =\theta _{0},$ $\Pr \left( \frac{%
+\widehat{\theta }-\theta _{0}}{\sigma _{\widehat{\theta }}}\geq k|\theta
+=\theta _{0}\right) =1-\Phi \left( k\right) .$
+
+\item That is, given that $\theta =\theta _{0},$ our estimator will be
+greater than $k$ \ $\left[ 1-\Phi \left( k\right) \right] \times 100)\%$ of
+the time due to chance variation, while it will be less than $k$ \ \ $\Phi
+\left( k\right) \times 100\%$ of the time.
+
+\item We like to talk about these things in terms of $\alpha $ [add shaded
+region to diagram].
+
+\item And so if we wanted to specify a significance level $\alpha ,$ then we
+already have an expression for $k:$ \ It's $\theta _{0}+z_{\alpha }\sigma _{%
+\widehat{\theta }}.$
+
+\item So if we are considering a null $H_{0}:\theta =\theta _{0}$ and an
+alternative hypothesis $H_{A}:\theta _{0}>\theta ,$then we reject the null
+with $\left( 1-\alpha \right) \times 100\%$ confidence if we see $\widehat{%
+\theta }>\theta _{0}+z_{\alpha }\sigma _{\widehat{\theta }}.$ \ 
+
+\item Again, the logic here is that it's quite unlikely we would have
+observed a $\widehat{\theta }$ so high if $\theta $ were truly equal to $%
+\theta _{0}.$ \ In fact, it would only happen $\alpha \times 100$ percent of
+the time.
+
+\item On the other hand if we see $\widehat{\theta }<\theta _{0}+z_{\alpha
+}\sigma _{\widehat{\theta }},$ we accept the null and rule out the
+alternative that $\theta _{0}>\theta $ with $\left( 1-\alpha \right) \times
+100\%$ confidence.
+
+\item So to recap. \ In assessing whether it is possible that if $\theta
+=\theta _{0},$ we would see $H_{A}$ sheerly by chance more than (1-$\alpha )$
+percent of the time. \ 
+
+\begin{itemize}
+\item If so, we reject $H_{A}$, because we can't rule out that our result
+was due to chance variation.
+
+\item If not, we accept $H_{A},$ because we are 100*(1-$\alpha )\%$ sure
+that our result was not due to chance variation.
+\end{itemize}
+
+\item Now draw ONE-TAILED and TWO-TAILED HYPOTHESIS\ TESTS diagrams on board
+and discuss
+
+\item So here's the thing. \ Let's say you have a test statistic (some
+realization of $\widehat{\theta })$ whose value is greater than $\theta
+_{0}. $ \ You make a \textit{ex post }(\textquotedblleft based on actual
+results\textquotedblright ) hypothesis that $H_{A}:p_{1}-p_{2}\geq 0$ and
+conduct a one-tailed hypothesis test. \ This hypothesis is not based on
+theory. \ Are you cooking the books?
+
+\begin{itemize}
+\item Yes. \ Knowing that $\widehat{\theta }>\theta _{0},$ to reject $H_{0}$
+with a one-tailed test, you need%
+\begin{equation*}
+\widehat{\theta }>z_{\alpha }.
+\end{equation*}
+
+\item But to reject $H_{0}$ with a two-tailed test, you need%
+\begin{equation*}
+\widehat{\theta }>z_{\frac{\alpha }{2}}.
+\end{equation*}
+
+\item Typically political scientists are skeptical of one-tailed tests
+because they can look awfully post hoc. \ Most of the hypothesis tests
+you'll see in journals are two-tailed.
+\end{itemize}
+\end{itemize}
+
+\section{Lecture 11}
+
+\subsection{Calculating the Power of a Hypothesis Test}
+
+\begin{itemize}
+\item It is relatively easy to calculate the power of the the kinds of
+hypothesis tests we have been discussing.
+
+\item You'll recall that a test's statistical power is $1-\beta .$ \ It is
+the probability that the test will falsely reject a positive result, or the
+probability of the commission of a Type II error.
+
+\item Go over handout called "Type I, Type II error."
+
+\item So how do we calculate $\beta ?$%
+\begin{eqnarray*}
+\beta &=&\Pr \left( \text{Reject }H_{0}|H_{A}\text{ true}\right) \\
+&=&\Pr \left( \widehat{\theta }<\theta _{0}+z_{\alpha }\sigma _{\widehat{%
+\theta }}|\theta =\theta _{A}\right)
+\end{eqnarray*}
+
+\item Well we know that $\widehat{\theta }$ is distributed Normal with mean $%
+\theta _{A}$ and standard deviation $\sigma _{\widehat{\theta }}.$ \ So we
+therefore know the probability with which it will take on any value. \ First
+standardize $\widehat{\theta }$ :%
+\begin{eqnarray*}
+&=&\Pr \left( \frac{\widehat{\theta }-\theta _{A}}{\sigma _{\widehat{\theta }%
+}}<\frac{\theta _{0}+z_{\alpha }\sigma _{\widehat{\theta }}-\theta _{A}}{%
+\sigma _{\widehat{\theta }}}|\theta =\theta _{A}\right) \\
+&=&\Phi \left( \frac{\theta _{0}+z_{\alpha }\sigma _{\widehat{\theta }%
+}-\theta _{A}}{\sigma _{\widehat{\theta }}}\right) . \\
+&=&\Phi \left( \frac{\theta _{0}-\theta _{A}}{\sigma _{\widehat{\theta }}}%
++z_{\alpha }\right)
+\end{eqnarray*}
+
+\item So a test's power is therefore 
+\begin{equation*}
+1-\Phi \left( \frac{\theta _{0}-\theta _{A}}{\sigma _{\widehat{\theta }}}%
++z_{\alpha }\right) .
+\end{equation*}
+
+\item Note that we have all the quantities necessary to calculate $\beta $
+and therefore power:
+
+\begin{itemize}
+\item We've specified a $\theta _{0}$ and $\theta _{A}.$
+
+\item We've also specified a $\alpha $ and therefore a $z_{\alpha }.$
+
+\item And we use our usual methods to obtain $\sigma _{\widehat{\theta }}$ $=%
+\frac{\sigma }{\sqrt{n}}.$
+
+\begin{itemize}
+\item (So we might actually write: \ 
+\begin{equation*}
+Power=1-\Phi \left( \frac{\theta _{0}-\theta _{A}}{\frac{\sigma }{\sqrt{n}}}%
++z_{\alpha }\right) .
+\end{equation*}
+\end{itemize}
+\end{itemize}
+
+\item Now for something interesting. \ What is the sign of $\frac{\partial 
+\text{Power}}{\partial \alpha }?$ \ Of $\frac{\partial \text{Power}}{%
+\partial \sigma }?$ Of $\frac{\partial \text{Power}}{\partial n}?$ Of $\frac{%
+\partial \text{Power}}{\partial \left( \left\vert \theta _{0}-\theta
+_{A}\right\vert \right) }?$
+
+\item NOTE TO SELF: \ Note that $\theta _{0}-\theta _{A}<0$ !
+
+\item Well, since $\Phi $ is monotonically increasing in its argument, we
+know that:
+
+\begin{itemize}
+\item $\frac{\partial z_{\alpha }}{\partial \alpha }<0,$ and so $\frac{%
+\partial \Phi \left( \frac{\theta _{0}-\theta _{A}}{\frac{\sigma }{\sqrt{n}}}%
++z_{\alpha }\right) }{\partial \alpha }<0,$ and so $\frac{\partial \text{%
+Power}}{\partial \alpha }>0.$ \ As we increase $\alpha $ (that is, decrease
+our confidence coefficient) we increase power.
+
+\item $\frac{\partial \frac{\theta _{0}-\theta _{A}}{\frac{\sigma }{\sqrt{n}}%
+}}{\partial \sigma }=\frac{\partial \frac{\left( \theta _{0}-\theta
+_{A}\right) \sqrt{n}}{\sigma }}{\partial \sigma }>0$ (since $\theta
+_{0}-\theta _{A}<0$), and so $\frac{\partial \Phi \left( \frac{\theta
+_{0}-\theta _{A}}{\frac{\sigma }{\sqrt{n}}}+z_{\alpha }\right) }{\partial
+\sigma }>0,$ and so $\frac{\partial \text{Power}}{\partial \sigma }<0.$ \ As
+there is more variance in the population, our estimator becomes less
+precise, and the power of our statistical tests goes down.
+
+\item Conversely, $\frac{\partial \frac{\theta _{0}-\theta _{A}}{\frac{%
+\sigma }{\sqrt{n}}}}{\partial n}<0$, and so $\frac{\partial \text{Power}}{%
+\partial n}>0.$
+
+\item And finally $\frac{\partial \text{Power}}{\partial \left( \left\vert
+\theta _{0}-\theta _{A}\right\vert \right) }=\frac{\partial \text{Power}}{%
+\partial \left( \theta _{A}-\theta _{0}\right) }$(since $\theta _{0}-\theta
+_{A}<0$). \ Since $\frac{\partial \Phi \left( \frac{\theta _{0}-\theta _{A}}{%
+\frac{\sigma }{\sqrt{n}}}+z_{\alpha }\right) }{\partial \left( \theta
+_{A}-\theta _{0}\right) }<0,$ $\frac{\partial \text{Power}}{\partial \left(
+\left\vert \theta _{0}-\theta _{A}\right\vert \right) }>0.$ \ The farther
+way you specify an alternative hypothesis away from the null, the less
+likely you are to falsely reject the null.
+\end{itemize}
+
+\item Do example 10.8 in book (p. 508).
+\end{itemize}
+
+\section{Lecture 12}
+
+\subsection{Another way to report results of a statistical test: \textit{p}%
+-values}
+
+\begin{itemize}
+\item You'll recall that $\alpha ,$ the probability of a Type I
+(\textquotedblleft false positive\textquotedblright ) error associated with
+a statistical test, is often called the test's \textbf{significance level.}
+
+\item In the hypothesis testing regime we've discussed so far, we:
+
+\begin{itemize}
+\item pick a significance level
+
+\item determine the critical value(s) of the test statistic associated with
+the significance level
+
+\item and then determine whether to accept or reject the null hypothesis by
+comparing our test statistic with the critical value.
+\end{itemize}
+
+\item This is all very black-or-white: the result is either significant or
+it's not. \ But if report only whether we reject or accept the null, we're
+actually failure to report a fair amount of information.
+
+\item Another way to report results of a statistical test that provides the
+reader with this additional information is to report what's called its $p$%
+-value.
+
+\begin{itemize}
+\item For any test statistic, the \textit{p-value}, or \textbf{attained
+significance level}, is the smallest level of significance $\alpha $ for
+which the observed data indicate that the null hypothesis should be rejected.
+\end{itemize}
+
+\item The smaller a $p$-value is, the more compelling is the evidence that
+the null hypothesis should be rejected. \ That is because the null should be
+rejected for any value of $\alpha $ \textit{down to and including }the $p$%
+-value.
+
+\item Reporting the $p$-value permits the reader to make her own choice
+about whether the observed data justify a rejection of the null.
+
+\begin{itemize}
+\item Do example 10.7 (p. 501) and then example 10.11 (p. 515)
+\end{itemize}
+
+\item This should be obvious, but:%
+\begin{eqnarray*}
+\text{Reject H}_{\text{0}} &\Longleftrightarrow &p\leq \alpha \\
+\text{Accept H}_{\text{0}} &\Longleftrightarrow &\alpha \leq p
+\end{eqnarray*}
+\end{itemize}
+
+\subsection{A final topic: small-sample significance tests}
+
+\begin{itemize}
+\item All of our confidence interval building and hypothesis testing has
+assumed that we have a sample size large enough to be reasonably sure that
+the CLT applies and our test statistic's sampling distribution approximates
+the Normal.
+
+\item But what happens when our samples are pretty small? \ Essentially, we
+need to make some adjustments to the sampling distribution to account for
+this. \ 
+
+\item For the first time in this class, we'll make the simplifying
+assumption that we are drawing samples from a Normally distributed
+population (we'll return in a few moments to consider what happens when this
+assumption is violated). \ So we assume:
+
+\begin{itemize}
+\item $Y_{1},$ $Y_{2},...Y_{n}$ represent a random sample drawn from a
+Normal population, with $\overline{Y}$ and $S_{U}^{2}$ as the sample mean
+and our (unbiased) estimator of the population variance, respectively.
+
+\item Goal is to construct a CI for $\mu $ (or, equivalently, to conduct
+hypothesis tests) when $VAR(Y_{i})=\sigma ^{2}$ is unknown and the sample
+size is small.
+
+\item To do this, we need to be able to say something about the sampling
+distribution of $\overline{Y}.$ \ Again, because we don't have enough $n$,
+we can't appeal to the CLT and conclude that it is distributed Normal. \ 
+
+\item What to do instead?
+\end{itemize}
+
+\item Well, start with the theorem (proof omitted, see Ch. 6 if you care)
+that a linear combination of independent, Normally distributed RVs is itself
+Normally distributed.
+
+\item By linear combination, we mean a random variable composed of the sum
+of the products of a total of $J$ RVs and scalars:%
+\begin{equation*}
+\sum_{i=1}^{J}a_{i}Y_{i}
+\end{equation*}
+
+\item $\overline{Y}$ is, of course, one such linear combination, where the $%
+a_{i}$ 's are each just equal to $\frac{1}{n}.$
+
+\item Thus the sampling distribution of $\overline{Y}$ is Normal, as as
+before we know that $E\left( \overline{Y}\right) =\mu _{\overline{Y}}=\mu $
+and $VAR\left( \overline{Y}\right) =\frac{\sigma ^{2}}{n}.$
+
+\item Now let's standardize each of the $Y_{i}$'s, with $Z_{i}=\frac{%
+Y_{i}-\mu }{\sigma }.$ \ Now consider the sum of their squares:%
+\begin{equation*}
+\sum\nolimits_{i=1}^{n}Z_{i}^{2}=\sum\nolimits_{i}\left( \frac{Y_{i}-\mu }{%
+\sigma }\right) ^{2}
+\end{equation*}
+
+\item This sum of squares takes on what's called a \textbf{chi-squared }$%
+\left( \chi ^{2}\right) $\textbf{\ distribution with }$n$\textbf{\ degrees
+of freedom.}
+
+\item More generally, the sum of the squares of any $n$ i.i.d. standard
+Normal random variables is distributed chi-squared with $n$ degrees of
+freedom.
+
+\begin{itemize}
+\item Just so you know, the chi-squared distribution--like any probablity
+distribution--has a density function. \ It happens to look like this:%
+\begin{equation*}
+f(x)=\frac{-2\left( \frac{\nu }{2}\right) }{\Gamma \left[ \frac{\nu }{2}%
+\right] }x^{(\frac{\nu -2}{2})}e^{-\frac{x}{2}},
+\end{equation*}
+
+where $\Gamma \left[ \alpha \right] $ is the gamma function and $\Gamma %
+\left[ \alpha \right] =\int\nolimits_{0}^{\infty }e^{-u}u^{\alpha -1}du,$
+and here $\nu $ ("nu") is the number of degrees of freedom.
+
+\item This is very complicated. \ To make more simple, here is what you need
+to know about the chi-square (draw pdf of chi-square on board):
+
+\item \FRAME{itbpF}{2.5771in}{1.5973in}{0in}{}{}{Figure}{\special{language
+"Scientific Word";type "GRAPHIC";maintain-aspect-ratio TRUE;display
+"USEDEF";valid_file "T";width 2.5771in;height 1.5973in;depth
+0in;original-width 3.5708in;original-height 2.2027in;cropleft "0";croptop
+"1";cropright "1";cropbottom "0";temp_alias "A";tempfile-properties "PR";}}
+
+\begin{itemize}
+\item as df increase, chi-square approaches the Normal distribution.
+
+\item The expected value of a chi-square RV is its number of degrees of
+freedom: $\ E(X)=E\left( \sum\nolimits_{i}Z_{i}^{2}\right) =\nu .$
+
+\item For $\nu >2,$ the density function peaks at $\nu -2.$
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsection{Degrees of freedom}
+
+\begin{itemize}
+\item 
+\begin{itemize}
+\item By the way, \textquotedblleft degrees of freedom\textquotedblright\ is
+a characteristic of any statistic that signifies the number of independent
+pieces of information on which the statistic is based. \ \ In general, the
+degrees of freedom associated with an estimate is equal to the number of
+pieces of data you have (generally, $n$) minus the number of parameters
+needed to generate the estimate. \ \ 
+
+\item Another way to think about it is that a statistic's degrees of freedom
+is also equal to the number of values in the final calculation of a
+statistic that are "free to vary."
+
+\item For example, if I calculate the mean of three observations, $Y_{1}$
+and $Y_{2},$and $Y_{3}$ as follows:%
+\begin{equation*}
+\overline{Y}=\frac{Y_{1}+Y_{2}+Y_{3}}{n}
+\end{equation*}
+
+this is a statistic with $n=3$ degrees of freedom. \ I used three pieces of
+information to calculate the statistic.
+
+\item Compare this to the canonical example is that an estimate of variance
+using $n$ observations requires that we first estimate the mean and then
+calculate%
+\begin{eqnarray*}
+S_{U}^{2} &=&\frac{\sum_{i}\left( \overline{Y}-Y_{i}\right) ^{2}}{n-1}.\text{
+\ but this is just:} \\
+&=&\frac{\left( \frac{Y_{2}+Y_{3}}{n}\right) ^{2}+\left( \overline{Y}%
+-Y_{2}\right) ^{2}+\left( \overline{Y}-Y_{3}\right) ^{2}}{n-1}.
+\end{eqnarray*}
+
+\item Thus my calculation of $S_{U}^{2}$ really only uses two pieces of
+information, because once I've used the three observations to calculate
+Y-bar, the equation for $S_{U}^{2}$ is fully identified with any two of the
+observations. So the statistic $S_{U}^{2}$ has d.f. of $n-1$ associated with
+this estimate. \ 
+\end{itemize}
+
+\item Now to return:
+
+\item Recall that we are considering the case where $Y_{1},$ $Y_{2},...Y_{n}$
+represent a random sample drawn from a Normal population, with $\overline{Y}$
+and $S_{U}^{2}$ as the sample mean and our (unbiased) estimator of the
+population variance, $\sigma ^{2}$, respectively. \ It turns out that the
+ratio%
+\begin{equation*}
+\frac{\left( n-1\right) S_{U}^{2}}{\sigma ^{2}}=\frac{1}{\sigma ^{2}}\sum
+\left( Y_{i}-\overline{Y}\right) ^{2}
+\end{equation*}
+
+\textit{also} has a $\chi ^{2}$\textbf{\ }distribution with $n-1$ degrees of
+freedom (proofs omitted).
+
+\item Now consider a situation where we divide a standard Normal RV, $Z$, by
+the square root of the ratio of a chi-squared RV (call this $W$) divided by
+its degrees of freedom, $\nu $: $\frac{Z}{\sqrt{W/\nu }}$. \ This is itself
+a random variable, and it turns out that when $Z$ and $W$ are independent,
+the quantity 
+\begin{equation*}
+T=\frac{Z}{\sqrt{W/\nu }}
+\end{equation*}
+
+has what's called a $t$ distribution with $\nu $ degrees of freedom. \ Why
+do we care about the $t$ distribution? \ Well, doing a little math gets us:%
+\begin{equation*}
+T=\frac{Z}{\sqrt{W/\nu }}=\frac{\frac{\left( \overline{Y}-\mu \right) }{%
+\frac{\sigma }{\sqrt{n}}}}{\sqrt{\frac{\left( n-1\right) S_{U}^{2}}{\sigma
+^{2}}/\left( n-1\right) }}=\sqrt{n}\left( \frac{\overline{Y}-\mu }{S_{U}}%
+\right) =\frac{\overline{Y}-\mu }{\frac{S_{U}}{\sqrt{n}}}.
+\end{equation*}
+
+\item But this of course is Y-bar minus its hypothesized mean divided by its
+estimated standard error. \ We now can say how the combination of three
+numbers we know--$n$, $Y$-bar, and our unbiased estimate of the standard
+deviation, $S_{U}$--are distributed around the hypothesized mean. \ $\frac{%
+\overline{Y}-\mu }{\frac{S_{U}}{\sqrt{n}}}$ has a "$t$ distribution" with $%
+\left( n-1\right) $ d.f. \ 
+
+\item That is, we can now fully describe the sampling distribution of Y-bar
+when we have a small sample of Normally distributed random variable. \ 
+
+\item This is the key that allows us to now conduct hypothesis tests with
+small samples.
+
+\begin{itemize}
+\item Again, just so you see it, the $t$-distribution has a density function
+that looks like this:%
+\begin{equation*}
+f(x)=\frac{\Gamma \left[ \frac{1}{2}\left( \nu +1\right) \right] \left(
+\sigma ^{2}\nu \pi \right) ^{-\frac{1}{2}}}{\Gamma \left[ \frac{\nu }{2}%
+\right] }\left( 1+\frac{\left( x-\mu \right) ^{2}}{\nu \sigma ^{2}}\right)
+^{-\frac{1}{2}\left( \nu +1\right) },
+\end{equation*}
+
+where $\mu $ and $\sigma ^{2}$ are the population mean and variance of the
+RV $Y$.
+\end{itemize}
+
+\item As $\nu $ approaches infinity, the $t$ distribution approaches the
+standard Normal distribution. \ Draw picture on p. 360.
+
+\item These findings allow us to:
+
+\begin{itemize}
+\item construct $100(1-\alpha )\%$ CI's around estimates of $\mu $ drawn
+from small samples;
+
+\item perform hypothesis tests with these estimates; and
+
+\item to do the same with estimates of $\mu _{1}-\mu _{2}.$
+\end{itemize}
+
+\item For example, for a CI around $\overline{Y}$, an estimate of $\mu ,$ we
+proceed as follows: 
+\begin{eqnarray*}
+P\left( -t_{\frac{\alpha }{2},\nu }\leq T\leq t_{\frac{\alpha }{2},\nu
+}\right) &=&1-\alpha ,\text{ or} \\
+P\left( -t_{\frac{\alpha }{2},\nu }\leq \frac{\overline{Y}-\mu }{\frac{S_{U}%
+}{\sqrt{n}}}\leq t_{\frac{\alpha }{2},\nu }\right) &=&1-\alpha \\
+P\left( -t_{\frac{\alpha }{2},\nu }\frac{S_{U}}{\sqrt{n}}-\overline{Y}\leq
+-\mu \leq t_{\frac{\alpha }{2},\nu }\frac{S_{U}}{\sqrt{n}}-\overline{Y}%
+\right) &=&1-\alpha \\
+P\left( t_{\frac{\alpha }{2},\nu }\frac{S_{U}}{\sqrt{n}}+\overline{Y}\geq
+\mu \geq -t_{\frac{\alpha }{2},\nu }\frac{S_{U}}{\sqrt{n}}+\overline{Y}%
+\right) &=&1-\alpha
+\end{eqnarray*}
+
+\item Thus the endpoints of the $100(1-\alpha )\%$ CI are: $\overline{Y}\pm $
+$t_{\frac{\alpha }{2},\nu }\frac{S_{U}}{\sqrt{n}}$. \ Note how the logic is
+the same as that which we use to construct the CI used for a large-sample,
+which is $\overline{Y}\pm $ $z_{\frac{\alpha }{2}}\frac{S_{U}}{\sqrt{n}}.$ \ 
+
+\item How about hypothesis tests ? \ Well, I won't bore you with the details
+- everything's very similar to the large-sample test:%
+\begin{eqnarray*}
+H_{0} &:&\mu =\mu _{0}, \\
+H_{A} &:&\mu >\mu _{0},\mu <\mu _{0}\text{ (one tailed)} \\
+\mu &\neq &\mu _{0}\text{ \ (two-tailed)} \\
+\text{Test statistic is}\text{: } &&T=\frac{\overline{Y}-\mu }{\frac{S_{U}}{%
+\sqrt{n}}} \\
+\text{Reject }H_{0}\text{ if }t &>&t_{\alpha ,\nu }\text{ or }t>-t_{\alpha
+,\nu }\text{ \ (one-tailed)} \\
+\text{ }|t| &>&t_{\frac{\alpha }{2},\nu }\text{ \ (two-tailed)}
+\end{eqnarray*}
+
+\item And tests for $\mu _{1}-\mu _{2}?$
+
+\item Very similar. \ We assume that our two samples are independent (as we
+do for large-sample tests). \ But we typically make an important additional
+assumption: that the variances of our two populations are the same. \ That
+is, $\sigma _{1}^{2}=\sigma _{2}^{2}.$ Two reasons:
+
+\begin{itemize}
+\item a matter of convenience: with small samples it is difficult to get
+good estimates of small population variances (remember how we need lots of $%
+n $ for consistency property of $S_{U}^{2}$ to kick in)
+
+\item it's reasonable, since we're already assuming that both populations
+are Normal; we might as well assume that they have the same variance.
+\end{itemize}
+
+\item You'll recall that the test statistic in the large-sample case was%
+\begin{equation*}
+Z=\frac{\overline{y}_{1}-\overline{y}_{2}-0}{\sqrt{\frac{\sigma _{1}^{2}}{%
+n_{1}}+\frac{\sigma _{2}^{2}}{n_{2}}}}.
+\end{equation*}
+
+\item But if we assume $\sigma ^{2}=\sigma _{1}^{2}=\sigma _{2}^{2},$ then
+we can construct a consistent estimate $\sigma ^{2}$ by taking a weighted
+average of the two sample variances. \ This weighted average is called
+"s-squared pooled" and calculated as%
+\begin{equation*}
+s_{p}^{2}=\frac{\left( n_{1}-1\right) S_{U1}^{2}+\left( n_{2}-1\right)
+S_{U2}^{2}}{n_{1}+n_{2}-2}.
+\end{equation*}%
+\ Thus our test statistic is calculated:%
+\begin{eqnarray*}
+H_{0} &:&\mu _{1}-\mu _{2}=0, \\
+H_{A} &:&\mu _{1}-\mu _{2}>0,\text{ }\mu _{1}-\mu _{2}<0\text{ \ (one tailed)%
+} \\
+\mu _{1}-\mu _{2} &\neq &0\text{ \ (two-tailed)}
+\end{eqnarray*}%
+\begin{equation*}
+\text{ test statistic is: }T=\frac{\overline{y}_{1}-\overline{y}_{2}-0}{s_{p}%
+\sqrt{\frac{1}{n_{1}}+\frac{1}{n_{2}}}},
+\end{equation*}%
+\begin{eqnarray*}
+\text{Reject }H_{0}\text{ if }t &>&t_{\alpha ,\nu }\text{ or }t>-t_{\alpha
+,\nu }\text{ \ (one-tailed)} \\
+\text{ }|t| &>&t_{\frac{\alpha }{2},\nu }\text{ \ (two-tailed),} \\
+&&\text{where we have }n_{1}+n_{2}-2\text{ \ d.f.}
+\end{eqnarray*}
+
+\item What if the underlying population isn't Normal?
+
+\item Statisticians have resorted to empirical studies, where they sample
+from populations of (known) nonnormal distributions. \ 
+
+\begin{itemize}
+\item Moderate departures from normality have little effect on the
+probability distribution of the test statistic.
+
+\item BUT\ we are in somewhat treacherous waters here.
+\end{itemize}
+
+\item Two more things:
+
+\begin{itemize}
+\item because the t is indistinguishable from the Normal at high d.f., a
+t-test is indisinguishable from a z-test at most levels of n with which we
+are used to working. \ This has led to the ubiquitousness of calling
+hypothesis tests about $\mu $ and $\mu _{1}-\mu _{2}$ \textquotedblleft
+t-tests,\textquotedblright\ even though in most cases they are
+indistinguishable from z-tests.
+
+\item We will revisit t-tests in the context of multivariate regression.
+\end{itemize}
+\end{itemize}
+
+\subsection{Summing up inference with one variable}
+
+We've spent the past few weeks thinking carefully about the inferences
+regarding one variable that we can make from a sample to a population. \
+It's helpful to recap the steps we've taken to do this. \ Let's recap in
+terms of the goal of making inferences about a population mean $\mu $ from a
+sample statistic $Y$-bar.
+
+\begin{itemize}
+\item Assume (big assumption \# 1) that we have a random sample, which
+yields independent, identically distributed observations.
+
+\begin{itemize}
+\item \textit{Identicality} assures us that our sample mean, Y-bar, is an
+unbiased estimator of $\mu .$
+\end{itemize}
+
+\item Now we want to know how precise our estimate is. \ We phrase this
+question as: how far off, on average, is our estimate typically going to be
+from the true mean?
+
+\item To do this, we need to know the (1) distribution of our estimator and
+(2) the parameters of the distribution of Y-bar.
+
+\item (1) As $N$ becomes large, the Central Limit Theorem tells us that
+Y-bar is distributed Normal.
+
+\item (2) The Normal has two parameters: its mean $\mu $ and variance $%
+\sigma ^{2}.$
+
+\begin{itemize}
+\item Because Y-bar is an unbiased estimator of $\mu ,$ the mean of Y-bar is 
+$\mu .$
+
+\item If we make the assumption of \textit{independence}, Y-bar's variance
+is $\frac{\sigma ^{2}}{n}$ and its standard deviation is $\frac{\sigma }{%
+\sqrt{n}}.$ \ We have a consistent, unbiased estimator of $\sigma ,$ which
+is $S_{U}.$ \ A combination of theories allows us to substitute $S_{U}$ in
+our estimate of the estimator's standard deviation, that is, $\frac{S_{U}}{%
+\sqrt{n}}$ for $\frac{\sigma }{\sqrt{n}}.$ \ The resulting quantity $\frac{%
+\overline{Y}-\mu }{\frac{S_{U}}{\sqrt{n}}}$ converges in probability to the
+Standard Normal.
+\end{itemize}
+
+\item What if we have a small sample? \ We then make big assumption \#2:
+that $Y$ is distributed Normal. \ This yields a $Y$-bar that is distributed $%
+T$--a distribution that approaches the Normal as $N$ becomes large.
+
+\item We now know the pdf and cdf of Y-bar. \ It is Normal if $N$ is large.
+\ And it is $T$ if $Y$ is Normal.
+
+\item We can now answer several related questions. \ 
+
+\begin{itemize}
+\item \textit{How confident am I about my estimate of Y-bar? \ }To do this,
+I identify the values of Y located on either side of Y-bar by an equal
+distance that between them incorporate (confidence)\% of the probability
+density. \ I am then "(confidence)\% confident" that $\mu $ falls in the
+interval I've created.
+
+\item \textit{How confident that }$\mu $\textit{\ is not equal to some
+hypothesized value }$\mu _{0}?$\textit{\ \ }To answer this question with
+"(confidence)\% confidence" , I see if $\mu _{0}$ is found within the
+confidence interval associated with that level of confidence. \ If it is,
+then I am not "(confidence)\% confident" that I can reject the null that $%
+\mu =\mu _{0}.$ \ If it's not, I reject the null at that level of confidence.
+
+\item \textit{At what level of confidence can I be sure that }$\mu $\textit{%
+\ is not equal to some hypothesized value }$\mu _{0}?$\textit{\ \ }To answer
+this question, I find the smallest level of significance $\alpha $ for which
+the observed data indicate that the null hypothesis should be rejected.$\ \
+\ $To do this, I find the largest confidence interval around Y-bar that does
+not contain $\mu _{0}.$ \ The proportion of the density under the curve
+contained in this interval is the $p$-value associated with the hypothesis
+test.
+\end{itemize}
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,131 @@
+
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[abbr]{harvard}
+\usepackage{amssymb}
+\usepackage{setspace,graphics,epsfig,amsmath,rotating,amsfonts,mathpazo}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2953}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{Created=Thursday, September 11, 2008 15:11:56}
+%TCIDATA{LastRevised=Monday, December 09, 2013 09:37:49}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Articles\SW\article.egan">}
+
+\topmargin=0 in \headheight=0in \headsep=0in \topskip=0in \textheight=9in \oddsidemargin=0in \evensidemargin=0in \textwidth=6.5in
+\input{tcilatex}
+\begin{document}
+
+
+New York University
+
+Wilf Family Department of Politics
+
+\begin{center}
+{\large \textbf{Quantitative Research in Political\ Science I}}
+
+Professor Patrick Egan
+
+\bigskip
+
+\textbf{Transforming }$\mathbf{X}$\textbf{\ with Polynomials}\bigskip 
+\end{center}
+
+When we have good reasons (theoretical or empirical) to presume that the
+ceteris paribus relationship between $y$ and a certain $x$ may be
+non-linear, we transform $x$ to so as to make our model linear in its
+parameters. \ One way to do this that we discussed earlier is to substitute
+the \textit{natural log }of $x$ for $x$. \ 
+
+Here we focus on another common approach, which is to add one or more 
+\textit{polynomial }terms of $x$ to the model as predictors. \ A polynomial
+regression model in which $x$ of degree $r$ with a vector of covariates $%
+\mathbf{z}$ is written 
+\begin{equation*}
+y=\beta _{1}x+\beta _{2}x^{2}+...+\beta _{r}x^{r}+\mathbf{z}^{\prime }%
+\mathbf{\delta }+u.
+\end{equation*}
+
+\medskip \textbf{The quadratic model}
+
+One of the most commonly used polynomial models in practice is the \textit{%
+quadratic }model (dropping $\mathbf{z}$ for now):%
+\begin{equation*}
+y=\beta _{1}x+\beta _{2}x^{2}+u.
+\end{equation*}%
+The value of modeling the $xy$ relationship this way is that it permits the
+effect of $x$ on $y$ to be non-monotonic in that it \textit{changes signs at
+some point on the range of }$\mathit{x}$, creating a $\cap $-shaped pattern
+(if $\beta _{1}$ is positive and $\beta _{2}$ is negative) or a $\cup $%
+-shaped pattern (if $\beta _{1}$ is negative and $\beta _{2}$ is positive)
+in the plot of residualized $y$ on residualized $x$. \ (In practice, we
+typically find cases where $\beta _{1}$ and $\beta _{2}$ are of the same
+sign to be less interesting, as they are simply run-of-the-mill instances of 
+$x$'s effect on $y$ being monotonic but non-linear.) \ 
+
+\medskip In the quadratic model, the effect of a one-unit change in $x$ on $y
+$ is of course%
+\begin{equation*}
+\frac{\partial y}{\partial x}=\beta _{1}+2\beta _{2}x,
+\end{equation*}%
+meaning that $y$ attains an extremum w.r.t. $x$ at $x=\frac{1}{2}\frac{\beta
+_{1}}{\beta _{2}}.$ \ This is a maximum if $\beta _{1}>0$ and $\beta _{2}<0$
+and a minimum if $\beta _{1}<0$ and $\beta _{2}>0$. \  
+
+\medskip \textbf{Tests of significance}
+
+Typically the significance tests we understake with quadratic models answer
+one of two questions:
+
+\begin{enumerate}
+\item \textbf{Does a quadratic model better fit the data than a linear model?%
+}
+\end{enumerate}
+
+The appropriate significance test to answer this question is
+straightforward: it is the test of the null that $\beta _{2}=0$, and thus
+the $t$-test and $p$-value associated with the estimate $\widehat{\beta }%
+_{2}.$ \ If we reject the null, then the quadratic model is a better fit; if
+we accept the null then the quadratic offers us no significant advantage
+over the linear model.
+
+\begin{enumerate}
+\item[2.] \textbf{At what values of }$x$\textbf{\ is the effect of }$x$%
+\textbf{\ on }$y$\textbf{\ significantly distinct---and are these values of
+any substantive meaning?}
+
+This is often the much more important question. \ When $x$ is a predictor of
+interest (as opposed to simply being a control variable) and we fit it with
+a quadratic, it is usually because we want to make the claim that the effect
+of $x$ on $y$ is significantly higher (or lower) \textit{somewhere in the
+middle of the range of }$\mathit{x}$ than at lower and higher values of $x$.
+\  \medskip 
+
+Determining whether this is the case is an analytically distinct question
+from (1) for two reasons:
+
+\begin{enumerate}
+\item The quadratic may provide a superior fit, but the effect of $x$
+doesn't attain an extremum in the empirical range of $x$.
+
+\item The quadratic may provide a superior fit and the effect of $x$ attains
+an extremum in the empirical range of x, but $\frac{\partial y}{\partial x}$
+at this extremum is not significantly different from $\frac{\partial y}{%
+\partial x}$ at other meaningful values of $x$.\medskip 
+\end{enumerate}
+\end{enumerate}
+
+The upshot is that question 2 cannot be answered by simply looking at
+whether the $t$-statistic on $\widehat{\beta }_{2}$ is significant. \
+Rather, it requires calculating predicted values of $y$ across the empirical
+range of $x$ and determining whether these values are significantly
+different from one another at values of $x$ that are substantively
+interesting. \ \medskip 
+
+On the following pages, I illustrate this with a simple example from the
+General\ Social Survey Cumulative File:\medskip 
+
+\end{document}

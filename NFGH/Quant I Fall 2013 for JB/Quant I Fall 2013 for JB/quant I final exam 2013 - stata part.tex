@@ -1,0 +1,214 @@
+
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[abbr]{harvard}
+\usepackage{amssymb}
+\usepackage{setspace,graphics,epsfig,amsmath,rotating,amsfonts,mathpazo}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2960}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{Created=Thursday, September 11, 2008 15:11:56}
+%TCIDATA{LastRevised=Friday, December 13, 2013 09:54:55}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Articles\SW\article.egan">}
+
+\topmargin=0 in \headheight=0in \headsep=0in \topskip=0in \textheight=9in \oddsidemargin=0in \evensidemargin=0in \textwidth=6.5in
+\input{tcilatex}
+\begin{document}
+
+
+New York University
+
+Wilf Family Department of Politics
+
+Fall 2013\bigskip
+
+\begin{center}
+{\large \textbf{Quantitative Research in Political\ Science I}}
+
+Professor Patrick Egan
+
+\bigskip
+\end{center}
+
+\bigskip
+
+\begin{center}
+\textbf{FINAL\ EXAMINATION: STATISTICAL COMPUTING PART}
+
+(70 POINTS\ TOTAL)\textbf{\bigskip }
+
+\textit{This exam is open-book, open-note.}
+\end{center}
+
+\bigskip
+
+\begin{itemize}
+\item To complete this part of the exam, download the dataset \texttt{%
+annenberg2004.dta} from our class website (from the "Resources" section). \
+If you have trouble doing this, see Andrew or call me (646-808-7271). \
+\bigskip 
+
+\item Your responses to the questions on this part of the exam should be
+included in a \texttt{.log} file that you will print out and submit for your
+exam grade. \ The file must include the commands you use in the analysis,
+any output, and answers to questions (entered in the \texttt{.log} file as
+comments).\bigskip
+
+\item You must answer the substantive questions on this part of the exam in
+words. \ \textbf{You will not earn full credit for Stata output submitted
+without written interpretation.}
+\end{itemize}
+
+\newpage
+
+\bigskip The dataset \texttt{annenberg2004.dta} is a sample of respondents
+from the 2004 National\ Annenberg Election\ Survey (NAES), conducted during
+the 2004 U.S. Presidential election campaign.\medskip\ \ \bigskip
+
+\textbf{NOTES: \ }
+
+\begin{itemize}
+\item In many cases, proper analysis will require recoded versions of
+variables in the dataset.
+
+\item Unless specified otherwise, use an alpha of .05 when performing
+statistical significance tests.\bigskip \bigskip
+\end{itemize}
+
+\begin{enumerate}
+\item \textbf{(2 points) }Run the command that lists the names of variables,
+their formats and labels.\bigskip
+
+\item \textbf{(18 points) }\textit{bush\_favorability }is a measure of
+respondents' favorability ratings of George W.\ Bush on a scale of zero
+(least favorable) to ten (most favorable). \ 
+
+\begin{enumerate}
+\item What is the mode of \textit{bush\_favorability}? \ 
+
+\item What is its mean?
+
+\item What is the 95\% confidence interval about this mean?
+
+\item What is the 90\% confidence interval about this mean?
+
+\item Who rates Bush more favorably, men or women?
+
+\begin{enumerate}
+\item Answer this question with a $t$-test. \ Interpret your results.
+
+\item Answer this question with a bivariate regression. \ Interpret your
+results.
+\end{enumerate}
+
+\item Are higher income Americans more likely to assess Bush favorably than
+lower income Americans? \ Answer this question under the assumption that 
+\begin{equation*}
+bush\_favorability=\beta _{0}+\beta _{1}income+u,
+\end{equation*}%
+and that the other Gauss-Markov assumptions are met. \ 
+
+\begin{enumerate}
+\item Before doing so, use diagnostics (as we did in class) to examine
+carefully how \textit{income }should enter into the model as a predictor. \
+Justify and document the decision you make regarding this. \ \textbf{%
+Regardless of your decision, note that some recoding of \textit{income }is
+necessary here}.
+
+\item Interpret your results.\newpage
+\end{enumerate}
+\end{enumerate}
+
+\item \textbf{(25 points) }\textit{kerry\_favorability }is a measure of
+respondents' ratings of John Kerry on the same scale as \textit{%
+bush\_favorability}. \ Create a new variable (as done in class) called 
+\textit{rating\_diff }that is equal to \textit{bush\_favorability }minus 
+\textit{kerry\_favorability.} \ \ 
+
+\begin{enumerate}
+\item Run a regression of \textit{rating\_diff }on the variables \textit{age}%
+, \textit{female}, and \textit{income}. \ \ We'll call this Model I.
+
+\item How well does Model I explain variation in the dependent variable? \
+Cite two estimated statistics in your response.
+
+\item Now run a regression of \textit{rating\_diff }on the same variables as
+well as \textit{ideology--}a variable in which respondents rate themselves
+very conservative (1) to very liberal (5) on a five-point scale\textit{. \ }%
+(For the moment, treat \textit{ideology} as an interval-level variable.) \
+We'll call this Model II.
+
+\begin{enumerate}
+\item In a few sentences, explain what happens to the coefficient on \textit{%
+female }between Model I and Model II and your substantive interpretion of
+this change. \ 
+
+\item How well does Model\ II explain variation in the dependent variable
+compared to Model I? \ 
+
+\item What does Model II predict is the difference in \textit{rating\_diff }%
+between those who are very conservative and those who are very liberal,
+holding the other factors constant? \ Approximately what percentage of the
+range of the dependent variable is this difference equal to?
+
+\item What do your answers to (ii) and (iii) suggest about the importance of 
+\textit{ideology }in explaining the dependent variable compared to the other
+variables in Model II?
+\end{enumerate}
+
+\item Finally, run the estimation in a way that does not require that we
+assume \textit{ideology }is an interval-level variable. \ Call this equation
+Model\ III.
+
+\begin{enumerate}
+\item Now think carefully: what would we need to see in Model\ III that
+would give us confidence in treating \textit{ideology} as an interval-level
+variable in the present context? \ Do we see this here?
+
+\item In a few sentences, say what Model III tells us about the \textit{%
+ceteris paribus} relationship between \textit{ideology} and \textit{%
+rating\_diff}.
+\end{enumerate}
+
+\item Using the proper Stata commands, create a table displaying the
+estimates from Models\ I, II and III. \ The table should display regression
+coefficients, their standard errors, and markers of statistical significance
+in three columns, along with four statistics from each of these regressions (%
+$N$, root MSE, $R^{2}$ and adjusted $R^{2}$). \ Variable names should be
+displayed on the rows .\bigskip \newpage
+\end{enumerate}
+
+\item \textbf{(25 points) }Explore the following question using OLS. \ 
+
+\begin{itemize}
+\item We expect that voters who rated their personal economic situation as
+poor in 2004 would be likely to blame the incumbent (Bush), and thus have
+lower values of \textit{rating\_diff }than those in better economic
+circumstances. \ However, we might theorize that the \textit{ceteris paribus 
+}association between a voter's personal economic situation and \textit{%
+rating\_diff }is even stronger for Independent voters (who are not
+affiliated with either the Democratic or Republican parties), as these
+Independents do not have the cue of party identification to rely upon when
+rating the two candidates.
+
+\item To explore this question, use the variables \textit{pid} (a
+categorical variable that is a measure of voters' party identification) and 
+\textit{economic\_situation }(a variable measuring how voters rate their
+personal economic situation on a scale of 1 (excellent) to 4 (poor)). \ For
+purposes of this question, you may treat this variable as interval-level.
+
+\item From here, you're on your own. \ You will need to create new
+variables, estimate the appropriate model, present results both in tabular
+and graphical form, and interpret the results. \ Do your estimates confirm
+the theory? \ Make sure to describe your results in plain English.\bigskip
+\end{itemize}
+
+\item Close your \texttt{.log} file email it to Andrew by 3 p.m.. \ Then
+print it out a hard copy and put it in Andrew's mailbox. \ 
+\end{enumerate}
+
+\end{document}

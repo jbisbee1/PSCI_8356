@@ -1,0 +1,159 @@
+
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[abbr]{harvard}
+\usepackage{amssymb}
+\usepackage{setspace,graphics,epsfig,amsmath,rotating,amsfonts,mathpazo}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2953}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{Created=Thursday, September 11, 2008 15:11:56}
+%TCIDATA{LastRevised=Friday, December 06, 2013 11:30:49}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Articles\SW\article.egan">}
+
+\topmargin=0 in \headheight=0in \headsep=0in \topskip=0in \textheight=9in \oddsidemargin=0in \evensidemargin=0in \textwidth=6.5in
+\input{tcilatex}
+\begin{document}
+
+
+New York University
+
+Wilf Family Department of Politics
+
+Fall 2013
+
+\begin{center}
+{\large \textbf{Quantitative Research in Political\ Science I}}
+
+Professor Patrick Egan
+
+\bigskip
+
+\textbf{PROBLEM\ SET 9: Due Friday, December 13 at 10 a.m.}
+\end{center}
+
+\textit{A reminder: you may work with others in the class on this problem
+set, and you are in fact encouraged to do so. \ However, the work you hand
+in must be your own. \ Your work must be word-processed in order for you to
+receive credit for the assignment.}
+
+\begin{enumerate}
+\item Consider three random variables $X,$ $Y$ and $Z$, where%
+\begin{eqnarray*}
+cov(Z,Y) &<&0;\quad cov(Z,X)=0\text{; } \\
+\text{and }cov(X,Y) &>&0\text{.}
+\end{eqnarray*}%
+\smallskip 
+
+Assume we have a large number of observations of the joint distribution of
+all variables from an i.i.d. random sample yielded by a data generating
+process governed by the linear model%
+\begin{equation*}
+y=\alpha +\beta x_{i}+\delta z_{i}+u_{i}.
+\end{equation*}%
+\smallskip \qquad\ If we estimate the equation 
+\begin{equation*}
+\widehat{y_{i}}=\widehat{\alpha }+\widehat{\beta }x_{i},
+\end{equation*}
+
+\begin{enumerate}
+\item What is the formula OLS uses to generate $\widehat{\beta }$? $\ $
+
+\item What is $E\left( \widehat{\beta }\right) $?
+
+\item Is $\widehat{\beta }$ is a biased estimate of the parameter $\beta $
+due to the omission of $z$? \ Explain your answer in both words and
+mathematics.\bigskip \bigskip
+
+Now instead if we estimate the equation 
+\begin{equation*}
+\widehat{y_{i}}=\widehat{\alpha }+\widehat{\delta }z_{i},
+\end{equation*}
+
+\item What is the formula OLS uses to generate $\widehat{\delta }$? $\ $
+
+\item What is $E\left( \widehat{\delta }\right) $?
+
+\item Is $\widehat{\delta }$ is a biased estimate of the parameter $\delta $
+due to the omission of $x$? \ Explain your answer in both words and
+mathematics.\newpage
+
+Now consider a different DGP governed by the model%
+\begin{equation*}
+y=\alpha +\beta x_{i}+\gamma w_{i}+u_{i},
+\end{equation*}%
+\bigskip\ where $W$ is a random variable with $cov(W,X)<0$ and $cov(W,Y)<0.$
+\ If we estimate the equation 
+\begin{equation*}
+\widehat{y_{i}}=\widehat{\alpha }+\widehat{\gamma }w_{i},
+\end{equation*}
+
+\item What is the formula OLS uses to generate $\widehat{\gamma }$? $\ $
+
+\item What is $E\left( \widehat{\gamma }\right) $?
+
+\item Is $\widehat{\gamma }$ is a biased estimate of the parameter $\gamma $
+due to the omission of $x$? \ Explain your answer in both words and
+mathematics. \bigskip \bigskip 
+
+Let's say that a measure of $X$ is not available and we thus have no choice
+but to estimate $\widehat{y_{i}}=\widehat{\alpha }+\widehat{\gamma }w_{i}$
+even though we know that the proper model is $y=\alpha +\beta x_{i}+\gamma
+w_{i}+u_{i}.$ \ Say whether the following statements are TRUE\ or FALSE and
+explain why.\bigskip
+
+\item Our estimate of $\gamma $ will be biased upward.
+
+\item An estimate of $\widehat{\gamma }>0$ leaves us quite confident that $%
+\gamma >0.$
+
+\item An estimate of $\widehat{\gamma }<0$ leaves us quite confident that $%
+\gamma <0.$\bigskip
+\end{enumerate}
+
+\item For this question, please use the \textit{\ counties.dta} dataset you
+used for Problem Set \#8. \ Analyze the following questions using Stata, but
+answer them with a few sentences in plain English. \ Provide appropriate
+Stata output as an attachment to your assignment.\bigskip 
+
+\begin{enumerate}
+\item You are interested in the relationship between population density and
+crime in the state of California. \ Estimate the linear model $\widehat{%
+\mathit{crimerate}}$ =$\widehat{\beta }_{0}+\widehat{\beta }_{1}$\textit{%
+density} using \texttt{regress,}limiting your analysis only to counties in
+California.\texttt{\ }Find $\widehat{\beta }_{1},$and provide a one-sentence
+English-language interpretation of this coefficient.
+
+\item Construct a plot of the estimated linear model $\widehat{\mathit{%
+crimerate}}$ =$\widehat{\beta }_{0}+\widehat{\beta }_{1}$\textit{density}
+using Stata's \texttt{twoway, scatter} and \texttt{lfit }commands, again
+limiting your analysis only to counties in California.. \ For legibility
+purposes, you may want to remove the legend using the \texttt{legend(off) }%
+option.
+
+\item A glance at the plot suggests that there is an outlier that may be
+affecting your results in a substantial fashion. \ Describe what you see and
+say how this might influence our estimate of $\widehat{\beta }_{1}.$
+
+\item Modify the graph you constructed in (b) in a way that allows you to
+identify the outlier. \ (Hint: to label points with a variable name, use the
+option \texttt{mlab(\textit{varname})}with the \texttt{scatter }command,
+where \texttt{\textit{varname}}\textit{\ }is the name of the variable you
+want to use to create the labels).
+
+\item Re-run your estimation, eliminating the outlying county. \ How did
+your estimates change? \ Did they do so in the way that you expected?
+
+\item Counties typically consist of many municipalities. \ If we were to run
+this analysis using California \textit{municipalities} instead of California 
+\textit{counties}, $VAR\left( \widehat{\beta }_{1}\right) $ would definitely
+change in two very helpful ways for us. \ What are they and why would they
+be helpful?
+\end{enumerate}
+\end{enumerate}
+
+\end{document}

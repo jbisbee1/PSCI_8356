@@ -1,0 +1,630 @@
+
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[abbr]{harvard}
+\usepackage{amssymb}
+\usepackage{setspace,graphics,epsfig,amsmath,rotating,amsfonts,mathpazo}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2960}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{Created=Sunday, September 21, 2008 09:09:16}
+%TCIDATA{LastRevised=Wednesday, October 09, 2013 09:15:50}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Articles\SW\article.egan">}
+
+\parskip=0pt
+\topmargin=0 in \headheight=0in \headsep=0in \topskip=0in \textheight=9in \oddsidemargin=0in \evensidemargin=0in \textwidth=6.5in
+\input{tcilatex}
+\setcounter{section}{4}
+
+\begin{document}
+
+
+\singlespacing
+
+\textbf{NYU Department of Politics - Quant I}
+
+\textbf{Fall 2013 - Prof.\ Patrick Egan}
+
+\doublespacing
+
+\section{Lecture 5}
+
+\subsection{A dip into multivariate analysis}
+
+\begin{itemize}
+\item Although this first part of the course focuses on univariate analysis,
+we need to dip into multivariate analysis a bit in order to develop the
+theory we need governing how we draw inferences about a population from a
+sample. \ (You'll see why next week.)
+
+\item So let's take a brief excursion into the world of multivariate
+probability distributions. \ Until now, we've considered the probability
+distribution of one variable at a time. \ But sometimes we're interested in
+the probability of two or more variables. \ An example will help:
+
+\begin{itemize}
+\item Let's imagine a hypothetical Congressional election where the
+Republican Party has a 73 percent chance of winning control of the House of
+Representatives, and an 18 percent chance of winning control of the Senate.
+\ We will consider these as two random variables, and call them $Y_{1}$ and $%
+Y_{2},$ where $Y_{i}=1$ if the G.O.P. wins control of the chamber and 0 if
+it does not.
+
+\item In this context, let's call the event that the Republicans win control
+of either chamber a "success," and call $Y_{1}$ the Bernoulli experiment
+"observe whether the Republicans win a majority of seats in the House," and $%
+Y_{2}$ the same experiment for the Senate. \ 
+
+\item We denote any particular realization of a pair of predictions as $%
+(y_{1},y_{2})$--the \textquotedblleft ordered pair\textquotedblright $%
+(y_{1},y_{2}).$
+
+\begin{itemize}
+\item Just to be clear, the ordered pair $(y_{1},y_{2})=(y_{2},y_{1})$ if
+and only if $y_{1}=y_{2}.$
+\end{itemize}
+
+\item We know $P\left( Y_{1}=1\right) $. \ It's .73. \ And we know $P\left(
+Y_{2}=1\right) .$ \ It's .18. \ Do we necessarily know the probability that
+the Republicans win both chambers?
+
+\item No. \ Define the event $A$ as the intersection of the events $Y_{1}=1$
+and $Y_{2}=1.$ \ 
+
+\begin{itemize}
+\item i.e. $A=\left( Y_{1}=1\cap Y_{2}=1\right) .$
+
+\item What's $P\left( A\right) ?$ Is it $\left( .73\right) \left( .18\right)
+=.1314?$
+
+\item Not necessarily. \ By the multiplicative law, it's $P\left( A\right)
+=P\left( Y_{1}=1\cap Y_{2}=1\right) =P\left( Y_{1}=1\right) P\left(
+Y_{2}=1|Y_{1}=1\right) .$
+
+\item For $P\left( A\right) =\left( .73\right) \left( .18\right) ,$ it would
+have to be that control of the two chambers were \textit{independent events}%
+, allowing us to write
+
+\item $P\left( A\right) =P\left( Y_{1}=1\cap Y_{2}=1\right) =P\left(
+Y_{1}=1\right) P\left( Y_{2}=1\right) .$
+
+\item And what's your sense about whether these are independent events?
+
+\item If independent events:
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\begin{center}
+\begin{tabular}{ccccc}
+&  & \multicolumn{2}{c}{$Y_{1}$:GOP wins House} &  \\ 
+&  & no $\left( Y_{1}=0\right) $ & yes $\left( Y_{1}=1\right) $ & totals \\ 
+$Y_{2}$: & no $\left( Y_{2}=0\right) $ & .22 & .60 & .82 \\ 
+GOP wins Senate & yes $\left( Y_{2}=1\right) $ & .05 & .13 & .18 \\ 
+& totals & .27 & .73 & 1%
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+\item 
+\begin{itemize}
+\item 
+\begin{itemize}
+\item An example where not independent events, and we expect control of the
+two chambers to be dependent upon one another:
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\begin{center}
+\begin{tabular}{ccccc}
+&  & \multicolumn{2}{c}{$Y_{1}$:GOP wins House} &  \\ 
+&  & no $\left( Y_{1}=0\right) $ & yes $\left( Y_{1}=1\right) $ & totals \\ 
+$Y_{2}$: & no $\left( Y_{2}=0\right) $ & .25 & .57 & .82 \\ 
+GOP wins Senate & yes $\left( Y_{2}=1\right) $ & .02 & .16 & .18 \\ 
+& totals & .27 & .73 & 1%
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+\item 
+\begin{itemize}
+\item 
+\begin{itemize}
+\item Note how the probability assigned to the off-diagonals decreased,
+while that on the diagonals increased. \ But the probability of the two
+individual events remained the same. \ 
+\end{itemize}
+
+\item What we're doing here is describing the \textbf{joint probability
+distribution }of the random variables $Y_{1}$ and $Y_{2}.$ \ 
+
+\item As with univariate probability distributions, we describe joint
+probability distributions as the probabilities associated with all possible
+values of $Y_{1}$ and $Y_{2}.$ Here we describe $P(Y_{1}=y_{1},Y_{2}=y_{2}),$
+or (to again use the shorthand) $p(y_{1},y_{2}).$
+
+\item More generically, if $Y_{1}$ and $Y_{2}$ are discrete RVs, the\textbf{%
+\ joint probability function} for $Y_{1}$ and $Y_{2}$ is given by%
+\begin{equation*}
+p(y_{1},y_{2})=P(Y_{1}=y_{1},Y_{2}=y_{2}),\quad -\infty <y_{1}<\infty
+,-\infty <y_{2}<\infty .
+\end{equation*}
+
+\item It is a function that returns the probability assigned to each of the
+possible ordered pairs, $(y_{1},y_{2})$.
+
+\item In the example above, $p(y_{1},y_{2})$ doesn't reduce so nicely to a
+function. \ It makes more sense to represent this joint probability
+distribution with a table, as we have done.
+\end{itemize}
+
+\item Similar rules from univariate world govern the assignment of joint
+probabilities. \ If $Y_{1}$ and $Y_{2}$ are discrete RVs with joint
+probability function $p(y_{1},y_{2}),$ then (Axioms 1 and 2 again):%
+\begin{eqnarray*}
+p(y_{1},y_{2}) &\geq &0\forall y_{1},y_{2} \\
+\sum_{y_{1},y_{2}}p(y_{1},y_{2}) &=&1,
+\end{eqnarray*}
+
+where the sum is over all values of $(y_{1},y_{2})$ assigned nonzero
+probabilities.
+
+\item Joint probability distributions can have \textbf{distribution functions%
+}. \ (Notice difference between this and the \textbf{joint probability
+function} described above.) \ We write this function 
+\begin{equation*}
+F(y_{1},y_{2})=P(Y_{1}\leq y_{1},Y_{2}\leq y_{2}),\quad -\infty
+<y_{1}<\infty ,-\infty <y_{2}<\infty .
+\end{equation*}
+
+\item The joint distribution function is also at times called the \textbf{%
+joint cumulative distribution function}, or the \textbf{joint CDF. }
+
+\item Just like in univariate world, joint distributions of random variables
+can be discrete or continuous.\textbf{\ }
+
+\item For two discrete random variables $Y_{1}$and $Y_{2},$ this is:%
+\begin{equation*}
+F(y_{1},y_{2})=\sum_{t_{1}\leq y_{1}}\sum_{t_{2}\leq y_{2}}p(t_{1},t_{2}).
+\end{equation*}
+
+\item Just to be clear, this equals the sum of the probabilities assigned to
+all the simple events in which ($Y_{1}$ takes on values $\leq y_{1}$ AND $%
+Y_{2}$ takes on values $\leq y_{2}$)$.$
+
+\item Two continuous random variables are said to be \textbf{jointly
+continuous }if their joint distribution function is continuous in both
+arguments. \ That is if there exists a nonnegative function $f(y_{1},y_{2})$%
+, such that%
+\begin{equation*}
+F(y_{1},y_{2})=\int_{-\infty }^{y_{1}}\int_{-\infty
+}^{y_{2}}f(t_{1},t_{2})dt_{2}dt_{1}\text{ \ \ for }-\infty <y_{1}<\infty
+,-\infty <y_{2}<\infty ,\text{\ }
+\end{equation*}
+
+then $Y_{1}$ and $Y_{2}$ are jointly continuous. \ And the function $%
+f(y_{1},y_{2})$ is called the \textbf{joint probability density function }or
+the \textbf{joint density }or the \textbf{joint PDF}.
+
+\item As before, we can use joint CDFs to determine the probability that two
+random variables fall jointly into particular intervals, in this case $%
+P(a<Y_{1}\leq b,c<Y_{2}\leq d),$ where%
+\begin{eqnarray*}
+P(a &<&Y_{1}\leq b,c<Y_{2}\leq
+d)=\int_{c}^{d}\int_{a}^{b}f(y_{1},y_{2})dy_{1}dy_{2} \\
+&=&F(b,d)-F(b,c)-F(a,d)+F(a,c).\text{ \ [Exercise.]}
+\end{eqnarray*}
+
+\item Illustrate this on the board.
+
+\item Bivariate CDFs satisfy a set of properties that will look familiar:%
+\begin{multline*}
+F(-\infty ,-\infty )=F(-\infty ,y_{2})=F(y_{1},-\infty )=0. \\
+F(\infty ,\infty )=1. \\
+y_{1}^{\ast }\geq y_{1},y_{2}^{\ast }\geq y_{2}\Rightarrow F(y_{1}^{\ast
+},y_{2}^{\ast })-F(y_{1}^{\ast },y_{2}^{{}})-F(y_{1}^{{}},y_{2}^{\ast
+})+F(y_{1}^{{}},y_{2}^{{}})\geq 0,\text{ since} \\
+F(y_{1}^{\ast },y_{2}^{\ast })-F(y_{1}^{\ast
+},y_{2}^{{}})-F(y_{1}^{{}},y_{2}^{\ast
+})+F(y_{1}^{{}},y_{2}^{{}})=P(y_{1}^{{}}<Y_{1}\leq y_{1}^{\ast
+},y_{2}^{{}}<Y_{2}\leq y_{2}^{\ast })\geq 0.
+\end{multline*}
+
+\item And furthermore, if $Y_{1}$ and $Y_{2}$ jointly continuous,%
+\begin{eqnarray*}
+f(y_{1},y_{2}) &\geq &0\forall y_{1},y_{2}, \\
+\int_{-\infty }^{\infty }\int_{-\infty }^{\infty }f(y_{1},y_{2})dy_{1}dy_{2}
+&=&1.
+\end{eqnarray*}
+\end{itemize}
+
+\subsection{Marginal probability distributions}
+
+\begin{itemize}
+\item Note that all the bivariate events ($Y_{1}=y_{1},Y_{2}=y_{2}$), as
+represented by the ordered pairs ($y_{1}$, $y_{2}$), are mutually exclusive
+events. \ 
+
+\item So the univariate event ($Y_{1}=y_{1})$ can be thought of as the 
+\textbf{union }of bivariate events, with the union being taken over all
+possible values for $y_{2}$.
+
+\item So, consider the roll of two six-sided dice:%
+\begin{eqnarray*}
+P(Y_{1} &=&1)=p(1,1)+p(1,2)+...+p(1,6) \\
+&=&6\times \frac{1}{36}=\frac{1}{6}. \\
+&&\text{Generically,} \\
+P(Y_{1} &=&y_{1})=p_{1}(y_{1})=\sum_{all\quad y_{2}}p(y_{1},y_{2}).
+\end{eqnarray*}
+
+\item We call $p_{1}(y_{1})$ the \textbf{marginal probability function }of
+the discrete RV $Y_{1}$. \ (What's the marginal probability function for $%
+Y_{2}$?)%
+\begin{equation*}
+P(Y_{2}^{{}}=y_{2})=p_{2}(y_{2})=\sum_{all\quad y_{1}}p(y_{1},y_{2}).
+\end{equation*}
+
+\item In the continuous case, the \textbf{marginal density function }of the
+continuous RV $Y_{1}$ is:%
+\begin{equation*}
+f_{1}(y_{1})=\int_{-\infty }^{\infty }f(y_{1},y_{2})dy_{2}.
+\end{equation*}
+
+\begin{itemize}
+\item (What's the marginal density function for $Y_{2}$?)%
+\begin{equation*}
+f_{2}(y_{2})=\int_{-\infty }^{\infty }f(y_{1},y_{2})dy_{1}.
+\end{equation*}
+\end{itemize}
+\end{itemize}
+
+\subsection{Conditional probability distributions}
+
+\begin{itemize}
+\item Now we turn to the notion of \textbf{conditional distributions. \ }%
+Recall that $P(A\cap B)=P(A)P(B|A)$ (multiplicative law).
+
+\item Well, the bivariate event $(y_{1},y_{2})$ is of course just another
+way to describe the intersection of the two numerical events $Y_{1}=y_{1}$
+and $Y_{2}=y_{2}.$ \ So we may write%
+\begin{eqnarray*}
+p(y_{1},y_{2}) &=&p_{1}(y_{1})p(y_{2}|y_{1}) \\
+&=&p_{2}(y_{2})p(y_{1}|y_{2}),
+\end{eqnarray*}
+
+where%
+\begin{equation*}
+p_{1}(y_{1}),p_{2}(y_{2})\text{ are (again) the marginal probability
+functions associated with }y_{1}\text{ and }y_{2},\text{ and}
+\end{equation*}%
+\begin{equation*}
+p(y_{1}|y_{2})=P(Y_{1}=y_{1}|Y_{2}=y_{2})=\frac{P(Y_{1}=y_{1},Y_{2}=y_{2})}{%
+P(Y_{2}=y_{2})}=\frac{p(y_{1},y_{2})}{p_{2}(y_{2})},p_{2}(y_{2})>0.
+\end{equation*}
+
+\item This defined as the \textbf{conditional discrete probability function }%
+of $Y_{1}$ given $Y_{2}$.
+
+\item In the case of continuous RVs, we adjust the concept accordingly:%
+\begin{equation*}
+P(Y_{1}\leq y_{1}|Y_{2}=y_{2})=F(y_{1}|y_{2}),
+\end{equation*}
+
+called the \textbf{conditional distribution function }of $Y_{1}$ given $%
+Y_{2}=y_{2}$.
+
+\item Similarly, we write the \textbf{conditional density function of }$%
+Y_{1} $ given $Y_{2}=y_{2}$ as%
+\begin{equation*}
+f(y_{1}|y_{2})=\frac{f(y_{1},y_{2})}{f_{2}(y_{2})}.
+\end{equation*}
+
+Note its similarity to the conditional probability function in the discrete
+case.
+\end{itemize}
+
+\subsection{Independent random variables}
+
+\begin{itemize}
+\item If the previous topic feels a bit rushed, that's because it was. \ You
+will be assigned exercises in the book to get you used to working with
+marginal and conditional probability functions. \ But we rushed to get to
+the material that is needed at hand to describe the way we make inferences
+from samples.
+
+\item We begin to do this now by extending the notion of independent events
+to define the idea of an \textbf{independent random variable}. \ Recall that
+two events are independent if 
+\begin{equation*}
+P(A\cap B)=P(A)P(B).
+\end{equation*}
+
+\item Now consider a event involving two random variables, the event: 
+\begin{equation*}
+(a<Y_{1}\leq b)\cap (c<Y_{2}\leq d).
+\end{equation*}
+
+\item This is an event composed of the two events%
+\begin{equation*}
+a<Y_{1}\leq b\text{ and }c<Y_{2}\leq d.
+\end{equation*}
+
+\item For consistency, we'd like it to be the case that if 
+\begin{equation*}
+Y_{1},Y_{2}\text{ independent}\Rightarrow P(a<Y_{1}\leq b,c<Y_{2}\leq
+d)=P(a<Y_{1}\leq b)P(c<Y_{2}\leq d).
+\end{equation*}
+
+\begin{itemize}
+\item That is, the joint probability of two independent RVs can be written
+as the product of their marginal probabilities.
+\end{itemize}
+
+\item So we'll do just that: \ random variables $Y_{1}$ and $Y_{2}$ are
+defined to be \textbf{independent} iff%
+\begin{equation*}
+Y_{1}\text{ and }Y_{2}\text{ independent}\Leftrightarrow
+F(y_{1},y_{2})=F_{1}(y_{1})F_{2}(y_{2})\text{ for every pair }(y_{1},y_{2})%
+\text{,}
+\end{equation*}
+
+where $F(y_{1},y_{2})$ is the joint CDF for $Y_{1}$and $Y_{2}$ and $%
+F_{1}(y_{1})$ is the CDF for $Y_{1}$ and $F_{2}(y_{2})$ is the CDF for $%
+Y_{2}.$ \ If $Y_{1}$and $Y_{2}$ are not independent they are by definition 
+\textbf{dependent}.
+
+\item If follows [proof omitted] that 
+\begin{eqnarray*}
+Y_{1},Y_{2}\text{ independent} &\Leftrightarrow
+&p(y_{1},y_{2})=p_{1}(y_{1})p_{2}(y_{2})\text{ [discrete RVs]} \\
+&\Leftrightarrow &f(y_{1},y_{2})=f_{1}(y_{1})f_{2}(y_{2})\text{ [continuous
+RVs].}
+\end{eqnarray*}
+
+\item One final result is that independence of $Y_{1}$, $Y_{2}$ implies that
+we can write the joint density of the two RVs as the product of functions
+only of $y_{1}$ and $y_{2}$:%
+\begin{equation*}
+Y_{1},Y_{2}\text{ independent}\Leftrightarrow
+f(y_{1},y_{2})=g(y_{1})h(y_{2}),
+\end{equation*}
+
+where $g()$ and $h()$ are non-negative functions of $y_{1}$and $y_{2}$
+alone. \ This means that if we want to prove two RVs are independent, we can
+do so by finding two functions that satisfy these properties.
+\end{itemize}
+
+\subsection{The EV of a function of RVs}
+
+\begin{itemize}
+\item Recall that in univariate world, we talk a lot about the function of a
+random variable $Y$, say $g(Y).$ \ We showed that the expected value of this
+function is 
+\begin{eqnarray*}
+E[g(Y)] &=&\sum_{y}g(y)p(y)\text{ \ [discrete RV }Y\text{]} \\
+&=&\int_{-\infty }^{\infty }g(y)f(y)dy\text{ \ [continuous RV }Y\text{]}
+\end{eqnarray*}
+
+\item Well, we can also talk about functions of random variables (plural). \ 
+
+\begin{itemize}
+\item For example, one function of random variables $Y_{1},Y_{2},...,Y_{k}$
+about which we are particularly interested is their \textbf{mean}, which is
+the function%
+\begin{equation*}
+\overline{Y}=g\left( Y_{1},Y_{2},...,Y_{k}\right) =\frac{1}{K}%
+\sum\limits_{i=1}^{k}Y_{i}
+\end{equation*}
+\end{itemize}
+
+\item And we often find ourselves interested in the expected value of such a
+function. \ Recall that we showed that the expected value of a function of
+one random variable, $g(Y),$ is:%
+\begin{equation*}
+E[g(Y)]=\sum_{y}g(y)p(y).
+\end{equation*}%
+Well, analogously to univariate world, we define the expected value of a
+function of several random variables $g(Y_{1},Y_{2},...,Y_{k})$ as:%
+\begin{equation*}
+E[g(Y_{1},Y_{2},...,Y_{k})]=\sum_{y_{k}}...\sum_{y_{2}}%
+\sum_{y_{1}}g(y_{1},y_{2},...,y_{k})p(y_{1},y_{2},...,y_{k}),
+\end{equation*}
+
+where $p(y_{1},y_{2},...,y_{k})$ is the joint probability function of the $k$
+random variables. \ (Note that we're just extending the notion of joint
+probability from two to $k$ RVs here.) \ This, is of course, for the
+discrete case. \ In the continuous case, we write%
+\begin{equation*}
+E[g(Y_{1},Y_{2},...,Y_{k})]=\int_{-\infty }^{\infty }...\int_{-\infty
+}^{\infty }\int_{-\infty }^{\infty
+}g(y_{1},y_{2},...,y_{k})f(y_{1},y_{2},...,y_{k})dy_{1}dy_{2}...dy_{k}.
+\end{equation*}
+
+\item Well, just as in the case of the expected value of one RV, analogous
+results hold for the functions of several random variables. Where $%
+g(Y_{1},Y_{2})$ is a function of the RVs $Y_{1}$ and $Y_{2}$,%
+\begin{equation*}
+E[cg(Y_{1},Y_{2})]=cE[g(Y_{1},Y_{2})].
+\end{equation*}
+
+\item And furthermore, where we have a total of $k$ functions of these
+random variables $g_{1}(Y_{1},Y_{2}),g_{2}(Y_{1},Y_{2}),\allowbreak
+...g_{k}(Y_{1},Y_{2}),$ we can \textquotedblleft distribute
+expectations\textquotedblright\ over the sum of these functions:%
+\begin{equation*}
+E[g_{1}(Y_{1},Y_{2})+g_{2}(Y_{1},Y_{2})+...+g_{k}(Y_{1},Y_{2})]=E[g_{1}(Y_{1},Y_{2})]+E[g_{2}(Y_{1},Y_{2})]+...+E[g_{k}(Y_{1},Y_{2})]
+\end{equation*}
+
+\item A powerful result is that, if $Y_{1}$ and $Y_{2}$ are independent, and
+if $g(Y_{1})$ and $h(Y_{2})$ are functions only of $Y_{1}$and $Y_{2}$, then%
+\begin{equation*}
+E[g(Y_{1})h(Y_{2})]=E[g(Y_{1})]E[h(Y_{2})].
+\end{equation*}
+
+\item Proof is omitted here, but it is intuitive and found on page 260 of
+your text.
+
+\item (in the continuous case):%
+\begin{equation*}
+E[g(Y_{1})h(Y_{2})]=\int_{-\infty }^{\infty }\int_{-\infty }^{\infty
+}g(y_{1})h(y_{2})f(y_{1},y_{2})dy_{2}dy_{1}\text{ [definition of the
+expected value of a function of random variables]}
+\end{equation*}
+
+\begin{eqnarray*}
+&=&\int_{-\infty }^{\infty }\int_{-\infty }^{\infty
+}g(y_{1})h(y_{2})f_{1}(y_{1})f_{2}(y_{2})dy_{2}dy_{1}\text{ (since }Y_{1}%
+\text{, }Y_{2}\text{ independent)} \\
+&=&\int_{-\infty }^{\infty }g(y_{1})f_{1}(y_{1})\left[ \int_{-\infty
+}^{\infty }h(y_{2})f_{2}(y_{2})dy_{2}\right] dy_{1}\text{ (pulling functions
+of }y_{1}\text{ out of second integral)} \\
+&=&\int_{-\infty }^{\infty }g(y_{1})f_{1}(y_{1})E[h(y_{2})]dy_{1}\text{
+(definition of expected value)} \\
+&=&E[h(y_{2})]\int_{-\infty }^{\infty }g(y_{1})f_{1}(y_{1})dy_{1}\text{ }
+\end{eqnarray*}%
+($E[h(y_{2})]$ is a constant with regard to $y_{1}$ and can be pulled out of
+integral)%
+\begin{equation*}
+=E[g(Y_{1})]E[h(Y_{2})]\text{ \ (definition of expected value again.)}
+\end{equation*}
+\end{itemize}
+
+\subsection{Covariance of Two Random Variables}
+
+\begin{itemize}
+\item Let's take a breath and reconsider the notion of independence in the
+context of our definition of a random variable. \ You'll recall that a RV is
+a function for which the domain is a sample space. \ It maps every sample
+point/simple event to a real number. \ 
+
+\item Draw diagram here of RV $Y_{1}$ with sample space $S_{1}$.
+
+\item We we say that two random variables $Y_{1}$ and $Y_{2}$ are \textbf{%
+independent}, we are saying that:
+
+\begin{itemize}
+\item their joint probability function is equal to the product of their
+individual probability functions [discrete world].
+
+\item Or we say that their joint PDF is equal to the product of their
+individual PDFs [continuous world].
+\end{itemize}
+
+\item But (now draw diagram of RV $Y_{2}$ with sample space $S_{2})$ in the
+context of the definition of a random variable, we are saying that the
+realization of $Y_{2}$ is unrelated to the realization of $Y_{1}$. \ These
+are two separate processes. \ 
+
+\item What happens, however, if the two realizations \textit{are }related? \
+That is, given that you know the value of $Y_{1}$, you are able to make a
+better than random guess about $Y_{2}$. \ Well, we have a way to describe
+how much the two processes are related, and it is the property of \textbf{%
+covariance}.
+
+\item We define covariance as%
+\begin{equation*}
+COV(Y_{1},Y_{2})\equiv E[(Y_{1}-\mu _{1})(Y_{2}-\mu _{2})],
+\end{equation*}
+
+where $\mu _{1},\mu _{2}$ are the means of RVs $Y_{1}$ and $Y_{2}$.
+
+\item To get a feel for what we mean by covariance, consider three
+hypothetical distributions of the observed values of random variables $Y_{1}$
+and $Y_{2}.$
+
+\FRAME{ftbpF}{4.1494in}{5.7218in}{0in}{}{}{covariance.tif}{\special{language
+"Scientific Word";type "GRAPHIC";maintain-aspect-ratio TRUE;display
+"USEDEF";valid_file "F";width 4.1494in;height 5.7218in;depth
+0in;original-width 8.1361in;original-height 11.2411in;cropleft "0";croptop
+"1";cropright "1";cropbottom "0";filename '//POLFS1/pje202/t.Quant I Fall
+2013/lecture notes/covariance.tif';file-properties "XNPEU";}}
+
+\item In panel A, we say that $Y_{1}$ and $Y_{2}$ have a
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ relationship (positive).
+
+\item In panel B, we say that $Y_{1}$ and $Y_{2}$ have a
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ relationship (negative).
+
+\item In panel C, we say that they have \textbf{no }relationship.
+
+\item Now consider two quantities: $(y_{1}-\mu _{1})$ and $(y_{2}-\mu _{2}),$%
+(called \textit{deviations}, or deviations from the mean) and their product, 
+$(y_{1}-\mu _{1})(y_{2}-\mu _{2}).$
+
+\item Let's talk about the \textbf{sign }of this product.
+
+\begin{itemize}
+\item In panel A: \ When the first multiplicand is positive, so is the
+second. \ When the first is negative, so is the second. \ The sign of this
+product is therefore always positive.
+
+\item Now consider panel B. \ For similar reasons, the product here is
+always negative.
+
+\item And panel C? \ We don't know: not clear.
+\end{itemize}
+
+\item Now let's talk about the \textbf{magnitude} of this product.
+
+\begin{itemize}
+\item In panel A, big deviations on $y_{1}$ are paired with big deviations
+on $y_{2}$. \ This makes the product bigger than if, say, big deviations on $%
+y_{1}$ were paired with small deviations on $y_{2}$ and vice-versa.
+
+\item What about panel\ B? \ (Same.)
+
+\item And C? \ Well exactly what makes the product smaller: big deviations
+are not necessarily paired with big deviations.
+\end{itemize}
+
+\item Now, you can see the logic of using $E[(Y_{1}-\mu _{1})(Y_{2}-\mu
+_{2})]$ as our definition of covariance. \ It is, literally:
+
+\begin{itemize}
+\item how much the size of the deviations of $Y_{1}$ and $Y_{2}$ from their
+means tend to vary with one another,
+
+\item signed in the direction of the relationship between the two variables.
+\end{itemize}
+
+\item Now draw a panel D that looks like\ C but with bigger axes.
+
+\item \textit{Ceteris paribus}, what can we say about the covariance of
+these two variables versus those in C? \ It's larger--simply because we've
+changed the scale, not because they covary to a greater degree. \ This is
+problematic for comparing variables on different scales.
+
+\item To handle this challenge, we often standardize the value of a
+covariance by the product of the two variables' standard deviations. \ We
+call this standardized value a \textbf{correlation coefficient}, defined as%
+\begin{equation*}
+\rho _{(Y_{1},Y_{2})}\equiv \frac{COV(Y_{1},Y_{2})}{\sigma _{1}\sigma _{2}}.
+\end{equation*}
+
+\item A proof that it is always the case that $-1\leq \rho \leq 1$ will be
+on your homework.
+
+\item Note that covariance and correlation are good at detecting/measuring
+the strength of a \textit{linear} relationship. \ Not at measuring the
+strength of other relationships. \ (Draw curvilinear relationship on board.)
+\ Thus (we'll see later), while independence of $Y_{1},Y_{2}$ implies $%
+COV(Y_{1},Y_{2})$ = 0, the converse is not true.
+\end{itemize}
+
+\section{Lecture 6}
+
+\subsection{Some additional helpful results regarding the math of
+expectations}
+
+\begin{itemize}
+\item Go over handout: Some Additional Helpful Results Regarding the Math of
+Expectations. \ Have students do proofs on board (without benefit of
+handout). \ [This can easily take 45 min-hour.]
+\end{itemize}
+
+\end{document}

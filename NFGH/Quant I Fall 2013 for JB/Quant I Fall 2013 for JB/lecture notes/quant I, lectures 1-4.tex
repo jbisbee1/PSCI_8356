@@ -1,0 +1,2266 @@
+
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[abbr]{harvard}
+\usepackage{amssymb}
+\usepackage{setspace,graphics,epsfig,amsmath,rotating,amsfonts,mathpazo}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2960}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{Created=Sunday, September 21, 2008 09:09:16}
+%TCIDATA{LastRevised=Tuesday, October 01, 2013 18:45:14}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Articles\SW\article.egan">}
+
+\parskip=0pt
+\topmargin=0 in \headheight=0in \headsep=0in \topskip=0in \textheight=9in \oddsidemargin=0in \evensidemargin=0in \textwidth=6.5in
+\begin{document}
+
+
+\singlespacing
+
+\textbf{NYU Department of Politics - Quant I}
+
+\textbf{Fall 2013 - Prof.\ Patrick Egan}
+
+\doublespacing
+
+\section{Lecture 1}
+
+\begin{itemize}
+\item Housekeeping.
+
+\begin{itemize}
+\item Syllabus:
+
+\begin{itemize}
+\item Deliverables.
+
+\begin{itemize}
+\item Attendance.
+
+\item Class and lab.
+
+\item Homeworks.
+
+\item Exams.
+\end{itemize}
+
+\item Grades.
+
+\item Help.
+
+\begin{itemize}
+\item Introduce Andrew.
+
+\item Propose Andrew's office hours; check to see if works.
+\end{itemize}
+
+\item Books.
+
+\item Stata.
+
+\item NYU\ Classes. [check.]
+
+\item Hand out questionnaires.
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\begin{itemize}
+\item Why are you here? \ (i.e., why are you getting a Ph.D. in political
+science?)
+
+\begin{itemize}
+\item You are here because you enjoy asking and answering questions about
+politics.
+
+\begin{itemize}
+\item (If not, you're in the wrong line of work.)
+\end{itemize}
+
+\item So what kinds of questions do you find interesting? \ List on board.
+\end{itemize}
+
+\item This is a course about quantitative analysis in political science.
+
+\begin{itemize}
+\item Quantiative analysis takes its place alongside other methodologies in
+empirical political science. \ It is particularly helpful and appropriate
+for particular kinds of social scientific tasks. \ 
+
+\begin{itemize}
+\item Tends to be based on: \textit{numerical }measurements of specific
+aspects of social and political phenomena; \ [contrast to: non-numerical]
+
+\item Is more interested in developing and testing generalizable theories
+about \textit{multiple }phenomena; [particular cases]
+
+\item Seeks measurements and analyses that are easily \textit{replicable }by
+other researchers. [difficult to replicate in its entirety.]
+\end{itemize}
+
+\item Contrast this to \textit{qualitative }research [on all three aspects].
+
+\item In addition, appropriateness of \textit{qualitative }research depends
+on...
+
+\begin{itemize}
+\item Hypothesis testing vs. hypothesis generation
+
+\item Agreed-upon measures of concepts vs. those still up for debate
+
+\item Analyst's willingness to apply less or more \textit{structure} to the
+study of the phenomenon
+\end{itemize}
+\end{itemize}
+
+\item When political scientists work with data, we generally do so for three
+reasons:
+
+\begin{itemize}
+\item What can we say about the data we have?
+
+\item What can we say about the data we don't have (but we know is out there
+in the world) based on the data we do have?
+
+\item What can we say about the data we'd expect to see under a hypothetical
+scenario, based on the data we do have?
+\end{itemize}
+
+\item These activities generally require three kinds of statistics:
+
+\begin{itemize}
+\item Descriptive
+
+\item Inferential (from samples to populations)
+
+\item Prediction (from models to hypothetical scenarios)
+
+\begin{itemize}
+\item And lingering behind all of this is a kind of statistic we'll use all
+the time: the \textit{test }statistic.
+\end{itemize}
+\end{itemize}
+
+\item What's a \textit{statistic}? \ 
+
+\begin{itemize}
+\item It's a number that summarizes data.
+\end{itemize}
+\end{itemize}
+
+\subsection{Variables 101}
+
+\begin{itemize}
+\item 
+\begin{itemize}
+\item We study \textbf{units}. \ They are the level at which we wish to make
+statements about a social process. \ Units are often also known as \textbf{%
+cases}.
+
+\begin{itemize}
+\item People, Counties, Nations, Dyads.
+\end{itemize}
+
+\item Units have \textbf{attributes}\textit{. \ }An attribute is any
+characteristic of a unit that in theory might distinguish it from other
+units. \ 
+
+\item \textbf{Variables} are \textit{logical }groupings of \textit{mutually
+exclusive }attributes. \ The analyst assigns each attribute a \textbf{value}%
+\textit{. \ }We then say that a variable takes on a value for any particular
+unit. \ 
+
+\begin{itemize}
+\item The variable \textquotedblleft hair color\textquotedblright\ takes on
+the value \textquotedblleft red\textquotedblright\ for the unit Me. \ 
+
+\item The variable \textquotedblleft party affiliation\textquotedblright\
+takes on the value \textquotedblleft Republican\textquotedblright\ for the
+unit Mitt Romney.
+\end{itemize}
+
+\item For ease of data manipulation in quantitative analysis, we typically
+assign \textbf{scores}\textit{\ }to each potential value a variable can take
+on. \ The scores are simply numbers associated with each value. \ Sometimes
+the scores are meaningful in their own right; often they are not. \ \ But
+it's generally a lot easier to enter and manipulate data via numbers than
+via the words we use to describe values.
+
+\item Note that all of these--which units, which attributes, how to group
+into variables, how to score the variables--are \textit{choices }that must
+be considered and justified by the analyst. \ Typically there are
+conventions within subfields of political science that either must be
+adhered to (which is what we usually do), or if we depart from them we need
+to justify this departure. \ Sometimes the departure itself is a noteworthy
+innovation. \ Going to leave aside here a whole field of theory on how we
+move from concepts to \textbf{measures}. \ In this class, in most cases,
+we'll take the measures as given.
+\end{itemize}
+\end{itemize}
+
+\subsection{Levels of measurement}
+
+\begin{itemize}
+\item Variables can be measured at various levels. \ We'll consider four
+such levels in our class:
+
+\begin{itemize}
+\item Nominal
+
+\item Ordinal
+
+\item Interval
+
+\item Ratio
+\end{itemize}
+
+\item Variables measured at the \textbf{nominal }level take on values that
+cannot be ordered in any logical way.
+
+\begin{itemize}
+\item Egs.
+\end{itemize}
+
+\item Variables measured at the \textbf{ordinal} level taken on values that
+can be rank ordered, but that's it. \ We know nothing about how much more or
+less one value is than another.
+
+\begin{itemize}
+\item Egs.
+\end{itemize}
+
+\item Variables measured at the \textbf{interval} level take on values whose
+differences can be meaningfully compared. \ I.e., the interval between two
+values is meaningful.
+
+\begin{itemize}
+\item Eg: Fahrenheit. \ The Year.
+\end{itemize}
+
+\item Variables measured at the \textbf{ratio} level take on values such
+that the value of zero is meaningful in a specific sense: it means \textit{%
+nothing} of the quantity being measured.. \ 
+
+\begin{itemize}
+\item Eg. \ income. \ height. \ age...number of wars...miles. \ 
+\end{itemize}
+
+\item Mathematical operations:
+
+\begin{itemize}
+\item Nominal: equality.
+
+\item Ordinal. \ equality. \ greater than or less than.
+
+\item Interval: addition and subtraction; averages
+
+\item Ratio: \ multiplication and division (i.e. ratios) - "twice as tall,"
+"six times as wealthy"
+
+\item Note that we generally have more information as we move up the ladder.
+\ Your first instinct should be to use measures that retain as much
+information about your units as possible.
+\end{itemize}
+
+\item Three trickier cases:
+
+\begin{itemize}
+\item Richter (ratio, although slightly tricky: $y_{Richter}=$ $\log _{10}[$%
+shaking amplitude$]$, so each unit represents a \textit{doubling} of
+amplitude.) \ 
+
+\item Celsius has a meaningful zero (the freezing point of water), but it is 
+\textit{not} ratio level. \ Why? \ Because "zero degrees Celsius" $\neq $
+zero of the quantity "temperature." \ [E.g., is a 30-degree Celsius day
+(86F) thirty times as hot as a one-degree Celsius day (32F)? \ Not
+meaningful.] \ Contrast to "zero miles" or "zero years old." \ Celsius is
+interval level. \ Contrast to Kelvin, measured at the absolute zero. \ Zero
+degrees K = -273.15 C; 1 degree K = 0 C, and so on.
+
+\item Latitiude, longitude: for all intents and purposes, ratio. \ Of
+course, zero on the latitiude scale doesn't mean "zero distance." \ It means
+we are at the Equator. \ But as a unit of measure, to travel two degrees
+latitude is to travel twice as far as one degree latitude. If you travel
+from the Equator to Vermont, at 45 degrees latitude North, you've covered 
+\textit{half the distance} to the North\ Pole (at 90 degrees latitude). \
+Therefore ratio.
+\end{itemize}
+
+\item A special case: the dichotomous variable. \ Two ways to consider it:
+as a nominal variable with two categories, or as a ratio variable with two
+values, zero and one. \ E.g. "gender" versus "female."
+
+\item Choice of level of measurement is often up to the analyst. \ Many
+underlying concepts yield several choices for levels of measurement. Again,
+your first instinct should be to use measures that retain as much
+information about your units as possible. \ E.g.:
+
+\begin{itemize}
+\item Location of residence: \ region of country [nominal], county
+[nominal], zip code [nominal!], latitude and longitude [ratio].
+
+\item Hair color: common usage [nominal], amount of pheomelanin and
+eumelanin (hair pigments) [ratio]
+
+\item Income: poor, middle class, rich [ordinal]; dollars per year [ratio]
+\end{itemize}
+\end{itemize}
+
+\subsection{Data structures}
+
+\begin{itemize}
+\item The typical way that we store data (and really, the way that we think
+about data structures) is via a \textbf{data table}. \ Excel, any
+statistical software program. \ Each unit is given a row. \ Each variable is
+given a column. \ [You could of course do it the other way, but as in many
+things you'll find that you save time and headaches by being consistent with
+convention.] \ The scores (and/or in some cases, the values) the variables
+take on for each case are entered in the cells. \ [Draw on board.]
+\end{itemize}
+
+\subsection{Summarizing data: displays}
+
+\begin{itemize}
+\item So we've got a group of units, and we know the values taken on by a
+set of variables in this set of units. \ Our next move is typically to say
+something meaningful about the group with the data at hand. [Gesture to
+table.] \ Why not just present this? \ 
+
+\item You're not going to get any more detailed than this. \ But
+descriptions of data usually involve tradeoffs between detail and parsimony.
+
+\item So let's move to a higher level of abstraction. \ A frequency table.
+
+\begin{itemize}
+\item Displays the frequency with which a variable takes on values in a
+group of units.
+
+\item Columns with value, number of units, proportion of units
+
+\item One row for each value.
+
+\item And for ordinal, interval, and ratio-level data: cumulative percentile.
+\end{itemize}
+
+\item When displaying frequency distributions, sometimes it makes more sense
+to do so graphically. \ Typically graphs move a bit toward parisomony at the
+expense of some detail. \ [scale on board] \ What information is missing
+from the graph that isn't in the table?
+
+\begin{itemize}
+\item Another choice: \textbf{recode} the data into categories and then
+produce either a frequency table or a bar chart of the categories. [e.g. on
+board]
+\end{itemize}
+
+\item When we move to interval- or ratio-level data with lots of categories,
+a histogram is almost always preferred to a frequency table.
+\end{itemize}
+
+\subsection{Summarizing data: measures of central tendency and dispersion}
+
+\begin{itemize}
+\item An even higher level of abtraction: measures of central tendency and
+measures of dispersion.
+
+\begin{itemize}
+\item Measures of \textbf{central tendency }tell us about the \textit{%
+typical value }of the variable in a group of units.
+
+\begin{itemize}
+\item mode: the value of the variable most frequently observed in the group
+of units (all LOMs; wait to say this): ;
+
+\item median: the value of the smallest observation for which the cumulative
+percentage is 50 or greater (ordinal and up);
+
+\item mean - the average: $\overline{y}=\frac{1}{N}\overset{N}{\underset{i=1}%
+{\sum }}y_{i}$ \ \ (interval and up). \ 
+
+\item Note that all of these measures summarize all the observations of a
+variable with just one number.
+\end{itemize}
+
+\item Measures of \textbf{dispersion} typically accompany measures of
+central tendency. \ They provide a sense of the \textquotedblleft
+spread\textquotedblright\ of a variable's distribution -- a.k.a. the amount
+of \textit{variation }in its distribution.
+
+\begin{itemize}
+\item \textit{range }(the difference between largest and smallest values);
+
+\item \textit{IQR} (the difference between the values at the 75\%ile and
+25\%ile,
+
+\item \textit{variance} $s^{2}=\frac{1}{N}\overset{N}{\underset{i=1}{\sum }}%
+(y_{i}-\overline{y})^{2}.$ \ Note different from book, because more
+intuitive. \ The standard deviation (s.d.) is simply $\sqrt{s^{2}}.$ \ The
+s.d. is a more informative measure of dispersion: it is the average distance
+of an observation from the mean. \ It is measured in the same units as the
+variable itself. \ What sign must the variance and thus s.d. always be? \
+(LOM: interval or higher):
+\end{itemize}
+
+\item Furthermore, social scientists often speak \textit{qualitatively}
+about the frequency distribution of a variable:
+
+\begin{itemize}
+\item It may be symmetric [draw] or skewed [draw], also number of children
+on handout.
+
+\begin{itemize}
+\item Typically the median is a better measure of central tendency for
+variables with skewed distributions than the mean, because it is resistant
+to outliers. \ Use age at married example.
+\end{itemize}
+
+\item It may be unimodal or bimodal [number of children]
+
+\item There are \textit{quantitative }ways to speak about the distribution
+of a variable. \ For example the \textbf{skewness} of a distribution is
+typically calculated as $g_{1}=\frac{1}{N\cdot s^{3}}\overset{N}{\underset{%
+i=1}{\sum }}(y_{i}-\overline{y})^{3}\ $This statistic will be zero in a
+perfectly symmetric distribution. \ It will be \textit{negative }if
+observations below the mean tend to be farther way from it than observations
+above the mean/data are skewed left/long left "tail"). \ If will be \textit{%
+positive }if data are skewed right (vice versa/long right "tail"). \ You
+rarely see this statistic used in political science, but it will pop out
+[handout].\newpage
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\section{Lecture 2}
+
+[retrieve questionnaires.]
+
+\subsection{The Normal distribution}
+
+\begin{itemize}
+\item 
+\begin{itemize}
+\item One more thing: the Normal distribution. \ 
+
+\begin{itemize}
+\item Bell shaped.
+
+\item Unimodal, symmetric.
+
+\item Many variables, empirically, are distributed in a way that
+approximates the Normal distribution. \ E.g.: \ height. \ 
+
+\item When this is the case, we can use a rule of thumb called Tchebysheff's
+Theorem to describe the distribution:
+
+\begin{itemize}
+\item the interval $\overline{y}\pm s$ contains about 68\% of the
+observations
+
+\item the interval $\overline{y}\pm 2s$ contains about 95\% of the
+observations; and
+
+\item the interval $\overline{y}\pm 3s$ contains about all of the
+observations.
+\end{itemize}
+
+\item Example: the distribution of the height of American females
+approximates the Normal distribution. \ Its mean, $\overline{y}$, is 63.5
+and its s.d., $s$ = 3. \ Your cousin's best friend's new roommate is a woman
+who is 69.5 inches tall. \ She is taller than what proportion of females in
+the American population? \ \{draw on board\}
+
+\item Because the distribution of the mean of independently drawn
+observations from any population tends toward the Normal when the sample
+size gets large, we think a lot about the Normal. \ This fact also creates
+lots of empirical Normal distributions. \ More to come.
+
+\item However, do NOT make the mistake of assuming all distributions are
+Normal. \ Not e.g.: internet usage. \ Not e.g.:\ number of children.
+\end{itemize}
+
+\item Inevitably, we find ourselves talking about how means and dispersion
+change over time and/or comparing groups. \ This begins to invite
+multivariate statistics.
+
+\item But for now, that's it for descriptive statistics with regard to one
+variable. Pretty simple stuff, really. \ But social scientists spend a lot
+of time discussing and displaying descriptive statistics. \ Pay attention to
+talks in the department; you'll see. \ 
+
+\item Note what we haven't done: talked about samples versus populations. \
+We've taken the data as given, and have resisted making inferences to a
+population.
+
+\item That's our next big step. \ But to get there, we need to ascend
+through the basics of probability theory.
+\end{itemize}
+\end{itemize}
+
+\subsection{Probability theory: the logic}
+
+\begin{itemize}
+\item We are all familiar with the process of moving from populations to
+samples. \ I have a 52-card deck that contains 13 spades. \ What's the
+probability of drawing a (sample) spade at random from a perfectly shuffled
+deck?
+
+\begin{itemize}
+\item Obviously, it's 1/4.
+
+\item We know this because we know the distribution of spades in the
+\textquotedblleft population,\textquotedblright\ and we have been precise
+about the sampling process.
+\end{itemize}
+
+\item Well, we're now going to make the trip in reverse. \ 
+
+\begin{itemize}
+\item Now, we know the sample. \ We know its central tendency and its
+dispersion.
+
+\item We make precise (and justified) assumptions about the sampling process.
+
+\item These allow us to make very good guesses about the population's
+central tendency and dispersion using the sample's central tendency and
+dispersion.
+
+\item We need the tools of the population-to-sample process to understand
+the sample-to-population process.
+
+\item So let's learn them!
+\end{itemize}
+\end{itemize}
+
+\subsection{A probabilistic model for an experiment}
+
+\begin{itemize}
+\item In probability theory, we use the term \textbf{experiment }to refer to 
+\textit{the process by which an observation is made}. \ An \textbf{%
+observation }is a quantity of interest:
+
+\begin{itemize}
+\item the price of a stock
+
+\item the number of experimental subjects who choose "A" instead of "B"
+
+\item the proportion of Pew survey respondents who approve of Obama's job as
+president
+
+\item the proportion of Gallup ""
+
+\item in this usage, experiments don't just happen in labs, but the term is
+helpful because it gets us thinking about social processes in the
+experimental context.
+\end{itemize}
+
+\item Experiments have one or more outcomes called \textbf{events}.
+
+\begin{itemize}
+\item Experiment: gubernatorial election in an imaginary country that has
+101 voters; majority rule, everyone votes for Candidate A or B.
+
+\item Possible events (list): a. Candidate A wins. \ b. Candidate B wins. \
+c. Candidate A wins with 76 votes. \ d. Candidate A wins with 56 votes. \ e.
+Candidate A wins in a landslide ($\equiv $ 67 voters or greater). \ How
+about some others? \ (In this example, we do not care who voted for whom; we
+care only about the aggregate result.)
+
+\item Note that the first event can be decomposed into [how many] other
+events?
+
+\item How about the last event?
+
+\item a, b and e are \textbf{compound }events. \ By contrast, c. and d. are 
+\textbf{simple }events. \ Let's formalize this. \ Because certain concepts
+from set theory will be helpful for expressing relationships amoung events,
+we will also associate a distinct point--a \textbf{sample point--}with each
+simple event. \ We use $E_{i}$ to refer to the simple event or sample point $%
+i$. \ Draw on board: circle $S$ with dots denoting $E$s.
+
+\item The \textbf{sample space }$S$ associated with an experiment is the set
+consisting of all possible sample points. \ How many simple events are in $S$
+for the hypothetical election ? (102; list on board with a table)
+
+\item In set notation, we write $S=\{E_{1},E_{2},...E_{102}\},$ where $E_{i}$
+denotes candidate A's number of votes plus one.
+
+\item This sample space consists of a countable (finite) number of sample
+points. \ By definition, it is a \textbf{discrete sample space.}
+
+\item Simple events / sample points are mutually exclusive. \ 
+
+\item By contrast, compound events are sets of sample points. \ The compound
+event $A$, \textquotedblleft A wins by landslide\textquotedblright\ occurs
+if and only if one of the events $E_{68}...E_{102}$ occurs. \ Thus $%
+A=\{E_{68}...E_{102}\}.$
+
+\begin{itemize}
+\item A simple event $E_{i}$ is included in compound event $A$ if and only
+if $A$ occurs whenever $E_{i}$ occurs.
+
+\item Now we can be more specific about what an \textbf{event }is: it is a
+collection of sample points (a subset of $S$).
+
+\item We can also consider $S$ an event in itself. \ It occurs whenever the
+experiment occurs.
+\end{itemize}
+\end{itemize}
+
+\item We're now ready to construct a probabilistic model for an experiment
+with a discrete sample space. \ We do so by \textit{assigning a number, }$%
+\mathit{P(A),}$\textit{\ to each event }$\mathit{A}$\textit{\ }in $S$. \ Of
+course, we can't do this willy-nilly. \ We do so that \textit{three axioms
+of probability} hold:
+
+\begin{itemize}
+\item Axiom 1: \ $P(A)\geq 0.$ \ 
+
+\item Axiom 2: $P(S)=1.$ \ $S$ occurs every time the experiment is performed.
+
+\item Axiom 3: For any sequence of pairwise mutually exclusive events $%
+A_{1},A_{2},A_{3}$,...$A_{n},$ it must be the case that P($A_{1}\cup
+A_{2}\cup A_{3}...\cup A_{n})=\overset{n}{\underset{i=1}{\sum }}P(A_{i}).$
+That is, the relevative frequency of the union of these mutually exclusive
+events (that is, an event made up of these events) equals the sum of their
+relative frequences. \ 
+
+\item When we assign numbers $P(A)$ to events in this way, the numbers are
+defined as the \textbf{probabilities of }$\mathbf{A}$\textbf{.}
+
+\item There are deep-thought ideas about what probability actually means. \
+But the most intuitive way to think about probability of an event $A$ is the
+proportion of the time event $A$ would occur if we were to repeat the
+experiment, in the exact same way, infinitely many times.
+\end{itemize}
+\end{itemize}
+
+\subsection{Calculating the Probability of an\ Event of Interest: overview}
+
+\begin{itemize}
+\item The three axioms of probability put bounds on the probabilities we
+assign to events of interest. \ Now we need to talk about how to assign
+probabilities in a rigorous way. \ \ Your text discusses two such methods;
+often either can be used to assign probabilities in a given situation. \ The
+first is the \textit{sample point }method. \ We won't be discussing this
+here in class; but it incorporates many of the techniques you learned
+regarding probability in Math Camp. \ The second is the \textit{event
+composition} method. \ Because this method illustrates many of the laws of
+probability that you will use throughout your quantitative analysis classes,
+we will spend a bit of time reviewing this method. \ 
+\end{itemize}
+
+\subsection{The event-composition method}
+
+\begin{itemize}
+\item In short, the \textit{event-composition} method proceeds by
+decomposing and composing event $A$ into \textit{unions} and \textit{%
+intersections} of events with conveniently calculated probabilities. \ Four
+tools help you do this:
+
+\begin{itemize}
+\item 
+\begin{itemize}
+\item the definitions of conditional probability and independence
+
+\item multiplicative and additive laws
+
+\item the probability of an event and its complement
+
+\item the law of total probability and Bayes'\ Rule
+\end{itemize}
+\end{itemize}
+
+\item Before proceeding, recall that
+
+\begin{itemize}
+\item $A\cap B$ \ "$A$ intersection $B$" is the compound event where \textit{%
+both} $A$ and $B$ happen. \ (AND)
+
+\item $A\cup B$ "$A$ union $B$" is the compound event where either $A$ or $B$
+happens, or both. \ (OR)
+
+\item \lbrack Diagram on board]
+\end{itemize}
+
+\item We require definitions of [put these on left-hand board for easy
+referral]:
+
+\begin{itemize}
+\item \textbf{conditional probability}: $P(A|B)=\frac{P(A\cap B)}{P(B)}.$
+
+\begin{itemize}
+\item Note that this is a \textit{definition }that corresponds with notions
+of probability. \ As such it cannot be proven, but it can been shown that
+the definition corresponds with commonsense notions of probability. \ It has
+the intuitive meaning that $P(A|B)$ is the probability that both $A$ and $B$
+occur given as a proportion of the probability that $B$ occurs. \ The same
+is true for the following definition...
+\end{itemize}
+
+\item \textbf{independence}: \ For two events $A$ and\ $B$, if \textit{any
+one} of the following conditions holds$:$
+
+\begin{equation*}
+\begin{array}{l}
+P(A|B)=P(A) \\ 
+P(B|A)=P(B) \\ 
+P(A\cap B)=P(A)P(B)%
+\end{array}%
+\end{equation*}%
+, then $A$ and\ $B$ are said to be \textit{independent }events. \ If \textit{%
+none} of these three conditions holds, then the events are said to be 
+\textit{dependent}.
+\end{itemize}
+
+\item We also require two \textit{laws. \ }The first is about the \textit{%
+intersection} of two or more events; the second is about the \textit{union}
+of two or more events.
+
+\begin{itemize}
+\item \textbf{multiplicative law} (\textit{intersection}):
+
+\begin{itemize}
+\item $P(A\cap B)=P(A)P(B|A)=P(B)P(A|B)$ \ OR \ 
+
+\item $P(A\cap B)=$ $P(A)P(B)$ if $A,\ B$ are independent events.
+
+\item Note this law follows directly from our definition of conditional
+probability.
+
+\item can be extended to $3$ events: \ 
+
+\item 
+\begin{eqnarray}
+P(A\cap B\cap C) &=&P(\left( A\cap B\right) \cap C)\text{ \ [associative
+property]}  \notag \\
+&=&P(A\cap B)P(C|A\cap B).\text{[applying the multiplicative law once]} \\
+&=&P(A)P(B|A)P(C|A\cap B).\text{[applying the law again]}  \notag
+\end{eqnarray}
+
+\item can be extended to $k$ events: \ $P(A_{1}\cap A_{2}\cap ...\cap
+A_{k})=P(A_{1})P(A_{2}|A_{1})...P(A_{k}|A_{1}\cap A_{2}\cap ...\cap
+A_{k-1}). $
+\end{itemize}
+
+\item \textbf{additive law }(\textit{union}):
+
+\begin{itemize}
+\item $P(A\cup B)=P(A)+P(B)-P(A\cap B)$, \ 
+
+\item where if $A,B$ mutually exclusive, $P(A\cap B)=0.$
+
+\item why? \ Look at Venn Diagram. \ We're avoiding "double-counting" the
+intersection of events $A$ and $B$.:\FRAME{ftbpF}{3.8873in}{2.2286in}{0pt}{}{%
+}{Figure}{\special{language "Scientific Word";type "GRAPHIC";display
+"USEDEF";valid_file "T";width 3.8873in;height 2.2286in;depth
+0pt;original-width 3.5118in;original-height 2.1004in;cropleft "0";croptop
+"1";cropright "1";cropbottom "0";tempfilename
+'KR1MEP01.wmf';tempfile-properties "XPR";}}
+\end{itemize}
+
+\item A proof:%
+\begin{eqnarray*}
+A\cup B &=&A\cup \left( \symbol{126}A\cap B\right) ,\text{ and }A,\left( 
+\symbol{126}A\cap B\right) \text{ are mutually exclusive events. \ Also,} \\
+B &=&(\symbol{126}A\cap B)\cup \left( A\cap B\right) ,\text{and }(\symbol{126%
+}A\cap B),\left( A\cap B\right) \text{ are mutually exclusive events. Then}
+\\
+P\left( A\cup B\right) &=&P\left( A\right) +P\left( \symbol{126}A\cap
+B\right) \text{ and }P\left( B\right) =P(\symbol{126}A\cap B)+P\left( A\cap
+B\right) \text{ [by Axiom 3] and thus} \\
+P\left( A\cup B\right) &=&P\left( A\right) +P\left( B\right) -P\left( A\cap
+B\right) .\blacksquare
+\end{eqnarray*}
+\end{itemize}
+
+\item it's helpful to remember that the probability of \textbf{complementary
+events }is such that $P(A)=1-P(\sim A).$ \ Proof is easy:%
+\begin{eqnarray*}
+S &=&A\cup \symbol{126}A\text{ (since }A\text{ is an event in sample space }S%
+\text{)} \\
+P(S) &=&P(A)+P(\symbol{126}A)\text{ \ (by Axiom 3, since }A,\symbol{126}A%
+\text{ mutually exclusive)} \\
+1 &=&P(A)+P(\symbol{126}A)\text{ \ (by Axiom 2)} \\
+P(A) &=&1-P(\sim A).\blacksquare
+\end{eqnarray*}
+
+\item So let's run through an example using the event composition method.
+
+\begin{itemize}
+\item I randomly assign a group of 16 students into 3 teams of 6, 5 and 5
+students. \ 11 of the students are male.
+
+\item What is $P\left( A\right) =$the probability that the team of six
+students (call this "Team 1") is entirely male?
+
+\item First, note that the event \textquotedblleft all members of Team 1 are
+male\textquotedblright\ is equivalent to the event \textquotedblleft the
+first six assigned students are all male.\textquotedblright
+
+\begin{itemize}
+\item Let's decompose this event into simpler events A through F:
+
+\item A: the first student picked is male.
+
+\item B: the second student picked is male.
+
+\item F: the sixth student picked is male.
+\end{itemize}
+
+\item The event of interest occurs if and only if all events A through F
+occur. \ It is thus the intersection of all these events: $A\cap B\cap C\cap
+D\cap E\cap F.$ \ We therefore want to find $P(A\cap B\cap C\cap D\cap E\cap
+F).$
+
+\item What should we do?
+
+\begin{itemize}
+\item Re-write using multiplicative law:%
+\begin{eqnarray*}
+P(A_{1}\cap A_{2}\cap ...\cap A_{k})
+&=&P(A_{1})P(A_{2}|A_{1})...P(A_{k}|A_{1}\cap A_{2}\cap ...\cap A_{k-1})%
+\text{, so} \\
+P(A_{1}\cap A_{2}\cap ...\cap A_{6})
+&=&P(A_{1})P(A_{2}|A_{1})...P(A_{k}|A_{1}\cap A_{2}\cap ...\cap A_{5})
+\end{eqnarray*}%
+\ 
+\end{itemize}
+
+\item What is the probability that the first student picked is male? \ $%
+\frac{11}{16}.$%
+\begin{equation*}
+P(A_{1}\cap A_{2}\cap ...\cap A_{6})=\frac{11}{16}%
+P(A_{2}|A_{1})...P(A_{k}|A_{1}\cap A_{2}\cap ...\cap A_{5})
+\end{equation*}
+
+\item Given A1, what's the probability that the second student picked is
+male? \ $\frac{10}{15}.$%
+\begin{equation*}
+P(A_{1}\cap A_{2}\cap ...\cap A_{6})=\frac{11}{16}\cdot \frac{10}{15}\cdot
+...P(A_{6}|A_{1}\cap A_{2}\cap ...\cap A_{5})
+\end{equation*}
+
+\item And so forth: 
+\begin{equation*}
+P(A_{1}\cap A_{2}\cap ...\cap A_{6})=\frac{11}{16}\cdot \frac{10}{15}\cdot 
+\frac{9}{14}\cdot \frac{8}{13}\cdot \frac{7}{12}\cdot \frac{6}{11}=\frac{3}{%
+52}
+\end{equation*}
+
+\item In many instances (including exams), we are happy to write this in
+factor notation. \ How might we do this? \ 
+
+\begin{itemize}
+\item Note that the product of the numerators is $11\cdot 10\cdot ...\cdot
+2\cdot 1$ with the final five multiplicands "shaved off." $\ $
+
+\item This is just$\frac{11\cdot 10\cdot ...\cdot 2\cdot 1}{5\cdot 4\cdot
+3\cdot 2\cdot 1},$ or$\frac{11!}{5!}.$
+
+\item Similarly, the denominator can be written$\frac{10!}{16!}.$
+
+\item So another way to write this is:%
+\begin{equation*}
+P(A_{1}\cap A_{2}\cap ...\cap A_{6})=\frac{11!}{5!}\cdot \frac{10!}{16!}
+\end{equation*}
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsection{The law of total probability and Bayes' Rule}
+
+\begin{itemize}
+\item finally, the \textit{law of total probability} and \textit{Bayes'\ Rule%
+} can be helpful in the event-composition approach to assigning
+probabilities to events.
+
+\item recall that we are working with a discrete sample space $S$, composed
+of simple events.
+
+\begin{itemize}
+\item we can of course also view $S$ as a union of $k$ mutually exclusive
+subsets:
+
+\begin{itemize}
+\item $S=B_{1}\cup B_{2}\cup ...\cup B_{k};$
+
+\item $B_{i}\cap B_{j}=\varnothing ,\forall i\neq j.$
+
+\item A collection of sets $\{B_{1},B_{2}...B_{k}\}$ such that (1) their
+union is equivalent to $S$ and (2) are themselves mutually exclusive is said
+to be a \textbf{partition }of $S$.
+
+\item If $A$ is a subset of $S$, it may be \textbf{decomposed }as the union
+of its intersections with each of the partitions of $S$ as follows: \ $%
+A=(A\cap B_{1})\cup (A\cap B_{2})\cup ...(A\cap B_{k}).$ \ Draw Figure 2.12
+\{p. 71\} on board as illustration.
+
+\item \FRAME{ftbpF}{4.782in}{3.3931in}{0pt}{}{}{intersection.tif}{\special%
+{language "Scientific Word";type "GRAPHIC";maintain-aspect-ratio
+TRUE;display "USEDEF";valid_file "F";width 4.782in;height 3.3931in;depth
+0pt;original-width 2.5754in;original-height 1.8196in;cropleft "0";croptop
+"1";cropright "1";cropbottom "0";filename 'intersection.tif';file-properties
+"XNPEU";}}
+\end{itemize}
+
+\item The partitioning and decomposing notions yield the following:
+
+\begin{itemize}
+\item If the collection $\{B_{1},B_{2}...B_{k}\}$ is a partition of $S$ such
+that $P(B_{i})>0$ for $i=1,2,...k$, then the \textbf{Law of\ Total
+Probability }states:%
+\begin{equation*}
+P(A)=\sum_{i=1}^{k}P(A|B_{i})P(B_{i})
+\end{equation*}
+
+\item Proof \{brief\}:
+
+\begin{itemize}
+\item If $i\neq j,$ the intersections $A\cap B_{i}$ and $A\cap B_{j}$ do not
+overlap. \ Put formally, their intersection is the empty set, because
+
+\begin{eqnarray*}
+(A\cap B_{i})\cap (A\cap B_{j}) &=&A\cap (B_{i}\cap B_{j})\text{ \ \
+[distributive law]} \\
+&=&A\cap \oslash \\
+&=&\oslash .
+\end{eqnarray*}%
+The events $A\cap B_{i}$ and $A\cap B_{j}$ are thus mutually exclusive.
+
+\item Because $A$ is the union of all these mutually exclusive events, we
+can write 
+\begin{eqnarray*}
+P(A) &=&P(A\cap B_{1})+P(A\cap B_{2})+...+P(A\cap B_{k})\text{ \ \ \ \ \
+[additive law]} \\
+&=&P(A|B_{1})P(B_{1})+P(A|B_{2})P(B_{2})+...P(A|B_{k})P(B_{k})\text{
+[muliplicative law]} \\
+&=&\sum_{i=1}^{k}P(A|B_{i})P(B_{i})\quad \blacksquare .
+\end{eqnarray*}
+
+\item Why do we care? \ Because there are lots of instances where it's
+easier to calculate $P(A|B_{i})$ than $P(A)$. \ In other cases, we
+intrinsically care about $P(A|B_{i})$. I'll show you this in a minute, but
+first let's derive one additional important result.
+\end{itemize}
+
+\item If the collection $\{B_{1},B_{2}...B_{k}\}$ is a partition of $S$ such
+that $P(B_{i})>0$ for $i=1,2,...k$, then
+
+\begin{eqnarray*}
+P(B_{j}|A) &=&\frac{P(A\cap B_{j})}{P(A)}\text{ \ [definition of conditional
+probability]} \\
+&=&\frac{P(A|B_{j})P(B_{j})}{\sum_{i=1}^{k}P(A|B_{i})P(B_{i})}\text{ \
+[definition again (num), law of total probability (denom)]}
+\end{eqnarray*}
+
+\item This is \textbf{Bayes'\ Rule}.
+
+\item Let's write this in a simple case, where there are only two partitions
+in the sample space:
+
+\FRAME{itbphF}{4.0938in}{2.4641in}{0in}{}{}{Figure}{\special{language
+"Scientific Word";type "GRAPHIC";maintain-aspect-ratio TRUE;display
+"USEDEF";valid_file "T";width 4.0938in;height 2.4641in;depth
+0in;original-width 5.76in;original-height 3.4562in;cropleft "0";croptop
+"1";cropright "1";cropbottom "0";tempfilename
+'KQN80Y00.wmf';tempfile-properties "XPR";}}
+
+\item We then have:%
+\begin{equation*}
+P(B_{1}|A)=\frac{P(A|B_{1})P(B_{1})}{P(A|B_{1})P(B_{1})+P(A|B_{2})P(B_{2})}
+\end{equation*}
+
+\item or more simply (writing $B_{1}$ as simply $B$):%
+\begin{equation*}
+P(B|A)=\frac{P(A|B)P(B)}{P(A|B)P(B)+P(A|\symbol{126}B)P(\symbol{126}B)}
+\end{equation*}
+
+\item So classic example (2.124, page 73):%
+\begin{eqnarray*}
+P(Dem|Favor) &=&\frac{P(Favor|Dem)P(Dem)}{%
+P(Favor|Dem)P(Dem)+P(Favor|REP)P(REP)} \\
+&=&\frac{\left( .7\right) \left( .6\right) }{\left( .7\right) \left(
+.6\right) +\left( .3\right) \left( .4\right) } \\
+&=&7/9 \\
+&=&.\overline{7}
+\end{eqnarray*}
+
+\item Note our process of determining the probability $P(Dem|Favor).$ \ We
+used the definition of conditional probability (which undergirds Bayes'
+Rule) to decompose the set (DEM $\cap $ FAVOR).
+\end{itemize}
+
+\item Another classic example (check if there's time) \ Ex. 2.125, p. 73.
+
+\begin{itemize}
+\item Begin by having students write $P\left( Disease|Pos\right) $ according
+to the definition of Bayes'\ Rule.
+
+\item What information do we need to know?
+
+\begin{itemize}
+\item $P\left( Pos|Disease\right) =.90$
+
+\item $P\left( \symbol{126}Pos|\symbol{126}Disease\right) =.90$
+
+\item $P\left( Disease\right) =.01$
+\end{itemize}
+
+\item And so:
+
+\begin{eqnarray*}
+P\left( Disease|Pos\right) &=&\frac{P(Pos|Disease)P(Disease)}{%
+P(Pos|Disease)P(Disease)+P(Pos|\symbol{126}Disease)P(\symbol{126}Disease)} \\
+&=&\frac{(.9)(.01)}{(.9)(.01)+(.10)(.99)} \\
+&=&\frac{.009}{.009+.099}=\frac{1}{12}
+\end{eqnarray*}
+
+\item Put this in \ perspective:
+
+\begin{itemize}
+\item What is the probability of a false positive? $P\left( Pos|\symbol{126}%
+Disease\right) =.10=\frac{1}{10}$
+
+\item What is the probability of a false negative? \ $P\left( \symbol{126}%
+Pos|Disease\right) =.10=\frac{1}{10}$
+\end{itemize}
+
+\item What affects the reliability of this test?\newpage
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\section{Lecture 3}
+
+\begin{itemize}
+\item We've now provided an intellectual foundation for our understanding of
+probability. \ We've conceived of probabalistic events in the context of an 
+\textbf{experiment }whose results are--in their most basic form--\textbf{%
+simple events}. \ The set of all possible events for a given experiment is
+its \textbf{sample space. \ }
+
+\begin{itemize}
+\item We then specified 3 axioms governing the assignment of probabilities
+to these events;
+
+\item And then discussed four tools by decompose and compose events of
+interest into events with conveniently calculated probabilities.
+\end{itemize}
+
+\item Before moving on, I want to formalize one additional tool that we use
+without thinking about it--which is \textit{assigning probabilities in a
+sample space consisting of equiprobable events}:
+
+\begin{itemize}
+\item Last time we had the example of assigning 16 students into 3 teams of
+6, 5 and 5 students, with 11 of the students male.
+
+\begin{itemize}
+\item As you may recall, we began by considering the probability that the
+first student picked is male. \ What is it? \ $\frac{11}{16}.$ \ Why?
+\end{itemize}
+
+\item Here's how to formalize our intuition. \ 
+
+\item Consider a sample space $S$ consisting of $n$ \textit{equiprobable}
+simple events $E$ such that $P\left( E_{1}\right) =P\left( E_{2}\right)
+=...P\left( E_{n}\right) .$
+
+\begin{itemize}
+\item Recall that we define an $A$ as a subset of $S$ -- that is, some
+subset of sample points$\ $that make up $S$.\ 
+
+\item Then $P(A)=\frac{|A|}{n}$,.where the notation $|A|$ stands for the
+number of elements in the set $A$ -- which in this context is the number of
+sample points in $A.$
+\end{itemize}
+
+\item Can you see how we get this from the axioms of probability?
+
+\begin{itemize}
+\item First let's show that for all events $E$ to be equiprobable, it must
+be that%
+\begin{equation*}
+P\left( E_{i}\right) =\frac{1}{n}\text{ for }i=\{1,2...n\}
+\end{equation*}
+
+\item This is because
+
+\item $P(S)=P\left( E_{1}\cup E_{2}\cup ...\cup E_{n}\right) =P\left(
+E_{1}\right) +P\left( E_{2}\right) +...+P\left( E_{n}\right) =1$ \ [by Axiom
+3 and then Axiom 2]
+
+\item $P\left( E_{1}\right) +P\left( E_{1}\right) +...+P\left( E_{1}\right)
+=nP\left( E_{1}\right) =1$ \ [definition of equiprobability]
+
+\item $P\left( E_{1}\right) =\frac{1}{n}$; and similarly $P\left(
+E_{i}\right) =\frac{1}{n}$ for $i=\{1,2...n\}$
+
+\item Finally, since%
+\begin{eqnarray*}
+P\left( A\right) &=&\sum_{E_{i}\in A}P\left( E_{i}\right) \ \text{[Axiom 3
+again]} \\
+P\left( A\right) &=&\sum_{E_{i}\in A}\frac{1}{n}=\frac{|A|}{n}\blacksquare .
+\end{eqnarray*}
+
+\item \lbrack For reference:]
+
+\begin{itemize}
+\item Axiom 2: $P(S)=1.$ \ $S$ occurs every time the experiment is performed.
+
+\item Axiom 3: For any sequence of pairwise mutually exclusive events $%
+A_{1},A_{2},A_{3}$,...$A_{n},$ it must be the case that P($A_{1}\cup
+A_{2}\cup A_{3}...\cup A_{n})=\overset{n}{\underset{i=1}{\sum }}P(A_{i}).$
+\end{itemize}
+\end{itemize}
+
+\item The point here is that even our intuitive basic notion of assigning
+probabilities to events is derived from the axioms of probability in logical
+ways.
+\end{itemize}
+\end{itemize}
+
+\subsection{The notion of a random variable}
+
+\begin{itemize}
+\item Now let's discuss a particular kind of experiment: one in which the
+events of interest are numerical--that is, they are identfied in a
+meaningful way by numbers. \ 
+
+\begin{itemize}
+\item Numerical events of interest to political scientists might be the
+number of seats the Republican Party will hold in the House of\
+Representatives after a midterm election, or the number of signatories to a
+treaty.
+
+\item In the language of an experiment, we assign a \textit{real number} to
+each point in the sample space.
+
+\item Call this number the variable $Y$.
+
+\begin{itemize}
+\item Think back: what's a \textit{variable}? \ [Make them look this up]: \
+Recall that a variable is a logical grouping of attributes. \ Variables take
+on values that are exhaustive and mutually exclusive. \ 
+\end{itemize}
+
+\item Each sample point can only take on one value of $Y$. \ But the same
+value may be assigned to multiple sample points. \ 
+
+\begin{itemize}
+\item \lbrack Draw a circle with $S$, the sample space. \ Draw another
+circle, $Y$, the variable. \ Draw lines from several points in $S$ to one
+point in $Y$.]
+\end{itemize}
+
+\item What do we call such a mapping? \ A \textit{function}. Thus the
+variable $Y$ is a \textit{function} of the sample points in $S$.
+
+\item Recall that a function is a mathematical relation assigning each
+element of one set (the source) to one and only one element of another set
+(the target). \ 
+
+\item In this case, the function's source is $S$ and its target is $Y$. \ \
+We can write $f:S\rightarrow Y.$ \ This function (and by extension, $Y)$ is
+defined as a \textbf{random variable}. \ Keep this in mind: whenever we talk
+about a random variable, \textit{we are really talking about a function}
+that maps each simple event in a sample space $S$ to a (meaningful) number.
+
+\item We write a random variable with a capital letter: $Y$.
+
+\begin{itemize}
+\item Consequently, we write \textquotedblleft the probability that $Y=0$%
+\textquotedblright\ as $P(Y=0)$, and so forth. \ 
+
+\item Typically, we refer to any observed or hypothetical value of $Y$ with
+a lowercase letter denoting the value. \ So we write $P(Y=y)$, for example.
+
+\item We will still talk about the event of interest $A$, but we will give
+it a number, $a$. The event $A$ thus $\equiv $\{all sample points such that $%
+Y$ $=a$\}.
+\end{itemize}
+
+\item More about random variables very shortly. \ But first:
+\end{itemize}
+\end{itemize}
+
+\subsection{Quick detour: The notion of a random \textit{sample}}
+
+\begin{itemize}
+\item In our subsequent discussions of probability, we will often invoke the
+notion of a \textbf{random sample}. \ Let's take a moment to place this idea
+in the language of our probabilistic model of an experiment.
+
+\item In this framework:
+
+\begin{itemize}
+\item our experiment is the drawing of a \textbf{sample }(the units selected
+for analysis) from a \textbf{population} (the group of units about which we
+wish to make inferences)
+
+\item the \textbf{design }of our experiment is the method of sampling.
+
+\begin{itemize}
+\item one big decision we make, for example, is whether to sample \textit{%
+with replacement }(units selected for the sample are \textquotedblleft
+placed back into the population\textquotedblright\ and may therefore again
+be sampled) or \textit{without replacement} (units selected are set aside
+and cannot be selected again). \ Keep these terms in mind; we'll revisit
+them later.
+\end{itemize}
+
+\item the most common way to draw a sample is called \textit{random
+sampling. \ }Let $N$ and $n$ represent the numbers of elements in the
+population and sample, respectively. \ In this context, a total of [how
+many?] $\binom{N}{n}$ [the binomial coefficient] different samples without
+replacement (how many is that? $\frac{N!}{n!\left( N-n\right) !}$) may be
+drawn. \ If sampling is conducted in such a way that each of these samples
+has an equal probability of being selected, then we have engaged in \textit{%
+random sampling}, and the result is said to be a \textit{random sample}.
+\end{itemize}
+\end{itemize}
+
+\subsection{Back to random variables: probability distributions}
+
+\begin{itemize}
+\item We'll begin our discussion of random variables by focusing on those
+that are \textbf{discrete}. \ A random variable $Y$ is discrete if it can
+take on only a finite or countably infinite (a one-to-one correspondence
+with the integers) number of distinct values.
+
+\item In making inferences from samples to populations,
+
+\begin{itemize}
+\item we need to know the probability of having observed a particular event.
+\ 
+
+\item events of interest are frequently numerical events that correspond to
+values $y$ of discrete random variables $Y$.
+
+\begin{itemize}
+\item An example of such an event might be that 45 out of 100 people we
+surveyed said they intended to vote for Mitt Romney.
+\end{itemize}
+
+\item In other words, we need to know $P(Y=y)$ for all the values the RV $Y$
+can take on.
+
+\item This collection of probabilities is called the \textbf{probability
+distribution }of the RV $Y$. \ 
+
+\item As an example, consider the experiment: roll a pair of six-sided dice
+and record the sum of the pips on their faces.
+
+\item The sample space $S$ consists of 36 simple events. \ 
+
+\begin{itemize}
+\item Draw a square, label it S, divide into grid of 6 x 6.
+\end{itemize}
+
+\item Define the random variable $Y$ = the sum of the pips appearing on the
+faces of a random roll of a pair of six-sided dice.
+
+\begin{itemize}
+\item Draw another square, label it Y, and map a few of the sample points in
+S to Y.
+
+\item Formally, $P(Y=y)=\sum_{E_{i}:Y(E_{i})=y}P(E_{i}).$ \ The probability $%
+Y=y$ is defined as the sum of the probabilities of the sample points in $S$
+assigned the value $y$. \ Sometimes we write this $p(y)$.
+
+\item It its most primitive form, $Y$'s probability distribution is a 
+\textit{table }in which each $y$ is listed alongside $P(Y=y)$ \ \ But it may
+also be a \textit{formula} mapping each $y$ to its $P(Y=y),$ or a \textit{%
+graph} doing the same thing.
+
+\item Table: (entitled "The Probability Distribution of the RV $Y$")
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\begin{center}
+\begin{tabular}{ccl}
+\hline\hline
+$y$ & \# of sample points & $P(Y=y)$ \\ \hline
+2 & 1 & \multicolumn{1}{c}{$\frac{1}{36}$} \\ 
+3 & 2 & \multicolumn{1}{c}{$\frac{2}{36}$} \\ 
+4 & 3 & \multicolumn{1}{c}{$\frac{3}{36}$} \\ 
+5 & 4 & \multicolumn{1}{c}{$\frac{4}{36}$} \\ 
+6 & 5 & \multicolumn{1}{c}{$\frac{5}{36}$} \\ 
+7 & 6 & \multicolumn{1}{c}{$\frac{6}{36}$} \\ 
+8 & 5 & \multicolumn{1}{c}{$\frac{5}{36}$} \\ 
+9 & 4 & \multicolumn{1}{c}{$\frac{4}{36}$} \\ 
+10 & 3 & \multicolumn{1}{c}{$\frac{3}{36}$} \\ 
+11 & 2 & \multicolumn{1}{c}{$\frac{2}{36}$} \\ 
+12 & 1 & \multicolumn{1}{c}{$\frac{1}{36}$} \\ \hline
+\multicolumn{1}{l}{\textbf{totals}} & \textbf{36} & \multicolumn{1}{c}{%
+\textbf{1}} \\ \hline\hline
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+\item 
+\begin{itemize}
+\item 
+\begin{itemize}
+\item Graph: [draw on board]
+
+\item A function (here's one way, there may be others/better). \ Here, $p(y)$
+is known as a \textbf{probability function}. 
+\begin{equation*}
+P(Y=y)=p(y)=\ \frac{6-|7-y|}{36},y=\{1,2,...6\}.
+\end{equation*}
+\end{itemize}
+
+\item The probability function of a discrete random variable is also called
+its \textbf{probability mass function, or PMF. \ }The "mass of a random
+variable at $y$" is the PMF evaluated at $y$, or $p\left( y\right) .$
+
+\item The probabilities associated with distinct values of $y$ sum to 1, and
+in fact they always do, as the second axiom of probability requires.
+\end{itemize}
+\end{itemize}
+
+\subsection{Random variables: expected values}
+
+\begin{itemize}
+\item The probability distribution of an RV is a \textit{theoretical model }%
+for the empirical distribution of data associated with a real population. \
+If we were to roll a pair of dice over and over again, recording the sum of
+the faces each time, the empirical distribution would look very much like
+the theoretical probability distribution of $Y$ we just specified.
+
+\item As we do with empirical data, we can describe a random variable by
+talking about its central tendency and dispersion. \ (At what level of
+measurement are we implicitly working here? \ Interval or higher.) \ So we
+will be concerned about the mean and variance of a random variable.
+
+\item We specify and manipulate formulas describing random variables using
+the \textit{expectations operator}, which is defined as follows:
+
+\begin{itemize}
+\item Let $Y$ be a discrete RV with the probability function $p(y)$. \ The 
+\textbf{expected value }of $Y$ is written $E(Y),$ and defined to be:%
+\begin{equation*}
+E(Y)\equiv \sum_{y}yp(y).
+\end{equation*}
+
+\item Note that this is each possible value of $Y$ times the probability
+that $Y\ $takes on the value $y,$ i.e., $p(y),$ summed up over all $y$.
+[Calculate this value for the two dice example.]
+
+\item So the expectations operator tells us to consider all the possible
+values of a RV, multiply each of these values by their probability of
+occurrence, and to sum up these products.
+
+\item The expected value is the way we talk about the central tendency of a
+random variable with a theoretical probability distribution. \ It is
+equivalent to the idea of the mean of an empirical frequency distribution.
+
+\item Now we take what is a very powerful step as we move into inferential
+statistics. \ Recall that the probability distribution of an RV is a \textit{%
+theoretical model }for the empirical distribution of data associated with a
+real population. \ If this theoretical model is accurate, then $E(Y)=\mu $,
+the \textit{population mean}.%
+\begin{equation*}
+E(Y)\equiv \sum_{y}yp(y)=\mu .
+\end{equation*}
+
+\item Here, $\mu $ is a \textit{parameter}: a characteristic of the
+distribution of $Y$ in the population that we never actually observe but
+about which we are often keenly interested. \ It is the first of many such
+parameters we will encounter in this class.
+\end{itemize}
+
+\item We are often interested in the expected value of \textit{functions of
+random variables. \ }(You'll see why in a minute.) \ Consider as usual the
+discrete RV, $Y$ with probability function $p(y)$. \ Now consider any
+real-valued function of $Y$, $g(Y).$ Then the expected value of $g(Y)$is
+given by:%
+\begin{equation*}
+E[g(Y)]=\sum_{y}g(y)p(y).
+\end{equation*}
+
+\item That is, the expected value of a function of a RV is given by:
+
+\begin{itemize}
+\item evaluating the function for each value of $Y$
+
+\item multiplying it by the probability that $Y=y$
+
+\item and summing up over all possible values of $Y.$
+\end{itemize}
+
+\item Now this is not a definition, but rather can be proven based upon the
+definition of $E\left( Y\right) .$Proof: \ 
+
+\begin{itemize}
+\item Consider a discrete RV $Y$ taking on a finite number, $n$, of values $%
+y_{1},y_{2},...y_{n}.$
+
+\item Suppose $g(y)$ takes on $m$ different values $g_{1},g_{2}...g_{m},m%
+\leq n.$
+
+\begin{itemize}
+\item We're being this picky because it's of course possible that $g\left(
+{}\right) $ is not one-to-one; that is, it may take on the same value for
+multiple $y$'s.
+\end{itemize}
+
+\item Note that $g(Y)$ is itself a random variable (by definition of RV). \
+It is a function mapping the sample space\ $Y$ to the reals.
+
+\item So we can define a new probability function, $p$-star, for $g.$ \ 
+
+\item Write the probability that $g$ takes on a value $g_{i}$ as%
+\begin{eqnarray*}
+p^{\ast }(g_{i}) &=&P[g(Y)=g_{i}] \\
+&=&\sum_{y_{j}:g(y_{j})=g_{i}}p(y_{j})\text{, for }i=1,2,...m\text{ \ }
+\end{eqnarray*}
+
+\item where $y_{j}:g(y_{j})=g_{i}$ means "all $y_{j}$ such that $g$ equals $%
+g_{i}$ when evaluated at $y_{j}.$"
+
+\item Now the definition of expected value tells us that:%
+\begin{equation*}
+E[g(Y)]=\sum_{i=1}^{m}g_{i}\,p^{\ast }(g_{i})
+\end{equation*}
+
+\item (Note that we're doing the same thing as before:
+
+\begin{itemize}
+\item Taking each possible value of $g,$ that is all the $g_{i}$'s
+
+\item Multiplying it by its associated probability (which we've defined in
+this case as $\,p^{\ast }(g_{i})$)
+
+\item And summing up these products.)
+\end{itemize}
+
+\item Moving on with proof:%
+\begin{eqnarray*}
+&=&\sum_{i=1}^{m}g_{i}\left\{ \sum_{y_{j}:g(y_{j})=g_{i}}p(y_{j})\right\} 
+\text{ [substituting]} \\
+&=&\sum_{i=1}^{m}\left\{ \sum_{y_{j}:g(y_{j})=g_{i}}g_{i}\,p(y_{j})\right\} 
+\text{ [can move }g_{i}\text{ inside because of nested summations] } \\
+&=&\sum_{j=1}^{n}g(y_{j})p(y_{j}).\text{[since }g_{i}=g(y_{j})\text{ for any 
+}y_{j};\text{ we change index to signify we're} \\
+&&\text{now interested in all }n\text{ values that }Y\text{ can take on]} \\
+&=&\sum_{y}g(y)p(y).\text{ \ [writing more simply]}
+\end{eqnarray*}
+
+\item Again, the intuition behind $E[g(Y)]=\sum_{y}g(y)p(y)$ is
+straightforward. \ We proceed by:
+
+\begin{itemize}
+\item evaluating the function for each value of $Y$
+
+\item multiplying it by the probability that $Y=y$
+
+\item and summing up over all possible values of $Y.$
+\end{itemize}
+\end{itemize}
+
+\item We can now define the variance of a random variable $Y$. \ Recall
+before that we defined the variance of an empirical variable as $s^{2}=\frac{%
+1}{N}\overset{N}{\underset{i=1}{\sum }}(y_{i}-\overline{y})^{2}.$ \ 
+
+\begin{itemize}
+\item Well, the variance of a random variable is how it varies about its
+mean:%
+\begin{equation*}
+VAR(Y)\equiv E[(Y-E\left( Y\right) )^{2}]
+\end{equation*}
+
+\item And if the RV $Y$ accurately describes the population distribution then%
+\begin{equation*}
+VAR(Y)=E[(Y-\mu )^{2}].
+\end{equation*}
+
+\item The standard deviation of $Y$ is $+\sqrt{VAR(Y)}.$
+
+\item And (again assuming that our RV variable is an accurate theoretical
+model of the world) then $VAR(Y)=\sigma ^{2}$, the population variance, with 
+$\sqrt[+]{\sigma ^{2}}=\sigma $ the population standard deviation.
+
+\item Do Example 3.2 (p. 94) on the board.
+\end{itemize}
+\end{itemize}
+
+\subsection{Some helpful results}
+
+\begin{itemize}
+\item Go over \textquotedblleft Some helpful results about the math of
+expectations for discrete RVs\textquotedblright\ handout. \ Proofs:
+
+\item To show $E(c)=c$:
+
+\begin{itemize}
+\item Consider the function $g(Y)\equiv c.$ By the expectation of a function
+of a random variable theorem, $E(c)=\sum_{y}cp(y)=c\sum_{y}p(y).$ \ But by
+Axiom 2, $\sum_{y}p(y)=1.$ \ Hence $E(c)=c(1)=c.$ \ $\blacksquare .$
+\end{itemize}
+
+\item To show $E[cg(Y)]=cE[g(Y)]$:
+
+\begin{itemize}
+\item By the expectation of a function of a random variable theorem,%
+\begin{eqnarray*}
+E[cg(Y)] &=&\sum_{y}cg(y)p(y) \\
+&=&c\sum_{y}g(y)p(y) \\
+&=&cE[g(Y)]\quad \blacksquare .
+\end{eqnarray*}
+\end{itemize}
+
+\item To show that we can distribute expectations, consider the case where $%
+k=2$:%
+\begin{eqnarray*}
+E[g_{1}(Y)+g_{2}(Y)] &=&\sum_{y}[g_{1}(y)+g_{2}(y)]p(y)\text{ \ \ [since }%
+g_{1}(Y)+g_{2}(Y)\text{ is a function of }Y\text{]} \\
+&=&\sum_{y}[g_{1}(y)p(y)]+\sum_{y}[g_{2}(y)p(y)]\text{ \ \ \ [distributing
+summations]} \\
+&=&E[g_{1}(Y)]+E[g_{2}(Y)]\text{ \ \ \ [by definition of the expectations
+operator]} \\
+&&\blacksquare .
+\end{eqnarray*}
+
+\item All of these results help us re-write the formula for the population
+variance in a very helpful way (proof is on handout).
+
+\item \lbrack Emphasize: we always treat parameters as constants when
+applying the expectations operator. \ They are invariant.]
+\end{itemize}
+
+\subsection{Three theoretical probability models}
+
+\begin{itemize}
+\item As illustrations, we will discuss three of the standard discrete
+probability distributions:
+
+\begin{itemize}
+\item the \textbf{Bernoulli}
+
+\item the \textbf{binomial}
+
+\item the \textbf{Poisson}
+\end{itemize}
+\end{itemize}
+
+\subsection{The Bernoulli}
+
+\begin{itemize}
+\item A Bernoulli experiment is the observation of an experiment consisting
+of one trial with two outcomes: zero or one.
+
+\item Thus the Bernoulli random variable $Y$ takes on the values $\left\{
+0,1\right\} .$
+
+\item E.g.'s:
+
+\begin{itemize}
+\item a coin toss
+
+\item whether an individual approves or disapproves of Barack Obama's
+performance as president
+
+\item whether a country signs a treaty
+\end{itemize}
+
+\item A Bernoulli random variable is characterized by one parameter: $\pi $,
+the probability of success.
+
+\item Thus its probability distribution is%
+\begin{eqnarray*}
+p\left( y=1\right) &=&\pi \\
+p\left( y=0\right) &=&1-\pi
+\end{eqnarray*}
+
+\item Sometimes it's convenient to write the probability (mass) function%
+\begin{equation*}
+p\left( y\right) =\pi ^{y}\left( 1-\pi \right) ^{\left( 1-y\right) }
+\end{equation*}
+
+\begin{itemize}
+\item Think of the exponents as "switches" which turn on and off (i.e. equal
+to one) depending on the value of $y$ at which the function is being
+evaluated.
+\end{itemize}
+
+\item For a little practice, let's show that%
+\begin{eqnarray*}
+E\left( Y\right) &=&\pi . \\
+E\left( Y\right) &=&\sum_{y}p\left( y\right) y \\
+&=&p\left( y=0\right) \left( 0\right) +p\left( y=1\right) \left( 1\right) \\
+&=&\pi .
+\end{eqnarray*}
+
+\item How about 
+\begin{eqnarray*}
+VAR\left( Y\right) &=&\pi \left( 1-\pi \right) \\
+VAR\left( Y\right) &\equiv &E[(Y-)^{2}] \\
+&=&E(Y^{2})-\left[ E\left( Y\right) \right] ^{2}\text{ [from handout; see
+how it's already helpful?]}
+\end{eqnarray*}
+
+\item Note that 
+\begin{eqnarray*}
+E(Y^{2}) &=&\sum_{y}y^{2}p(y=Y) \\
+&=&0^{2}\left( 1-\pi \right) +1^{2}\pi \\
+&=&\pi
+\end{eqnarray*}
+
+\item Now substitute%
+\begin{eqnarray*}
+VAR\left( Y\right) &=&E(Y^{2})-\left[ E\left( Y\right) \right] ^{2} \\
+&=&\pi -\pi ^{2}=\pi \left( 1-\pi \right) .
+\end{eqnarray*}
+
+\item Let's talk a bit more about \textbf{parameters}. \ Together with the
+probability function, parameters determine the shape, location and spread of
+the distribution. \ A \textbf{location parameter }specifies the location in
+the center of the distribution. As we change a location parameter\ we shift
+the PMF to the left or right. \ Its empirical referent is, of course, the
+mean. \ A \textbf{scale parameter }specifies the spread (or scale) of the
+distribution around its central location. \ Its empirical referent is the
+standard deviation. \ What's notable about the Bernoulli (and, as you will
+see, the Binomial and the Poisson) is that they only have location
+parameters; their spread and their location are tied together.
+\end{itemize}
+
+\subsection{The Binomial \ }
+
+\begin{itemize}
+\item A binomial experiment is the observation of a sequence of identical
+and independent Bernoulli trials. \ Specifically:
+
+\begin{itemize}
+\item A fixed number, $n,$ of trials with one of two outcomes: success $S$
+or failure $F$.
+
+\item As with the Bernoulli, the probability of success on any single trial
+is $\pi $. \ The probability of failure is thus $1-\pi .$
+
+\item The trials are independent.
+
+\item The random variable of interest is $Y$, the \# of successes observed
+during the $n$ trials.
+\end{itemize}
+
+\item E.g.'s:
+
+\begin{itemize}
+\item \# of heads observed in a certain \# of coin tosses
+
+\item \# of people approving of Barack Obama out of a certain \# of people
+
+\item \# of countries signing a treaty out of $n$ eligible countries
+\end{itemize}
+
+\item Let's find the binomial probability distribution. \ Recall that a
+probability distribution (table, graph, formula) tells us with what
+probability our RV of interest, $Y$, takes on all possible values $y$, i.e. $%
+P(Y=y)$, or simply $p(y).$
+
+\item In the context of a probability model, we consider the event "the
+number of successes equals $y,"$ or $Y=y,$ to be our \textquotedblleft event
+of interest.\textquotedblright\ 
+
+\item Let's assign a probability $p(y)$ to each of these events.
+
+\item One such event might be \ \ $SSFSFFFSFS...FS$, where there are $n$
+such positions.
+
+\item If we were to count the $S$'s and $F$'s, we might see%
+\begin{equation*}
+S_{1}SSSS...SSS_{y}\qquad F_{1}FF....FF_{n-y}
+\end{equation*}
+
+\item In this context, the number of $S$'s equals what? \ $y$. \ And so the
+number of $F$'s equals what? \ $n-y.$
+
+\item Think about our laws of probability. \ The event of interest we have
+witnessed is the \textbf{intersection }of $n$ simple events: $S_{1}\cap
+S_{2}\cap ...\cap S_{y}\cap F_{1}\cap F_{2}...\cap F_{n-y}.$ \ These are 
+\textbf{independent }events (by definition of the binomial experiment). \ So 
+$P(S_{1}\cap S_{2}\cap ...\cap S_{y}\cap F_{1}\cap F_{2}...\cap F_{n-y})$
+simply equals $P(S_{1})P(S_{2})...P(S_{y})P(F_{1})P(F_{2})P(F_{n-y}).$
+
+\item So what's that? \ It's $\pi ^{y}\left( 1-\pi \right) ^{n-y}.$
+
+\item But this is \textit{not }the probability of seeing the event $Y=y.$ \
+Why? \ Because the event $Y=y$ could happen in many more ways than the order
+in which we saw it. \ How many different ways are there to order $y$ $S$'s
+and $n-y\quad F$'s? \ It's the number of ways of choosing $y$ elements from
+a total of $n$ elements. Or "$n$, choose $y$." \ From math camp, you'll
+remember that this is equal to (ha!) the binomial coefficient $\binom{n}{y},$%
+or $\frac{n!}{y!(n-y)!}.$
+
+\item Thus the probability of observing $Y=y$ is 
+\begin{eqnarray*}
+p(y) &=&\frac{n!}{y!(n-y)!}\pi ^{y}(1-\pi )^{n-y}. \\
+&& \\
+&&\text{This can be written as }Binomial(\pi ;n)
+\end{eqnarray*}
+
+\item In the parlance of probability distributions, the binomial has two 
+\textbf{parameters}: $\pi $ and $n$.
+
+\item So (very quickly). \ 9 students in the class, 5 male. \ I pick six
+students at random with replacement. \ What's the chance that I pick the
+same number of males and females?
+
+\begin{itemize}
+\item Call 'success' a female. \ $\pi =\frac{4}{9}.$
+
+\item We have \# of trials $n=6$. \ We have \# of successes as $y=3.$
+
+\item We thus evaluate the probability distribution for $Bi(\frac{4}{9};6)$
+at $y=3:$%
+\begin{eqnarray*}
+p(Y &=&3)=\frac{6!}{3!(6-3)!}\left( \frac{4}{9}\right) ^{3}\left( 1-\frac{4}{%
+9}\right) ^{6-3} \\
+&\approx &.30
+\end{eqnarray*}
+\end{itemize}
+
+\item Let's say I turned this question around a bit. \ I draw six students
+at random (with replacement). \ On average, how many females will I pick? \
+And how much will this number vary over repeated draws of six?
+
+\item Answering questions like this requires a formula for the expected
+value and the variance of the Bernoulli random variable $Y$.
+
+\item And in fact, we can prove that if $Y$ is a binomial random variable, 
+\begin{equation*}
+E(Y)=n\pi =\mu \text{ \ and \ \ }VAR(Y)=n\pi (1-\pi )=\mu (1-\pi )=\sigma
+^{2}.
+\end{equation*}
+
+\item We'll omit the proofs in class because we need to move on. \ But the
+proofs (pp. 107-108) are informative.
+
+\item Thus $E(Y|p=\frac{4}{9};n=6)=6\times \frac{4}{9}=2.\overline{6}.$ \ $%
+VAR(Y)\approx 2.7\left( 1-\frac{4}{9}\right) =1.5.$ \ The s.d. is $\sqrt{1.5}%
+\approx 1.2$. \ The typical \# of females I will draw in a sample of 6 is
+2.7, but the typical value will fall 1.2 females away from 2.7. \ 
+
+\item In practice, Binomials are not conveniently calculated. \ We typically
+use statistical software to calculate the probability that the Binomial
+random variable $Y$ takes on some value $y.$ \ In Stata, we type \texttt{.di
+binomialp}$(n,y,\pi )$ to get $P\left( Y=y\right) .$\newpage 
+\end{itemize}
+
+\section{Lecture 4}
+
+\subsection{The Poisson}
+
+\begin{itemize}
+\item A final discrete probability distribution we will examine is the
+Poisson.
+
+\item A Poisson experiment is the observation of a \textit{count of events}
+that occur in an \textit{interval, broadly defined} -- a given space, time
+period, or any other dimension. \ It is particularly helpful when modifying
+relatively \textit{infrequent }events (as more frequent events can be
+modeled with more generic distributions).
+
+\begin{itemize}
+\item Environmental laws per Congressional session.
+
+\item Errors per page.
+
+\item Government shutdowns per decade.
+
+\item Homeless shelters per census tract.
+\end{itemize}
+
+\item We discuss the Poisson after the Binomial because it can actually be
+conceived of the Binomial experiment as the number of trials approaches
+infinity. \ (What? \ Let's consider:)
+
+\begin{itemize}
+\item Split the interval into $n$ subintervals, each so small that at most
+one event could occur in it. \ That is, in each subinterval a Bernoulli
+trial takes place:%
+\begin{eqnarray*}
+P\left( y=1\right) &=&\pi \\
+P\left( y=0\right) &=&1-\pi \\
+\text{AND }P\left( y>1\right) &=&0.
+\end{eqnarray*}
+
+\item In this subinterval, 
+\begin{equation*}
+p\left( y\right) =\pi ^{y}\left( 1-\pi \right) ^{\left( 1-y\right) }\text{
+[Bernoulli]}
+\end{equation*}
+
+\item And if we have $n$ subintervals, then%
+\begin{equation*}
+p(y)=\frac{n!}{y!(n-y)!}\pi ^{y}(1-\pi )^{n-y}\text{ \ [Binomial]}
+\end{equation*}
+
+\item How many such subintervals are needed? \ Who knows. \ But we can
+handle this problem by making the subintervals infinitely small by taking
+the limit of the Binomial probability function as $n$ goes to infinity. \
+Our parameter of interest--the number of successes over the interval--is $%
+n\pi .$ \ We call this parameter $\lambda =n\pi .$ \ So:%
+\begin{eqnarray*}
+&&\lim_{n\longrightarrow \infty }\frac{n!}{y!(n-y)!}\pi ^{y}(1-\pi )^{n-y} \\
+&=&\lim_{n\longrightarrow \infty }\frac{n!}{y!(n-y)!}\left( \frac{\lambda }{n%
+}\right) ^{y}\left( 1-\frac{\lambda }{n}\right) ^{n-y} \\
+&=&\lim_{n\longrightarrow \infty }\frac{n!}{y!(n-y)!}\frac{\lambda ^{y}}{%
+n^{y}}\left( 1-\frac{\lambda }{n}\right) ^{n}\left( 1-\frac{\lambda }{n}%
+\right) ^{-y}
+\end{eqnarray*}
+
+\item Noting that by definition of $e,$%
+\begin{equation*}
+\lim_{n\longrightarrow \infty }\left( 1-\frac{\lambda }{n}\right)
+^{n}=e^{-\lambda }
+\end{equation*}
+
+\item And so%
+\begin{eqnarray*}
+&=&\lim_{n\longrightarrow \infty }\frac{n!}{y!(n-y)!}\frac{\lambda ^{y}}{%
+n^{y}}e^{-\lambda }\left( 1\right) \\
+&=&\frac{e^{-\lambda }\lambda ^{y}}{y!}\lim_{n\longrightarrow \infty }\frac{%
+n!}{(n-y)!n^{y}}\text{ \ [pulling out everything not related to }n\text{]} \\
+&=&\frac{\lambda ^{y}}{y!}e^{-\lambda }\lim_{n\longrightarrow \infty }\frac{%
+n\left( n-1\right) \left( n-2\right) ...(n-y+1)}{n^{y}}\text{ \ [shaving off 
+}n-y\text{ terms from numerator]} \\
+&=&\frac{\lambda ^{y}}{y!}e^{-\lambda }\lim_{n\longrightarrow \infty }\frac{n%
+}{n}\times \frac{\left( n-1\right) }{n}\times \frac{\left( n-2\right) }{n}%
+\times ...\times \frac{(n-y+1)}{n} \\
+&=&\frac{\lambda ^{y}}{y!}e^{-\lambda }\lim_{n\longrightarrow \infty
+}1\times \left( 1-\frac{1}{n}\right) \times \left( 1-\frac{2}{n}\right)
+\times ...\times \left( 1-\frac{y+1}{n}\right) \\
+&=&\frac{\lambda ^{y}}{y!}e^{-\lambda }\left( 1\right)
+\end{eqnarray*}
+
+\item And so%
+\begin{equation*}
+p\left( y\right) =\frac{\lambda ^{y}}{y!}e^{-\lambda }.
+\end{equation*}
+\end{itemize}
+
+\item In practice, Poissons are not conveniently calculated. \ We typically
+use statistical software to calculate the probability that the Binomial
+random variable $Y$ takes on some value $y.$ \ In Stata, we type \texttt{.di
+poissonp}$(\lambda ,y)$ to get $P\left( Y=y\right) .$\ 
+
+\item It is the case [proofs are in your book] that for a Poisson RV, 
+\begin{eqnarray*}
+\mu &=&E\left( Y\right) =\lambda \\
+\sigma ^{2} &=&VAR\left( Y\right) =\lambda .
+\end{eqnarray*}
+\end{itemize}
+
+The take-home point is that there are many theoretical models of specific
+experiments. \ Each of them has a probability distribution $p(y)$, and each
+has a mean ($E(Y)$) and a variance ($VAR(Y)$). \ Get to know these a bit by
+browsing the remainder of Chapter 3. \ See also the inside back cover of
+your text for a quick summary.
+
+\subsection{Continuous random variables}
+
+\begin{itemize}
+\item We often deal with random variables that can take on an uncountably
+infinite number of values. \ These RVs are known as \textit{continuous }%
+random variables.
+
+\item The reason we care: \ it's impossible to assign nonzero probabilities
+to all the uncountably infinite points on an interval while satisfying that
+they all sum to 1. \ Thus the notion of $p(y)$ from discrete world is
+irrelevant here. \ We must develop a different method to describe the
+probability distribution of a continuous RV.
+
+\item Let's begin by defining the cumulative distribution function (or cdf,
+or \textquotedblleft distribution function\textquotedblright ) of the RV $Y$
+as $F(y),$ where%
+\begin{equation*}
+F(y)\equiv P(Y\leq y)\text{ for -}\infty <y<\infty .
+\end{equation*}
+
+\FRAME{ftbpF}{4.5637in}{3.2055in}{0pt}{}{}{Figure}{\special{language
+"Scientific Word";type "GRAPHIC";maintain-aspect-ratio TRUE;display
+"USEDEF";valid_file "T";width 4.5637in;height 3.2055in;depth
+0pt;original-width 49.3331in;original-height 34.6001in;cropleft "0";croptop
+"1";cropright "1";cropbottom "0";tempfilename
+'MU0BBU00.bmp';tempfile-properties "XPR";}}
+
+\item A cdf has the following properties:%
+\begin{eqnarray*}
+F(-\infty ) &\equiv &\underset{y\rightarrow \text{-}\infty }{\lim }F(y)=0 \\
+F(\infty ) &\equiv &\underset{y\rightarrow \infty }{\lim }F(y)=1 \\
+&&F(y)\text{ is a nondescreasing function of }y\text{, which means that} \\
+y_{1} &<&y_{2}\Longrightarrow F(y_{1})\leq F(y_{2}).
+\end{eqnarray*}
+
+\item Both discrete and continous RVs have cdfs. \ See your text [page 158]
+for an example of how to develop a cdf of an RV with a binomial distribution
+. \ A RV $Y$ with cdf $F(y)$ is said to be \textbf{continuous} if $F(y)$ is
+continuous for -$\infty <y<\infty .$ \ By contrast, the cdf's of discrete
+RVs are always \textbf{step }functions: they have discontinuities separating
+the possible values of $y$ that they can take on.
+
+\item Remember that we talked earlier about the difficulty of assigning
+probabilities to points? \ Well with continuous RVs, we don't. \ In fact if $%
+Y$ is a continuous RV,%
+\begin{equation*}
+P(Y=y)=0\forall \text{ real numbers }y\text{.}
+\end{equation*}
+
+\item Sounds weird, but isn't. \ When we move to the world of continuous
+RVs, the differences between values of $y$ become infinitely small, making
+the chance that we see any one particular value of $y$ zero.
+
+\begin{itemize}
+\item For example, what's the probability of observing a temperature of
+50.73093764 degrees Fahrenheit on October 2 in New York\ City? \ Now add 10
+additional random digits to this number. \ Do it again. \ It doesn't take
+long to get to values for which it would be quite likely we would never see
+even if we were to measure the temperature on all\ October 2s that ever
+exist. \ And even \textit{those} values can be made more precise.
+\end{itemize}
+
+\item Instead, we get at this notion with the idea of \textbf{density}. \
+Define the function $f(y)$ as the derivative of $f$:%
+\begin{equation*}
+f(y)\equiv \frac{dF(y)}{dy}=F^{\prime }(y).
+\end{equation*}
+
+\item Wherever the derivative exists, $f(y)$ is the \textit{probability
+density function} (pdf, `density function') for the RV $Y$. \ [NOTE:\ The
+following diagram should be labeled "The density function"
+
+\FRAME{ftbpF}{4.181in}{2.6501in}{0pt}{}{}{Figure}{\special{language
+"Scientific Word";type "GRAPHIC";maintain-aspect-ratio TRUE;display
+"USEDEF";valid_file "T";width 4.181in;height 2.6501in;depth
+0pt;original-width 10.6666in;original-height 6.7463in;cropleft "0";croptop
+"1";cropright "1";cropbottom "0";tempfilename
+'MU0BD801.bmp';tempfile-properties "XPR";}}
+
+\item How to think about this intuitively:
+
+\begin{itemize}
+\item Note that where the cdf is changing rapidly (has a steep slope), the
+density is larger. \ Where it is changing slowly (has a flatter slope), the
+density is smaller.
+\end{itemize}
+
+\item Having defined $f(y)\equiv \frac{dF(y)}{dy},$ we therefore can write%
+\begin{equation*}
+F(y)=\int\limits_{-\infty }^{y}f(t)dt,
+\end{equation*}
+
+where $f(\cdot )$ is the pdf and $t$ is a placeholder, the variable of
+integration. \ The pdf $f(\cdot )$ has the following properties:%
+\begin{eqnarray*}
+f(y) &\geq &0\forall y,\text{-}\infty <y<\infty . \\
+\int_{-\infty }^{\infty }f(y)dy &=&1.
+\end{eqnarray*}
+
+\item Be sure to work through the examples in your book to get a sense of
+the math of cdf's and pdf's.
+
+\item Now what if we want to find the probability that the random variable $Y
+$ falls in a certain interval, e.g. $P(a\leq Y\leq b)$? \ It is the area
+under the density function in this interval [draw]%
+\begin{eqnarray}
+P(a &<&Y\leq b)=P(Y\leq b)-P(Y\leq a)  \notag \\
+&=&F(b)-F(a)  \notag \\
+&=&\int_{a}^{b}f(y)dy.
+\end{eqnarray}
+
+\item In the continuous RV case, note that $P(a<Y<b)=P(a<Y\leq b)=P(a\leq
+Y<b)=P(a\leq Y\leq b).$ \ Why?
+
+\item Note that this is not necessarily the case for discrete RVs, because
+for those kinds of RVs, $P(y\leq a)$ is not necessarily equal to $P(y<a).$
+\end{itemize}
+
+\subsection{Expected values for continuous random variables}
+
+\begin{itemize}
+\item Remember that in the case of discrete RV, we wrote%
+\begin{equation*}
+E(Y)\equiv \sum_{y}yp(y)\text{ \ and }E[g(Y)]=\sum_{y}g(y)p(y)
+\end{equation*}%
+The math of expectations for continuous RVs is very similar:%
+\begin{eqnarray*}
+E(Y) &\equiv &\int_{-\infty }^{\infty }yf(y)dy \\
+E[g(Y)] &=&\int_{-\infty }^{\infty }g(y)f(y)dy
+\end{eqnarray*}
+
+\item Furthermore:%
+\begin{eqnarray*}
+VAR(Y) &\equiv &\int_{-\infty }^{\infty }(y-\mu )^{2}f(y)dy \\
+&=&E(Y^{2})-\mu ^{2}.\text{ \ [Exercise.]}
+\end{eqnarray*}
+
+\item Reassuringly, this is the same as in the discrete case, as we showed
+last time in class.
+\end{itemize}
+
+\subsection{Theoretical models of continuous probability distributions}
+
+\begin{itemize}
+\item We'll look at two continuous RVs in detail:
+
+\begin{itemize}
+\item The \textbf{Uniform}
+
+\item The \textbf{Normal}
+\end{itemize}
+
+\item And three distributions related to the Normal that we will use
+constantly in statistical tests:
+
+\begin{itemize}
+\item 
+\begin{itemize}
+\item the \textbf{Chi-squared} $\left( \chi ^{2}\right) $ distribution 
+
+\item the\textbf{\ t-distribution} 
+
+\item the \textbf{F idstribution}
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsection{The Uniform distribution}
+
+\begin{itemize}
+\item Consider a random variable that can take on any value in an interval
+between two values, and these values are equiprobable.
+
+\begin{itemize}
+\item e.g., the date of the election called by a prime minister who must
+call an election at some point in her five-year term.
+
+\item the length of a student essay (in words) that is required to be
+between 1,000 and 2,000 words.
+
+\item the length of a Tweet, which must be between 1 and 148 characters.
+\end{itemize}
+
+\item (Hold off for a moment on scrutinizing whether these values are really
+all equiprobable; we'll get to that in a minute.)
+
+\item (Let's also hold off for a moment at balking at the fact that these
+are actually examples of discrete random variables, rather than continuous
+RVs.)
+
+\item We can represent the density function of such an RV like this (change $%
+a$ and $b$ to the thetas):\FRAME{ftbpF}{3.3831in}{1.9709in}{0pt}{}{}{Figure}{%
+\special{language "Scientific Word";type "GRAPHIC";maintain-aspect-ratio
+TRUE;display "USEDEF";valid_file "T";width 3.3831in;height 1.9709in;depth
+0pt;original-width 7.2536in;original-height 4.2133in;cropleft "0";croptop
+"1";cropright "1";cropbottom "0";tempfilename
+'MU0HSZ03.bmp';tempfile-properties "XPR";}}
+
+\item This flat density function represents the fact that all values in the
+interval are equiprobable.
+
+\item This leads to a pdf that looks like this:%
+\begin{equation*}
+f\left( y\right) =\left\{ 
+\begin{array}{cc}
+\frac{1}{\theta _{2}-\theta _{1}}, & \theta _{1}\leq y\leq \theta _{2} \\ 
+0, & \text{elsewhere.}%
+\end{array}%
+\right. 
+\end{equation*}
+
+\item How do we get to the pdf? \ Simple geometry. \ 
+
+\begin{itemize}
+\item We know the rectangular area under the distribution function must
+equal 1.
+
+\item We know the length of the base of the rectangle: it's $\theta
+_{2}-\theta _{1}.$
+
+\item Therefore its height $h$ must solve  $\left( \theta _{2}-\theta
+_{1}\right) h=1$ and thus $h=\frac{1}{\theta _{2}-\theta _{1}}.$
+\end{itemize}
+
+\item Note that when we "stretch out" the interval of a Uniform RV, its
+density gets smaller and smaller. \ Can you explain the intuition for this?
+
+\item Let's derive the cdf of the Uniform:%
+\begin{eqnarray*}
+F\left( y\right)  &=&\int\limits_{-\infty }^{y}f(t)dt \\
+&=&\int\limits_{\theta _{1}}^{y}\frac{1}{\theta _{2}-\theta _{1}}dt \\
+&=&\left. \frac{t}{\theta _{2}-\theta _{1}}\right\vert _{\theta _{1}}^{y}=%
+\frac{y-\theta _{1}}{\theta _{2}-\theta _{1}}
+\end{eqnarray*}
+
+\item Now let's show that $\mu =E\left( Y\right) =\frac{\theta _{1}-\theta
+_{2}}{2}.$%
+\begin{eqnarray*}
+E\left( Y\right)  &\equiv &\int yf\left( y\right) dy \\
+&=&\int_{\theta _{1}}^{\theta _{2}}y\frac{1}{\theta _{2}-\theta _{1}}dy \\
+&=&\frac{1}{\theta _{2}-\theta _{1}}\left. \frac{y^{2}}{2}\right\vert
+_{\theta _{1}}^{\theta _{2}}=\frac{\left( \theta _{2}\right) ^{2}-\left(
+\theta _{1}\right) ^{2}}{2\left( \theta _{2}-\theta _{1}\right) } \\
+&=&\frac{\theta _{1}+\theta _{2}}{2}.
+\end{eqnarray*}
+
+\item Of course, this is quite intutive. \ The expected value of a Uniform
+RV should be at the point that divides the interval in half!
+
+\item A final result [proof will be on your HW]: 
+\begin{equation*}
+\sigma ^{2}=VAR(Y)=\frac{\left( \theta _{2}-\theta _{1}\right) ^{2}}{12}
+\end{equation*}
+
+\item OK, now let's deal with the quibbles. \ When we think about the
+examples I mentioned earlier, we know enough about them that they are not
+properly modeled as having all their values equiprobable. \ [Go through
+examples.]
+
+\item However, what if we began examining a social process knowing nothing
+about it?
+
+\begin{itemize}
+\item Or more to the point, we wanted to be completely \textit{agnostic }%
+about how the values might be distributed? \ 
+
+\item Assuming that the process follows a Uniform distribution is a good way
+to do this. \ And in fact, that's exactly what we do in a lot of statistical
+modeling. \ We also do this in a lot of formal modeling when we want to be
+agnostic about the beliefs an actor might have about the value of something.
+\ In both cases, we call this "Uniform prior beliefs," or just a "Uniform
+prior."
+\end{itemize}
+\end{itemize}
+
+\subsection{The Normal distribution}
+
+\begin{itemize}
+\item Many empirical distributions are closely approximated by a
+distribution that is:
+
+\begin{itemize}
+\item symmetric
+
+\item has positive (non-zero) probability for all possible values of $y$
+
+\item and is "bell shaped": specifically it has inflection points at one
+standard deviation away from its mean.
+\end{itemize}
+
+\item In fact, it can be shown that:
+
+\begin{itemize}
+\item in repeated random samples from a population
+
+\item the means of these samples
+
+\item are distributed around the population mean, $\mu ,$ as described by a
+density function that we can actually write down.
+
+\item The proof of this phenomenon is called the Central Limit Theorem, and
+this density function is defined as the Normal density function.
+\end{itemize}
+
+\item We won't be proving the Central Limit Theorem. \ In a few lectures, I
+will instead be giving you empirical evidence for its existence. \ 
+
+\item So unlike the other PMFs and PDFs we've looked at so far, we won't
+derive this function. \ It requires learning a lot of mathematics that I
+don't think you'll find particularly relevant.
+
+\item Instead, you will take it on faith that a RV $Y$ has a Normal
+probability distribution iff, for $\sigma >0$ and $-\infty <y<\infty ,$ the
+density function of $Y$ is%
+\begin{equation*}
+f(y)=\frac{1}{\sigma \sqrt{2\pi }}e^{\frac{-(y-\mu )^{2}}{2\sigma ^{2}}},%
+\text{ for }-\infty <y<\infty .
+\end{equation*}
+
+\item Draw on board, noting $\mu $ on x-axis (axis is labeled `$y$'), y-axis
+labeled `$f(y)$', height of curve labeled $f(y)=\frac{1}{\sigma \sqrt{2\pi }}%
+e^{\frac{-(y-\mu )^{2}}{2\sigma ^{2}}}.$
+
+\item Note that the Normal has two parameters: $\mu $ and $\sigma .$
+
+\item As usual, if empirical values in population are distributed Normal,
+then%
+\begin{equation*}
+E(Y)=\mu \text{ and }VAR(Y)=\sigma ^{2}.
+\end{equation*}
+
+\item So based on what we learned earlier, what is $P(a\leq Y\leq b)$ if $Y$
+is distributed Normal?%
+\begin{equation*}
+P(a\leq Y\leq b)=\int_{a}^{b}f(y)dy=\int_{a}^{b}\frac{1}{\sigma \sqrt{2\pi }}%
+e^{\frac{-(y-\mu )^{2}}{2\sigma ^{2}}}dy.
+\end{equation*}
+
+\item \lbrack Shade in area of graph.]
+
+\item A closed-form expression for this interval does not exist. \
+Evaluating requires numerical methods. \ Commands are available in Stata
+(you'll learn them).
+
+\item Typically (and you'll recall this from any statistics class!), we 
+\textbf{standardize }a Normally distributed variable so that our units are
+measured in terms of standard deviations. \ That is we transform that normal
+RV $Y$ into the standard normal RV $Z:$%
+\begin{equation*}
+Z\equiv \frac{Y-\mu }{\sigma }.
+\end{equation*}
+
+\item The RV $Z$ is itself distributed Normal with mean zero and standard
+deviation one. \ Generally wecan standardize any Normal variable without
+losing any relevant information. \ The original distribution is now
+expressed in units of the standard deviation of the original Normal RV.
+
+\item If we standardize a Normal, its pdf becomes simpler:%
+\begin{equation*}
+f\left( z\right) =\frac{1}{\sqrt{2\pi }}e^{-\frac{z^{2}}{2}}
+\end{equation*}
+
+\item We use the pdf and cdf of the standard Normal so much that we have
+special symbols for them:
+
+\begin{itemize}
+\item We write $\phi \left( z\right) $ ("or little phi of z") to denote the
+pdf of the standard Normal evaluated at $Z=z$
+
+\item and $\Phi \left( z\right) =\Pr \left( Z\leq z\right) $, (or "big phi
+of z") to denote the cdf of the standard Normal evaluated at $Z=z.$
+\end{itemize}
+\end{itemize}
+
+\subsection{Three distributions related to the standard Normal}
+
+\begin{itemize}
+\item 
+\begin{itemize}
+\item There are three distributions related to the Normal that we will use
+constantly in statistical tests. \ It's not much use to go into detail about
+them here; I just want you to be aware that they all derived from the
+Normal. \ We will encounter them again soon.
+
+\begin{itemize}
+\item the \textbf{Chi-squared} $\left( \chi ^{2}\right) $ distribution
+[where $Y$ is the sum of the squares of a series of standard Normal RVs]
+
+\item the\textbf{\ t-distribution} [where $Y$ is the ratio of a standard
+Normal RV / the square root of a chi-squared RV]
+
+\item the \textbf{F idstribution} [where $Y$ is the ratio of two chi-squared
+RVs]
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\end{document}
