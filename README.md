@@ -158,7 +158,7 @@ All these can also be found on the [Campuswire calendar](https://campuswire.com/
 *[Back to ToC](#table-of-contents)*
 
 ## Syllabus
-[1. Introduction to Data Analysis](#1-introduction-data-analysis): Aug 24 - Aug 29
+[1. Introduction to Data Analysis](#1-introduction-to-data-analysis): Aug 24 - Aug 29
 
 [2. Random Variables](#2-random-variables): Sep 5 - Sep 12
 
@@ -198,7 +198,7 @@ Lecture Content (2023/08/24): Welcome and overview
 
 Lecture Content (2023/08/29): Intro to probability
 
-* Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_1_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_1_slides.html#1)
+* Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_1_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/blob/main/Lectures/Lecture_1_slides.html#1)
 
 
 *[Back to ToC](#table-of-contents)*
