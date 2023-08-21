@@ -162,23 +162,23 @@ All these can also be found on the [Campuswire calendar](https://campuswire.com/
 
 [2. Random Variables](#2-random-variables): Sep 5 - Sep 12
 
-[3. Multivariate Analysis and Expectations](#3-multivariate-analysis-expectations): Sep 14 - Sep 19
+[3. Multivariate Analysis and Expectations](#3-multivariate-analysis-and-expectations): Sep 14 - Sep 19
 
-[4. Sampling and Estimators](#4-sampling-estimators): Sep 21 - Sep 28
+[4. Sampling and Estimators](#4-sampling-and-estimators): Sep 21 - Sep 28
 
-[5. Hypothesis testing and inference](#5-hypothesis-testing-inference): Oct 3 - Oct 10
+[5. Hypothesis testing and inference](#5-hypothesis-testing-and-inference): Oct 3 - Oct 10
 
 [6. Midterm](#6-midterm-exam): Oct 12 - Oct 17
 
 [7. Relationships among RVs](#7-relationships-among-rvs): Oct 24 - Oct 26
 
-[8. Inference, Errors, and Controls](#8-inference-errors-controls): Oct 31 - Nov 9
+[8. Inference, Errors, and Controls](#8-inference-errors-and-controls): Oct 31 - Nov 9
 
 [9. Confounders](#9-confounders): Nov 14 - Nov 16
 
-[10. BLUE and Heteroskedasticity](#9-blue-heteroskedasticity): Nov 28 - Nov 30
+[10. BLUE and Heteroskedasticity](#10-blue-and-heteroskedasticity): Nov 28 - Nov 30
 
-[11. Final](#10-final-exam): Dec 7 - Dec 11
+[11. Final](#11-final-exam): Dec 7 - Dec 11
 
 
 ### Lecture Notes, Data and Code for Each Topic 
@@ -246,9 +246,9 @@ Lecture Content (2023/09/26): Estimators
 
 * Slides:
 
-*[Back to ToC](#table-of-contents)*
-
 **Review Session (2023/09/28): Review sections 3 and 4**
+
+*[Back to ToC](#table-of-contents)*
 
 ### 5\. Hypothesis Testing and Inference
 
@@ -289,7 +289,7 @@ Lecture Content (2023/10/26): The slope and intercept of a regression line
 
 *[Back to ToC](#table-of-contents)*
 
-### 7\. Inference, Errors, and Controls
+### 8\. Inference, Errors, and Controls
 
 Lecture Content (2023/10/31): Inference
 
@@ -309,7 +309,7 @@ Lecture Content (2023/11/07): Error variance and controls
 
 *[Back to ToC](#table-of-contents)*
 
-### 8\. Confounders
+### 9\. Confounders
 
 Lecture Content (2023/11/14): Confounders and OVB
 
@@ -326,7 +326,7 @@ Lecture Content (2023/11/16): Sampling distribution of estimates
 
 *[Back to ToC](#table-of-contents)*
 
-### 9\. BLUE and Heteroskedasticity
+### 10\. BLUE and Heteroskedasticity
 
 Lecture Content (2023/11/28): BLUE
 
@@ -340,13 +340,10 @@ Lecture Content (2023/11/30): Heteroskedasticity
 
 *[Back to ToC](#table-of-contents)*
 
-Lecture content (2023/12/05): Causality and a preview of what is to come
+### 11\. Final Exam
+Lecture content (2023/12/05): Data exercise presentations part 1
 
-* Slides:
-
-### 10\. Final Exam
-
-**Review Session (2023/12/07): Review of second half of semester.**
+Lecture content (2023/12/07): Data exercise presentations part 2
 
 **Final Exam (2023/12/11): In-Class Exam**
 
