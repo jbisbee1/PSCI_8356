@@ -3,7 +3,7 @@ title: "Lecture 1"
 subtitle: "Quantitative Political Science"
 author: "Prof. Bisbee"
 institute: "Vanderbilt University"
-date: "Lecture Date: 2023/08/23\n Slides Updated: `r Sys.Date()`"
+date: "Lecture Date: 2023/08/24\n Slides Updated: `r Sys.Date()`"
 output:
   xaringan::moon_reader:
     # self_contained: true
@@ -474,3 +474,12 @@ data.frame(id = paste0(sample(LETTERS,26),sample(LETTERS,26)),
 --
 
 - TA office hours and labs
+
+```{r,message=F,echo=F,warning=F,results='hide'}
+dir <- getwd()
+type <- 'pdf'
+format <- 'landscape'
+f <- 'Lecture_1_slides'
+
+system(paste('Rscript ../NFGH/chromeprint.R',dir,type,format,f),wait = T)
+```
