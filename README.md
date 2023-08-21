@@ -180,6 +180,8 @@ All these can also be found on the [Campuswire calendar](https://campuswire.com/
 
 [11. Final](#11-final-exam): Dec 7 - Dec 11
 
+*[Back to ToC](#table-of-contents)*
+
 
 ### Lecture Notes, Data and Code for Each Topic 
 Each lecture's materials will be released according to the following schedule:
@@ -202,7 +204,7 @@ Lecture Content (2023/08/29): Intro to probability
 * Slides: 
 
 
-*[Back to ToC](#table-of-contents)*
+*[Back to Syllabus](#syllabus)*
 
 **No class (2023/08/31)**
 
@@ -220,7 +222,7 @@ Lecture Content (2023/09/07): Continuous random variables
 
 **Review Session (2023/09/12): Review sections 1 and 2**
 
-*[Back to ToC](#table-of-contents)*
+*[Back to Syllabus](#syllabus)*
 
 ### 3\. Multivariate Analysis and Expectations
 
@@ -232,8 +234,7 @@ Lecture Content (2023/09/19): Expectations workshop
 * Slides:
 * Homework: Problem set 2 (due September 26)
 
-
-*[Back to ToC](#table-of-contents)*
+*[Back to Syllabus](#syllabus)*
 
 ### 4\. Sampling and Estimators
 
@@ -248,7 +249,7 @@ Lecture Content (2023/09/26): Estimators
 
 **Review Session (2023/09/28): Review sections 3 and 4**
 
-*[Back to ToC](#table-of-contents)*
+*[Back to Syllabus](#syllabus)*
 
 ### 5\. Hypothesis Testing and Inference
 
@@ -265,8 +266,7 @@ Lecture Content (2023/10/10): P-values
 
 * Slides:
 
-
-*[Back to ToC](#table-of-contents)*
+*[Back to Syllabus](#syllabus)*
 
 ### 6\. Midterm Exam
 
@@ -274,7 +274,7 @@ Lecture Content (2023/10/10): P-values
 
 **Midterm Exam (2023/10/17): In-class exam**
 
-*[Back to ToC](#table-of-contents)*
+*[Back to Syllabus](#syllabus)*
 
 ### 7\. Relationships among RVs
 
@@ -287,7 +287,7 @@ Lecture Content (2023/10/26): The slope and intercept of a regression line
 
 * Slides: 
 
-*[Back to ToC](#table-of-contents)*
+*[Back to Syllabus](#syllabus)*
 
 ### 8\. Inference, Errors, and Controls
 
@@ -307,7 +307,7 @@ Lecture Content (2023/11/07): Error variance and controls
 
 **Review Session (2023/11/08): Review sections 7 and 8.**
 
-*[Back to ToC](#table-of-contents)*
+*[Back to Syllabus](#syllabus)*
 
 ### 9\. Confounders
 
@@ -324,7 +324,7 @@ Lecture Content (2023/11/16): Sampling distribution of estimates
 
 **Holiday: (2023/11/23)**
 
-*[Back to ToC](#table-of-contents)*
+*[Back to Syllabus](#syllabus)*
 
 ### 10\. BLUE and Heteroskedasticity
 
@@ -338,7 +338,7 @@ Lecture Content (2023/11/30): Heteroskedasticity
 * Slides:
 * Homework: Wooldridge chapter 9
 
-*[Back to ToC](#table-of-contents)*
+*[Back to Syllabus](#syllabus)*
 
 ### 11\. Final Exam
 Lecture content (2023/12/05): Data exercise presentations part 1
@@ -347,7 +347,7 @@ Lecture content (2023/12/07): Data exercise presentations part 2
 
 **Final Exam (2023/12/11): In-Class Exam**
 
-*[Back to ToC](#table-of-contents)*
+*[Back to Syllabus](#syllabus)*
 
 
 ## Helpful Resources
