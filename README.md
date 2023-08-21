@@ -194,11 +194,12 @@ Each lecture's materials will be released according to the following schedule:
 Lecture Content (2023/08/24): Welcome and overview
 
 * Slides: 
+[PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_1_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_1_slides.html#1)
 * Homework: WMS chapters 1 and 2
 
 Lecture Content (2023/08/29): Intro to probability
 
-* Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_1_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_1_slides.html#1)
+* Slides: 
 
 
 *[Back to ToC](#table-of-contents)*
