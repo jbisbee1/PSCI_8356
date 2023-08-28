@@ -158,6 +158,11 @@ All these can also be found on the [Campuswire calendar](https://campuswire.com/
 *[Back to ToC](#table-of-contents)*
 
 ## Syllabus
+
+### Tentative Spreadsheet
+![spreadsheet](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/figs/syllabus.png)
+
+
 [1. Introduction to Data Analysis](#1-introduction-to-data-analysis): Aug 24 - Aug 29
 
 [2. Random Variables](#2-random-variables): Sep 5 - Sep 12
