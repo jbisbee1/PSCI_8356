@@ -151,7 +151,7 @@ The observance of religious holidays (activities observed by a religious group o
 
 ## Office Hours (OH) / Labs
 * Prof. Bisbee: OH M & W at 3PM in Commons #353
-* TA Gou: TBA
+* TA Gou: Recitation F at 10AM in Commons #363
 
 All these can also be found on the [Campuswire calendar](https://campuswire.com/c/G444453D9/calendar), along with the Zoom links for those hosting their office hours remotely.
 
