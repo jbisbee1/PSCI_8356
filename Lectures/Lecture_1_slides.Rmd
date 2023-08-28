@@ -189,6 +189,11 @@ require(tidyverse)
 
   - A number that **summarizes data**
 
+---
+
+# Background
+
+- Handout work
 
 ---
 
