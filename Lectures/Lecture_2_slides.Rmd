@@ -45,6 +45,8 @@ require(tidyverse)
 
 # Agenda
 
+0. Finishing up lecture 1
+
 1. The normal distribution
 
 2. Probability theory
@@ -52,6 +54,265 @@ require(tidyverse)
 3. Calculating probability
 
 4. Bayes' Rule
+
+---
+
+# Recap
+
+- Three types of empirical questions
+
+--
+
+  - What can we say about the data we **have**, the data we **don't have**, and the data we **expect to see**?
+  
+- Analysis of data tables / data frames
+
+--
+
+  - Rows are **units**, columns are **variables**
+  
+--
+
+  - **Variables** are logical groupings of mutually exclusive attributes
+  
+  - Variables take on **values**, which we typically assign numeric **scores** to
+  
+- Four levels of measurement
+
+--
+
+  - Nominal, ordinal, interval, ratio
+
+---
+
+# Summarizing data: displays
+
+```{r,echo=F}
+set.seed(1234)
+data.frame(id = paste0(sample(LETTERS,6),sample(LETTERS,6)),
+           state = sample(state.abb,6),
+           age = round(runif(6,min = 23,max = 30)),
+           GPA = round(rnorm(6,mean = 3.9,sd = .1),2))
+```
+
+--
+
+- Why not just present this table as is?
+
+--
+
+```{r,echo=F}
+set.seed(1234)
+data.frame(id = paste0(sample(LETTERS,26),sample(LETTERS,26)),
+           state = sample(state.abb,26),
+           age = round(runif(26,min = 23,max = 30)),
+           GPA = round(rnorm(26,mean = 3.9,sd = .1),2))
+```
+
+---
+
+# Summarizing data: displays
+
+- Fundamental tension in quantitative analysis: **detail versus parsimony**
+
+--
+
+- Use a frequency table?
+
+```{r,echo=F}
+set.seed(1234)
+data.frame(id = paste0(sample(LETTERS,26),sample(LETTERS,26)),
+           state = sample(state.abb,26),
+           age = round(runif(26,min = 23,max = 30)),
+           GPA = round(rnorm(26,mean = 3.9,sd = .1),2)) %>%
+  count(age) %>%
+  arrange(n)
+```
+
+---
+
+# Summarizing data: displays
+
+- What about for GPA?
+
+--
+
+```{r,echo=F}
+set.seed(1234)
+data.frame(id = paste0(sample(LETTERS,26),sample(LETTERS,26)),
+           state = sample(state.abb,26),
+           age = round(runif(26,min = 23,max = 30)),
+           GPA = round(rnorm(26,mean = 3.9,sd = .1),4)) %>%
+  # mutate(GPA = factor(ifelse(GPA < 3.8,'<3.8',
+  #                     ifelse(GPA < 3.9,'3.8-3.9',
+  #                            ifelse(GPA < 4,'3.9-4','>4.0'))),
+  #                     levels = c('<3.8','3.8-3.9','3.9-4','>4.0'))) %>%
+  count(GPA)
+```
+
+---
+
+# Summarizing data: displays
+
+- **Recode** data into categories, then use a frequency table
+
+--
+
+```{r,echo=F}
+set.seed(1234)
+data.frame(id = paste0(sample(LETTERS,26),sample(LETTERS,26)),
+           state = sample(state.abb,26),
+           age = round(runif(26,min = 23,max = 30)),
+           GPA = round(rnorm(26,mean = 3.9,sd = .1),2)) %>%
+  mutate(GPA = factor(ifelse(GPA < 3.8,'<3.8',
+                      ifelse(GPA < 3.9,'3.8-3.9',
+                             ifelse(GPA < 4,'3.9-4','>4.0'))),
+                      levels = c('<3.8','3.8-3.9','3.9-4','>4.0'))) %>%
+  count(GPA)
+```
+
+---
+
+# Summarizing data: displays
+
+- Also can visualize with a **plot**
+
+```{r,echo=F}
+set.seed(1234)
+data.frame(id = paste0(sample(LETTERS,26),sample(LETTERS,26)),
+           state = sample(state.abb,26),
+           age = round(runif(26,min = 23,max = 30)),
+           GPA = round(rnorm(26,mean = 3.9,sd = .1),2)) %>%
+  mutate(GPA = factor(ifelse(GPA < 3.8,'<3.8',
+                      ifelse(GPA < 3.9,'3.8-3.9',
+                             ifelse(GPA < 4,'3.9-4','>4.0'))),
+                      levels = c('<3.8','3.8-3.9','3.9-4','>4.0'))) %>%
+  count(GPA) %>%
+  ggplot(aes(x = GPA,y = n)) + 
+  geom_bar(stat = 'identity')
+```
+
+---
+
+# Summarizing data: central tendency
+
+- **Central Tendency**: The *typical value*
+
+--
+
+  - **Mode**: most frequently observed value (which levels of measurement (LOM)?)
+  
+  - **Median**: value of smallest observation for which the cumulative percentage is $\geq$ 50 (which LOM?)
+  
+  - **Mean**: average $\bar{y} = \frac{1}{N} \sum_{i = 1}^N y_i$ (which LOM?)
+  
+---
+
+# Summarizing data: dispersion
+
+- **Dispersion**: The *spread*
+
+--
+
+  - **Range**: difference between smallest and largest values (LOM?)
+  
+  - **IQR**: difference between 75th%ile and 25%ile (LOM?)
+  
+  - **Variance**: $s^2 = \frac{1}{N} \sum_{i = 1}^N (y_i - \bar{y})^2$ (LOM?)
+  
+---
+
+# Summarizing data: qualitative description
+
+- Frequency distribution may be "symmetric" or "skewed"
+
+--
+
+  - Median is typically better than mean if data is skewed (why?)
+  
+```{r,echo=F,warning=F,message=F}
+data.frame(x = rbeta(10000,5,2)) %>%
+  mutate(mean = mean(x)) %>%
+  ggplot(aes(x = x)) + 
+  geom_histogram(alpha = .5) + 
+  geom_vline(aes(xintercept = mean),linetype = 'dashed') + 
+  labs(title = 'Left-Skewed distribution')
+```
+
+---
+
+# Summarizing data: qualitative description
+
+- Frequency distribution may be "symmetric" or "skewed"
+
+  - Median is typically better than mean if data is skewed (why?)
+  
+```{r,echo=F,warning=F,message=F}
+data.frame(x = rbeta(10000,2,5)) %>%
+  mutate(mean = mean(x)) %>%
+  ggplot(aes(x = x)) + 
+  geom_histogram(alpha = .5) + 
+  geom_vline(aes(xintercept = mean),linetype = 'dashed') + 
+  labs(title = 'Right-Skewed distribution')
+```
+
+---
+
+# Summarizing data: qualitative description
+  
+- Frequency distribution may be "symmetric" or "skewed"
+
+  - Median is typically better than mean if data is skewed (why?)
+
+- Qualitative descriptions can be quantified
+
+--
+
+  - I.e., skew $g_1 = \frac{1}{N*s^3} \sum_{i = 1}^N (y_i - \bar{y})^3$
+  
+  - If $g_1 = 0$, symmetric
+  
+  - If $g_1 < 0$, skewed left
+  
+  - If $g_1 > 0$, skewed right
+  
+---
+
+# Summarizing data: qualitative description
+  
+- May be "unimodal" or "bimodal"
+
+```{r,echo=F,warning=F,message=F}
+data.frame(x = c(rnorm(10000,mean = 70,sd = 3),
+                 rnorm(10000,mean = 63.5,sd = 3)),
+           grp = c(rep('M',10000),
+                   rep('F',10000))) %>%
+  mutate(mean = mean(x)) %>%
+  ggplot(aes(x = x)) + 
+  geom_histogram(alpha = .5,position = 'identity') + 
+  geom_vline(aes(xintercept = mean),linetype = 'dashed') + 
+  labs(title = 'Bimodal distribution')
+```
+
+
+---
+
+# Summarizing data: qualitative description
+  
+- May be "unimodal" or "bimodal"
+
+```{r,echo=F,warning=F,message=F}
+data.frame(x = c(rnorm(10000,mean = 70,sd = 3),
+                 rnorm(10000,mean = 63.5,sd = 3)),
+           grp = c(rep('M',10000),
+                   rep('F',10000))) %>%
+  group_by(grp) %>%
+  mutate(mean = mean(x)) %>%
+  ggplot(aes(x = x,fill = grp)) + 
+  geom_histogram(alpha = .5,position = 'identity') + 
+  geom_vline(aes(xintercept = mean),linetype = 'dashed') + 
+  labs(title = 'Bimodal distribution')
+```
 
 ---
 
@@ -102,17 +363,30 @@ p
 --
 
   - She is taller than what proportion of women in the American population?
-  
+
 --
+
+```{r,message=F,echo=F}
+p + 
+  geom_vline(xintercept = 69.5)
+```
+
+---
+
+# The Normal Distribution
+
+- Your cousin's best friend's new roommate is 69.5 inches tall
+
+  - She is taller than what proportion of women in the American population?
 
 - Tchebysheff's Theorem:
 
-  - $\bar{y} \pm s$ contains 68% of observations
+  - $\bar{y} \pm s$ contains **approximately** 68% of observations
   
-  - $\bar{y} \pm 2s$ contains 95% of observations
+  - $\bar{y} \pm 2s$ contains **approximately** 95% of observations
   
-  - $\bar{y} \pm 3s$ contains basically all of the observations
-  
+  - $\bar{y} \pm 3s$ contains **approximately** all of the observations
+
 ---
 
 # The Normal Distribution
@@ -203,15 +477,28 @@ est
 
   - **However**, do NOT make the mistake of assuming all distributions are normal
   
---
 
-- We haven't talked about **samples** versus **populations**
+---
 
---
+# Samples versus Populations
+
+- **NB:** We have been using a **sample**
 
   - `rnorm()` samples from the normal distribution
   
---
+```{r,message=F,echo=F,warning=F}
+ggplot(data = data.frame(x = c(45, 80)), aes(x)) +
+  stat_function(fun = dnorm, n = 101, args = list(mean = 63.5, sd = 3)) + ylab("") +
+  geom_vline(xintercept = 69.5)
+```
+
+---
+
+# Samples versus Populations
+
+- **NB:** We have been using a **sample**
+
+  - `rnorm()` samples from the normal distribution
 
 - Taking data as given, resisted making **inferences** to a population
 
@@ -255,7 +542,7 @@ est
 
   - Central tendency ( $\bar{y}$ )
   
-  - Dispersion ( $s$ )
+  - Dispersion ( $s^2$ )
   
 --
 
@@ -387,16 +674,14 @@ est
 
   - A subset of $S$
   
+- *Aside on set theory notation*
+  
 ---
 
 # Probabilities in Set Theory
 
 - Assign a number $P(A)$ to each event $A$ in $S$ 
 
---
-
-  - $P(A) \forall A \in S$
-  
 --
 
 - Three axioms of probability give structure to this assignment
