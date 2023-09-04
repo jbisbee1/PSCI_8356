@@ -232,10 +232,12 @@ data.frame(id = paste0(sample(LETTERS,26),sample(LETTERS,26)),
   
 ```{r,echo=F,warning=F,message=F}
 data.frame(x = rbeta(10000,5,2)) %>%
-  mutate(mean = mean(x)) %>%
+  mutate(mean = mean(x),
+         median = median(x)) %>%
   ggplot(aes(x = x)) + 
   geom_histogram(alpha = .5) + 
-  geom_vline(aes(xintercept = mean),linetype = 'dashed') + 
+  geom_vline(aes(xintercept = mean),linetype = 'dashed') +
+  geom_vline(aes(xintercept = median),linetype = 'dotted',color = 'red') +
   labs(title = 'Left-Skewed distribution')
 ```
 
