@@ -319,18 +319,14 @@ require(tidyverse)
 
 ---
 
-# Quick recap
+# Bayes' Rule
 
-- We now have an intellectual foundation for probability
+- Classic examples:
 
-  - Probabilistic events in the context of an **experiment** and **simple events**
-  
-  - All possible events define the **sample space**
-  
-  - 3 axioms for how to assign probabilities to events
-  
-  - 4 tools to decompose and compose events of interest
-  
+  - WMS 2.124, pg. 73: "A population of voters contains 40% Republicans and 60% Democrats. It is reported that 30% of the Republicans and 70% of the Democrats favor an election issue. A person chosen at random from this population is found to favor the issue in question. Find the conditional probability that this person is a Democrat."
+
+  - WMS 2.125, pg. 73: "A diagnostic test for a disease is such that it (correctly) detects the disease in 90% of the individuals who actually have the disease. Also, if a person does not have the disease, the test will report that he or she does not have it with probability .9. Only 1% of the population has the disease in question. If a person is chosen at random from the population and the diagnostic test indicates that she has the disease, what is the conditional probability that she does, in fact, have the disease? Are you surprised by the answer? Would you call this diagnostic test reliable?"
+
 ---
 
 # One additional tool
@@ -345,22 +341,19 @@ require(tidyverse)
   
 ---
 
-# Quick proof
-  
-- How can we arrive here using the axioms?
+# Quick recap
 
-  1. $P(E_i) = \frac{1}{n} \forall\;i = \{1,2,\dots,n\}$ because
+- We now have an intellectual foundation for probability
+
+  - Probabilistic events in the context of an **experiment** and **simple events**
   
-  2. $P(S) = P(E_1 \cup E_2 \cup \dots E_n) = P(E_1) + P(E_2) + \dots P(E_n) = 1$ (Axiom 3, then Axiom 2)
+  - All possible events define the **sample space**
   
-  3. $P(E_1) + P(E_2) + \dots P(E_n) = nP(E_1) = 1$ (definition of equiprobability)
+  - 3 axioms for how to assign probabilities to events
   
-  4. $P(E_1) = \frac{1}{n}$ and $P(E_i) = \frac{1}{n} \forall \; i = \{1,2,\dots,n\}$
+  - 4 tools to decompose and compose events of interest
   
-  5. $P(A) = \sum_{E_i \in A} P(E_i)$ (Axiom 3 again)
-  
-  6. $P(A) = \sum_{E_i \in A}\frac{1}{n} = \frac{|A|}{n} \blacksquare$
-  
+
 ---
 
 # Random Variables
@@ -425,7 +418,7 @@ require(tidyverse)
   
 ---
 
-# Random Samples
+# Quick Detour: Random Samples
 
 - Our experiment is the drawing of a **sample** from a population
 
@@ -439,7 +432,7 @@ require(tidyverse)
 
 ---
 
-# Random Samples
+# Quick Detour: Random Samples
   
 - Most common design is **random sampling**
 
@@ -455,7 +448,7 @@ require(tidyverse)
   
 ---
 
-# Probability Distributions
+# Back to RVs: Probability Distributions
 
 - Start with **discrete** random variables
 
@@ -673,7 +666,7 @@ $$P(Y = y) = p(y) = \frac{6 - |7-y|}{36},\; y = \{1,2,\dots,6\}$$
   
   - $E[g_1(Y) + g_2(Y)] = \sum_y[g_1(y)p(y)] + \sum_y[g_2(y)p(y)]$
   
-  - $E[g_1(Y) + g_2(Y)] = E[g_1(Y)] + e[g_2(Y)]\; \blacksquare$
+  - $E[g_1(Y) + g_2(Y)] = E[g_1(Y)] + E[g_2(Y)]\; \blacksquare$
   
 ---
 
@@ -721,7 +714,7 @@ $$P(Y = y) = p(y) = \frac{6 - |7-y|}{36},\; y = \{1,2,\dots,6\}$$
   
 - Let's find the Binomial probability distribution!
 
-  - Let our event of interest be $Y = y$ where $y$ is either success or failure ($S$ or $F$)
+  - Let our event of interest be $Y = y$ where $y$ is either success or failure ( $S$ or $F$)
   
   - One event might be $S,S,F,S,F,F,F,S,F,S,\dots,F,S$
   
@@ -1108,3 +1101,12 @@ data.frame(y = seq(50,75,length.out = 1000)) %>%
 --
 
 - We will return to these later, but I'm signposting them here
+
+```{r,message=F,echo=F,warning=F,results='hide'}
+dir <- getwd()
+type <- 'pdf'
+format <- 'landscape'
+f <- 'Lecture_3_slides'
+
+system(paste('Rscript ../NFGH/chromeprint.R',dir,type,format,f),wait = F)
+```

@@ -217,7 +217,7 @@ Lecture Content (2023/08/29): Intro to probability
 
 Lecture Content (2023/09/05): Discrete random variables
 
-* Slides:
+* Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_3_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_3_slides.html#1)
 * Homework: WMS chapters 3 and 4. Problem set 1 (due September 12)
 
 
