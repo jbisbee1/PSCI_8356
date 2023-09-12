@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Lecture 5</title>
+    <title>Finishing up part 1</title>
     <meta charset="utf-8" />
     <meta name="author" content="Prof. Bisbee" />
     <script src="libs/header-attrs-2.18/header-attrs.js"></script>
@@ -14,7 +14,7 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# Lecture 5
+# Finishing up part 1
 ]
 .subtitle[
 ## Quantitative Political Science
@@ -26,7 +26,7 @@ class: center, middle, inverse, title-slide
 ### Vanderbilt University
 ]
 .date[
-### Lecture Date: 2023/09/14
+### Lecture Date: 2023/09/12
 Slides Updated: 2023-09-11
 ]
 
@@ -253,10 +253,8 @@ Slides Updated: 2023-09-11
 ```r
 # create sample data
 sample_Data = rnorm(5000)
-  
 # calculate CDF 
 CDF &lt;- ecdf(sample_Data )
-
 # draw the cdf plot
 plot(CDF,main = 'CDF',ylab = 'F(y)',xlab = 'y')
 ```
@@ -337,7 +335,7 @@ plot(CDF,main = 'CDF',ylab = 'F(y)',xlab = 'y')
   
 - And three distributions related to the Normal that we will use constantly in statistical tests
 
-  - The **Chi-squared** ($\chi^2$) distribution
+  - The **Chi-squared** ( `\(\chi^2\)` ) distribution
   
   - The **t-distribution**
   
@@ -421,9 +419,7 @@ plot(CDF,main = 'CDF',ylab = 'F(y)',xlab = 'y')
   
 - What is the probability `\(Y\)` takes on some value `\(y\)` within an interval between `\(a = 62\)` and `\(b = 65\)`?
 
-  - `\(P(a \leq Y \leq b) = \int_{a}^bf(y)dy\)`
-  
-  - `\(P(a \leq Y \leq b) = \int_{a}^b\frac{1}{\sigma\sqrt{2\pi}}e^{\frac{-(y-\mu)^2}{2\sigma^2}}dy\)`
+  - `\(P(a \leq Y \leq b) = \int_{a}^bf(y)dy = \int_{62}^{65}\frac{1}{\sigma\sqrt{2\pi}}e^{\frac{-(y-\mu)^2}{2\sigma^2}}dy\)`
 
 --
 
@@ -470,6 +466,33 @@ plot(CDF,main = 'CDF',ylab = 'F(y)',xlab = 'y')
 --
 
 - We will return to these later, but I'm signposting them here
+
+---
+
+# What do we now know?
+
+- **Definitions**:
+
+  - Research questions and statistics
+  
+  - Units and variables
+  
+  - Summarizing data
+  
+- **Probability**:
+
+  - Experiments, observations and events
+  
+  - Set theory
+  
+  - Event composition method (4 tools)
+
+- **Random Variables**:
+
+  - Summarizing theoretical distributions
+  
+  - Expectations
+  
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
