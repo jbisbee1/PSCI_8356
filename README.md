@@ -202,7 +202,7 @@ Lecture Content (2023/08/24): Welcome and overview
 
 * Slides: 
 [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_1_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_1_slides.html#1)
-* Homework: WMS chapters 1 and 2
+* Homework: [WMS](https://github.com/jbisbee1/PSCI_8356/blob/main/Materials/WMS.pdf) chapters 1 and 2
 
 Lecture Content (2023/08/29): Intro to probability
 
@@ -218,7 +218,7 @@ Lecture Content (2023/08/29): Intro to probability
 Lecture Content (2023/09/05): Discrete random variables
 
 * Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_3_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_3_slides.html#1)
-* Homework: WMS chapters 3 and 4. [Problem set 1](https://github.com/jbisbee1/PSCI_8356/blob/main/Materials/Pset1.pdf) (due September 12)
+* Homework: [WMS](https://github.com/jbisbee1/PSCI_8356/blob/main/Materials/WMS.pdf) chapters 3 and 4. [Problem set 1](https://github.com/jbisbee1/PSCI_8356/blob/main/Materials/Pset1.pdf) (due September 12)
 
 
 Lecture Content (2023/09/07): Continuous random variables
@@ -233,7 +233,7 @@ Lecture Content (2023/09/07): Continuous random variables
 
 Lecture Content (2023/09/14): Multivariate analysis
 * Slides:
-* Homework: WMS chapters 5 and 7.
+* Homework: [WMS](https://github.com/jbisbee1/PSCI_8356/blob/main/Materials/WMS.pdf) chapters 5 and 7.
 
 Lecture Content (2023/09/19): Expectations workshop
 * Slides:
@@ -246,7 +246,7 @@ Lecture Content (2023/09/19): Expectations workshop
 Lecture Content (2023/09/21): Sampling
 
 * Slides:
-* Homework: WMS chapter 8
+* Homework: [WMS](https://github.com/jbisbee1/PSCI_8356/blob/main/Materials/WMS.pdf) chapter 8
 
 Lecture Content (2023/09/26): Estimators
 
@@ -261,7 +261,7 @@ Lecture Content (2023/09/26): Estimators
 Lecture Content (2023/10/03): Hypothesis testing
 
 * Slides: 
-* Homework: WMS chapters 9 and 10. Problem set 3 (due October 10)
+* Homework: [WMS](https://github.com/jbisbee1/PSCI_8356/blob/main/Materials/WMS.pdf) chapters 9 and 10. Problem set 3 (due October 10)
 
 Lecture Content (2023/10/05): Power
 
