@@ -1,0 +1,43 @@
+---
+title: "Lecture 5 Notes"
+output: html_document
+date: "2023-09-14"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Multivariate Analysis
+
+- Use multivariate analysis to govern how we draw inferences about a population from a sample
+
+- Let's look at a sample!
+
+```{r}
+require(tidyverse)
+df <- read_rds('https://github.com/jbisbee1/PSCI_8356/raw/main/Lectures/Data/sc_debt.Rds')
+
+# Sampling at random in R
+set.seed(123)
+
+bsRes <- NULL
+for(i in 1:1000) {
+  bsRes <- c(bsRes,df %>%
+  sample_n(size = 1) %>%
+  pull(adm_rate))
+}
+
+mean(bsRes < .1,na.rm=T)
+
+mean(df$adm_rate < .1,na.rm=T)
+```
+
+```{r}
+df %>%
+  group_by(control) %>%
+  summarise(med_sat = median(sat_avg,na.rm=T),
+            fifthpctile = quantile(sat_avg,p = .025,na.rm=T),
+            ninetyfifthpctile = quantile(sat_avg,p = .975,na.rm=T))
+```
+

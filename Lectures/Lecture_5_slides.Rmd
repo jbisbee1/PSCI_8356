@@ -59,17 +59,238 @@ require(tidyverse)
 
 # Multivariate Analysis
 
-- First part of course focuses on univariate analysis
+- First part of course focused on univariate analysis
+
+  - I.e., **one variable**
+  
+- We developed tools to summarize one variable
+
+  - Tables, figures, and functions
+  
+  - Central tendency and dispersion
+  
+---
+
+# Multivariate Analysis
 
 - However, multivariate is helpful to develop a **theory**
 
 --
 
   - How can we draw **inferences** about a *population* from a *sample*?
+
+```{r,message = F,warning=F}
+require(tidyverse)
+
+df <- read_rds('https://github.com/jbisbee1/PSCI_8356/raw/main/Lectures/Data/sc_debt.Rds')
+```
+
+---
+
+# Looking at the data
+
+- Always *always* **always** look at your data!
+
+```{r}
+df
+```
+
+---
+
+# Looking at the data
+
+- What are the **units of observation**?
+
+- What are the **variables**?
+
+--
+
+  - What is the definition of a variable?
+  
+---
+
+# Looking at the data
+
+```{r,echo=FALSE,message=FALSE}
+defs <- data.frame(Name = names(df),
+                   Definition = c('Unit ID','Institution Name','State Abbreviation','Median Debt of Graduates',
+                            'Control Public or Private','Census Region','Predominant Degree Offered: Assocates or Bachelors',
+                            'Open Admissions Policy: 1=Yes, 2=No, 3=No 1st time students',
+                            'Admissions Rate: proportion of applications accepted','Type of institution*',
+                            'Average SAT scores',
+                            'Average Earnings of Recent Graduates',
+                            'Number of undergraduates',
+                            'Average cost of attendance (tuition-grants)',
+                            'Institution admits fewer than 10% of applications, 1=Yes, 0=No',
+                            'Institution is a research university, 1=Yes, 0=No'))
+```
+
+```{r,echo=FALSE,warning=FALSE,message=FALSE}
+require(kableExtra)
+defs %>%
+  kbl() %>%
+  kable_paper("hover", full_width = F,font_size = 13)
+```
+&ast;<font size="2">See [here](https://data.ed.gov/dataset/9dc70e6b-8426-4d71-b9d5-70ce6094a3f4/resource/658b5b83-ac9f-4e41-913e-9ba9411d7967/download/collegescorecarddatadictionary_01192021.xlsx)</font>
+
+---
+
+# Looking at data
+
+- As scholars, you probably have several versions of the three fundamental questions buzzing!
+
+--
+
+  1. What can we say about the data **we have**?
+  
+  2. What can we say about the data **we don't have**?
+  
+  3. What can we say about the data **we'd expect to see**?
   
 --
 
-- To answer, let's consider a multivariate probability distribution
+---
+
+# Question 1
+
+- How many schools are selective (have admissions rates less than 10%)?
+
+```{r}
+df %>%
+  mutate(sel = ifelse(adm_rate < .1,1,0)) %>%
+  count(sel)
+```
+
+---
+
+# Question 2
+
+- What is the average admissions rate for schools in the United States?
+
+```{r}
+df %>%
+  summarise(avg_adm_rate = mean(adm_rate,na.rm=T))
+```
+
+--
+
+- What do we need to assume in order to believe this result?
+
+---
+
+# Question 3
+
+- If we draw a school at random, what is the probability that it is selective?
+
+```{r}
+set.seed(123)
+df %>%
+  sample_n(size = 1) %>%
+  select(adm_rate)
+```
+
+---
+
+# Other questions?
+
+- Relationships!
+
+--
+
+  - Are public universities "better"?
+  
+  - Do more selective schools produce grads who make more money?
+  
+  - Are more expensive schools more selective?
+  
+  - ...?
+  
+--
+
+- These are all questions involving **two variables**
+
+  - Could be more! (Are selective schools in New England more expensive?)
+  
+--
+
+- Welcome to **multivariate analysis**
+
+---
+
+# Theories
+
+- Before turning to the data, it is useful to think about your assumptions
+
+- Are public universities "better"?
+
+  - What do we mean by "better"?
+  
+  - What do we think the answer is?
+  
+  - **Why** do we think this?
+  
+---
+
+# Let's investigate
+
+- Are public universities "better"?
+
+- Look at two variables:
+
+  - `control`
+  
+  - `sat_avg`
+  
+```{r}
+df %>%
+  select(control,sat_avg)
+```
+
+- What types of variables are these?
+
+
+---
+
+# Multivariate
+
+- Let's use some tools to look at them more closely
+
+```{r}
+df %>%
+  count(control)
+```
+
+---
+
+# Multivariate
+
+- Let's use some tools to look at them more closely
+
+```{r,message=F,warning=F}
+df %>%
+  ggplot(aes(x = sat_avg)) + 
+  geom_histogram()
+```
+
+---
+
+# Multivariate
+
+- How might we begin to answer our research question?
+
+```{r}
+df %>%
+  group_by(control) %>%
+  summarise(avg_sat = mean(sat_avg,na.rm=T))
+```
+
+- Does this answer our question?
+
+---
+
+# Back to abstract notation!
+
+- To answer, we want a more principled way of talking about relationships
 
 - Running example: hypothetical congressional election
 
