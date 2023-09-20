@@ -1,0 +1,202 @@
+---
+title: "Probability Distributions of $Y$"
+subtitle: "and Simulated Sampling Distributions of $\\bar{Y}$"
+output: html_document
+date: "2023-09-20"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In the following examples, consider a discrete random variable $Y$ with the probability distribution $p(y)$. As usual $E(Y)= \mu_Y$ and $VAR(Y)= \sigma_Y^2$. The three examples each display tables and graphs illustrating $p(y)$, and then display simulated sampling distributions of $\bar{Y}$  -- the mean of an random sample of $n$ independent observations of the random variable $Y$ -- at sample sizes of $n = 5, 25, and 1000$. The simulations were all constructed using the following process: 
+
+1. Specify some probability distribution $p(y)$.
+2. Draw a sample of size $n$ from the probability distribution.
+3. Record the sample mean, $\bar{Y}$.
+4. Repeat this process 5,000 times.^[Note that I chose 5,000 as a large number that could nevertheless be done in a short amount of time on a standard computer. But this number doesn’t matter. I could have picked 10,000 or 10 million such iterations: at higher numbers of iterations, the histograms would be smoother but would otherwise remain similar.]
+5. Display a histogram of the 5,000 $\bar{Y}$’s with 10 bins.
+
+**The take-home point here:** as $N$ becomes large, the Central Limit Theorem tells us that the distribution of the sampling distribution of $\bar{Y}$ converges to the Normal with an ever-smaller variance. This is true, perhaps unsurprisingly, when the distribution of $Y$ is itself nearly Normal (example 1). But it is also true for any and all possible distributions of $Y$, including those that are best described as “bimodal” (example 2) or skewed (example 3). Thus when $n$ is large, no assumptions about the distribution of $Y$ are necessary to fully describe the sampling distribution of $\bar{Y}$ . Under this circumstance, $\bar{Y}$ is distributed Normal with mean $\mu_Y$ and variance $\frac{\sigma_Y^2}{n}$.
+
+## Example 1: The Random Variable $Y$ takes on a nearly **Normal Distribution**
+
+```{r,message=F,warning=F}
+set.seed(123)
+require(tidyverse)
+Y <- rnorm(n = 10000,mean = 5,sd = sqrt(3))
+```
+
+### The probability distribution of $Y$ (table)
+```{r}
+data.frame(Y = round(Y)) %>%
+  count(Y) %>%
+  mutate(`p(Y=y)` = n / sum(n))
+```
+
+### The probability distribution of $Y$ (histogram)
+```{r}
+data.frame(Y = Y) %>%
+  ggplot(aes(x = Y)) + 
+  geom_histogram(bins = 20)
+```
+
+### The sampling distribution of $\bar{Y}$ at different sizes
+```{r}
+toplot <- NULL
+for(s in c(5,25,1000)) {
+  cat(s,'\n')
+  for(i in 1:5000) {
+    toplot <- toplot %>%
+      bind_rows(data.frame(Y = Y) %>%
+      sample_n(size = s) %>%
+      summarise(ybar = mean(Y)) %>%
+        mutate(size = s))
+  }
+}
+ 
+toplot %>%
+  mutate(size = factor(paste0('n = ',size),levels = c('n = 5','n = 25','n = 1000'))) %>%
+  ggplot(aes(x = ybar)) + 
+  geom_histogram(bins = 60,aes(y = ..density..)) + 
+  facet_grid(size~.,scales = 'free_y')
+```
+
+Note that we can calculate mean and standard deviation of these results as follows:
+
+```{r}
+# Mean: E(Y-bar) = \mu = 5
+toplot %>%
+  group_by(size) %>%
+  summarise(mu = mean(ybar))
+
+# Std Dev: \sigma_Y-bar = sqrt(var(y-bar)) = sqrt(\sigma^2 / n) approx \sqrt(3) / n
+toplot %>%
+  group_by(size) %>%
+  summarise(sigma = sqrt(3/size)) %>%
+  distinct()
+```
+
+## Example 2: The Random Variable $Y$ takes on a nearly **Bimodal Distribution**
+
+```{r,message=F,warning=F}
+set.seed(123)
+Y <- c(rnorm(n = 5000,mean = 2,sd = sqrt(2)),rnorm(n = 5000,mean = 7,sd = sqrt(2)))
+```
+
+### The probability distribution of $Y$ (table)
+```{r}
+data.frame(Y = round(Y)) %>%
+  count(Y) %>%
+  mutate(`p(Y=y)` = n / sum(n))
+```
+
+### The probability distribution of $Y$ (histogram)
+```{r}
+data.frame(Y = Y) %>%
+  ggplot(aes(x = Y)) + 
+  geom_histogram(bins = 20) + 
+  geom_vline(xintercept = mean(Y),linetype = 'dashed') + 
+  annotate(geom = 'label',x = mean(Y),y = Inf,label = paste0('mu = ',round(mean(Y),2)),vjust = 1.5)
+```
+
+### The sampling distribution of $\bar{Y}$ at different sizes
+```{r}
+toplot <- NULL
+for(s in c(5,25,1000)) {
+  cat(s,'\n')
+  for(i in 1:5000) {
+    toplot <- toplot %>%
+      bind_rows(data.frame(Y = Y) %>%
+      sample_n(size = s) %>%
+      summarise(ybar = mean(Y)) %>%
+        mutate(size = s))
+  }
+}
+ 
+toplot %>%
+  mutate(size = factor(paste0('n = ',size),levels = c('n = 5','n = 25','n = 1000'))) %>%
+  ggplot(aes(x = ybar)) + 
+  geom_histogram(bins = 60,aes(y = ..density..)) + 
+  facet_grid(size~.,scales = 'free_y')
+```
+
+```{r}
+# Mean: E(Y-bar) = \mu = 5
+toplot %>%
+  group_by(size) %>%
+  summarise(mu = mean(ybar))
+
+# Std Dev: \sigma_Y-bar = sqrt(var(y-bar)) = sqrt(\sigma^2 / n) approx \sqrt(3) / n
+toplot %>%
+  group_by(size) %>%
+  summarise(sigma = sqrt(3/size)) %>%
+  distinct()
+```
+
+
+## Example 3: The Random Variable $Y$ takes on a **Skewed Distribution**
+
+```{r,message=F,warning=F}
+set.seed(123)
+Y <- rgamma(n = 10000,shape = 1,rate = 1)
+```
+
+### The probability distribution of $Y$ (table)
+```{r}
+data.frame(Y = round(Y)) %>%
+  count(Y) %>%
+  mutate(`p(Y=y)` = n / sum(n))
+```
+
+### The probability distribution of $Y$ (histogram)
+```{r}
+data.frame(Y = Y) %>%
+  ggplot(aes(x = Y)) + 
+  geom_histogram(bins = 20) + 
+  geom_vline(xintercept = mean(Y),linetype = 'dashed') + 
+  annotate(geom = 'label',x = mean(Y),y = Inf,label = paste0('mu = ',round(mean(Y),2)),vjust = 1.5)
+```
+
+### The sampling distribution of $\bar{Y}$ at different sizes
+```{r}
+toplot <- NULL
+for(s in c(5,25,1000)) {
+  cat(s,'\n')
+  for(i in 1:5000) {
+    toplot <- toplot %>%
+      bind_rows(data.frame(Y = Y) %>%
+      sample_n(size = s) %>%
+      summarise(ybar = mean(Y)) %>%
+        mutate(size = s))
+  }
+}
+ 
+toplot %>%
+  mutate(size = factor(paste0('n = ',size),levels = c('n = 5','n = 25','n = 1000'))) %>%
+  ggplot(aes(x = ybar)) + 
+  geom_histogram(bins = 60,aes(y = ..density..)) + 
+  facet_grid(size~.,scales = 'free_y')
+```
+
+```{r}
+# Mean: E(Y-bar) = \mu = 5
+toplot %>%
+  group_by(size) %>%
+  summarise(mu = mean(ybar))
+
+# Std Dev: \sigma_Y-bar = sqrt(var(y-bar)) = sqrt(\sigma^2 / n) approx \sqrt(3) / n
+toplot %>%
+  group_by(size) %>%
+  summarise(sigma = sqrt(3/size)) %>%
+  distinct()
+```
+
+```{r,message=F,echo=F,warning=F,results='hide'}
+dir <- getwd()
+type <- 'pdf'
+format <- 'portrait'
+f <- 'sampling_distributions_of_ybar'
+
+system(paste('Rscript ../../../NFGH/chromeprint.R',dir,type,format,f),wait = F)
+```
