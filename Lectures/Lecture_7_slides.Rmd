@@ -510,3 +510,11 @@ $$
 
   - $Y \sim \mathcal{N}(\mu,\sigma^2)$ is how we write "is distributed normal with mean $\mu$ and standard deviation $\sigma^2$)
 
+```{r,message=F,echo=F,warning=F,results='hide'}
+dir <- getwd()
+type <- 'pdf'
+format <- 'landscape'
+f <- 'Lecture_7_slides'
+
+system(paste('Rscript ../NFGH/chromeprint.R',dir,type,format,f),wait = F)
+```

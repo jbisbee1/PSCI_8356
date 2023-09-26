@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Lecture 8</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Prof. Bisbee" />
+    <script src="libs/header-attrs-2.16/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/lexis.css" type="text/css" />
+    <link rel="stylesheet" href="css/lexis-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Lecture 8
+]
+.subtitle[
+## Quantitative Political Science
+]
+.author[
+### Prof. Bisbee
+]
+.institute[
+### Vanderbilt University
+]
+.date[
+### Lecture Date: 2023/09/26
+Slides Updated: 2023-09-26
+]
+
+---
+
+
+&lt;style type="text/css"&gt;
+.small .remark-code { /*Change made here*/
+  font-size: 85% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+&lt;/style&gt;
+
+
+
+# Agenda
+
+1. Bias and intuition
+
+2. Confidence Intervals
+
+3. `\(\sigma^2\)`
+
+---
+
+# Bias
+
+- Our gut tells us that `\(\bar{Y} \equiv \frac{1}{n}\sum_i^n (Y_i)\)` is not biased while `\(\bar{Y}_B \equiv \frac{1}{n}\sum_i^n (Y_i + 1)\)` is
+
+  - `\(\bar{Y}\)` is the mean of the sample, so intuition tells us it should be unbiased for `\(\mu\)`
+  
+- But the **intuitive** estimator is not always the **unbiased** estimator
+
+--
+
+- Consider `\(S^2 = \frac{\sum_i (Y_i - \bar{Y})^2}{n}\)` as a potential estimator for the population variance `\(\sigma^2\)`
+
+- Prove that it is biased by taking its expectation
+
+
+---
+
+# Bias
+
+$$
+`\begin{aligned}
+E[S^2] &amp;= E\bigg[\frac{\sum_i (Y_i - \bar{Y})^2}{n}\bigg]\\
+&amp;= E\bigg[\frac{\sum_i (Y_i^2 - 2Y_i\bar{Y} + \bar{Y}^2)}{n}\bigg]\\
+&amp;= E\bigg[\frac{\sum_i Y_i^2 - \color{red}{2\bar{Y}\sum_iY_i} + \sum_i\bar{Y}^2}{n}\bigg]\\
+\end{aligned}`
+$$
+---
+
+# Bias
+
+- Note that the definition of `\(\bar{Y} \equiv \frac{1}{n}\sum_i Y_i\)`
+
+- Multiply both sides by `\(n\)` to yield `\(n\bar{Y} \equiv \sum_i Y_i\)`
+
+- Thus:
+
+$$
+`\begin{aligned}
+E[S^2] &amp;= E\bigg[\frac{\sum_i Y_i^2 - \color{red}{2\bar{Y}\sum_iY_i} + \sum_i\bar{Y}^2}{n}\bigg]\\
+&amp;= E\bigg[\frac{\sum_i Y_i^2 - \color{red}{2\bar{Y}n\bar{Y}} + \sum_i\bar{Y}^2}{n}\bigg]\\
+&amp;= E\bigg[\frac{\sum_i Y_i^2 - 2n\bar{Y}^2 + n\bar{Y}^2}{n}\bigg]\\
+&amp;= E\bigg[\frac{\sum_i Y_i^2 - n\bar{Y}^2}{n}\bigg]\\
+\end{aligned}`
+$$
+
+---
+
+# Bias
+
+$$
+`\begin{aligned}
+E[S^2] &amp;= E\bigg[\frac{\sum_i Y_i^2 - n\bar{Y}^2}{n}\bigg]\\
+&amp;= \frac{1}{n}E\bigg[\sum_i Y_i^2 - n\bar{Y}^2\bigg]\\
+&amp;= \frac{1}{n}\bigg(\sum_i E[Y_i^2] - nE[\bar{Y}^2]\bigg)\\
+&amp;= \frac{1}{n}\bigg(\sum_i (E[Y_i^2] \color{red}{- E[Y_i]^2 + E[Y_i]^2}) - nE[\bar{Y}^2]\color{red}{- E[\bar{Y}]^2 + E[\bar{Y}]^2}\bigg)\\
+&amp;= \frac{1}{n}\bigg(\sum_i (VAR(Y_i) + E[Y_i]^2) - nVAR(\bar{Y}) + E[\bar{Y}]^2\bigg)
+\end{aligned}`
+$$
+
+---
+
+# Bias
+
+$$
+`\begin{aligned}
+E[S^2] &amp;= \frac{1}{n}\bigg(\sum_i (\sigma^2 + \mu^2) - n(\frac{\sigma^2}{n} + \mu^2)\bigg)\\
+&amp;= \frac{1}{n}\bigg(n(\sigma^2 + \mu^2) - \sigma^2 - n\mu^2\bigg)\\
+&amp;= \frac{1}{n}\bigg(n\sigma^2 + n\mu^2 - \sigma^2 - n\mu^2\bigg)\\
+&amp;= \frac{1}{n}\bigg(n\sigma^2 - \sigma^2\bigg)\\
+&amp;= \frac{n-1}{n}\sigma^2 \neq \sigma^2
+\end{aligned}`
+$$
+
+---
+
+# Bias
+
+- So it turns out the intuitive estimator is **not** the unbiased estimator!
+
+  - Note that `\(S^2 \equiv \frac{1}{n}\sum_i (Y_i - \bar{Y})^2\)` is the appropriate formula for calculating the variance of a sample
+  
+  - But it is **not** the appropriate estimator for calculating the variance of a population!
+  
+- Although how bad are we messing up if we make this mistake?
+
+$$
+`\begin{aligned}
+B(S^2) &amp;= E[S^2] - \sigma^2 \\
+&amp;= \frac{n-1}{n}\sigma^2 - \sigma^2\\
+&amp;= \bigg(\frac{n-1}{n} - 1\bigg)\sigma^2\\
+&amp;= \frac{-\sigma^2}{n}
+\end{aligned}`
+$$
+
+- As `\(n \rightarrow \infty\)`, `\(B(S^2) \rightarrow 0\)`
+
+---
+
+# Interval Estimators
+
+- So we've covered two dimensions of the quality of a **point estimate**: bias and variance
+
+- Recall that we also are interested in **interval estimates**: two numbers that capture the true population parameter
+
+- Specifically, an **interval estimator** is:
+
+  1. A rule...
+  
+  2. ...specifying how we use a sample to calculate numbers...
+  
+  3. ...that form the endpoints of an interval...
+  
+  4. ...containing the parameter of interest `\(\theta\)`
+
+- We again are interested in the quality of this concept
+
+  - Want it to contain `\(\theta\)`
+  
+  - Want it to be narrow
+  
+---
+
+# Confidence Intervals
+
+- Interval estimators are commonly called **confidence intervals (CIs)**
+
+- CIs constructed of **upper and lower confidence bounds**
+
+- Probability that CI contains `\(\theta\)` is **the confidence coefficient**
+
+  - The fraction of the time...
+  
+  - ...in repeated sampling...
+  
+  - ...that the CI will contain `\(\theta\)`
+  
+- Thus we want the confidence coefficient to be **high**
+
+- Denoted as `\(1 - \alpha\)`
+
+- Formally:
+
+$$
+P(\hat{\theta}_L \leq \theta \leq \hat{\theta}_H) = (1-\alpha)
+$$
+---
+
+# Confidence Intervals
+
+- Let's figure out how to construct a CI for a sample statistic `\(\hat{\theta}\)` that is normally distributed with mean `\(\mu\)` and standard error `\(\sigma_{\hat{\theta}}\)`
+
+  - Formally, `\(\hat{\theta} \sim \mathcal{N}(\mu,\sigma_{\hat{\theta}})\)`
+  
+- Standardize the statistic as `\(Z = \frac{\hat{\theta} - \theta}{\sigma_{\hat{\theta}}}\)`
+
+- To construct the CI, choose two **critical values** `\(-z_{\alpha/2}\)` and `\(z_{\alpha/2}\)` such that
+
+$$
+`\begin{aligned}
+P(-z_{\alpha/2} \leq Z \leq z_{\alpha/2}) &amp;= \int_{-z_{\alpha/2}}^{z_{\alpha/2}} \frac{1}{\sqrt{2\pi}}e^{-t^2/2}dt\\
+&amp;= 1-\alpha\\
+\end{aligned}`
+$$
+
+---
+
+# Confidence Intervals
+
+$$
+`\begin{aligned}
+P(-z_{\alpha/2} \leq \frac{\hat{\theta}-\theta}{\sigma_{\hat{\theta}}} \leq z_{\alpha/2}) &amp;= 1-\alpha\\
+P(-z_{\alpha/2\sigma_{\hat{\theta}}} \leq \hat{\theta}-\theta \leq z_{\alpha/2\sigma_{\hat{\theta}}}) &amp;= 1-\alpha\\
+P(\hat{\theta}-z_{\alpha/2\sigma_{\hat{\theta}}} \leq \theta \leq \hat{\theta}+z_{\alpha/2\sigma_{\hat{\theta}}}) &amp;= 1-\alpha
+\end{aligned}`
+$$
+
+- Thus `\(\hat{\theta}_L = \hat{\theta}-z_{\alpha/2\sigma_{\hat{\theta}}}\)` and `\(\hat{\theta}_H = \hat{\theta}+z_{\alpha/2\sigma_{\hat{\theta}}}\)`
+
+- But how do we determine `\(z_{\alpha/2}\)`
+
+- CLT to the rescue!
+
+---
+
+# Confidence Intervals
+
+- CLT to the rescue!
+
+- Sampling distribution approximates the normal as `\(n\rightarrow \infty\)`
+
+&lt;img src="Lecture_8_slides_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Confidence Intervals
+
+- CLT to the rescue!
+
+- Standardized sampling distribution simplifies!
+
+&lt;img src="Lecture_8_slides_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Confidence Intervals
+
+- CLT to the rescue!
+
+- Define our **confidence** with `\(1-\alpha\)` where `\(\alpha \in [0,1]\)`
+
+&lt;img src="Lecture_8_slides_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Confidence Intervals
+
+- CLT to the rescue!
+
+- Then use easy functions (or lookup tables in ye olden days) to get critical values!
+
+&lt;img src="Lecture_8_slides_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Critical Values
+
+- The functions to yield `\(z_{\alpha/2} = -\Phi^{-1}(\frac{\alpha}{2})\)` and `\(-z_{\alpha/2} = \Phi^{-1}(\frac{\alpha}{2})\)` are in `R`
+
+- Say I want to calculate a 0.95 CI = `\(1-\alpha\)`
+
+```r
+qnorm(.025)
+```
+
+```
+## [1] -1.959964
+```
+
+- Say I want to calculate a 0.90 CI = `\(1-\alpha\)`
+
+```r
+qnorm(.05)
+```
+
+```
+## [1] -1.644854
+```
+
+- Say I want to calculate a 0.99 CI = `\(1-\alpha\)`
+
+```r
+qnorm(.005)
+```
+
+```
+## [1] -2.575829
+```
+
+---
+
+# Calculating CIs
+
+- So if we want to define the CI for an estimator `\(\hat{\theta}\)` whose sampling distribution is normally distributed, we can write `\([\hat{\theta} - 1.96\sigma_{\hat{\theta}},\ \hat{\theta} + 1.96\sigma_{\hat{\theta}}]\)`
+
+- But what is `\(\sigma_{\hat{\theta}}\)`?
+
+  - We know it is `\(\sqrt{VAR(\hat{\theta})} = \sqrt{\frac{\sigma^2}{n}} = \frac{\sigma}{\sqrt{n}}\)`
+  
+- But then what is `\(\sigma^2\)`?
+
+- We've been kicking this can down the road for a while now...using CLT to construct CIs for `\(\mu\)`, but defined in terms of `\(\sigma^2\)` -- the population standard variance
+
+- Very unusual to know `\(\sigma^2\)` in practice. Homeworks and exercises will tell you, but in practice we don't know
+
+- So we need to approximate `\(\sigma^2\)` using `\(S^2_U \equiv \frac{\sum_i (Y_i - \bar{Y})^2}{n-1}\)`, our **unbiased** estimator for `\(\sigma^2\)`
+
+---
+
+# Consistency
+
+- But wait! Before we can plug in `\(S_U\)`, we need to prove it is both unbiased and **consistent**
+
+- We already know how to prove unbiasedness
+
+- Consistency: as the same size used to construct the estimator gets large, the probability of it being measured with error gets small
+
+- Denote `\(\hat{\theta}_n\)` as the estimate for a given sample size `\(n\)`
+
+  - In the extreme: `\(\underset{n\rightarrow \infty}\lim P(|\hat{\theta} - \theta| &gt; \epsilon)  = 0\)` where `\(\epsilon\)` is any positive number
+  
+  - Can also express as " `\(\hat{\theta}_n\)` converges in probability to `\(\theta\)` ", or `\(\hat{\theta}_n \overset{p}{\to} \theta\)`
+  
+- In practice, we can evaluate this property by checking whether `\(VAR(\hat{\theta})\)` approaches zero as `\(n\)` gets large (see pg. 450 for proof)
+
+  - `\(\underset{n\rightarrow \infty}\lim VAR(\hat{\theta}) = 0\)`
+
+---
+
+# Consistency
+
+- Apply to `\(\bar{Y}\)` for intuition
+
+$$
+`\begin{aligned}
+VAR(\bar{Y}) &amp;= \frac{\sigma^2}{n}\\
+\underset{n\rightarrow \infty}\lim \frac{\sigma^2}{n} &amp;= 0
+\end{aligned}`
+$$
+
+- Note that this **by itself** is insufficient to claim `\(\bar{Y} \overset{p}{\to} \mu\)`...we need to also prove unbiasedness (which we did last class)
+
+- In other words, an estimator might be **consistent** but **biased**
+
+- Or an estimator might be **unbiased** but not **consistent**
+
+- Need to check both!
+
+---
+
+# `\(\sigma^2\)`
+
+- Remember what we're doing here!
+
+  - We know that `\(U_n \equiv \frac{\bar{Y} - \mu}{\sqrt{\sigma^2/n}} \sim \mathcal{N}(\mu,\sigma^2\)`)
+
+  - But can we be sure that `\(\hat{\theta} \equiv \frac{\bar{Y} - \mu}{\sqrt{S^2_U/n}} \sim \mathcal{N}(\mu,\sigma^2)\)`?
+  
+- Note that, in the original setting, `\(\sigma^2\)` is a **parameter** whereas in our sample setting `\(S^2_U\)` is a **random variable**
+
+$$
+F\bigg(\frac{\bar{Y} - \mu}{S_U / \sqrt{n}}\bigg) \overset{p}{\to} \Phi
+$$
+
+---
+
+# `\(\sigma^2\)`
+
+- So let's examine whether `\(S^2_U\)` is a **consistent** estimator for `\(\sigma^2\)`
+
+$$
+`\begin{aligned}
+S^2_U &amp;= \frac{\sum_i (Y_i - \bar{Y})^2}{n-1}\\
+&amp;= \frac{1}{n-1}\bigg(\sum_i Y_i^2 + \sum_i \bar{Y}^2 - \sum_i 2Y_i\bar{Y}\bigg)\\
+&amp;= \frac{1}{n-1}\bigg((\sum_i Y_i^2) + n\bar{Y}^2 - 2n\bar{Y}^2\bigg)\\
+&amp;= \frac{1}{n-1}\bigg((\sum_i Y_i^2) - n\bar{Y}^2\bigg)\\
+&amp;= \frac{n}{n-1}\bigg(\frac{1}{n}\sum_i Y_i^2 - \bar{Y}^2\bigg)\\
+\end{aligned}`
+$$
+
+---
+
+# `\(\sigma^2\)`
+
+- So let's examine whether `\(S^2_U\)` is a **consistent** estimator for `\(\sigma^2\)`
+$$
+`\begin{aligned}
+S^2_U &amp;= \frac{n}{n-1}\bigg(\color{red}{\frac{1}{n}\sum_i Y_i^2 - \bar{Y}^2}\bigg)\\
+\underset{n\rightarrow \infty}\lim \frac{1}{n}\sum_i Y_i^2 - \bar{Y}^2 &amp;= \underset{n\rightarrow \infty}\lim \frac{1}{n}\sum_i Y_i^2 - \underset{n\rightarrow \infty}\lim \frac{1}{n}\sum_i\bar{Y}^2\\
+&amp;= \mu_{Y^2} - \mu_Y^2\\
+&amp;= E[Y^2] - \mu^2\\
+&amp;= \sigma^2\\
+\text{So:}\ \ S^2_U &amp;= \frac{n}{n-1}(\sigma^2)
+\end{aligned}`
+$$
+
+- But `\(\underset{n\rightarrow \infty}\lim \frac{n}{n-1} = 1\)`, meaning `\(S^2_U \overset{p}{\to} \sigma^2\)`
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

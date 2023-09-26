@@ -227,7 +227,7 @@ Lecture Content (2023/09/07): Continuous random variables
 
 **Review Session (2023/09/12): Review sections 1 and 2**
 * Slides:
-[PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_4_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_4_slides.html#1)
+[PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lectures_1_4_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lectures_1_4_slides.html#1)
 
 
 *[Back to Syllabus](#syllabus)*
@@ -235,12 +235,13 @@ Lecture Content (2023/09/07): Continuous random variables
 ### 3\. Multivariate Analysis and Expectations
 
 Lecture Content (2023/09/14): Multivariate analysis
-* Slides:
+* Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_5_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_5_slides.html#1)
+
 * Homework: [WMS](https://github.com/jbisbee1/PSCI_8356/blob/main/Materials/WMS.pdf) chapters 5 and 7.
 
 Lecture Content (2023/09/19): Expectations workshop
-* Slides:
-* Homework: Problem set 2 (due September 26)
+* Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_6_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_6_slides.html#1)
+* Homework: [Problem set 2](https://github.com/jbisbee1/PSCI_8356/blob/main/Materials/Pset2.pdf) (due September 26)
 
 *[Back to Syllabus](#syllabus)*
 
@@ -248,12 +249,14 @@ Lecture Content (2023/09/19): Expectations workshop
 
 Lecture Content (2023/09/21): Sampling
 
-* Slides:
+* Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_7_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_7_slides.html#1)
 * Homework: [WMS](https://github.com/jbisbee1/PSCI_8356/blob/main/Materials/WMS.pdf) chapter 8
 
 Lecture Content (2023/09/26): Estimators
 
-* Slides:
+* Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_8_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_8_slides.html#1)
+* Notes: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/lecture_8_notes.pdf)
+
 
 **Review Session (2023/09/28): Review sections 3 and 4**
 
