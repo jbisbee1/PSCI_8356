@@ -423,7 +423,7 @@ qnorm(.005)
 
 - We already know how to prove unbiasedness
 
-- Consistency: as the same size used to construct the estimator gets large, the probability of it being measured with error gets small
+- Consistency: as the sample size used to construct the estimator gets large, the probability of it being measured with error gets small
 
 - Denote $\hat{\theta}_n$ as the estimate for a given sample size $n$
 

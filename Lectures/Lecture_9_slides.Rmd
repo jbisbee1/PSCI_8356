@@ -1,0 +1,390 @@
+---
+title: "Lecture 9"
+subtitle: "Quantitative Political Science"
+author: "Prof. Bisbee"
+institute: "Vanderbilt University"
+date: "Lecture Date: 2023/09/28\n Slides Updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    # self_contained: true
+    chakra: libs/remark-latest.min.js
+    lib_dir: libs
+    css:
+      - default
+      - css/lexis.css
+      - css/lexis-fonts.css
+    #seal: false
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+
+---
+
+```{css,echo = F}
+.small .remark-code { /*Change made here*/
+  font-size: 85% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+```
+
+```{r,include=F}
+set.seed(123)
+options(width=60)
+knitr::opts_chunk$set(fig.align='center',fig.width=9,fig.height=5)
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+require(tidyverse)
+```
+
+# Agenda
+
+1. Recap of where we are
+
+2. $\sigma^2$ and consistency
+
+3. Slutzky's Theorem
+
+4. Fun example time!
+
+
+---
+
+# Where we started
+
+- Wanted to identify a "good" estimator for the population mean $\mu$...
+
+- ...based on a **random sample** of data from that population
+
+- We proposed $\bar{Y} \equiv \frac{1}{n}\sum_i Y_i$ which seemed intuitive
+
+- We redefined the sampling process for a size $n$ as a series of random variables $Y_1, Y_2, \dots, Y_n$
+
+- Crucially, these are IID, meaning that they all have the same:
+
+  1. CDF $F()$
+  
+  2. Mean $\mu$
+  
+  3. Variance $\sigma^2$
+  
+- This allowed us to establish that $\bar{Y}$ is an **unbiased estimator** of $\mu$: $E(\bar{Y}) = \mu$
+
+- And that $VAR(\bar{Y}) = \frac{\sigma^2}{n}$, and thus $\sigma_{\bar{Y}} = \frac{\sigma}{\sqrt{n}}$
+  
+---
+
+# Where we went
+
+- We wanted to know how close, on average, $\bar{Y}$ is to $\mu$
+
+- CLT tells us that the **sampling distribution** of $\bar{Y}$ is distributed Normal as $n \rightarrow \infty$
+
+- We also know that the standardized version of $U_n \equiv Z \equiv \frac{\bar{Y} - \mu}{\sigma_{\bar{Y}}}$ converges to the *standard* Normal distribution
+
+- This allowed us to find values of $\alpha$ and $z_{\alpha/2}$ which satisfy
+
+$$
+P(\bar{Y} - z_{\alpha / 2}\sigma_{\bar{Y}} \leq \mu \leq \bar{Y} + z_{\alpha/2}\sigma_{\bar{Y}}) = 1 - \alpha
+$$
+- And since we know that $\sigma_{\bar{Y}} \equiv \frac{\sigma}{\sqrt{n}}$, we should be good to go! Right?
+
+---
+
+# Where we are now
+
+- Not quite! We need to confront the fact that we don't know $\sigma$!
+
+- This is something of a Catch-22
+
+  - We want to describe an interval estimate that contains the true population parameter $\mu$
+  
+  - We have an estimator $\bar{Y}$, a standard normal distribution which gives us $z_{\alpha / 2}$, and the sample size $n$
+  
+  - But we need $\frac{\sigma}{\sqrt{n}}$!
+  
+- We propose using $S^2_U \equiv \frac{\sum_i (Y_i - \bar{Y})^2}{n-1}$, our **unbiased** estimator for $\sigma^2$
+  
+---
+
+# Consistency
+
+- But wait! Before we can plug in $S_U$, we need to prove it is both unbiased and **consistent**
+
+- We already know how to prove unbiasedness
+
+- Consistency: as the sample size used to construct the estimator gets large, the probability of it being measured with error gets small
+
+- Denote $\hat{\theta}_n$ as the estimate for a given sample size $n$
+
+  - In the extreme: $\underset{n\rightarrow \infty}\lim P(|\hat{\theta} - \theta| > \epsilon)  = 0$ where $\epsilon$ is any positive number
+  
+  - Can also express as " $\hat{\theta}_n$ converges in probability to $\theta$ ", or $\hat{\theta}_n \overset{p}{\to} \theta$
+  
+- In practice, we can evaluate this property by checking whether $VAR(\hat{\theta})$ approaches zero as $n$ gets large (see pg. 450 for proof)
+
+  - $\underset{n\rightarrow \infty}\lim VAR(\hat{\theta}) = 0$
+
+---
+
+# Consistency
+
+- Apply to $\bar{Y}$ for intuition
+
+$$
+\begin{aligned}
+VAR(\bar{Y}) &= \frac{\sigma^2}{n}\\
+\underset{n\rightarrow \infty}\lim \frac{\sigma^2}{n} &= 0
+\end{aligned}
+$$
+
+- Note that this **by itself** is insufficient to claim $\bar{Y} \overset{p}{\to} \mu$...we need to also prove unbiasedness (which we did last class)
+
+- In other words, an estimator might be **consistent** but **biased**
+
+- Or an estimator might be **unbiased** but not **consistent**
+
+- Need to check both!
+
+---
+
+# $\sigma^2$
+
+- Remember what we're doing here!
+
+  - We know that $U_n \equiv \frac{\bar{Y} - \mu}{\sqrt{\sigma^2/n}} \sim \mathcal{N}(\mu,\sigma^2$)
+
+  - But can we be sure that $\hat{\theta} \equiv \frac{\bar{Y} - \mu}{\sqrt{S^2_U/n}} \sim \mathcal{N}(\mu,\sigma^2)$?
+  
+- Note that, in the original setting, $\sigma^2$ is a **parameter** whereas in our sample setting $S^2_U$ is a **random variable**
+
+$$
+F\bigg(\frac{\bar{Y} - \mu}{S_U / \sqrt{n}}\bigg) \overset{p}{\to} \Phi
+$$
+
+---
+
+# $\sigma^2$
+
+- So let's examine whether $S^2_U$ is a **consistent** estimator for $\sigma^2$
+
+$$
+\begin{aligned}
+S^2_U &= \frac{\sum_i (Y_i - \bar{Y})^2}{n-1}\\
+&= \frac{1}{n-1}\bigg(\sum_i Y_i^2 + \sum_i \bar{Y}^2 - \sum_i 2Y_i\bar{Y}\bigg)\\
+&= \frac{1}{n-1}\bigg((\sum_i Y_i^2) + n\bar{Y}^2 - 2n\bar{Y}^2\bigg)\\
+&= \frac{1}{n-1}\bigg((\sum_i Y_i^2) - n\bar{Y}^2\bigg)\\
+&= \frac{n}{n-1}\bigg(\frac{1}{n}\sum_i Y_i^2 - \bar{Y}^2\bigg)\\
+\end{aligned}
+$$
+
+---
+
+# $\sigma^2$
+
+- So let's examine whether $S^2_U$ is a **consistent** estimator for $\sigma^2$
+$$
+\begin{aligned}
+S^2_U &= \frac{n}{n-1}\bigg(\color{red}{\frac{1}{n}\sum_i Y_i^2 - \bar{Y}^2}\bigg)\\
+\underset{n\rightarrow \infty}\lim \frac{1}{n}\sum_i Y_i^2 - \bar{Y}^2 &= \underset{n\rightarrow \infty}\lim \frac{1}{n}\sum_i Y_i^2 - \underset{n\rightarrow \infty}\lim \frac{1}{n}\sum_i\bar{Y}^2\\
+&= \mu_{Y^2} - \mu_Y^2\\
+&= E[Y^2] - \mu^2\\
+&= \sigma^2\\
+\text{So:}\ \ S^2_U &= \frac{n}{n-1}(\sigma^2)
+\end{aligned}
+$$
+
+- But $\underset{n\rightarrow \infty}\lim \frac{n}{n-1} = 1$, meaning $S^2_U \overset{p}{\to} \sigma^2$
+
+---
+
+# Consistency
+
+- Why did we need "consistency"?
+
+- We know from the CLT that the standardized version of $\bar{Y}$ converges in probability to the standard Normal
+
+$$
+F\bigg(\frac{\bar{Y} - \mu}{\sigma / \sqrt{n}}\bigg) \overset{p}{\to} \Phi
+$$
+
+- We need to prove that the logic of the CLT works when we replace $\sigma$ with $S_U$
+
+
+$$
+F\bigg(\frac{\bar{Y} - \mu}{S_U / \sqrt{n}}\bigg) \overset{p}{\to} \Phi
+$$
+
+---
+
+# Slutzky's Theorem
+
+- If:
+
+  1. $F(U_n) \overset{p}{\to} \Phi$
+  
+  2. $F(W_n) \overset{p}{\to} 1$
+  
+- Then:
+
+  - $F\bigg(\frac{U_n}{W_n}\bigg) \overset{p}{\to} \Phi$
+  
+- In words: the ratio of a function that converges to the Standard Normal over a function that converges to 1 itself converges to the Standard Normal
+
+- **OUR GOAL**: Prove $F\bigg(\frac{\bar{Y} - \mu}{S_U / \sqrt{n}}\bigg) \overset{p}{\to} \Phi$
+
+---
+
+# Proof 
+
+- Start by re-writing our standardized sampling distribution as follows (dropping the $F(\cdot)$ for legibility):
+
+$$
+\begin{aligned}
+\frac{\bar{Y} - \mu}{S_U / \sqrt{n}} &= \sqrt{n}\bigg(\frac{\bar{Y} - \mu}{S_U}\bigg)\\
+&= \sqrt{n}\bigg(\frac{\bar{Y} - \mu}{S_U}\bigg) \frac{\sigma}{\sigma}\\
+&= \sqrt{n}\bigg(\frac{\bar{Y} - \mu}{\sigma}\bigg) \frac{\sigma}{S_U}\\
+&= \frac{\sqrt{n}\bigg(\frac{\bar{Y} - \mu}{\sigma}\bigg)}{\frac{S_U}{\sigma}}\\
+\end{aligned}
+$$
+
+- From CLT: $\sqrt{n}\bigg(\frac{\bar{Y} - \mu}{\sigma}\bigg) \overset{p}{\to} \Phi$
+
+- So need to prove that $\frac{S_U}{\sigma} \overset{p}{\to} 1$
+
+---
+
+# Proof
+
+$$
+\begin{aligned}
+\frac{S_U}{\sigma} &= \sqrt{\frac{S_U^2}{\sigma^2}}\\
+&= \sqrt{\frac{S_U^2 \overset{p}{\to} \sigma^2}{\sigma^2 \overset{p}{\to} \sigma^2}}\\
+&= \sqrt{1}\\
+&= 1
+\end{aligned}
+$$
+- Thus!
+
+$$
+\begin{aligned}
+\frac{\bar{Y} - \mu}{S_U / \sqrt{n}} &= \frac{\sqrt{n}\bigg(\frac{\bar{Y} - \mu}{\sigma}\bigg)\overset{p}{\to}\Phi}{\frac{S_U}{\sigma} \overset{p}{\to} 1}\\
+\frac{\bar{Y} - \mu}{S_U / \sqrt{n}} &\overset{p}{\to} \Phi
+\end{aligned}
+$$
+
+---
+
+# Large-Sample CI
+
+- So we can use $S_U$ in the standard sampling distribution!
+
+  - (When $n$ is large...if $n$ isn't large, then these asymptotic properties don't hold)
+
+- Therefore: $P\bigg(\bar{Y} - z_{\alpha/2} \frac{S_U}{\sqrt{n}} \leq \mu \leq \bar{Y} + z_{\alpha/2}\frac{S_U}{\sqrt{n}}\bigg) \approx 1-\alpha$
+
+- Quiz: why did we spend that time with **consistency**?
+
+---
+
+# Example Time!
+
+- American Community Study (ACS) sampled 350,000 NY households with a sample mean of 76,247 household income and an unbiased sample standard deviation (i.e., the unbiased estimate of the population standard deviation) of $S_U = 61,427$. What is the 90% CI associated with this estimate?
+
+--
+
+- We want to write our 90% CI as $\bar{Y} \pm z_{\alpha/2} \sigma_{\bar{Y}}$
+
+--
+
+  - What is $\bar{Y}$?
+  
+--
+
+  - What is $z_{\alpha/2}$?
+  
+--
+
+  - What is $\sigma_{\bar{Y}}$?
+  
+--
+
+  - What can we replace $\sigma$ with in $\frac{\sigma}{\sqrt{n}}$?
+  
+---
+
+# Example Time!
+
+- CNN poll of 1,038 randomly sampled adults revealing that Biden's approval rating is at 41%, meaning of those asked if they approve of Biden's performance as president, 41% said yes. What is the 95% CI associated with this estimate?
+
+--
+
+- Trickier! Still want to write $\hat{\theta} \pm z_{\alpha/2} \sigma_{\hat{\theta}}$
+
+- Our parameter of interest $\theta$ is no longer $\mu$ but $p$
+
+- Our estimator $\hat{\theta}$ is no longer $\bar{Y}$ but $\hat{p} = \frac{Y}{n} = 0.41$
+
+- So we have $\hat{p}$ and we can get $z_{\alpha/2}$ the standard way (i.e., using `qnorm(.025) = 1.96`)
+
+- What about $\sigma_{\hat{p}}$?
+
+--
+
+- Recall that $VAR(\hat{p}) = VAR\bigg(\frac{Y}{n}\bigg) = \frac{1}{n^2} VAR(Y) = \frac{np(1-p)}{n^2} = \frac{p(1-p)}{n}$
+
+- So $\sigma_{\hat{p}} = \sqrt{\frac{p(1-p)}{n}}$
+
+---
+
+# Example Time!
+
+- Poll of 1,006 adults between Sep. 15 and 20, 2023 asking about a hypothetical vote choice if the election were held tomorrow, found that 50% of respondents indicated they would support Trump, and 46% indicated they would support Biden. This marks a reduction in Trump support from a previous tracking poll fielded a week earlier of 1,203 adults who indicated 52% support for Trump and 46% support for Biden. 
+
+- How confident are we that the change in Trump's support over this period is not due to sampling error?
+
+- Parameter we seek is $p_1 - p_2$ where $p_1$ is Trump's **true** support in the first poll and $p_2$ is his **true** support in the second poll. Consider the polls as binomial experiments in which $Y_1$ is the number of "successes" (here, the # favoring Trump) in the first poll and $Y_2$ is the number of "successes" in the second poll.
+
+- Intuitive estimator: $\hat{p}_1 - \hat{p}_2$. Is this unbiased?
+
+- Calculate estimator's standard errors: $\sqrt{VAR(\hat{p}_1 - \hat{p}_2)} = \sqrt{VAR(\hat{p}_1) + VAR(\hat{p}_2)} = \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}$
+
+---
+
+# Example Time!
+
+- Continuing from the previous example, what is the 95% confidence interval for this estimator?
+
+- Does this interval include zero? How can we interpret that?
+
+- What about the 90% confidence interval? Does it still include zero?
+
+- At what level of confidence would we conclude Trump's support changed between the two surveys?
+
+--
+
+- **Think**: want to find $\alpha$ (call it $\alpha^*$) s.t. the *lower bound of the CI is greater than zero*
+
+$$
+\begin{aligned}
+\hat{p}_1 - \hat{p}_2 - z_{\alpha^*/2}\bigg(\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}\bigg) &> 0\\
+-z_{\alpha^*/2}\bigg(\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}\bigg) &> -(\hat{p}_1 - \hat{p}_2)\\
+z_{\alpha^*/2} &< \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}}
+\end{aligned}
+$$
+
+
+```{r,message=F,echo=F,warning=F,results='hide'}
+dir <- getwd()
+type <- 'pdf'
+format <- 'landscape'
+f <- 'Lecture_9_slides'
+
+system(paste('Rscript ../NFGH/chromeprint.R',dir,type,format,f),wait = F)
+```
