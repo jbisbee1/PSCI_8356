@@ -1,0 +1,388 @@
+---
+title: "Lecture 10"
+subtitle: "Quantitative Political Science"
+author: "Prof. Bisbee"
+institute: "Vanderbilt University"
+date: "Lecture Date: 2023/10/03\n Slides Updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    # self_contained: true
+    chakra: libs/remark-latest.min.js
+    lib_dir: libs
+    css:
+      - default
+      - css/lexis.css
+      - css/lexis-fonts.css
+    #seal: false
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+
+---
+
+```{css,echo = F}
+.small .remark-code { /*Change made here*/
+  font-size: 85% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+```
+
+```{r,include=F}
+set.seed(123)
+options(width=60)
+knitr::opts_chunk$set(fig.align='center',fig.width=9,fig.height=5)
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+require(tidyverse)
+```
+
+# Agenda
+
+1. Finishing up last lecture's example
+
+2. Hypothesis Testing
+
+3. Relation to CIs
+
+4. Two- versus one-tailed tests
+
+
+---
+
+# Example Time!
+
+- Poll of 1,203 adults between Sep. 15 and 20, 2023 asking about a hypothetical vote choice if the election were held tomorrow, found that 52.5% of respondents indicated they would support Trump, and 47.5% indicated they would support Biden. This marks a reduction in Trump support from a previous tracking poll fielded a week earlier of 1,203 adults who indicated 55.6% support for Trump and 44.4% support for Biden. 
+
+- How confident are we that the change in Trump's support over this period is not due to sampling error?
+
+- Parameter we seek is $p_1 - p_2$ where $p_1$ is Trump's **true** support in the first poll and $p_2$ is his **true** support in the second poll. Consider the polls as binomial experiments in which $Y_1$ is the number of "successes" (here, the # favoring Trump) in the first poll and $Y_2$ is the number of "successes" in the second poll.
+
+- Intuitive estimator: $\hat{p}_1 - \hat{p}_2$. Is this unbiased?
+
+- Calculate estimator's standard errors: $\sqrt{VAR(\hat{p}_1 - \hat{p}_2)} = \sqrt{VAR(\hat{p}_1) + VAR(\hat{p}_2)} = \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}$
+
+---
+
+# Example Time!
+
+- Continuing from the previous example, what is the 95% confidence interval for this estimator?
+
+- Does this interval include zero? How can we interpret that?
+
+- What about the 90% confidence interval? Does it still include zero?
+
+- At what level of confidence would we conclude Trump's support changed between the two surveys?
+
+--
+
+- **Think**: want to find $\alpha$ (call it $\alpha^*$) s.t. the *lower bound of the CI is greater than zero*
+
+$$
+\begin{aligned}
+\hat{p}_1 - \hat{p}_2 - z_{\alpha^*/2}\bigg(\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}\bigg) &> 0\\
+-z_{\alpha^*/2}\bigg(\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}\bigg) &> -(\hat{p}_1 - \hat{p}_2)\\
+z_{\alpha^*/2} &< \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}}
+\end{aligned}
+$$
+
+---
+
+# Hypothesis Testing
+
+- **Hypothesis Test** consists of four elements:
+
+  1. **Null** hypothesis about a parameter: $H_0$
+  
+  2. **Alternative** hypothesis about the parameter: $H_A$
+  
+  3. **Test statistic** derived from estimator of the parameter
+  
+  4. **Rejection region**: range of values of test statistic for which $H_0$ should be *rejected* in favor of $H_A$
+  
+- Choosing the RR trades off two kinds of errors:
+
+  - **Type I error**: reject $H_0$ when it is actually true
+  
+  - **Type II error**: accept $H_0$ when $H_A$ is actually true
+
+---
+
+# Type I Error
+
+- **Type I error**: reject $H_0$ when it is actually true
+
+  - What does this look like?
+  
+```{r,echo=F,warning=F,message=F}
+# Load necessary library
+library(ggplot2)
+
+# Define the mean and standard deviation
+mean <- 0
+sd <- 1
+
+# Define the range for x values
+x <- seq(-4, 4, length.out = 1000)
+
+# Define the density function for the normal distribution
+y <- dnorm(x, mean, sd)
+
+# Calculate the critical value for a 95% confidence interval
+z <- qnorm(c(0.025, 0.975))
+
+ggplot(data.frame(x, y), aes(x, y)) +
+  geom_ribbon(data = subset(data.frame(x, y), x > -Inf & x < Inf),
+              aes(ymin = 0, ymax = y),
+              fill = "gray40",
+              alpha = 0.5,color = 'black') +
+  geom_ribbon(data = subset(data.frame(x, y), x > z[1] & x < z[2]),
+              aes(ymin = 0, ymax = y),
+              fill = "white",
+              alpha = 1,color = 'black') +
+  labs(title = bquote("Sampling Distribution of"~ hat(theta)),
+       x = bquote(z),
+       y = bquote(f(hat(theta))==phi)) +
+  theme_minimal() + 
+  geom_vline(xintercept = 0,linetype = 'dashed') + 
+  annotate(geom = 'segment',x = 1.96,y = -.05,xend = Inf,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = -1.96,y = -.05,xend = -Inf,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = -Inf,y = -.05,xend = Inf,yend = -.05,
+           arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) +
+  annotate(geom = 'segment',x = 1.96,y = -.075,xend = 1.96,yend = -0.025) + 
+  annotate(geom = 'segment',x = -1.96,y = -.075,xend = -1.96,yend = -0.025) + 
+  annotate(geom = 'label',x = 0,y = -Inf,label = expression(theta[0]),vjust = 0,parse = T) + 
+  # annotate(geom = 'segment',x = -.95,xend = .95,y = .25,yend= .25,
+  #          arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) + 
+  annotate(geom = 'label',x = 0,y = Inf,label = expression(1-alpha),vjust = 5.5,parse = T) + 
+  annotate(geom = 'label',x = -2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  scale_x_continuous(breaks = c(-1.96,1.96),labels = c(expression(theta[0]-z[alpha/2]~sigma[hat(theta)]),expression(theta[0]+z[alpha/2]~sigma[hat(theta)]))) + 
+  theme(axis.title.x = element_text(hjust = 1))
+```
+
+---
+
+# Type I error
+
+- We will (purely by chance):
+
+  - Observe an estimated $\hat{\theta}$ in the *RR* $100*\alpha$% of the time
+  
+  - Thus falsely reject the null even though it's true
+  
+- This is Type I error!
+
+---
+
+# Type II error
+
+```{r,echo=F,warning=F,message=F}
+# Load necessary library
+library(ggplot2)
+
+# Define the mean and standard deviation
+mean0 <- 0
+sd0 <- 1
+meanA <- 3.5
+sdA <- 1
+
+# Define the range for x values
+x <- seq(-4, 10, length.out = 1000)
+
+# Define the density function for the normal distribution
+y0 <- dnorm(x, mean0, sd0)
+yA <- dnorm(x,meanA,sdA)
+
+# Calculate the critical value for a 95% confidence interval
+z <- qnorm(c(0.025, 0.975))
+
+ggplot(data.frame(x, y0), aes(x, y0)) +
+  geom_ribbon(data = subset(data.frame(x, y0), x > -Inf & x < Inf),
+              aes(ymin = 0, ymax = y0),
+              fill = "gray40",
+              alpha = 0.5,color = 'black') +
+  geom_ribbon(data = subset(data.frame(x, y0), x > z[1] & x < z[2]),
+              aes(ymin = 0, ymax = y0),
+              fill = "white",
+              alpha = 1,color = 'black') +
+  geom_line(data = data.frame(x,yA),
+            aes(x,yA)) + 
+  geom_ribbon(data = data.frame(x,yA) %>%
+                as_tibble() %>%
+                filter(x < z[2],x > -.1),
+              aes(x = x,ymin = 0,ymax = yA),inherit.aes = F,
+              fill = 'red',color = 'red',alpha = .1) +
+  labs(title = bquote("Sampling Distribution of"~ hat(theta)),
+       x = bquote(z),
+       y = bquote(f(hat(theta))==phi)) +
+  theme_minimal() + 
+  geom_vline(xintercept = c(0,3.5),linetype = 'dashed') + 
+  annotate(geom = 'segment',x = 1.95,y = 0,xend = 1.95,yend = .12,color = 'red') + 
+  # annotate(geom = 'segment',x = 1.96,y = -.05,xend = Inf,yend = -.05,
+  #            size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = 1.96,y = -.05,xend = 0,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = 0,y = -.05,xend = Inf,yend = -.05,
+           arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) +
+  annotate(geom = 'segment',x = 1.96,y = -.075,xend = 1.96,yend = -0.025) + 
+  # annotate(geom = 'segment',x = -1.96,y = -.075,xend = -1.96,yend = -0.025) + 
+  annotate(geom = 'label',x = 0,y = -Inf,label = expression(theta[0]),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 3.5,y = -Inf,label = expression(theta[A]),vjust = 0,parse = T) + 
+  # annotate(geom = 'segment',x = -.95,xend = .95,y = .25,yend= .25,
+  #          arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) + 
+  # annotate(geom = 'label',x = 0,y = Inf,label = expression(1-alpha),vjust = 5.5,parse = T) + 
+  # annotate(geom = 'label',x = -2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 1.5,y = .01,label = expression(beta),vjust = 0,parse = T,color = 'red') + 
+  scale_x_continuous(breaks = c(1.96),labels = c(expression(theta[0]+z[alpha/2]~sigma[hat(theta)]))) + 
+  theme(axis.title.x = element_text(hjust = 1))
+```
+
+---
+
+# Type II error
+
+- Suppose that the alternative hypothesis is true
+
+- But we always conduct our hypothesis test **under the assumption that the null is true**
+
+- If the sampling distribution of our estimator $\hat{\theta} \sim \mathcal{N}(\theta_A,\sigma_{\hat{\theta}})$, we will mistakenly accept the null $100*\beta$% of the time
+
+- Define **power** as $1 - \beta$
+
+$$
+\begin{aligned}
+\text{Power} &= 1 - \beta \\
+&= 1 - Pr(\text{reject }H_0 | H_A\text{ true})\\
+&= 1 - Pr(\hat{\theta} < \theta_0 + z_{\alpha/2}\sigma_{\hat{\theta}} | \theta = \theta_A)
+\end{aligned}
+$$
+
+---
+
+# Type I and II error
+
+- Thus $P(\text{Type I}) = \alpha$ and $P(\text{Type II}) = \beta$
+
+- Ideally, we want the hypothesis test's level of significance to be **low** and its power to be **high**
+
+- Why is this a trade-off?
+
+- Re-evaluate the example:
+
+  - $H_0: p_1 - p_2 = 0$
+  
+  - $H_A: p_1 - p_2 \neq 0$
+  
+- Test statistic is $\hat{p}_1 - \hat{p}_2$
+
+- Rejection region is all values of statistic for which we reject $H_0$ for chosen $\alpha$
+
+  - I.e., values of $\hat{p}_1 - \hat{p}_2$ where the constructed CI **does not include zero**
+  
+---
+
+# Type I and II errror
+
+- Recall our CI: $(\hat{p}_1 - \hat{p}_2) \pm z_{\alpha/2} \sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2}}$
+
+- We could have rejected $H_0$ if $(\hat{p}_1 - \hat{p}_2) - z_{\alpha/2} \sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2}} > 0$ and concluded Trump's popularity did fall
+
+- Rewriting:
+
+$$
+\begin{aligned}
+(\hat{p}_1 - \hat{p}_2) &> z_{\alpha/2} \sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2}}\\
+\frac{(\hat{p}_1 - \hat{p}_2)}{z_{\alpha/2} \sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2}}} & > z_{\alpha/2}
+\end{aligned}
+$$
+
+---
+
+# Sample Size
+
+- What sample size would have been needed for our difference in sample populations to be statistically significant from zero with 95% confidence? (Assume $n_1 = n_2 = n$)
+
+- Plug in the numbers!
+
+- Power calculation is a crucial tool for determining how big your sample must be to avoid committing Type II error
+
+- (We will come back to this soon)
+
+---
+
+# Relation to CIs
+
+- Walk through a question
+
+  - Conventional wisdom says that $\theta = \theta_0$, but I theorize that $\theta \neq \theta_0$
+  
+  - I obtain a point estimate $\hat{\theta} \neq \theta_0$
+  
+  - How sure am I that $\theta \neq \theta_0$?
+  
+- This is the core language of **hypothesis tests**
+
+- Often $\theta_0 = 0$, but it could be any value
+
+- Regardless, we can fully define the distribution of our estimator if $\theta_0$ is true
+
+- We know that CLT tells us that the standardized version of **any** estimator is $\frac{\hat{\theta} - \theta_0}{\sigma_{\hat{\theta}}} \sim \mathcal{N}(0,1)$
+
+---
+
+# Hypothesis Testing
+
+- Remember...4 components!
+
+  1. Null hypothesis $H_0$
+  
+  2. Alternative hypothesis $H_A$
+  
+  3. Test statistic $\hat{\theta}$
+  
+  4. Rejection region
+  
+- Start by choosing $\alpha$ which is now defined as **the probability of Type I error**
+
+- Then identify the range of values of $\hat{\theta}$ we will observe $\alpha$ percent of the time in repeated sampling, which is our **rejection region**
+
+- If we observe $\hat{\theta}$ in this region, we reject $H_0: \theta = \theta_0$ in favor of $H_A: \theta \neq \theta_0$
+
+- In practice, we reject $H_0$ if $\hat{\theta} < \theta_0 - z_{\alpha/2}\sigma_{\hat{\theta}}$ or if $\hat{\theta} > \theta_0 + z_{\alpha/2}\sigma_{\hat{\theta}}$
+
+---
+
+# One-Tailed Hypothesis Test
+
+- What if we have a stronger alternative hypothesis?
+
+  - Our alternative is **signed**
+  
+  - Instead of $H_A: \theta \neq \theta_0$, I have theoretical reason to believe $H_A: \theta > \theta_0$
+  
+- Again, pick $\alpha$
+
+- Then look at the standard Normal and identify range of values for $\hat{\theta}$ greater than $\theta_0$ that we will observe $\alpha$% of the time in repeated sampling
+
+- Beware of cooking the books! Say you have some $\hat{\theta} > \theta_0$, and you make an *ex post* hypothesis that $H_A: \hat{\theta} \geq \theta_0$. This is not based on theory, and looks very suspicious!
+
+
+
+```{r,message=F,echo=F,warning=F,results='hide'}
+dir <- getwd()
+type <- 'pdf'
+format <- 'landscape'
+f <- 'Lecture_10_slides'
+
+system(paste('Rscript ../NFGH/chromeprint.R',dir,type,format,f),wait = F)
+```
