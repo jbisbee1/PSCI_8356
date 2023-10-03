@@ -260,13 +260,17 @@ Lecture Content (2023/09/26): Estimators
 
 **Review Session (2023/09/28): Review sections 3 and 4**
 
+* Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_9_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_9_slides.html#1)
+* Notes: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/lecture_9_notes.pdf)
+
 *[Back to Syllabus](#syllabus)*
 
 ### 5\. Hypothesis Testing and Inference
 
 Lecture Content (2023/10/03): Hypothesis testing
 
-* Slides: 
+* Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_10_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_10_slides.html#1)
+* Notes: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/lecture_10_notes.pdf)
 * Homework: [WMS](https://github.com/jbisbee1/PSCI_8356/blob/main/Materials/WMS.pdf) chapters 9 and 10. [Problem set 3](https://github.com/jbisbee1/PSCI_8356/blob/main/Materials/Pset_3.pdf) (due October 10)
 
 Lecture Content (2023/10/05): Power
