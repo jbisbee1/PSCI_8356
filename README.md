@@ -267,7 +267,7 @@ Lecture Content (2023/09/26): Estimators
 Lecture Content (2023/10/03): Hypothesis testing
 
 * Slides: 
-* Homework: [WMS](https://github.com/jbisbee1/PSCI_8356/blob/main/Materials/WMS.pdf) chapters 9 and 10. Problem set 3 (due October 10)
+* Homework: [WMS](https://github.com/jbisbee1/PSCI_8356/blob/main/Materials/WMS.pdf) chapters 9 and 10. [Problem set 3](https://github.com/jbisbee1/PSCI_8356/blob/main/Materials/Pset_3.pdf) (due October 10)
 
 Lecture Content (2023/10/05): Power
 
