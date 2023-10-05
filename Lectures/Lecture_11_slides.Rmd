@@ -1,0 +1,1165 @@
+---
+title: "Lecture 11"
+subtitle: "Quantitative Political Science"
+author: "Prof. Bisbee"
+institute: "Vanderbilt University"
+date: "Lecture Date: 2023/10/05\n Slides Updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    # self_contained: true
+    chakra: libs/remark-latest.min.js
+    lib_dir: libs
+    css:
+      - default
+      - css/lexis.css
+      - css/lexis-fonts.css
+    #seal: false
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+
+---
+
+```{css,echo = F}
+.small .remark-code { /*Change made here*/
+  font-size: 85% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+```
+
+```{r,include=F}
+set.seed(123)
+options(width=60)
+knitr::opts_chunk$set(fig.align='center',fig.width=9,fig.height=5)
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+require(tidyverse)
+```
+
+# Agenda
+
+1. Type 1 and Type II Error
+
+2. Calculating Power
+
+3. $p$-values
+
+
+---
+
+# Type I Error
+
+- **Type I error**: reject $H_0$ when it is actually true
+
+  - What does this look like?
+  
+```{r,echo=F,warning=F,message=F}
+# Load necessary library
+library(ggplot2)
+
+# Define the mean and standard deviation
+mean <- 0
+sd <- 1
+
+# Define the range for x values
+x <- seq(-4, 4, length.out = 1000)
+
+# Define the density function for the normal distribution
+y <- dnorm(x, mean, sd)
+
+# Calculate the critical value for a 95% confidence interval
+z <- qnorm(c(0.025, 0.975))
+
+ggplot(data.frame(x, y), aes(x, y)) +
+  geom_ribbon(data = subset(data.frame(x, y), x > -Inf & x < Inf),
+              aes(ymin = 0, ymax = y),
+              fill = "gray40",
+              alpha = 0.5,color = 'black') +
+  geom_ribbon(data = subset(data.frame(x, y), x > z[1] & x < z[2]),
+              aes(ymin = 0, ymax = y),
+              fill = "white",
+              alpha = 1,color = 'black') +
+  labs(title = bquote("Sampling Distribution of"~ hat(theta)),
+       x = bquote(z),
+       y = bquote(f(hat(theta))==phi)) +
+  theme_minimal() + 
+  geom_vline(xintercept = 0,linetype = 'dashed') + 
+  annotate(geom = 'segment',x = 1.96,y = -.05,xend = Inf,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = -1.96,y = -.05,xend = -Inf,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = -Inf,y = -.05,xend = Inf,yend = -.05,
+           arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) +
+  annotate(geom = 'segment',x = 1.96,y = -.075,xend = 1.96,yend = -0.025) + 
+  annotate(geom = 'segment',x = -1.96,y = -.075,xend = -1.96,yend = -0.025) + 
+  annotate(geom = 'label',x = 0,y = -Inf,label = expression(theta[0]),vjust = 0,parse = T) + 
+  # annotate(geom = 'segment',x = -.95,xend = .95,y = .25,yend= .25,
+  #          arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) + 
+  annotate(geom = 'label',x = 0,y = Inf,label = expression(1-alpha),vjust = 5.5,parse = T) + 
+  annotate(geom = 'label',x = -2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  scale_x_continuous(breaks = c(-1.96,1.96),labels = c(expression(theta[0]-z[alpha/2]~sigma[hat(theta)]),expression(theta[0]+z[alpha/2]~sigma[hat(theta)]))) + 
+  theme(axis.title.x = element_text(hjust = 1))
+```
+
+---
+
+# Type I error
+
+- We will (purely by chance):
+
+  - Observe an estimated $\hat{\theta}$ in the *RR* $100*\alpha$% of the time
+  
+  - Thus falsely reject the null even though it's true
+  
+- This is Type I error!
+
+---
+
+# Type II error
+
+```{r,echo=F,warning=F,message=F}
+# Load necessary library
+library(ggplot2)
+
+# Define the mean and standard deviation
+mean0 <- 0
+sd0 <- 1
+meanA <- 3.5
+sdA <- 1
+
+# Define the range for x values
+x <- seq(-4, 10, length.out = 1000)
+
+# Define the density function for the normal distribution
+y0 <- dnorm(x, mean0, sd0)
+yA <- dnorm(x,meanA,sdA)
+
+# Calculate the critical value for a 95% confidence interval
+z <- qnorm(c(0.025, 0.975))
+
+ggplot(data.frame(x, y0), aes(x, y0)) +
+  geom_ribbon(data = subset(data.frame(x, y0), x > -Inf & x < Inf),
+              aes(ymin = 0, ymax = y0),
+              fill = "gray40",
+              alpha = 0.5,color = 'black') +
+  geom_ribbon(data = subset(data.frame(x, y0), x > z[1] & x < z[2]),
+              aes(ymin = 0, ymax = y0),
+              fill = "white",
+              alpha = 1,color = 'black') +
+  geom_line(data = data.frame(x,yA),
+            aes(x,yA)) + 
+  geom_ribbon(data = data.frame(x,yA) %>%
+                as_tibble() %>%
+                filter(x < z[2],x > -.1),
+              aes(x = x,ymin = 0,ymax = yA),inherit.aes = F,
+              fill = 'red',color = 'red',alpha = .1) +
+  labs(title = bquote("Sampling Distribution of"~ hat(theta)),
+       x = bquote(z),
+       y = bquote(f(hat(theta))==phi)) +
+  theme_minimal() + 
+  geom_vline(xintercept = c(0,3.5),linetype = 'dashed') + 
+  annotate(geom = 'segment',x = 1.95,y = 0,xend = 1.95,yend = .12,color = 'red') + 
+  # annotate(geom = 'segment',x = 1.96,y = -.05,xend = Inf,yend = -.05,
+  #            size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = 1.96,y = -.05,xend = 0,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = 0,y = -.05,xend = Inf,yend = -.05,
+           arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) +
+  annotate(geom = 'segment',x = 1.96,y = -.075,xend = 1.96,yend = -0.025) + 
+  # annotate(geom = 'segment',x = -1.96,y = -.075,xend = -1.96,yend = -0.025) + 
+  annotate(geom = 'label',x = 0,y = -Inf,label = expression(theta[0]),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 3.5,y = -Inf,label = expression(theta[A]),vjust = 0,parse = T) + 
+  # annotate(geom = 'segment',x = -.95,xend = .95,y = .25,yend= .25,
+  #          arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) + 
+  # annotate(geom = 'label',x = 0,y = Inf,label = expression(1-alpha),vjust = 5.5,parse = T) + 
+  # annotate(geom = 'label',x = -2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 1.5,y = .01,label = expression(beta),vjust = 0,parse = T,color = 'red') + 
+  scale_x_continuous(breaks = c(1.96),labels = c(expression(theta[0]+z[alpha/2]~sigma[hat(theta)]))) + 
+  theme(axis.title.x = element_text(hjust = 1))
+```
+
+---
+
+# Type II error
+
+- Suppose that the alternative hypothesis is true
+
+- But we always conduct our hypothesis test **under the assumption that the null is true**
+
+- If the sampling distribution of our estimator $\hat{\theta} \sim \mathcal{N}(\theta_A,\sigma_{\hat{\theta}})$, we will mistakenly accept the null $100*\beta$% of the time
+
+- Define **power** as $1 - \beta$
+
+$$
+\begin{aligned}
+\text{Power} &= 1 - \beta \\
+&= 1 - Pr(\text{Accept }H_0 | H_A\text{ true})\\
+&= 1 - Pr(\hat{\theta} < \theta_0 + z_{\alpha/2}\sigma_{\hat{\theta}} | \theta = \theta_A)
+\end{aligned}
+$$
+---
+
+# Power
+
+- We can do this!
+
+$$
+\begin{aligned}
+\beta &= Pr(\hat{\theta} < \theta_0 + z_{\alpha}\sigma_{\hat{\theta}} | \theta = \theta_A)\\
+&= Pr\bigg(\frac{\hat{\theta} - \theta_A}{\sigma_{\hat{\theta}}} < \frac{\theta_0 + z_{\alpha}\sigma_{\hat{\theta}}}{\sigma_{\hat{\theta}}} | \theta = \theta_A\bigg)\\
+&= \Phi\bigg(\frac{\theta_0 + z_{\alpha}\sigma_{\hat{\theta}} - \theta_A}{\sigma_{\hat{\theta}}}\bigg)\\
+&=\Phi\bigg(\frac{\theta_0 - \theta_A}{\sigma_{\hat{\theta}}} + z_{\alpha}\bigg)
+\end{aligned}
+$$
+
+---
+
+# Power
+
+- We know $\theta_0$ and $\theta_A$ (or we can specify them)
+
+- We have also specified $\alpha$ and therefore $z_{\alpha}$
+
+$$
+\begin{aligned}
+Power = 1 - \Phi\bigg(\frac{\theta_0 - \theta_A}{\frac{\sigma}{\sqrt{n}}} + z_{\alpha}\bigg)
+\end{aligned}
+$$
+- Stare at this for a second: can you figure out the following signs?
+
+$$
+\begin{aligned}
+\frac{\partial\text{Power}}{\partial \alpha}\\
+\frac{\partial\text{Power}}{\partial \sigma}\\
+\frac{\partial\text{Power}}{\partial n}\\
+\frac{\partial\text{Power}}{\partial (|\theta_0 - \theta_A|)}\\
+\end{aligned}
+$$
+
+---
+
+# $\frac{\partial\text{Power}}{\partial \alpha}$
+
+- We know that $\frac{\partial z}{\partial \alpha} < 0$ so therefore $\frac{\partial\Phi\bigg(\frac{\theta_0 - \theta_A}{\frac{\sigma}{\sqrt{n}}} + z_{\alpha}\bigg)}{\partial \alpha} < 0$ so $\frac{\partial\text{Power}}{\partial \alpha} > 0$
+  
+- Visually:
+
+
+```{r,echo=F,warning=F,message=F}
+# Load necessary library
+library(ggplot2)
+
+# Define the mean and standard deviation
+mean0 <- 0
+sd0 <- 1
+meanA <- 3.5
+sdA <- 1
+
+# Define the range for x values
+x <- seq(-4, 10, length.out = 1000)
+
+# Define the density function for the normal distribution
+y0 <- dnorm(x, mean0, sd0)
+yA <- dnorm(x,meanA,sdA)
+
+# Calculate the critical value for a 95% confidence interval
+z <- qnorm(c(0.025, 0.975))
+
+ggplot(data.frame(x, y0), aes(x, y0)) +
+  geom_ribbon(data = subset(data.frame(x, y0), x > -Inf & x < Inf),
+              aes(ymin = 0, ymax = y0),
+              fill = "gray40",
+              alpha = 0.5,color = 'black') +
+  geom_ribbon(data = subset(data.frame(x, y0), x > z[1] & x < z[2]),
+              aes(ymin = 0, ymax = y0),
+              fill = "white",
+              alpha = 1,color = 'black') +
+  geom_line(data = data.frame(x,yA),
+            aes(x,yA)) + 
+  geom_ribbon(data = data.frame(x,yA) %>%
+                as_tibble() %>%
+                filter(x < z[2],x > -.1),
+              aes(x = x,ymin = 0,ymax = yA),inherit.aes = F,
+              fill = 'red',color = 'red',alpha = .1) +
+  labs(title = bquote("Sampling Distribution of"~ hat(theta)),
+       x = bquote(z),
+       y = bquote(f(hat(theta))==phi)) +
+  theme_minimal() + 
+  geom_vline(xintercept = c(0,3.5),linetype = 'dashed') + 
+  annotate(geom = 'segment',x = 1.95,y = 0,xend = 1.95,yend = .12,color = 'red') + 
+  # annotate(geom = 'segment',x = 1.96,y = -.05,xend = Inf,yend = -.05,
+  #            size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = 1.96,y = -.05,xend = 0,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = 0,y = -.05,xend = Inf,yend = -.05,
+           arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) +
+  annotate(geom = 'segment',x = 1.96,y = -.075,xend = 1.96,yend = -0.025) + 
+  # annotate(geom = 'segment',x = -1.96,y = -.075,xend = -1.96,yend = -0.025) + 
+  annotate(geom = 'label',x = 0,y = -Inf,label = expression(theta[0]),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 3.5,y = -Inf,label = expression(theta[A]),vjust = 0,parse = T) + 
+  # annotate(geom = 'segment',x = -.95,xend = .95,y = .25,yend= .25,
+  #          arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) + 
+  # annotate(geom = 'label',x = 0,y = Inf,label = expression(1-alpha),vjust = 5.5,parse = T) + 
+  # annotate(geom = 'label',x = -2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 1.5,y = .01,label = expression(beta),vjust = 0,parse = T,color = 'red') + 
+  scale_x_continuous(breaks = c(1.96),labels = c(expression(theta[0]+z[alpha/2]~sigma[hat(theta)]))) + 
+  theme(axis.title.x = element_text(hjust = 1))
+```
+
+---
+
+# $\frac{\partial\text{Power}}{\partial \alpha}$
+
+- We know that $\frac{\partial z}{\partial \alpha} < 0$ so therefore $\frac{\partial\Phi\bigg(\frac{\theta_0 - \theta_A}{\frac{\sigma}{\sqrt{n}}} + z_{\alpha}\bigg)}{\partial \alpha} < 0$ so $\frac{\partial\text{Power}}{\partial \alpha} > 0$
+  
+- Visually:
+
+
+```{r,echo=F,warning=F,message=F}
+# Load necessary library
+library(ggplot2)
+
+# Define the mean and standard deviation
+mean0 <- 0
+sd0 <- 1
+meanA <- 3.5
+sdA <- 1
+
+# Define the range for x values
+x <- seq(-4, 10, length.out = 1000)
+
+# Define the density function for the normal distribution
+y0 <- dnorm(x, mean0, sd0)
+yA <- dnorm(x,meanA,sdA)
+
+# Calculate the critical value for a 95% confidence interval
+z <- qnorm(c(0.05, 0.95))
+
+ggplot(data.frame(x, y0), aes(x, y0)) +
+  geom_ribbon(data = subset(data.frame(x, y0), x > -Inf & x < Inf),
+              aes(ymin = 0, ymax = y0),
+              fill = "gray40",
+              alpha = 0.5,color = 'black') +
+  geom_ribbon(data = subset(data.frame(x, y0), x > z[1] & x < z[2]),
+              aes(ymin = 0, ymax = y0),
+              fill = "white",
+              alpha = 1,color = 'black') +
+  geom_line(data = data.frame(x,yA),
+            aes(x,yA)) + 
+  geom_ribbon(data = data.frame(x,yA) %>%
+                as_tibble() %>%
+                filter(x < z[2],x > -.1),
+              aes(x = x,ymin = 0,ymax = yA),inherit.aes = F,
+              fill = 'red',color = 'red',alpha = .1) +
+  labs(title = bquote("Sampling Distribution of"~ hat(theta)),
+       x = bquote(z),
+       y = bquote(f(hat(theta))==phi)) +
+  theme_minimal() + 
+  geom_vline(xintercept = c(0,3.5),linetype = 'dashed') + 
+  annotate(geom = 'segment',x = z[2],y = 0,xend = z[2],yend = .067,color = 'red') + 
+  # annotate(geom = 'segment',x = 1.96,y = -.05,xend = Inf,yend = -.05,
+  #            size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = z[2],y = -.05,xend = 0,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = 0,y = -.05,xend = Inf,yend = -.05,
+           arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) +
+  annotate(geom = 'segment',x = z[2],y = -.075,xend = z[2],yend = -0.025) + 
+  # annotate(geom = 'segment',x = -1.96,y = -.075,xend = -1.96,yend = -0.025) + 
+  annotate(geom = 'label',x = 0,y = -Inf,label = expression(theta[0]),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 3.5,y = -Inf,label = expression(theta[A]),vjust = 0,parse = T) + 
+  # annotate(geom = 'segment',x = -.95,xend = .95,y = .25,yend= .25,
+  #          arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) + 
+  # annotate(geom = 'label',x = 0,y = Inf,label = expression(1-alpha),vjust = 5.5,parse = T) + 
+  # annotate(geom = 'label',x = -2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 2.25,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 1.25,y = .01,label = expression(beta),vjust = 0,parse = T,color = 'red') + 
+  scale_x_continuous(breaks = z[2],labels = c(expression(theta[0]+z[alpha/2]~sigma[hat(theta)]))) + 
+  theme(axis.title.x = element_text(hjust = 1))
+```
+
+---
+
+# $\frac{\partial\text{Power}}{\partial \alpha}$
+
+- We know that $\frac{\partial z}{\partial \alpha} < 0$ so therefore $\frac{\partial\Phi\bigg(\frac{\theta_0 - \theta_A}{\frac{\sigma}{\sqrt{n}}} + z_{\alpha}\bigg)}{\partial \alpha} < 0$ so $\frac{\partial\text{Power}}{\partial \alpha} > 0$
+  
+- Visually:
+
+```{r,echo=F,warning=F,message=F}
+# Load necessary library
+library(ggplot2)
+
+# Define the mean and standard deviation
+mean0 <- 0
+sd0 <- 1
+meanA <- 3.5
+sdA <- 1
+
+# Define the range for x values
+x <- seq(-4, 10, length.out = 1000)
+
+# Define the density function for the normal distribution
+y0 <- dnorm(x, mean0, sd0)
+yA <- dnorm(x,meanA,sdA)
+
+# Calculate the critical value for a 95% confidence interval
+z <- qnorm(c(0.1, 0.9))
+
+ggplot(data.frame(x, y0), aes(x, y0)) +
+  geom_ribbon(data = subset(data.frame(x, y0), x > -Inf & x < Inf),
+              aes(ymin = 0, ymax = y0),
+              fill = "gray40",
+              alpha = 0.5,color = 'black') +
+  geom_ribbon(data = subset(data.frame(x, y0), x > z[1] & x < z[2]),
+              aes(ymin = 0, ymax = y0),
+              fill = "white",
+              alpha = 1,color = 'black') +
+  geom_line(data = data.frame(x,yA),
+            aes(x,yA)) + 
+  geom_ribbon(data = data.frame(x,yA) %>%
+                as_tibble() %>%
+                filter(x < z[2],x > -.1),
+              aes(x = x,ymin = 0,ymax = yA),inherit.aes = F,
+              fill = 'red',color = 'red',alpha = .1) +
+  labs(title = bquote("Sampling Distribution of"~ hat(theta)),
+       x = bquote(z),
+       y = bquote(f(hat(theta))==phi)) +
+  theme_minimal() + 
+  geom_vline(xintercept = c(0,3.5),linetype = 'dashed') + 
+  annotate(geom = 'segment',x = z[2],y = 0,xend = z[2],yend = .03,color = 'red') + 
+  # annotate(geom = 'segment',x = 1.96,y = -.05,xend = Inf,yend = -.05,
+  #            size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = z[2],y = -.05,xend = 0,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = 0,y = -.05,xend = Inf,yend = -.05,
+           arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) +
+  annotate(geom = 'segment',x = z[2],y = -.075,xend = z[2],yend = -0.025) + 
+  # annotate(geom = 'segment',x = -1.96,y = -.075,xend = -1.96,yend = -0.025) + 
+  annotate(geom = 'label',x = 0,y = -Inf,label = expression(theta[0]),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 3.5,y = -Inf,label = expression(theta[A]),vjust = 0,parse = T) + 
+  # annotate(geom = 'segment',x = -.95,xend = .95,y = .25,yend= .25,
+  #          arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) + 
+  # annotate(geom = 'label',x = 0,y = Inf,label = expression(1-alpha),vjust = 5.5,parse = T) + 
+  # annotate(geom = 'label',x = -2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 2.05,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = .95,y = .01,label = expression(beta),vjust = 0,parse = T,color = 'red') + 
+  scale_x_continuous(breaks = z[2],labels = c(expression(theta[0]+z[alpha/2]~sigma[hat(theta)]))) + 
+  theme(axis.title.x = element_text(hjust = 1))
+```
+
+---
+
+# $\frac{\partial\text{Power}}{\partial \sigma}$
+
+- We know that $\frac{\partial\Phi\bigg(\frac{(\theta_0 - \theta_A)\sqrt{n}}{\sigma} + z_{\alpha}\bigg)}{\partial \sigma} > 0$ (since $\theta_0 - \theta_A < 0$) so $\frac{\partial\text{Power}}{\partial \sigma} < 0$
+  
+- Visually:
+
+
+```{r,echo=F,warning=F,message=F}
+# Load necessary library
+library(ggplot2)
+
+# Define the mean and standard deviation
+mean0 <- 0
+sd0 <- 1
+meanA <- 3.5
+sdA <- 1
+
+# Define the range for x values
+x <- seq(-4, 10, length.out = 1000)
+
+# Define the density function for the normal distribution
+y0 <- dnorm(x, mean0, sd0)
+yA <- dnorm(x,meanA,sdA)
+
+# Calculate the critical value for a 95% confidence interval
+z <- qnorm(c(0.025, 0.975))
+
+ggplot(data.frame(x, y0), aes(x, y0)) +
+  geom_ribbon(data = subset(data.frame(x, y0), x > -Inf & x < Inf),
+              aes(ymin = 0, ymax = y0),
+              fill = "gray40",
+              alpha = 0.5,color = 'black') +
+  geom_ribbon(data = subset(data.frame(x, y0), x > z[1] & x < z[2]),
+              aes(ymin = 0, ymax = y0),
+              fill = "white",
+              alpha = 1,color = 'black') +
+  geom_line(data = data.frame(x,yA),
+            aes(x,yA)) + 
+  geom_ribbon(data = data.frame(x,yA) %>%
+                as_tibble() %>%
+                filter(x < z[2],x > -.1),
+              aes(x = x,ymin = 0,ymax = yA),inherit.aes = F,
+              fill = 'red',color = 'red',alpha = .1) +
+  labs(title = bquote("Sampling Distribution of"~ hat(theta)),
+       x = bquote(z),
+       y = bquote(f(hat(theta))==phi)) +
+  theme_minimal() + 
+  geom_vline(xintercept = c(0,3.5),linetype = 'dashed') + 
+  annotate(geom = 'segment',x = 1.95,y = 0,xend = 1.95,yend = .12,color = 'red') + 
+  # annotate(geom = 'segment',x = 1.96,y = -.05,xend = Inf,yend = -.05,
+  #            size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = 1.96,y = -.05,xend = 0,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = 0,y = -.05,xend = Inf,yend = -.05,
+           arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) +
+  annotate(geom = 'segment',x = 1.96,y = -.075,xend = 1.96,yend = -0.025) + 
+  # annotate(geom = 'segment',x = -1.96,y = -.075,xend = -1.96,yend = -0.025) + 
+  annotate(geom = 'label',x = 0,y = -Inf,label = expression(theta[0]),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 3.5,y = -Inf,label = expression(theta[A]),vjust = 0,parse = T) + 
+  # annotate(geom = 'segment',x = -.95,xend = .95,y = .25,yend= .25,
+  #          arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) + 
+  # annotate(geom = 'label',x = 0,y = Inf,label = expression(1-alpha),vjust = 5.5,parse = T) + 
+  # annotate(geom = 'label',x = -2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 1.5,y = .01,label = expression(beta),vjust = 0,parse = T,color = 'red') + 
+  scale_x_continuous(breaks = c(1.96),labels = c(expression(theta[0]+z[alpha/2]~sigma[hat(theta)]))) + 
+  theme(axis.title.x = element_text(hjust = 1))
+```
+
+---
+
+# $\frac{\partial\text{Power}}{\partial \sigma}$
+
+- We know that $\frac{\partial\Phi\bigg(\frac{(\theta_0 - \theta_A)\sqrt{n}}{\sigma} + z_{\alpha}\bigg)}{\partial \sigma} > 0$ (since $\theta_0 - \theta_A < 0$) so $\frac{\partial\text{Power}}{\partial \sigma} < 0$
+  
+- Visually:
+
+```{r,echo=F,warning=F,message=F}
+# Load necessary library
+library(ggplot2)
+
+# Define the mean and standard deviation
+mean0 <- 0
+sd0 <- 1.2
+meanA <- 3.5
+sdA <- 1
+
+# Define the range for x values
+x <- seq(-4, 10, length.out = 1000)
+
+# Define the density function for the normal distribution
+y0 <- dnorm(x, mean0, sd0)
+yA <- dnorm(x,meanA,sdA)
+
+# Calculate the critical value for a 95% confidence interval
+z <- qnorm(c(0.025, 0.975))
+
+z0 <- z*sd0
+zA <- z*sdA
+
+ggplot(data.frame(x, y0), aes(x, y0)) +
+  geom_ribbon(data = subset(data.frame(x, y0), x > -Inf & x < Inf),
+              aes(ymin = 0, ymax = y0),
+              fill = "gray40",
+              alpha = 0.5,color = 'black') +
+  geom_ribbon(data = subset(data.frame(x, y0), x > z0[1] & x < z0[2]),
+              aes(ymin = 0, ymax = y0),
+              fill = "white",
+              alpha = 1,color = 'black') +
+  geom_line(data = data.frame(x,yA),
+            aes(x,yA)) + 
+  geom_ribbon(data = data.frame(x,yA) %>%
+                as_tibble() %>%
+                filter(x < z0[2],x > -.1),
+              aes(x = x,ymin = 0,ymax = yA),inherit.aes = F,
+              fill = 'red',color = 'red',alpha = .1) +
+  labs(title = bquote("Sampling Distribution of"~ hat(theta)),
+       x = bquote(z),
+       y = bquote(f(hat(theta))==phi)) +
+  theme_minimal() + 
+  geom_vline(xintercept = c(0,3.5),linetype = 'dashed') + 
+  annotate(geom = 'segment',x = z0[2],y = 0,xend = z0[2],yend = .205,color = 'red') + 
+  # annotate(geom = 'segment',x = 1.96,y = -.05,xend = Inf,yend = -.05,
+  #            size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = z0[2],y = -.05,xend = 0,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = 0,y = -.05,xend = Inf,yend = -.05,
+           arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) +
+  annotate(geom = 'segment',x = z0[2],y = -.075,xend = z0[2],yend = -0.025) + 
+  # annotate(geom = 'segment',x = -1.96,y = -.075,xend = -1.96,yend = -0.025) + 
+  annotate(geom = 'label',x = 0,y = -Inf,label = expression(theta[0]),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 3.5,y = -Inf,label = expression(theta[A]),vjust = 0,parse = T) + 
+  # annotate(geom = 'segment',x = -.95,xend = .95,y = .25,yend= .25,
+  #          arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) + 
+  # annotate(geom = 'label',x = 0,y = Inf,label = expression(1-alpha),vjust = 5.5,parse = T) + 
+  # annotate(geom = 'label',x = -2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 3.05,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 2.05,y = .01,label = expression(beta),vjust = 0,parse = T,color = 'red') + 
+  scale_x_continuous(breaks = z0[2],labels = c(expression(theta[0]+z[alpha/2]~sigma[hat(theta)]))) + 
+  theme(axis.title.x = element_text(hjust = 1))
+```
+
+---
+
+# $\frac{\partial\text{Power}}{\partial \sigma}$
+
+- We know that $\frac{\partial\Phi\bigg(\frac{(\theta_0 - \theta_A)\sqrt{n}}{\sigma} + z_{\alpha}\bigg)}{\partial \sigma} > 0$ (since $\theta_0 - \theta_A < 0$) so $\frac{\partial\text{Power}}{\partial \sigma} < 0$
+  
+- Visually:
+
+```{r,echo=F,warning=F,message=F}
+# Load necessary library
+library(ggplot2)
+
+# Define the mean and standard deviation
+mean0 <- 0
+sd0 <- 1.4
+meanA <- 3.5
+sdA <- 1
+
+# Define the range for x values
+x <- seq(-4, 10, length.out = 1000)
+
+# Define the density function for the normal distribution
+y0 <- dnorm(x, mean0, sd0)
+yA <- dnorm(x,meanA,sdA)
+
+# Calculate the critical value for a 95% confidence interval
+z <- qnorm(c(0.025, 0.975))
+
+z0 <- z*sd0
+zA <- z*sdA
+
+ggplot(data.frame(x, y0), aes(x, y0)) +
+  geom_ribbon(data = subset(data.frame(x, y0), x > -Inf & x < Inf),
+              aes(ymin = 0, ymax = y0),
+              fill = "gray40",
+              alpha = 0.5,color = 'black') +
+  geom_ribbon(data = subset(data.frame(x, y0), x > z0[1] & x < z0[2]),
+              aes(ymin = 0, ymax = y0),
+              fill = "white",
+              alpha = 1,color = 'black') +
+  geom_line(data = data.frame(x,yA),
+            aes(x,yA)) + 
+  geom_ribbon(data = data.frame(x,yA) %>%
+                as_tibble() %>%
+                filter(x < z0[2],x > -.1),
+              aes(x = x,ymin = 0,ymax = yA),inherit.aes = F,
+              fill = 'red',color = 'red',alpha = .1) +
+  labs(title = bquote("Sampling Distribution of"~ hat(theta)),
+       x = bquote(z),
+       y = bquote(f(hat(theta))==phi)) +
+  theme_minimal() + 
+  geom_vline(xintercept = c(0,3.5),linetype = 'dashed') + 
+  annotate(geom = 'segment',x = z0[2],y = 0,xend = z0[2],yend = .3,color = 'red') + 
+  # annotate(geom = 'segment',x = 1.96,y = -.05,xend = Inf,yend = -.05,
+  #            size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = z0[2],y = -.05,xend = 0,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = 0,y = -.05,xend = Inf,yend = -.05,
+           arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) +
+  annotate(geom = 'segment',x = z0[2],y = -.075,xend = z0[2],yend = -0.025) + 
+  # annotate(geom = 'segment',x = -1.96,y = -.075,xend = -1.96,yend = -0.025) + 
+  annotate(geom = 'label',x = 0,y = -Inf,label = expression(theta[0]),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 3.5,y = -Inf,label = expression(theta[A]),vjust = 0,parse = T) + 
+  # annotate(geom = 'segment',x = -.95,xend = .95,y = .25,yend= .25,
+  #          arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) + 
+  # annotate(geom = 'label',x = 0,y = Inf,label = expression(1-alpha),vjust = 5.5,parse = T) + 
+  # annotate(geom = 'label',x = -2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 3.35,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 2.35,y = .01,label = expression(beta),vjust = 0,parse = T,color = 'red') + 
+  scale_x_continuous(breaks = z0[2],labels = c(expression(theta[0]+z[alpha/2]~sigma[hat(theta)]))) + 
+  theme(axis.title.x = element_text(hjust = 1))
+```
+
+---
+
+# $\frac{\partial\text{Power}}{\partial n}$
+
+- We know that $\frac{\partial\Phi\bigg(\frac{(\theta_0 - \theta_A)\sqrt{n}}{\sigma} + z_{\alpha}\bigg)}{\partial n} < 0$ so $\frac{\partial\text{Power}}{\partial n} > 0$
+  
+- Visually:
+
+
+```{r,echo=F,warning=F,message=F}
+# Load necessary library
+library(ggplot2)
+
+# Define the mean and standard deviation
+mean0 <- 0
+sd0 <- 1
+meanA <- 3.5
+sdA <- 1
+
+# Define the range for x values
+x <- seq(-4, 10, length.out = 1000)
+
+# Define the density function for the normal distribution
+y0 <- dnorm(x, mean0, sd0)
+yA <- dnorm(x,meanA,sdA)
+
+# Calculate the critical value for a 95% confidence interval
+z <- qnorm(c(0.025, 0.975))
+
+z0 <- z*sd0
+zA <- z*sdA
+
+ggplot(data.frame(x, y0), aes(x, y0)) +
+  geom_ribbon(data = subset(data.frame(x, y0), x > -Inf & x < Inf),
+              aes(ymin = 0, ymax = y0),
+              fill = "gray40",
+              alpha = 0.5,color = 'black') +
+  geom_ribbon(data = subset(data.frame(x, y0), x > z0[1] & x < z0[2]),
+              aes(ymin = 0, ymax = y0),
+              fill = "white",
+              alpha = 1,color = 'black') +
+  geom_line(data = data.frame(x,yA),
+            aes(x,yA)) + 
+  geom_ribbon(data = data.frame(x,yA) %>%
+                as_tibble() %>%
+                filter(x < z0[2],x > -.1),
+              aes(x = x,ymin = 0,ymax = yA),inherit.aes = F,
+              fill = 'red',color = 'red',alpha = .1) +
+  labs(title = bquote("Sampling Distribution of"~ hat(theta)),
+       x = bquote(z),
+       y = bquote(f(hat(theta))==phi)) +
+  theme_minimal() + 
+  geom_vline(xintercept = c(0,3.5),linetype = 'dashed') + 
+  annotate(geom = 'segment',x = z0[2],y = 0,xend = z0[2],yend = .12,color = 'red') + 
+  # annotate(geom = 'segment',x = 1.96,y = -.05,xend = Inf,yend = -.05,
+  #            size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = z0[2],y = -.05,xend = 0,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = 0,y = -.05,xend = Inf,yend = -.05,
+           arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) +
+  annotate(geom = 'segment',x = z0[2],y = -.075,xend = z0[2],yend = -0.025) + 
+  # annotate(geom = 'segment',x = -1.96,y = -.075,xend = -1.96,yend = -0.025) + 
+  annotate(geom = 'label',x = 0,y = -Inf,label = expression(theta[0]),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 3.5,y = -Inf,label = expression(theta[A]),vjust = 0,parse = T) + 
+  # annotate(geom = 'segment',x = -.95,xend = .95,y = .25,yend= .25,
+  #          arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) + 
+  # annotate(geom = 'label',x = 0,y = Inf,label = expression(1-alpha),vjust = 5.5,parse = T) + 
+  # annotate(geom = 'label',x = -2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 1.5,y = .01,label = expression(beta),vjust = 0,parse = T,color = 'red') + 
+  scale_x_continuous(breaks = z0[2],labels = c(expression(theta[0]+z[alpha/2]~sigma[hat(theta)]))) + 
+  theme(axis.title.x = element_text(hjust = 1))
+```
+
+---
+
+# $\frac{\partial\text{Power}}{\partial n}$
+
+- We know that $\frac{\partial\Phi\bigg(\frac{(\theta_0 - \theta_A)\sqrt{n}}{\sigma} + z_{\alpha}\bigg)}{\partial n} < 0$ so $\frac{\partial\text{Power}}{\partial n} > 0$
+  
+- Visually:
+
+
+```{r,echo=F,warning=F,message=F}
+# Load necessary library
+library(ggplot2)
+
+# Define the mean and standard deviation
+mean0 <- 0
+sd0 <- .8
+meanA <- 3.5
+sdA <- 1
+
+# Define the range for x values
+x <- seq(-4, 10, length.out = 1000)
+
+# Define the density function for the normal distribution
+y0 <- dnorm(x, mean0, sd0)
+yA <- dnorm(x,meanA,sdA)
+
+# Calculate the critical value for a 95% confidence interval
+z <- qnorm(c(0.025, 0.975))
+
+z0 <- z*sd0
+zA <- z*sdA
+
+ggplot(data.frame(x, y0), aes(x, y0)) +
+  geom_ribbon(data = subset(data.frame(x, y0), x > -Inf & x < Inf),
+              aes(ymin = 0, ymax = y0),
+              fill = "gray40",
+              alpha = 0.5,color = 'black') +
+  geom_ribbon(data = subset(data.frame(x, y0), x > z0[1] & x < z0[2]),
+              aes(ymin = 0, ymax = y0),
+              fill = "white",
+              alpha = 1,color = 'black') +
+  geom_line(data = data.frame(x,yA),
+            aes(x,yA)) + 
+  geom_ribbon(data = data.frame(x,yA) %>%
+                as_tibble() %>%
+                filter(x < z0[2],x > -.1),
+              aes(x = x,ymin = 0,ymax = yA),inherit.aes = F,
+              fill = 'red',color = 'red',alpha = .1) +
+  labs(title = bquote("Sampling Distribution of"~ hat(theta)),
+       x = bquote(z),
+       y = bquote(f(hat(theta))==phi)) +
+  theme_minimal() + 
+  geom_vline(xintercept = c(0,3.5),linetype = 'dashed') + 
+  annotate(geom = 'segment',x = z0[2],y = 0,xend = z0[2],yend = .07,color = 'red') + 
+  # annotate(geom = 'segment',x = 1.96,y = -.05,xend = Inf,yend = -.05,
+  #            size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = z0[2],y = -.05,xend = 0,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = 0,y = -.05,xend = Inf,yend = -.05,
+           arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) +
+  annotate(geom = 'segment',x = z0[2],y = -.075,xend = z0[2],yend = -0.025) + 
+  # annotate(geom = 'segment',x = -1.96,y = -.075,xend = -1.96,yend = -0.025) + 
+annotate(geom = 'label',x = mean0,y = -Inf,label = expression(theta[0]),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = meanA,y = -Inf,label = expression(theta[A]),vjust = 0,parse = T) + 
+  # annotate(geom = 'segment',x = -.95,xend = .95,y = .25,yend= .25,
+  #          arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) + 
+  # annotate(geom = 'label',x = 0,y = Inf,label = expression(1-alpha),vjust = 5.5,parse = T) + 
+  # annotate(geom = 'label',x = -2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 2.25,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 1.25,y = .01,label = expression(beta),vjust = 0,parse = T,color = 'red') + 
+  scale_x_continuous(breaks = z0[2],labels = c(expression(theta[0]+z[alpha/2]~sigma[hat(theta)]))) + 
+  theme(axis.title.x = element_text(hjust = 1))
+```
+
+---
+
+# $\frac{\partial\text{Power}}{\partial n}$
+
+- We know that $\frac{\partial\Phi\bigg(\frac{(\theta_0 - \theta_A)\sqrt{n}}{\sigma} + z_{\alpha}\bigg)}{\partial n} < 0$ so $\frac{\partial\text{Power}}{\partial n} > 0$
+  
+- Visually:
+
+
+```{r,echo=F,warning=F,message=F}
+# Load necessary library
+library(ggplot2)
+
+# Define the mean and standard deviation
+mean0 <- 0
+sd0 <- .6
+meanA <- 3.5
+sdA <- 1
+
+# Define the range for x values
+x <- seq(-4, 10, length.out = 1000)
+
+# Define the density function for the normal distribution
+y0 <- dnorm(x, mean0, sd0)
+yA <- dnorm(x,meanA,sdA)
+
+# Calculate the critical value for a 95% confidence interval
+z <- qnorm(c(0.025, 0.975))
+
+z0 <- z*sd0
+zA <- z*sdA
+
+ggplot(data.frame(x, y0), aes(x, y0)) +
+  geom_ribbon(data = subset(data.frame(x, y0), x > -Inf & x < Inf),
+              aes(ymin = 0, ymax = y0),
+              fill = "gray40",
+              alpha = 0.5,color = 'black') +
+  geom_ribbon(data = subset(data.frame(x, y0), x > z0[1] & x < z0[2]),
+              aes(ymin = 0, ymax = y0),
+              fill = "white",
+              alpha = 1,color = 'black') +
+  geom_line(data = data.frame(x,yA),
+            aes(x,yA)) + 
+  geom_ribbon(data = data.frame(x,yA) %>%
+                as_tibble() %>%
+                filter(x < z0[2],x > -.1),
+              aes(x = x,ymin = 0,ymax = yA),inherit.aes = F,
+              fill = 'red',color = 'red',alpha = .1) +
+  labs(title = bquote("Sampling Distribution of"~ hat(theta)),
+       x = bquote(z),
+       y = bquote(f(hat(theta))==phi)) +
+  theme_minimal() + 
+  geom_vline(xintercept = c(0,3.5),linetype = 'dashed') + 
+  annotate(geom = 'segment',x = z0[2],y = 0,xend = z0[2],yend = .021,color = 'red') + 
+  # annotate(geom = 'segment',x = 1.96,y = -.05,xend = Inf,yend = -.05,
+  #            size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = z0[2],y = -.05,xend = 0,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = 0,y = -.05,xend = Inf,yend = -.05,
+           arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) +
+  annotate(geom = 'segment',x = z0[2],y = -.075,xend = z0[2],yend = -0.025) + 
+  # annotate(geom = 'segment',x = -1.96,y = -.075,xend = -1.96,yend = -0.025) + 
+annotate(geom = 'label',x = mean0,y = -Inf,label = expression(theta[0]),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = meanA,y = -Inf,label = expression(theta[A]),vjust = 0,parse = T) + 
+  # annotate(geom = 'segment',x = -.95,xend = .95,y = .25,yend= .25,
+  #          arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) + 
+  # annotate(geom = 'label',x = 0,y = Inf,label = expression(1-alpha),vjust = 5.5,parse = T) + 
+  # annotate(geom = 'label',x = -2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 1.75,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = .75,y = .01,label = expression(beta),vjust = 0,parse = T,color = 'red') + 
+  scale_x_continuous(breaks = z0[2],labels = c(expression(theta[0]+z[alpha/2]~sigma[hat(theta)]))) + 
+  theme(axis.title.x = element_text(hjust = 1))
+```
+
+---
+
+# $\frac{\partial\text{Power}}{\partial (|\theta_0 - \theta_A|)}$
+
+- We know that $\frac{\partial\Phi\bigg(\frac{(\theta_0 - \theta_A)\sqrt{n}}{\sigma} + z_{\alpha}\bigg)}{\partial (|\theta_0 - \theta_A|)} < 0$ so $\frac{\partial\text{Power}}{\partial (|\theta_0 - \theta_A|)} > 0$
+  
+- Visually:
+
+
+```{r,echo=F,warning=F,message=F}
+# Load necessary library
+library(ggplot2)
+
+# Define the mean and standard deviation
+mean0 <- 0
+sd0 <- 1
+meanA <- 3.5
+sdA <- 1
+
+# Define the range for x values
+x <- seq(-4, 10, length.out = 1000)
+
+# Define the density function for the normal distribution
+y0 <- dnorm(x, mean0, sd0)
+yA <- dnorm(x,meanA,sdA)
+
+# Calculate the critical value for a 95% confidence interval
+z <- qnorm(c(0.025, 0.975))
+
+z0 <- z*sd0
+zA <- z*sdA
+
+ggplot(data.frame(x, y0), aes(x, y0)) +
+  geom_ribbon(data = subset(data.frame(x, y0), x > -Inf & x < Inf),
+              aes(ymin = 0, ymax = y0),
+              fill = "gray40",
+              alpha = 0.5,color = 'black') +
+  geom_ribbon(data = subset(data.frame(x, y0), x > z0[1] & x < z0[2]),
+              aes(ymin = 0, ymax = y0),
+              fill = "white",
+              alpha = 1,color = 'black') +
+  geom_line(data = data.frame(x,yA),
+            aes(x,yA)) + 
+  geom_ribbon(data = data.frame(x,yA) %>%
+                as_tibble() %>%
+                filter(x < z0[2],x > -.1),
+              aes(x = x,ymin = 0,ymax = yA),inherit.aes = F,
+              fill = 'red',color = 'red',alpha = .1) +
+  labs(title = bquote("Sampling Distribution of"~ hat(theta)),
+       x = bquote(z),
+       y = bquote(f(hat(theta))==phi)) +
+  theme_minimal() + 
+  geom_vline(xintercept = c(mean0,meanA),linetype = 'dashed') + 
+  annotate(geom = 'segment',x = z0[2],y = 0,xend = z0[2],yend = .12,color = 'red') + 
+  # annotate(geom = 'segment',x = 1.96,y = -.05,xend = Inf,yend = -.05,
+  #            size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = z0[2],y = -.05,xend = 0,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = 0,y = -.05,xend = Inf,yend = -.05,
+           arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) +
+  annotate(geom = 'segment',x = z0[2],y = -.075,xend = z0[2],yend = -0.025) + 
+  # annotate(geom = 'segment',x = -1.96,y = -.075,xend = -1.96,yend = -0.025) + 
+  annotate(geom = 'label',x = mean0,y = -Inf,label = expression(theta[0]),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = meanA,y = -Inf,label = expression(theta[A]),vjust = 0,parse = T) + 
+  # annotate(geom = 'segment',x = -.95,xend = .95,y = .25,yend= .25,
+  #          arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) + 
+  # annotate(geom = 'label',x = 0,y = Inf,label = expression(1-alpha),vjust = 5.5,parse = T) + 
+  # annotate(geom = 'label',x = -2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 1.5,y = .01,label = expression(beta),vjust = 0,parse = T,color = 'red') + 
+  scale_x_continuous(breaks = z0[2],labels = c(expression(theta[0]+z[alpha/2]~sigma[hat(theta)]))) + 
+  theme(axis.title.x = element_text(hjust = 1))
+```
+
+---
+
+# $\frac{\partial\text{Power}}{\partial (|\theta_0 - \theta_A|)}$
+
+- We know that $\frac{\partial\Phi\bigg(\frac{(\theta_0 - \theta_A)\sqrt{n}}{\sigma} + z_{\alpha}\bigg)}{\partial (|\theta_0 - \theta_A|)} < 0$ so $\frac{\partial\text{Power}}{\partial (|\theta_0 - \theta_A|)} > 0$
+  
+- Visually:
+
+
+```{r,echo=F,warning=F,message=F}
+# Load necessary library
+library(ggplot2)
+
+# Define the mean and standard deviation
+mean0 <- -.2
+sd0 <- 1
+meanA <- 3.7
+sdA <- 1
+
+# Define the range for x values
+x <- seq(-4, 10, length.out = 1000)
+
+# Define the density function for the normal distribution
+y0 <- dnorm(x, mean0, sd0)
+yA <- dnorm(x,meanA,sdA)
+
+# Calculate the critical value for a 95% confidence interval
+z <- qnorm(c(0.025, 0.975))
+
+z0 <- mean0 + z*sd0
+zA <- meanA + z*sdA
+
+ggplot(data.frame(x, y0), aes(x, y0)) +
+  geom_ribbon(data = subset(data.frame(x, y0), x > -Inf & x < Inf),
+              aes(ymin = 0, ymax = y0),
+              fill = "gray40",
+              alpha = 0.5,color = 'black') +
+  geom_ribbon(data = subset(data.frame(x, y0), x > z0[1] & x < z0[2]),
+              aes(ymin = 0, ymax = y0),
+              fill = "white",
+              alpha = 1,color = 'black') +
+  geom_line(data = data.frame(x,yA),
+            aes(x,yA)) + 
+  geom_ribbon(data = data.frame(x,yA) %>%
+                as_tibble() %>%
+                filter(x < z0[2],x > -.1),
+              aes(x = x,ymin = 0,ymax = yA),inherit.aes = F,
+              fill = 'red',color = 'red',alpha = .1) +
+  labs(title = bquote("Sampling Distribution of"~ hat(theta)),
+       x = bquote(z),
+       y = bquote(f(hat(theta))==phi)) +
+  theme_minimal() + 
+  geom_vline(xintercept = c(mean0,meanA),linetype = 'dashed') + 
+  annotate(geom = 'segment',x = z0[2],y = 0,xend = z0[2],yend = .061,color = 'red') + 
+  # annotate(geom = 'segment',x = 1.96,y = -.05,xend = Inf,yend = -.05,
+  #            size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = z0[2],y = -.05,xend = 0,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = 0,y = -.05,xend = Inf,yend = -.05,
+           arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) +
+  annotate(geom = 'segment',x = z0[2],y = -.075,xend = z0[2],yend = -0.025) + 
+  # annotate(geom = 'segment',x = -1.96,y = -.075,xend = -1.96,yend = -0.025) + 
+  annotate(geom = 'label',x = 0,y = -Inf,label = expression(theta[0]),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 3.5,y = -Inf,label = expression(theta[A]),vjust = 0,parse = T) + 
+  # annotate(geom = 'segment',x = -.95,xend = .95,y = .25,yend= .25,
+  #          arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) + 
+  # annotate(geom = 'label',x = 0,y = Inf,label = expression(1-alpha),vjust = 5.5,parse = T) + 
+  # annotate(geom = 'label',x = -2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 2.35,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 1.35,y = .01,label = expression(beta),vjust = 0,parse = T,color = 'red') + 
+  scale_x_continuous(breaks = z0[2],labels = c(expression(theta[0]+z[alpha/2]~sigma[hat(theta)]))) + 
+  theme(axis.title.x = element_text(hjust = 1))
+```
+
+---
+
+# $\frac{\partial\text{Power}}{\partial (|\theta_0 - \theta_A|)}$
+
+- We know that $\frac{\partial\Phi\bigg(\frac{(\theta_0 - \theta_A)\sqrt{n}}{\sigma} + z_{\alpha}\bigg)}{\partial (|\theta_0 - \theta_A|)} < 0$ so $\frac{\partial\text{Power}}{\partial (|\theta_0 - \theta_A|)} > 0$
+  
+- Visually:
+
+
+```{r,echo=F,warning=F,message=F}
+# Load necessary library
+library(ggplot2)
+
+# Define the mean and standard deviation
+mean0 <- -.4
+sd0 <- 1
+meanA <- 3.9
+sdA <- 1
+
+# Define the range for x values
+x <- seq(-4, 10, length.out = 1000)
+
+# Define the density function for the normal distribution
+y0 <- dnorm(x, mean0, sd0)
+yA <- dnorm(x,meanA,sdA)
+
+# Calculate the critical value for a 95% confidence interval
+z <- qnorm(c(0.025, 0.975))
+
+z0 <- mean0 + z*sd0
+zA <- meanA + z*sdA
+
+ggplot(data.frame(x, y0), aes(x, y0)) +
+  geom_ribbon(data = subset(data.frame(x, y0), x > -Inf & x < Inf),
+              aes(ymin = 0, ymax = y0),
+              fill = "gray40",
+              alpha = 0.5,color = 'black') +
+  geom_ribbon(data = subset(data.frame(x, y0), x > z0[1] & x < z0[2]),
+              aes(ymin = 0, ymax = y0),
+              fill = "white",
+              alpha = 1,color = 'black') +
+  geom_line(data = data.frame(x,yA),
+            aes(x,yA)) + 
+  geom_ribbon(data = data.frame(x,yA) %>%
+                as_tibble() %>%
+                filter(x < z0[2],x > -.1),
+              aes(x = x,ymin = 0,ymax = yA),inherit.aes = F,
+              fill = 'red',color = 'red',alpha = .1) +
+  labs(title = bquote("Sampling Distribution of"~ hat(theta)),
+       x = bquote(z),
+       y = bquote(f(hat(theta))==phi)) +
+  theme_minimal() + 
+  geom_vline(xintercept = c(mean0,meanA),linetype = 'dashed') + 
+  annotate(geom = 'segment',x = z0[2],y = 0,xend = z0[2],yend = .021,color = 'red') + 
+  # annotate(geom = 'segment',x = 1.96,y = -.05,xend = Inf,yend = -.05,
+  #            size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = z0[2],y = -.05,xend = 0,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = 0,y = -.05,xend = Inf,yend = -.05,
+           arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) +
+  annotate(geom = 'segment',x = z0[2],y = -.075,xend = z0[2],yend = -0.025) + 
+  # annotate(geom = 'segment',x = -1.96,y = -.075,xend = -1.96,yend = -0.025) + 
+  annotate(geom = 'label',x = 0,y = -Inf,label = expression(theta[0]),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 3.5,y = -Inf,label = expression(theta[A]),vjust = 0,parse = T) + 
+  # annotate(geom = 'segment',x = -.95,xend = .95,y = .25,yend= .25,
+  #          arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) + 
+  # annotate(geom = 'label',x = 0,y = Inf,label = expression(1-alpha),vjust = 5.5,parse = T) + 
+  # annotate(geom = 'label',x = -2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 2.15,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 1.15,y = .01,label = expression(beta),vjust = 0,parse = T,color = 'red') + 
+  scale_x_continuous(breaks = z0[2],labels = c(expression(theta[0]+z[alpha/2]~sigma[hat(theta)]))) + 
+  theme(axis.title.x = element_text(hjust = 1))
+```
+
+---
+
+# $p$-values
+
+- Thus far, everything has been very black-or-white: choose $\alpha$ and then say **reject** or **accept**
+
+  - Throwing away potentially useful information
+  
+- Report the $p$-value: **attained significance level**
+
+  - Smallest level of significance $\alpha$ for which the observed data indicate that we should **reject** $H_0$
+  
+- The smaller the $p$-value, the more compelling is the evidence that the null should be rejected
+
+  - Null should be rejected for **any value of $\alpha$ down to and including the $p$-value**
+  
+$$
+\begin{aligned}
+\text{Reject }H_0 &\equiv p \leq \alpha\\
+\text{Accept }H_0 &\equiv \alpha \leq p
+\end{aligned}
+$$
+
+---
+
+# Example
+
+- Study compares reaction times of men and women. I.i.d. random samples of 50 men and 50 women drawn to produce this table.
+
+| Men | Women |
+| --- | --- |
+| $n_1 = 50$ | $n_2 = 50$ |
+| $\bar{y}_1 = 3.6$ | $\bar{y}_2 = 3.8$ |
+| $s_1^2 = .18$ | $s_2^2 = .14$ |
+
+- Do the data present sufficient evidence to suggest a difference between true mean reaction times for men and women? Use $\alpha = 0.05$. Then, report the $p$-value associated with this conclusion.
+
+```{r,message=F,echo=F,warning=F,results='hide'}
+dir <- getwd()
+type <- 'pdf'
+format <- 'landscape'
+f <- 'Lecture_11_slides'
+
+# system(paste('Rscript ../NFGH/chromeprint.R',dir,type,format,f),wait = F)
+```
