@@ -276,7 +276,6 @@ Lecture Content (2023/10/03): Hypothesis testing
 Lecture Content (2023/10/05): Power
 
 * Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_11_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_11_slides.html#1)
-* Notes: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_11_notes.pdf)
 
 Lecture Content (2023/10/10): P-values
 
