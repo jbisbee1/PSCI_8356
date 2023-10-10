@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Lecture 12</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Prof. Bisbee" />
+    <script src="libs/header-attrs-2.18/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/lexis.css" type="text/css" />
+    <link rel="stylesheet" href="css/lexis-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Lecture 12
+]
+.subtitle[
+## Quantitative Political Science
+]
+.author[
+### Prof. Bisbee
+]
+.institute[
+### Vanderbilt University
+]
+.date[
+### Lecture Date: 2023/10/10
+Slides Updated: 2023-10-09
+]
+
+---
+
+
+&lt;style type="text/css"&gt;
+.small .remark-code { /*Change made here*/
+  font-size: 85% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+&lt;/style&gt;
+
+
+
+# Agenda
+
+1. Small Sample Significance Tests
+
+2. Degrees of Freedom
+
+3. Review of Inference with One Variable
+
+---
+
+# Small Sample Significance Tests
+
+- What happens with `\(n\)` is small?
+
+- Start as before, `\(Y_1, Y_2, \dots, Y_n\)` are a random sample drawn from Normal population with `\(\bar{Y}\)` and `\(S_U^2\)` as before
+
+- Want construct CI for `\(\mu\)` when `\(VAR(Y_i) = \sigma^2\)` is unknown and `\(n\)` is small
+
+- Since `\(n\)` is small, we can't rely on the CLT to assume that `\(\bar{Y} \sim \mathcal{N}(\mu,\sigma^2)\)`
+
+---
+
+# Small Samples
+
+- Assume: `\(Y \sim \mathcal{N(\mu,\sigma^2)}\)`
+
+- Theorem: Linear combination of independent, Normally-distributed RVs is itself Normally distributed
+
+  - See Chapter 6 for proof if interested (Fang!)
+  
+- "Linear combination": sum of products of RVs and scalars: `\(\sum_i^J a_i Y_i\)`
+
+- `\(\bar{Y}\)` is one such linear combination where `\(a_i\)`s are `\(\frac{1}{n}\)`
+
+- Thus, if we assume `\(Y \sim \mathcal{N}(\mu,\sigma^2)\)`, then `\(\bar{Y}\)` is too
+
+---
+
+# Small Samples
+
+- Given that each `\(Y_i\)` is itself a random variable, we can standardize each just like before
+
+$$
+`\begin{aligned}
+Z_i = \frac{Y_i - \mu}{\sigma}
+\end{aligned}`
+$$
+
+- Consider the **sum of squares** of this quantity
+
+$$
+`\begin{aligned}
+\sum Z_i^2 = \sum_i \bigg(\frac{Y_i - \mu}{\sigma}\bigg)^2
+\end{aligned}`
+$$
+- This sum of squares takes on a **chi-squared ( `\(\chi^2\)` ) distribution with `\(n\)` degrees of freedom**
+
+- NB: *any* sum of squares of a normally distributed RV will take on this distribution
+
+---
+
+# Chi-Squared Distributions
+
+&lt;img src="Lecture_12_slides_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Degrees of Freedom
+
+- "Degrees of Freedom": number of independent pieces of information on which the statistic is based
+
+  - Pieces of information you have ( `\(n\)` ) minus the number you need to generate the statistic
+  
+  - I.e., to calculate `\(\bar{Y}\)` from `\(n = 3\)` observations, we calculate `\(\bar{Y} = \frac{Y_1 + Y_2 + Y_3}{3}\)`
+
+  - Contrast with the sample standard deviation (unbiased) 
+  
+---
+
+# Student's `\(t\)`-distribution
+
+- Thus far, we have been focused on a Normal distribution
+
+  - CLT gave us a pass to rely on the normal for inference
+  
+- But in practice, we actually rely on something called the **Student's `\(t\)`-distribution**
+
+- Defined as `\(T = \frac{Z}{\sqrt{W/\nu}}\)`
+
+  - Standard normal RV `\(Z\)` over square root of `\(\chi^2\)` RV `\(W\)` divided by its degrees of freedom `\(\nu\)`
+
+
+- Similar to the Normal:
+
+  - Gnarly formula: `\(f(y) = \frac{\Gamma\bigg[\frac{\nu + 1}{2}\bigg]}{\Gamma\bigg[\frac{\nu}{2}\bigg]}*\frac{1}{\sqrt{\nu \pi}\bigg(1 + \frac{y^2}{\nu}\bigg)^{\frac{\nu+1}{2}}}\)`
+  
+  - Symmetric around 0
+  
+- But..."fatter tails"
+
+
+---
+
+# Fatter Tails
+
+&lt;img src="Lecture_12_slides_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Fatter Tails
+
+&lt;img src="Lecture_12_slides_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Fatter Tails
+
+&lt;img src="Lecture_12_slides_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Fatter Tails
+
+&lt;img src="Lecture_12_slides_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Fatter Tails
+
+&lt;img src="Lecture_12_slides_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Fatter Tails
+
+&lt;img src="Lecture_12_slides_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Fatter Tails
+
+&lt;img src="Lecture_12_slides_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Fatter Tails
+
+&lt;img src="Lecture_12_slides_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+
+  
+---
+
+# Putting it together
+
+- So we have a distribution with known quantities for the sum of squared standardized RVs
+
+- However, as always, we don't know `\(\sigma\)`
+
+- Recall that we proposed `\(S_u^2 = \frac{1}{n-1} \sum_i (Y_i - \bar{Y})^2\)`
+
+- Turns out that `\(\frac{(n-1)S_u^2}{\sigma^2} \sim \chi^2_{n-1}\)` (call this `\(\chi^2\)`-RV `\(W\)`)
+
+$$
+`\begin{aligned}
+W &amp;= \frac{(n-1)S_u^2}{\sigma^2} \\
+&amp;= \frac{(n-1)\frac{1}{n-1}\sum_i (Y_i - \bar{Y})^2}{\sigma^2}\\
+&amp;= \frac{1}{\sigma^2}\sum_i (Y_i - \bar{Y})^2
+\end{aligned}`
+$$
+
+- Since `\(\sum_i \bigg(\frac{Y_i - \mu}{\sigma}\bigg)^2 \sim \chi^2_{n-1}\)`, `\(W \sim \chi^2_{n-1}\)`
+
+---
+
+# Putting it together
+
+- Remember, we've been using `\(\frac{\bar{Y} - \mu}{S_u / \sqrt{n}}\)` to calculate our test statistics
+
+- But look at this more closely...this is equivalent to `\(\frac{Z}{\sqrt{W/\nu}}\)`!
+
+$$
+`\begin{aligned}
+\frac{\bar{Y} - \mu}{S_u / \sqrt{n}} &amp;=  \sqrt{n}\frac{\bar{Y} - \mu}{S_u}\\
+&amp;= \frac{\frac{\sqrt{n}(\bar{Y} - \mu)}{\sigma}}{\frac{S_U}{\sigma}}\\
+&amp;= \frac{\frac{(\bar{Y} - \mu)}{\sigma/\sqrt{n}}}{\sqrt{\frac{(n-1)S_U^2}{\sigma^2}/(n-1)}}\\
+&amp;= \frac{Z}{\sqrt{W/\nu}}
+\end{aligned}`
+$$
+
+---
+
+# Small Sample Inference
+
+- These findings allow us to construct `\(100(1-\alpha)\)`% CIs around estimates of `\(\mu\)` drawn from **small samples** of a Normally distributed population
+
+- For example:
+
+$$
+`\begin{aligned}
+P(-t_{\alpha/2,\nu} \leq T \leq t_{\alpha/2,\nu}) &amp;= 1-\alpha\\
+P\bigg(-t_{\alpha/2,\nu} \leq \frac{\bar{Y} - \mu}{S_U/\sqrt{n}} \leq t_{\alpha/2,\nu}\bigg) &amp;= 1-\alpha\\
+P\bigg(-t_{\alpha/2,\nu}\frac{S_U}{\sqrt{n}} - \bar{Y} \leq - \mu \leq t_{\alpha/2,\nu}\frac{S_U}{\sqrt{n}} + \bar{Y}\bigg) &amp;= 1-\alpha\\
+P\bigg(t_{\alpha/2,\nu}\frac{S_U}{\sqrt{n}} + \bar{Y} \geq \mu \geq t_{\alpha/2,\nu}\frac{S_U}{\sqrt{n}} - \bar{Y}\bigg) &amp;= 1-\alpha\\
+\end{aligned}`
+$$
+
+---
+
+# Small Sample Inference
+
+- Note that the CI here is VERY similar to that we used earlier
+
+  - Instead of `\(\bar{Y} \pm z_{\alpha/2}\frac{S_U}{\sqrt{n}}\)` we use `\(\bar{Y} \pm t_{\alpha/2,\nu}\frac{S_U}{\sqrt{n}}\)`
+  
+- Also, hypothesis testing is almost identical
+
+  - `\(H_0\)`: `\(\mu = \mu_0\)`
+  
+  - `\(H_A\)`: `\(\mu \neq \mu_0\)` (two-tailed) or `\(\mu &gt; \mu_0\)` or `\(\mu &lt; \mu_0\)` (one-tailed)
+  
+  - Test stat: `\(T = \frac{\bar{Y} - \mu}{S_U / \sqrt{n}}\)`
+  
+  - RR: `\(|t| &gt; t_{\alpha/2,\nu}\)`
+
+
+---
+
+# Difference in Means
+
+- `\(\mu_1 - \mu_2\)` style tests are very similar as well
+
+  - Recall in the large-$n$ case, the test statistic was `\(Z = \frac{\bar{y}_1 - \bar{y}_2 - 0}{\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}}}\)`
+  
+- Here, we make an additional assumption that `\(\sigma_1^2 = \sigma_2^2\)`. We do this for two reasons:
+
+  1. With small `\(n\)`, it is hard to get good estimates of `\(\sigma^2\)` (remember it takes lots of `\(n\)` for the consistency of `\(S_U^2\)` to kick in)
+  
+  2. It's a minor sin: we are already assuming `\(Y_1\)` and `\(Y_2\)` are Normal!
+  
+- We can then calculate the "s-squared pooled" as `\(s_p^2 = \frac{(n_1 - 1)S_{U1}^2 + (n_2 - 1)S_{U2}^2}{n_1 + n_2 - 2}\)`
+
+- And the test statistic then becomes `\(T = \frac{\bar{y}_1 - \bar{y}_2 - 0}{s_p \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}}\)`
+
+---
+
+# Conclusion
+
+- To conduct small `\(n\)` inference, we have been piling up the assumptions
+
+- What if the underlying random variables are not Normal?
+
+  - Statisticians test sensitivity by sampling from known nonnormal distributions
+  
+  - Moderate departures from normality have little effect on the probability distribution of the test statistic
+  
+  - (But beware!)
+  
+- Note that the `\(t\)` is indistinguishable from the Normal at high DF, a `\(t\)`-test is indistinguishable from a `\(z\)`-test at most sample sizes we typically deal with
+
+  - Thus, we are always claiming to be running `\(t\)`-tests when in fact we might as well be running `\(z\)`-tests
+
+---
+
+# End of first half
+
+- Recap of assumptions:
+
+1. **Random sample:** yields *independent* and *identically distributed* observations
+  
+  - Assures us that `\(\bar{Y}\)` is unbiased estimator of `\(\mu\)`
+  
+2. **Large enough `\(n\)`:** buys us three assumptions!
+
+  - **CLT:** with large enough `\(n\)`, sampling distribution for `\(\bar{Y}\)` is Normal
+  
+  - **Consistency:** with large enough `\(n\)`, variance of estimator goes to zero
+
+  - **Slutzky's Theorem:** Ratio of function that converges to standard Normal over a function that converges to 1 will itself converge to standard Normal
+
+3. If `\(n\)` is small, then need `\(Y \sim \mathcal{N}(\mu,\sigma^2)\)`
+  
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
