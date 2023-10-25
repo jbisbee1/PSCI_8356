@@ -390,7 +390,7 @@ exploring the relationship between turnout (measured with variable
 <pre class="r"><code>require(tidyverse)
 require(haven)
 
-dat &lt;- read_dta(&#39;../NFGH/Quant I Fall 2013 for JB/Quant I Fall 2013 for JB/problem sets/cpsnov2012.dta&#39;)
+dat &lt;- read_dta(&#39;./cpsnov2012.dta&#39;)
 
 dat %&gt;%
   ggplot(aes(x = pes1,y = hefaminc)) + 
@@ -399,15 +399,26 @@ dat %&gt;%
 <ol style="list-style-type: lower-alpha">
 <li>There are many, many things wrong with this figure with regard to
 both accuracy and style. Name as many as you can.</li>
+</ol>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<ol start="2" style="list-style-type: lower-alpha">
 <li>Construct a well-designed figure that best displays the relationship
 between household income and turnout. This will require recoding
 variables and thinking carefully about the levels at which both
 variables are measured. Provide the <code>R</code> commands you used to
 recode variables and construct the figure. In a brief paragraph, explain
 why you made the choices that you did.</li>
+</ol>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<ol start="3" style="list-style-type: lower-alpha">
 <li>In a few sentences, describe the relationship you see between income
 and turnout.</li>
 </ol>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
 </div>
 <div id="question-2" class="section level1">
 <h1>Question 2</h1>
@@ -416,6 +427,10 @@ turnout–best approximates a linear relationship? The variable to use for
 educational attainment is <code>peeduca</code>. Note that it, like
 <code>hefaminc</code>, is coded at the ordinal level but you want to
 analyze it as an interval-level variable.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
 </div>
 <div id="question-3" class="section level1">
 <h1>Question 3</h1>
@@ -433,19 +448,42 @@ for each of these three groups.</p>
 You will also need to make choices about how to deal with missing
 values. Justify any choices you make in a note accompanying the
 figure.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
 <p>Using the proper statistical tests with an <span class="math inline">\(\alpha =.05\)</span>, answer the following
 questions. Note that additional recoding may be necessary.</p>
 <ol style="list-style-type: lower-alpha">
 <li>Do native-born Americans have higher incomes than non-native born
 Americans?</li>
+</ol>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<ol start="2" style="list-style-type: lower-alpha">
 <li>Do native-born Americans whose parents were born in the U.S. have
 higher incomes than native-born Americans with at least one parent
 <strong>not</strong> born in the U.S.?</li>
+</ol>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<ol start="3" style="list-style-type: lower-alpha">
 <li>Do Americans with a foreign-born father and a native-born mother
 have lower incomes than Americans with a foreign-born mother and a
 native-born father?</li>
 </ol>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
 <p>In a few sentences, describe your results.</p>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
 </div>
 <div id="question-4" class="section level1">
 <h1>Question 4</h1>
@@ -460,26 +498,49 @@ y=\beta _{0}+\beta _{1}x+v,
 <ol style="list-style-type: lower-alpha">
 <li>First, show how omitting a variable <span class="math inline">\(z\)</span> can bias estimates of <span class="math inline">\(\beta_{1}\)</span> in a <em>positive</em>
 direction:</li>
+</ol>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<ol start="2" style="list-style-type: lower-alpha">
 <li>Pick three variables from the dataset: a dependent variable (<span class="math inline">\(y\)</span>), an independent variable (<span class="math inline">\(x\)</span>) and a potential confound (<span class="math inline">\(z\)</span>).</li>
+</ol>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<ol start="3" style="list-style-type: lower-alpha">
 <li>Theoretically justify your designations of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> as independent and dependent variables,
 and <span class="math inline">\(z\)</span> as a potential
 confounder.</li>
+</ol>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<ol start="4" style="list-style-type: lower-alpha">
 <li>Recode the variables if necessary.</li>
 <li>Generate a correlation matrix with your three variables. Discuss how
 the matrix indicates that <span class="math inline">\(\widehat{\beta
 }_{1}\)</span>will be biased upward if you estimate the model <span class="math inline">\(y=\beta _{0}+\beta _{1}x+v\)</span> when the true
 model is <span class="math inline">\(y=\beta _{0}+\beta _{1}x+\beta
 _{2}z+u\)</span>.</li>
+</ol>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
+<ol start="6" style="list-style-type: lower-alpha">
 <li>Estimate the models <span class="math inline">\(y=\beta _{0}+\beta
 _{1}x+v\)</span> and <span class="math inline">\(y=\beta_{0}+\beta
 _{1}x+\beta _{2}z+u.\)</span> Discuss how the results confirm your
 expectations.</li>
 </ol>
-<p>Now repeat this process. But this time choose <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>
-and <span class="math inline">\(z\)</span> that illustrate how omitting
-a variable <span class="math inline">\(z\)</span> can bias estimates of
-<span class="math inline">\(\beta _{1}\)</span> in a <em>negative</em>
-direction.</p>
+<pre class="r"><code># INSERT CODE HERE</code></pre>
+<blockquote>
+<p>Write answer here</p>
+</blockquote>
 </div>
 
 
