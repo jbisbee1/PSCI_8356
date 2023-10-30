@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Lecture 15</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Prof. Bisbee" />
+    <script src="libs/header-attrs-2.18/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/lexis.css" type="text/css" />
+    <link rel="stylesheet" href="css/lexis-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Lecture 15
+]
+.subtitle[
+## Quantitative Political Science
+]
+.author[
+### Prof. Bisbee
+]
+.institute[
+### Vanderbilt University
+]
+.date[
+### Lecture Date: 2023/10/31
+Slides Updated: 2023-10-29
+]
+
+---
+
+
+&lt;style type="text/css"&gt;
+.small .remark-code { /*Change made here*/
+  font-size: 85% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+&lt;/style&gt;
+
+
+
+# Agenda
+
+1. Moving from description to inference
+
+2. Unbiasedness
+
+3. OVB
+
+---
+
+# Inference
+
+- Thus far, `\(\hat{y_i} = \hat{\beta}_0 + \hat{\beta}_1 x_i\)` is a description of our data
+
+  - `\(\hat{\beta}_0\)` and `\(\hat{\beta}_1\)` are just like the empirical mean or empirical variance
+  
+- But we might want to learn about these parameters in the population
+
+  - Just like we use `\(\bar{Y}\)` to learn about `\(\mu\)`, we want to find estimators for `\(\beta_0\)` and `\(\beta_1\)`
+  
+- As before, we want to find **unbiased** and **low variance** estimators
+
+---
+
+# Unbiasedness
+
+- If we can accept four assumptions, we can use `\(\hat{\beta}_0\)` and `\(\hat{\beta}_1\)` as unbiased estimators for the population parameters
+
+Assumption 1. The relationship between `\(x\)` and `\(y\)` is linear in its parameters, and it is probabilistic
+
+  - Relationship is not changing over values of `\(x\)`
+  
+  - True values are defined by `\(y_i = \beta_0 + \beta_1 x_i + u_i\)`: **error** `\(u_i\)` means that the relationship between `\(y\)` and `\(x\)` is never **deterministic**. In the population, there is some amount of error.
+  
+  - Note that `\(\hat{u}_i\)` is the **residual** from our sample, whereas `\(u_i\)` is the inherent error. This relationship is probabilistic.
+  
+---
+
+# Unbiasedness
+
+Assumption 2. sample of `\(x\)` and `\(y\)` is **i.i.d.**
+
+Assumption 3. `\(VAR(X) \neq 0\)`
+
+Assumption 4. `\(u\)` has an expected value of zero, no matter what value `\(x\)` takes on
+
+  - `\(E(u|x) = 0\)`: "zero conditional mean". VERY strong assumption. Requires other things that predict `\(y\)` are **not** correlated with `\(x\)`.
+  
+  - I.e., `\(income = \beta_0 + \beta_1 education + u\)`. We know income is predicted by more than education. But in this specification, we are assuming that these other factors are uncorrelated with education. 
+  
+  - Equivalent to writing `\(cov(u,x) = 0\)`. But we can't test with `\(corr(\hat{u}_i,x_i)\)` in the sample! This will always be true by construction based on how we calculate `\(\hat{\beta}_0\)` and `\(\hat{\beta}_1\)`!
+  
+---
+
+# Unbiasedness of `\(\hat{\beta}_1\)`
+
+- `\(\hat{\beta}_1 = \frac{S_{xy}}{S_{xx}} = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{\sum(x_i - \bar{x})^2}\)`
+
+- If `\(VAR(x) = 0\)`, this is not defined (hence Assumption 3)
+
+- Note that we can rewrite the numerator as
+
+$$
+`\begin{aligned}
+\sum(x_i - \bar{x})(y_i - \bar{y}) &amp;= \sum(x_i - \bar{x})y_i - \sum(x_i - \bar{x})\bar{y} \\
+&amp;= \sum(x_i - \bar{x})y_i - [\sum x_i\bar{y} - \sum\bar{x}\bar{y}] \\
+&amp;= \sum(x_i - \bar{x})y_i - [n\bar{x}\bar{y} - n\bar{x}\bar{y}] \\
+&amp;= \sum(x_i - \bar{x})y_i
+\end{aligned}`
+$$
+
+---
+
+# Unbiasedness of `\(\hat{\beta}_1\)`
+
+- So
+
+$$
+`\begin{aligned}
+\hat{\beta}_1 &amp;= \frac{\sum(x_i - \bar{x})y_i}{\sum(x_i - \bar{x})^2}\\
+&amp;= \frac{\sum(x_i - \bar{x})(\beta_0 + \beta_1 x_i + u_i)}{SST_x}\\
+&amp;= \frac{\beta_0\sum(x_i - \bar{x}) + \beta_1\sum(x_i - \bar{x}) x_i + \sum(x_i - \bar{x})u_i)}{SST_x}\\
+\end{aligned}`
+$$
+- Note that `\(\sum(x_i - \bar{x}) = \sum x_i - \sum \bar{x} = n\bar{x} - n\bar{x} = 0\)`, so the first part of the numerator drops out.
+
+$$
+`\begin{aligned}
+\hat{\beta}_1 &amp;= \frac{\beta_1\sum(x_i - \bar{x}) x_i + \sum(x_i - \bar{x})u_i)}{SST_x}\\
+\end{aligned}`
+$$
+
+- Let's dig into the second and third parts in order
+
+---
+
+# Unbiasedness of `\(\hat{\beta}_1\)`
+
+$$
+`\begin{aligned}
+\sum(x_i - \bar{x})x_i &amp;= \sum(x_i^2 - x_i\bar{x})\\
+&amp;= \sum x_i^2 - \bar{x}\sum(x_i)\\
+&amp;= \sum x_i^2 - n(\bar{x})^2\\
+&amp;= \sum x_i^2 - 2n(\bar{x})^2 + n(\bar{x})^2\\
+&amp;= \sum x_i^2 - 2\bar{x}\sum x_i + \sum (\bar{x})^2 \text{:: since } n\bar{x} = \sum x_i \text{ and } n(\bar{x})^2 = \sum (\bar{x})^2\\
+&amp;= \sum [x_i^2 - 2\bar{x}x_i + (\bar{x})^2]\\
+&amp;= \sum (x_i - \bar{x})^2\\
+&amp;= SST_x
+\end{aligned}`
+$$
+
+---
+
+# Unbiasedness of `\(\hat{\beta}_1\)`
+
+- All of this allows us to write `\(\hat{\beta}_1 = \frac{\beta_1 SST_x + \sum(x_i - \bar{x})u_i}{SST_x}\)` which is the same as `\(\hat{\beta}_1 = \beta_1 + \frac{\sum(x_i - \bar{x})u_i}{SST_x}\)`
+
+- To find the bias, just take the expectation of `\(\hat{\beta}_1\)`
+
+- A trick! **L**aw of **I**terated **E**xpectations (LIE)
+
+  - Expectation of a conditional expectation is just the expectation
+  
+  - `\(E[E[X|Y]] = E[X]\)`
+  
+  - Conditional expectation allows us to treat the condition as a constant
+  
+- Use to calculate the expectation of `\(\hat{\beta}_1\)` conditional on `\(x\)`: `\(E[\hat{\beta}_1|x]\)`
+
+---
+
+# Unbiasedness of `\(\hat{\beta}_1\)`
+
+$$
+`\begin{aligned}
+E(\hat{\beta}_1) &amp;= E[E[\hat{\beta}_1|x]]\\
+E[\hat{\beta}_1|x] &amp;= E\bigg[\beta_1 + \frac{\sum(x_i - \bar{x})u_i}{SST_x} ~\bigg| ~x\bigg]\\
+&amp;= E[\beta_1 | x] + E\bigg[\frac{1}{SST_x}\sum(x_i - \bar{x})u_i ~\bigg| ~x\bigg]\\
+&amp;= \beta_1 + \frac{1}{SST_x}E[\sum(x_i - \bar{x})u_i |x]\\
+&amp;= \beta_1 + \frac{1}{SST_x} \sum (x_i - \bar{x}) E[u_i | x]
+\end{aligned}`
+$$
+- Assumption 4: `\(E[u_i | x] = 0\)`, meaning `\(E[\hat{\beta}_1 | x] = \beta_1\)`, meaning `\(E(\hat{\beta}_1) = \beta_1\)`, meaning unbiased!
+
+---
+
+# Unbiasedness of `\(\hat{\beta}_0\)`
+
+- Recall that `\(\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}\)`
+
+- Note that, since `\(y_i = \beta_0 + \beta_1 x_i + u_i\)`, `\(\bar{y} = \beta_0 + \beta_1 \bar{x} + \bar{u}\)`
+
+$$
+`\begin{aligned}
+\hat{\beta}_0 &amp;= \beta_0 + \beta_1 \bar{x} + \bar{u} - \hat{\beta}_1 \bar{x}\\
+&amp;= \beta_0 + (\beta_1 - \hat{\beta}_1)\bar{x} + \bar{u}\\
+E(\hat{\beta}_0) &amp;= E\bigg[\beta_0 + (\beta_1 - \hat{\beta}_1)\bar{x} + \bar{u}\bigg]\\
+&amp;= E(\beta_0) + E\bigg[(\beta_1 - \hat{\beta}_1)\bar{x}\bigg] + E(\bar{u}) \\
+&amp;= \beta_0 + \bigg(E[\beta_1] - E[\hat{\beta}_1] \bigg)\bar{x} + 0\\
+&amp;= \beta_0 + (\beta_1 - \beta_1)\bar{x} + 0\\
+&amp;= \beta_0
+\end{aligned}`
+$$
+
+---
+
+# OVB
+
+- What if the true relationship is `\(y_i = \beta_0 + \beta_1 x_i + \beta_2 z_i + \nu_i\)`?
+
+- We don't measure / observe / think about `\(z\)`, and model `\(y_i = \beta_0 + \beta_1 x_i + u_i\)`
+
+- In practice, we are actually pushing `\(\beta_2 z_i\)` into the error term: `\(y_i + \beta_0 + \beta_1 x_i + (\beta_2 z_i + \nu_i)\)`, meaning `\(u_i = \beta_2 z_i + \nu_i\)`
+
+- We've just demonstrated that `\(\hat{\beta}_1 = \beta_1 + \frac{\sum(x_i - \bar{x})u_i}{SST_x}\)`, but now `\(u_i = \beta_2 z_i + \nu_i\)`
+
+- We can calculate the bias as before, with LIE
+
+---
+
+# OVB
+
+$$
+`\begin{aligned}
+\hat{\beta}_1 &amp;= \beta_1 + \frac{\sum(x_i - \bar{x})(\beta_2 z_i + \nu_i)}{SST_x}\\
+E(\hat{\beta}_1) &amp;= E[E(\hat{\beta}_1|x)] \\
+&amp;= E\bigg[\beta_1 + \frac{\sum(x_i - \bar{x})(\beta_2 z_i + \nu_i)}{SST_x}~\bigg|~x\bigg]\\
+&amp;= \beta_1 + \frac{\sum(x_i - \bar{x})E[(\beta_2 z_i + \nu_i)]}{SST_x}\\
+&amp;= \beta_1 + \beta_2\bigg[z_i \frac{\sum(x_i - \bar{x})}{SST_x}\bigg]
+\end{aligned}`
+$$
+- Note that `\(z_i \frac{\sum(x_i - \bar{x})}{SST_x} = \frac{cov(x,z)}{var(x)}\)` which is the slope of the coefficient had we regressed `\(z\)` on `\(x\)`!
+
+---
+
+# OVB
+
+- Bias definition: `\(B(\hat{\theta}) = E(\hat{\theta}) - \theta\)`
+
+- OVB is just a type of bias: 
+$$
+`\begin{aligned}
+B(\hat{\beta}_1) &amp;= E(\hat{\beta}_1) - \beta_1\\
+&amp;= \beta_1 + \beta_2 \frac{cov(x,z)}{var(x)} - \beta_1\\
+&amp;= \beta_2 \frac{cov(x,z)}{var(x)}
+\end{aligned}`
+$$
+- We can **sign** OVB with theory (this is what discussants are always doing)
+
+  - `\(\beta_2\)` is theorized relationship between `\(z\)` and `\(y\)`
+  
+  - `\(cov(x,z)\)` is theorized relationship between `\(z\)` and `\(x\)`
+  
+---
+
+# OVB
+
+- Regress support for Obama ($y$) on Democratic PID ($x$)
+
+  - Omit African-American race ($z$)
+  
+- `\(\beta_2\)`?
+
+- `\(cov(x,z)\)`?
+
+- OVB?
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "17:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

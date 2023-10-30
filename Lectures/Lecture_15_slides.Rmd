@@ -78,7 +78,7 @@ Assumption 1. The relationship between $x$ and $y$ is linear in its parameters, 
   
   - True values are defined by $y_i = \beta_0 + \beta_1 x_i + u_i$: **error** $u_i$ means that the relationship between $y$ and $x$ is never **deterministic**. In the population, there is some amount of error.
   
-  - Note that $\hat{u}_$ is the **residual** from our sample, whereas $u_i$ is the inherent error. This relationship is probabilistic.
+  - Note that $\hat{u}_i$ is the **residual** from our sample, whereas $u_i$ is the inherent error. This relationship is probabilistic.
   
 ---
 
@@ -128,7 +128,13 @@ $$
 &= \frac{\beta_0\sum(x_i - \bar{x}) + \beta_1\sum(x_i - \bar{x}) x_i + \sum(x_i - \bar{x})u_i)}{SST_x}\\
 \end{aligned}
 $$
-- Note that $\sum(x_i - \bar{x}) = 0$, so the first part of the numerator drops out.
+- Note that $\sum(x_i - \bar{x}) = \sum x_i - \sum \bar{x} = n\bar{x} - n\bar{x} = 0$, so the first part of the numerator drops out.
+
+$$
+\begin{aligned}
+\hat{\beta}_1 &= \frac{\beta_1\sum(x_i - \bar{x}) x_i + \sum(x_i - \bar{x})u_i)}{SST_x}\\
+\end{aligned}
+$$
 
 - Let's dig into the second and third parts in order
 
@@ -157,13 +163,115 @@ $$
 
 - To find the bias, just take the expectation of $\hat{\beta}_1$
 
+- A trick! **L**aw of **I**terated **E**xpectations (LIE)
+
+  - Expectation of a conditional expectation is just the expectation
+  
+  - $E[E[X|Y]] = E[X]$
+  
+  - Conditional expectation allows us to treat the condition as a constant
+  
+- Use to calculate the expectation of $\hat{\beta}_1$ conditional on $x$: $E[\hat{\beta}_1|x]$
+
+---
+
+# Unbiasedness of $\hat{\beta}_1$
+
 $$
 \begin{aligned}
-E(\hat{\beta}_1) &= E\bigg[\beta_1 + \frac{\sum(x_i - \bar{x})u_i}{SST_x}\bigg]\\
-&= \beta_1 + \frac{1}{SST_x}E[\sum(x_i - \bar{x})u_i]\\
-&= \beta_1 + \frac{1}{SST_x}E[\sum(x_i - \bar{x})u_i]\\
+E(\hat{\beta}_1) &= E[E[\hat{\beta}_1|x]]\\
+E[\hat{\beta}_1|x] &= E\bigg[\beta_1 + \frac{\sum(x_i - \bar{x})u_i}{SST_x} ~\bigg| ~x\bigg]\\
+&= E[\beta_1 | x] + E\bigg[\frac{1}{SST_x}\sum(x_i - \bar{x})u_i ~\bigg| ~x\bigg]\\
+&= \beta_1 + \frac{1}{SST_x}E[\sum(x_i - \bar{x})u_i |x]\\
+&= \beta_1 + \frac{1}{SST_x} \sum (x_i - \bar{x}) E[u_i | x]
 \end{aligned}
 $$
+- Assumption 4: $E[u_i | x] = 0$, meaning $E[\hat{\beta}_1 | x] = \beta_1$, meaning $E(\hat{\beta}_1) = \beta_1$, meaning unbiased!
+
+---
+
+# Unbiasedness of $\hat{\beta}_0$
+
+- Recall that $\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}$
+
+- Note that, since $y_i = \beta_0 + \beta_1 x_i + u_i$, $\bar{y} = \beta_0 + \beta_1 \bar{x} + \bar{u}$
+
+$$
+\begin{aligned}
+\hat{\beta}_0 &= \beta_0 + \beta_1 \bar{x} + \bar{u} - \hat{\beta}_1 \bar{x}\\
+&= \beta_0 + (\beta_1 - \hat{\beta}_1)\bar{x} + \bar{u}\\
+E(\hat{\beta}_0) &= E\bigg[\beta_0 + (\beta_1 - \hat{\beta}_1)\bar{x} + \bar{u}\bigg]\\
+&= E(\beta_0) + E\bigg[(\beta_1 - \hat{\beta}_1)\bar{x}\bigg] + E(\bar{u}) \\
+&= \beta_0 + \bigg(E[\beta_1] - E[\hat{\beta}_1] \bigg)\bar{x} + 0\\
+&= \beta_0 + (\beta_1 - \beta_1)\bar{x} + 0\\
+&= \beta_0
+\end{aligned}
+$$
+
+---
+
+# OVB
+
+- What if the true relationship is $y_i = \beta_0 + \beta_1 x_i + \beta_2 z_i + \nu_i$?
+
+- We don't measure / observe / think about $z$, and model $y_i = \beta_0 + \beta_1 x_i + u_i$
+
+- In practice, we are actually pushing $\beta_2 z_i$ into the error term: $y_i + \beta_0 + \beta_1 x_i + (\beta_2 z_i + \nu_i)$, meaning $u_i = \beta_2 z_i + \nu_i$
+
+- We've just demonstrated that $\hat{\beta}_1 = \beta_1 + \frac{\sum(x_i - \bar{x})u_i}{SST_x}$, but now $u_i = \beta_2 z_i + \nu_i$
+
+- We can calculate the bias as before, with LIE
+
+---
+
+# OVB
+
+$$
+\begin{aligned}
+\hat{\beta}_1 &= \beta_1 + \frac{\sum(x_i - \bar{x})(\beta_2 z_i + \nu_i)}{SST_x}\\
+E(\hat{\beta}_1) &= E[E(\hat{\beta}_1|x)] \\
+&= E\bigg[\beta_1 + \frac{\sum(x_i - \bar{x})(\beta_2 z_i + \nu_i)}{SST_x}~\bigg|~x\bigg]\\
+&= \beta_1 + \frac{\sum(x_i - \bar{x})E[(\beta_2 z_i + \nu_i)]}{SST_x}\\
+&= \beta_1 + \beta_2\bigg[z_i \frac{\sum(x_i - \bar{x})}{SST_x}\bigg]
+\end{aligned}
+$$
+- Note that $z_i \frac{\sum(x_i - \bar{x})}{SST_x} = \frac{cov(x,z)}{var(x)}$ which is the slope of the coefficient had we regressed $z$ on $x$!
+
+---
+
+# OVB
+
+- Bias definition: $B(\hat{\theta}) = E(\hat{\theta}) - \theta$
+
+- OVB is just a type of bias: 
+$$
+\begin{aligned}
+B(\hat{\beta}_1) &= E(\hat{\beta}_1) - \beta_1\\
+&= \beta_1 + \beta_2 \frac{cov(x,z)}{var(x)} - \beta_1\\
+&= \beta_2 \frac{cov(x,z)}{var(x)}
+\end{aligned}
+$$
+- We can **sign** OVB with theory (this is what discussants are always doing)
+
+  - $\beta_2$ is theorized relationship between $z$ and $y$
+  
+  - $cov(x,z)$ is theorized relationship between $z$ and $x$
+  
+---
+
+# OVB
+
+- Regress support for Obama ($y$) on Democratic PID ($x$)
+
+  - Omit African-American race ($z$)
+  
+- $\beta_2$?
+
+- $cov(x,z)$?
+
+- OVB?
+
+
 
 ```{r,message=F,echo=F,warning=F,results='hide'}
 dir <- getwd()
