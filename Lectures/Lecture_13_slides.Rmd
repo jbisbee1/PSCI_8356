@@ -175,7 +175,7 @@ dat %>%
 
 ```{r,message=F,warning=F}
 dat %>%
-  ggplot(aes(x = sat_avg,fill = control)) + 
+  ggplot(aes(x = sat_avg,fill = region)) + 
   geom_histogram(position = 'dodge')
 ```
 
@@ -187,9 +187,15 @@ dat %>%
 - Boxplots / violin plots (`geom_boxplot()` / `geom_violin()`): $X$ is categorical and $Y$ is continuous
 
 ```{r,message=F,warning=F}
+helper <- dat %>%
+  group_by(region) %>%
+  summarise(medSAT = median(sat_avg,na.rm=T))
 dat %>%
+  mutate(region = factor(region,levels = helper %>% arrange(medSAT) %>% pull(region))) %>%
   ggplot(aes(x = sat_avg,y = reorder(region,sat_avg))) + 
-  geom_boxplot()
+  geom_boxplot(outlier.colour = 'red')
+
+
 ```
 
 ---
@@ -214,8 +220,11 @@ dat %>%
 
 ```{r,message=F,warning=F}
 dat %>%
-  ggplot(aes(x = costt4_a,y = md_earn_wne_p6)) + 
-  geom_point()
+  filter(md_earn_wne_p6 > 70000,control == 'Public')
+dat %>%
+  ggplot(aes(x = costt4_a,y = md_earn_wne_p6,color = control)) + 
+  geom_point() + 
+  geom_smooth(method = 'lm')
 ```
 
 ---
@@ -228,8 +237,9 @@ dat %>%
   
 ```{r}
 dat %>%
-  drop_na(sat_quartiles) %>%
-  group_by(sat_quartiles) %>%
+  drop_na(sat_avg) %>%
+  # mutate()
+  group_by(sat_avg) %>%
   summarise(mean_earn = mean(md_earn_wne_p6,na.rm=T))
 ```
 

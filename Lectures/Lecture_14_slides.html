@@ -27,7 +27,7 @@ class: center, middle, inverse, title-slide
 ]
 .date[
 ### Lecture Date: 2023/10/26
-Slides Updated: 2023-10-22
+Slides Updated: 2023-10-29
 ]
 
 ---
@@ -145,7 +145,7 @@ $$
 
 
 
-&lt;center&gt;&lt;img src="./scaffolding/regression-line.gif" width = 80%&gt;&lt;/center&gt;
+&lt;center&gt;&lt;img src="./scaffolding/SSR.gif" width = 80%&gt;&lt;/center&gt;
 
 ---
 
@@ -530,11 +530,7 @@ $$
 \hat{\beta}_1 &amp;= \frac{S_{xy}}{S_{xx}}
 \end{aligned}`
 $$
-- Note that
-
-$$
-\frac{cov(x,y)}{var(x)} = \frac{\frac{S_{xy}}{n}}{\frac{S_{xx}}{n}}
-$$
+- Note that `\(\frac{cov(x,y)}{var(x)} = \frac{\frac{S_{xy}}{n}}{\frac{S_{xx}}{n}}\)`
 
 - So
 
@@ -568,13 +564,13 @@ $$
 
 - Some additional properties
 
-1. `\(\hat{\beta}_1 = \frac{\Delta\hat{y}}{\Delta x}\)`: 
+Prop 1. `\(\hat{\beta}_1 = \frac{\Delta\hat{y}}{\Delta x}\)`: 
 
   - Take derivative of `\(\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x\)` with respect to `\(x\)`.
   
   - `\(\frac{d\hat{y}}{dx} = \hat{\beta}_1\)`. A one-unit change in `\(x\)` is associated with a `\(\hat{\beta}_1\)` unit change in `\(\hat{y}\)`. Or `\(\hat{\beta}_1 = \frac{\Delta\hat{y}}{\Delta x}\)`
   
-2. `\(\sum_i \hat{u}_i = 0\)`: 
+Prop 2. `\(\sum_i \hat{u}_i = 0\)`: 
 
   - We define `\(\hat{u}_i = y_i - \hat{y}_i\)` and substitute in `\(\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1x_i\)` to get `\(\hat{u}_i = y_i - (\hat{\beta}_0 + \hat{\beta}_1x_i)\)`. 
   
@@ -584,13 +580,13 @@ $$
 
 # Properties of the Least Squares Line
 
-3. `\(\bar{\hat{u}}_i = 0\)`:
+Prop 3. `\(\bar{\hat{u}}_i = 0\)`:
 
   - From previous slide, `\(\sum_i \hat{u}_i = 0\)`.
   
   - Thus `\(\frac{1}{n}n\sum_i \hat{u}_i = 0\)` and therefore `\(n\bar{\hat{u}}_i = 0\)` so `\(\bar{\hat{u}}_i = 0\)`
   
-4. `\(cov(x,\hat{u}) = 0\)`:
+Prop 4. `\(cov(x,\hat{u}) = 0\)`:
 
   - We know from F.O.C. for `\(\hat{\beta}_1\)` that `\(\sum_i \bigg[y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i)\bigg]x_i = 0\)`.
   
@@ -607,7 +603,7 @@ $$
 
 # Properties of the Least Squares Line
 
-5. `\(\frac{1}{n}\sum_i \hat{y}_i = \frac{1}{n}\sum_i y_i\)`
+Prop 5. `\(\frac{1}{n}\sum_i \hat{y}_i = \frac{1}{n}\sum_i y_i\)`
 
 $$
 `\begin{aligned}
@@ -618,7 +614,7 @@ y_i &amp;= \hat{y}_i + \hat{u}_i\\
 \end{aligned}`
 $$
 
-6. The coordinate `\((\bar{x},\bar{y})\)` is always on the line of best fit
+Prop 6. The coordinate `\((\bar{x},\bar{y})\)` is always on the line of best fit
 
   - Note that `\(\hat{\beta}_0 = \bar{y} - \hat{\beta}_1\bar{x}\)`
 
@@ -634,7 +630,7 @@ $$
 
 # Properties of the Least Squares Line
 
-5. `\(cov(\hat{y}_i,\hat{u}_i) = 0\)`
+Prop 7. `\(cov(\hat{y}_i,\hat{u}_i) = 0\)`
 
 $$
 `\begin{aligned}

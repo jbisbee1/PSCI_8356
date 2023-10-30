@@ -220,12 +220,17 @@ ggsave(plot = p,filename = paste0('./scaffolding/regPlotFirst_5.png'),device = '
 # Linear Regression
 
 ```{r,message=F,warning=F,echo=F}
+# require(patchwork)
+# set.seed(123)
 # pList <- list()
-# 
-# for(counter in 1:100) {
-#   a <- rnorm(1)
-#   b <- rnorm(1)
-#   pList[[counter]] <- data.frame(X = X,Y = Y) %>%
+# toplot <- NULL
+# for(counter in 1:200) {
+#   a <- rnorm(1,mean = .5,sd = 1)
+#   b <- rnorm(1,mean = .5,sd = 1)
+#   preds <- a + b*X
+#   resids <- Y - preds
+#   SSR = sum(resids^2)
+#   pTmp <-data.frame(X = X,Y = Y) %>%
 #   ggplot(aes(x = X,y = Y)) +
 #   geom_segment(x = X,y = Y,xend = X,yend = X*b+a,color = 'red',size = 1.5) +
 #   geom_point(size = 3) +
@@ -235,7 +240,57 @@ ggsave(plot = p,filename = paste0('./scaffolding/regPlotFirst_5.png'),device = '
 #   geom_abline(intercept = a,slope = b,color = 'blue',size = 2) +
 #   lims(x = c(-3,3),y = c(-3,3)) +
 #   annotate(geom = 'label',x = 0,y = Inf,label = list(bquote(alpha==~.(round(a,3))~'; '~beta==~.(round(b,3)))),vjust = 2.1,parse = T)
+#   
+#   toplot <- toplot %>%
+#     bind_rows(data.frame(SSR = SSR,
+#              counter = counter,
+#              alpha = a,
+#              beta = b))
+#   
+#   pATmp <- toplot %>%
+#     ggplot(aes(x = alpha,y = SSR)) + 
+#     geom_point() + 
+#     xlim(c(-3,4)) + 
+#     ylim(c(0,120)) + 
+#     theme_bw(base_size = 7) + 
+#     labs(x = bquote(alpha),
+#          y = NULL)
+#   pBTmp <- toplot %>%
+#     ggplot(aes(x = beta,y = SSR)) + 
+#     geom_point() + 
+#     xlim(c(-3,4)) + 
+#     ylim(c(0,120)) + 
+#     theme_bw(base_size = 7) + 
+#     labs(x = bquote(beta),
+#          y = NULL)
+#   
+#   # pHexTmp <- toplot %>%
+#   # ggplot(aes(x = alpha,y = beta,z = SSR)) + 
+#   # stat_summary_hex(fun = function(x) mean(x),bins = 15) +
+#   #   xlim(c(-3,4)) + 
+#   #   ylim(c(-3,4)) + 
+#   #   scale_fill_gradient2(name = 'SSR',low = 'white',mid = 'red',high = 'black',limits = c(5,170)) + 
+#   # # scale_fill_viridis_c(name = 'SSR',option = "magma",direction = -1) + 
+#   #   theme_bw() + 
+#   #   labs(x = bquote(alpha),
+#   #        y = bquote(beta)) + 
+#   #   theme(legend.position = 'none')
+#   (pHexTmp <- toplot %>%
+#     ggplot(aes(x = alpha,y = beta,fill = SSR)) + 
+#     geom_point(shape = 22,size = 3) + 
+#     scale_fill_gradient2(name = 'SSR',low = 'white',mid = 'red',high = 'black',limits = c(9,105),midpoint = 30) +
+#       xlim(c(-3,4)) + 
+#       ylim(c(-3,4)) + 
+#   # scale_fill_viridis_c(name = 'SSR',option = "magma",direction = -1) +
+#     theme_bw() +
+#     labs(x = bquote(alpha),
+#          y = bquote(beta)) +
+#     theme(legend.position = 'none'))
+# 
+#   pList[[counter]] <- pTmp + (pATmp + pBTmp) / (pHexTmp) + plot_layout(widths = c(3,1))
 # }
+# range(toplot$beta)
+# pList[[200]]
 # 
 # for(i in 1:length(pList)) {
 #   ggsave(plot = pList[[i]],filename = paste0('./scaffolding/regPlot_',i,'.png'),
@@ -243,23 +298,24 @@ ggsave(plot = p,filename = paste0('./scaffolding/regPlotFirst_5.png'),device = '
 # }
 # 
 # require(magick)
-# imgs <- list.files('./scaffolding/', pattern = 'regPlot_\\d+',full.names = TRUE)
-# 
+# # imgs <- list.files('./scaffolding/', pattern = 'regPlot_\\d+',full.names = TRUE)
+# imgs <- paste0('./scaffolding/regPlot_',1:200,'.png')
 # img_list <- lapply(imgs, image_read)
+# 
 # 
 # ## join the images together
 # img_joined <- image_join(img_list)
 # 
 # ## animate at 2 frames per second
-# img_animated <- image_animate(img_joined, fps = 10)
+# img_animated <- image_animate(img_joined, fps = 5)
 # 
 # ## save to disk
 # image_write(image = img_animated,
-#             path = "./scaffolding/regression-line.gif")
+#             path = "./scaffolding/SSR.gif")
 
 ```
 
-<center><img src="./scaffolding/regression-line.gif" width = 80%></center>
+<center><img src="./scaffolding/SSR.gif" width = 80%></center>
 
 ---
 
@@ -636,11 +692,7 @@ $$
 \hat{\beta}_1 &= \frac{S_{xy}}{S_{xx}}
 \end{aligned}
 $$
-- Note that
-
-$$
-\frac{cov(x,y)}{var(x)} = \frac{\frac{S_{xy}}{n}}{\frac{S_{xx}}{n}}
-$$
+- Note that $\frac{cov(x,y)}{var(x)} = \frac{\frac{S_{xy}}{n}}{\frac{S_{xx}}{n}}$
 
 - So
 
@@ -674,13 +726,13 @@ $$
 
 - Some additional properties
 
-1. $\hat{\beta}_1 = \frac{\Delta\hat{y}}{\Delta x}$: 
+Prop 1. $\hat{\beta}_1 = \frac{\Delta\hat{y}}{\Delta x}$: 
 
   - Take derivative of $\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x$ with respect to $x$.
   
   - $\frac{d\hat{y}}{dx} = \hat{\beta}_1$. A one-unit change in $x$ is associated with a $\hat{\beta}_1$ unit change in $\hat{y}$. Or $\hat{\beta}_1 = \frac{\Delta\hat{y}}{\Delta x}$
   
-2. $\sum_i \hat{u}_i = 0$: 
+Prop 2. $\sum_i \hat{u}_i = 0$: 
 
   - We define $\hat{u}_i = y_i - \hat{y}_i$ and substitute in $\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1x_i$ to get $\hat{u}_i = y_i - (\hat{\beta}_0 + \hat{\beta}_1x_i)$. 
   
@@ -690,13 +742,13 @@ $$
 
 # Properties of the Least Squares Line
 
-3. $\bar{\hat{u}}_i = 0$:
+Prop 3. $\bar{\hat{u}}_i = 0$:
 
   - From previous slide, $\sum_i \hat{u}_i = 0$.
   
   - Thus $\frac{1}{n}n\sum_i \hat{u}_i = 0$ and therefore $n\bar{\hat{u}}_i = 0$ so $\bar{\hat{u}}_i = 0$
   
-4. $cov(x,\hat{u}) = 0$:
+Prop 4. $cov(x,\hat{u}) = 0$:
 
   - We know from F.O.C. for $\hat{\beta}_1$ that $\sum_i \bigg[y_i - (\hat{\beta}_0 + \hat{\beta}_1 x_i)\bigg]x_i = 0$.
   
@@ -713,7 +765,7 @@ $$
 
 # Properties of the Least Squares Line
 
-5. $\frac{1}{n}\sum_i \hat{y}_i = \frac{1}{n}\sum_i y_i$
+Prop 5. $\frac{1}{n}\sum_i \hat{y}_i = \frac{1}{n}\sum_i y_i$
 
 $$
 \begin{aligned}
@@ -724,7 +776,7 @@ y_i &= \hat{y}_i + \hat{u}_i\\
 \end{aligned}
 $$
 
-6. The coordinate $(\bar{x},\bar{y})$ is always on the line of best fit
+Prop 6. The coordinate $(\bar{x},\bar{y})$ is always on the line of best fit
 
   - Note that $\hat{\beta}_0 = \bar{y} - \hat{\beta}_1\bar{x}$
 
@@ -740,7 +792,7 @@ $$
 
 # Properties of the Least Squares Line
 
-5. $cov(\hat{y}_i,\hat{u}_i) = 0$
+Prop 7. $cov(\hat{y}_i,\hat{u}_i) = 0$
 
 $$
 \begin{aligned}

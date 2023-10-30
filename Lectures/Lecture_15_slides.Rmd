@@ -1,0 +1,175 @@
+---
+title: "Lecture 15"
+subtitle: "Quantitative Political Science"
+author: "Prof. Bisbee"
+institute: "Vanderbilt University"
+date: "Lecture Date: 2023/10/31\n Slides Updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    # self_contained: true
+    chakra: libs/remark-latest.min.js
+    lib_dir: libs
+    css:
+      - default
+      - css/lexis.css
+      - css/lexis-fonts.css
+    #seal: false
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "17:9"
+
+---
+
+```{css,echo = F}
+.small .remark-code { /*Change made here*/
+  font-size: 85% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+```
+
+```{r,include=F}
+set.seed(123)
+options(width=60)
+knitr::opts_chunk$set(fig.align='center',fig.width=9,fig.height=5)
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+require(tidyverse)
+require(ggpubr)
+```
+
+# Agenda
+
+1. Moving from description to inference
+
+2. Unbiasedness
+
+3. OVB
+
+---
+
+# Inference
+
+- Thus far, $\hat{y_i} = \hat{\beta}_0 + \hat{\beta}_1 x_i$ is a description of our data
+
+  - $\hat{\beta}_0$ and $\hat{\beta}_1$ are just like the empirical mean or empirical variance
+  
+- But we might want to learn about these parameters in the population
+
+  - Just like we use $\bar{Y}$ to learn about $\mu$, we want to find estimators for $\beta_0$ and $\beta_1$
+  
+- As before, we want to find **unbiased** and **low variance** estimators
+
+---
+
+# Unbiasedness
+
+- If we can accept four assumptions, we can use $\hat{\beta}_0$ and $\hat{\beta}_1$ as unbiased estimators for the population parameters
+
+Assumption 1. The relationship between $x$ and $y$ is linear in its parameters, and it is probabilistic
+
+  - Relationship is not changing over values of $x$
+  
+  - True values are defined by $y_i = \beta_0 + \beta_1 x_i + u_i$: **error** $u_i$ means that the relationship between $y$ and $x$ is never **deterministic**. In the population, there is some amount of error.
+  
+  - Note that $\hat{u}_$ is the **residual** from our sample, whereas $u_i$ is the inherent error. This relationship is probabilistic.
+  
+---
+
+# Unbiasedness
+
+Assumption 2. sample of $x$ and $y$ is **i.i.d.**
+
+Assumption 3. $VAR(X) \neq 0$
+
+Assumption 4. $u$ has an expected value of zero, no matter what value $x$ takes on
+
+  - $E(u|x) = 0$: "zero conditional mean". VERY strong assumption. Requires other things that predict $y$ are **not** correlated with $x$.
+  
+  - I.e., $income = \beta_0 + \beta_1 education + u$. We know income is predicted by more than education. But in this specification, we are assuming that these other factors are uncorrelated with education. 
+  
+  - Equivalent to writing $cov(u,x) = 0$. But we can't test with $corr(\hat{u}_i,x_i)$ in the sample! This will always be true by construction based on how we calculate $\hat{\beta}_0$ and $\hat{\beta}_1$!
+  
+---
+
+# Unbiasedness of $\hat{\beta}_1$
+
+- $\hat{\beta}_1 = \frac{S_{xy}}{S_{xx}} = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{\sum(x_i - \bar{x})^2}$
+
+- If $VAR(x) = 0$, this is not defined (hence Assumption 3)
+
+- Note that we can rewrite the numerator as
+
+$$
+\begin{aligned}
+\sum(x_i - \bar{x})(y_i - \bar{y}) &= \sum(x_i - \bar{x})y_i - \sum(x_i - \bar{x})\bar{y} \\
+&= \sum(x_i - \bar{x})y_i - [\sum x_i\bar{y} - \sum\bar{x}\bar{y}] \\
+&= \sum(x_i - \bar{x})y_i - [n\bar{x}\bar{y} - n\bar{x}\bar{y}] \\
+&= \sum(x_i - \bar{x})y_i
+\end{aligned}
+$$
+
+---
+
+# Unbiasedness of $\hat{\beta}_1$
+
+- So
+
+$$
+\begin{aligned}
+\hat{\beta}_1 &= \frac{\sum(x_i - \bar{x})y_i}{\sum(x_i - \bar{x})^2}\\
+&= \frac{\sum(x_i - \bar{x})(\beta_0 + \beta_1 x_i + u_i)}{SST_x}\\
+&= \frac{\beta_0\sum(x_i - \bar{x}) + \beta_1\sum(x_i - \bar{x}) x_i + \sum(x_i - \bar{x})u_i)}{SST_x}\\
+\end{aligned}
+$$
+- Note that $\sum(x_i - \bar{x}) = 0$, so the first part of the numerator drops out.
+
+- Let's dig into the second and third parts in order
+
+---
+
+# Unbiasedness of $\hat{\beta}_1$
+
+$$
+\begin{aligned}
+\sum(x_i - \bar{x})x_i &= \sum(x_i^2 - x_i\bar{x})\\
+&= \sum x_i^2 - \bar{x}\sum(x_i)\\
+&= \sum x_i^2 - n(\bar{x})^2\\
+&= \sum x_i^2 - 2n(\bar{x})^2 + n(\bar{x})^2\\
+&= \sum x_i^2 - 2\bar{x}\sum x_i + \sum (\bar{x})^2 \text{:: since } n\bar{x} = \sum x_i \text{ and } n(\bar{x})^2 = \sum (\bar{x})^2\\
+&= \sum [x_i^2 - 2\bar{x}x_i + (\bar{x})^2]\\
+&= \sum (x_i - \bar{x})^2\\
+&= SST_x
+\end{aligned}
+$$
+
+---
+
+# Unbiasedness of $\hat{\beta}_1$
+
+- All of this allows us to write $\hat{\beta}_1 = \frac{\beta_1 SST_x + \sum(x_i - \bar{x})u_i}{SST_x}$ which is the same as $\hat{\beta}_1 = \beta_1 + \frac{\sum(x_i - \bar{x})u_i}{SST_x}$
+
+- To find the bias, just take the expectation of $\hat{\beta}_1$
+
+$$
+\begin{aligned}
+E(\hat{\beta}_1) &= E\bigg[\beta_1 + \frac{\sum(x_i - \bar{x})u_i}{SST_x}\bigg]\\
+&= \beta_1 + \frac{1}{SST_x}E[\sum(x_i - \bar{x})u_i]\\
+&= \beta_1 + \frac{1}{SST_x}E[\sum(x_i - \bar{x})u_i]\\
+\end{aligned}
+$$
+
+```{r,message=F,echo=F,warning=F,results='hide'}
+dir <- getwd()
+type <- 'pdf'
+format <- 'landscape'
+f <- 'Lecture_15_slides'
+
+# system(paste('Rscript ../NFGH/chromeprint.R',dir,type,format,f),wait = F)
+```
