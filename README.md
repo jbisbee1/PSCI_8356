@@ -295,12 +295,12 @@ Lecture Content (2023/10/10): P-values
 
 Lecture Content (2023/10/24): Relationships among RVs
 
-* Slides:
-* Homework: Wooldridge chapter 2. Problem set 4 (due October 31).
+* Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_13_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_13_slides.html#1)
+* Homework: Wooldridge chapter 2. [Problem set 4](https://github.com/jbisbee1/PSCI_8356/blob/main/Materials/pset_4.Rmd) (due November 7).
 
 Lecture Content (2023/10/26): The slope and intercept of a regression line
 
-* Slides: 
+* Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_14_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_14_slides.html#1)
 
 *[Back to Syllabus](#syllabus)*
 
@@ -308,7 +308,7 @@ Lecture Content (2023/10/26): The slope and intercept of a regression line
 
 Lecture Content (2023/10/31): Inference
 
-* Slides: 
+* Slides:  [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_15_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_15_slides.html#1)
 * Homework: Wooldridge chapters 3 and 4.
 
 Lecture Content (2023/11/02): Error variance and controls
