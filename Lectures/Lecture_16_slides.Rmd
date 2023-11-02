@@ -1,0 +1,192 @@
+---
+title: "Lecture 16"
+subtitle: "Quantitative Political Science"
+author: "Prof. Bisbee"
+institute: "Vanderbilt University"
+date: "Lecture Date: 2023/11/02\n Slides Updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    # self_contained: true
+    chakra: libs/remark-latest.min.js
+    lib_dir: libs
+    css:
+      - default
+      - css/lexis.css
+      - css/lexis-fonts.css
+    #seal: false
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "17:9"
+
+---
+
+```{css,echo = F}
+.small .remark-code { /*Change made here*/
+  font-size: 85% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+```
+
+```{r,include=F}
+set.seed(123)
+options(width=60)
+knitr::opts_chunk$set(fig.align='center',fig.width=9,fig.height=5)
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+require(tidyverse)
+require(ggpubr)
+```
+
+# Agenda
+
+1. Variance of OLS estimators
+
+2. 
+
+---
+
+# Recap
+
+- We went over 4 assumptions to characterize the bias of our OLS estimators
+
+1. Relationship between $x$ and $y$ is **linear in its parameters**
+
+2. $x$ and $y$ are drawn from a random sample, making them **i.i.d.**
+
+3. $VAR(X) \neq 0$
+
+4. $E(u|x) = 0$
+
+- With these, we demonstrated that $\hat{\beta}_0$ and $\hat{\beta}_1$ are **unbiased** for $\beta_0$ and $\beta_1$
+
+---
+
+# Sampling Distributions
+
+- $\hat{\beta}_0$ and $\hat{\beta}_1$ are statistics, just like $\bar{Y}$
+
+- When we evaluate statistics, we care about both their **bias** (last class) and their **variance**
+
+  - How far can we expect them to be from their true value (i.e., the population parameter) on average?
+  
+- In the univariate case, we were interested in the **sampling distribution** of $\bar{Y}$
+
+- Here, we are also interested in the sampling distributions of $\hat{\beta}_0$ and $\hat{\beta}_1$
+
+---
+
+# Variance
+
+- We already know the means of $\hat{\beta}_0$ and $\hat{\beta}_1$: they are $\beta_0$ and $\beta_1$ (from last class)
+
+- To compute the **variances** of $\hat{\beta}_0$ and $\hat{\beta}_1$, we need a **fifth assumption**
+
+Assumption 5: $VAR(u|x) = \sigma^2$
+
+  - The error has the **same variance** regardless of the value of $x$
+  
+- This is known as **homoskedasticity**
+
+- If this fails, we have **heteroskedasticity**
+
+---
+
+# Variance
+
+```{r,message=F,warning =F}
+require(tidyverse)
+set.seed(123)
+X <- rnorm(500,mean = 12,sd = 4)
+Y <- rnorm(500,mean = X,sd = X/3)
+Y2 <- rnorm(500,mean = X,sd = 2)
+
+p <- data.frame(X = X,Heteroskedastic = Y,Homoskedastic = Y2) %>%
+  gather(outcome,value,-X) %>%
+  mutate(outcome = factor(outcome,levels = c('Homoskedastic','Heteroskedastic'))) %>%
+  ggplot(aes(x = X,y = value)) + 
+  geom_point() + 
+  geom_smooth(method = 'lm') + 
+  facet_wrap(~outcome)
+```
+
+---
+
+# Variance
+
+```{r,message=F,warning =F}
+p
+```
+
+---
+
+# Variance
+
+- Note the difference between Assumptions 4 and 5!
+
+  - $E(u|x) = 0$
+  
+  - $VAR(u|x) = \sigma^2$
+  
+- We don't need assumption 5 for unbiasedness, but we do for variance!
+
+- What is $VAR(y|x)$?
+
+---
+
+# Variance
+
+$$
+\begin{aligned}
+VAR(y|x) &= VAR(\beta_0 + \beta_1 x + u | x)\\
+&= VAR(\beta_0 | x) + VAR(\beta_1 x | x) + VAR(u | x)\\
+&= 0 + 0 + \sigma^2\\
+&= \sigma^2
+\end{aligned}
+$$
+- What is $\sigma^2$?
+
+--
+
+- It is a measure of the **extent to which unexplained factors are affecting $y$**
+
+  - These factors are not related to $x$ (from assumption 4)
+  
+  - These factors are constant regardless of $x$ (from assumption 5)
+  
+  - When $\sigma^2$ is big, it means that other factors explain a lot of variation in $y$ beyond just $x$
+  
+  - When $\sigma^2$ is small, it means that $x$ explains a lot of variation in $y$
+  
+- Note that $\sigma^2$ is a **parameter**, something that exists in the population
+  
+---
+
+# Sampling Variance
+
+- Since $\sigma^2$ is a parameter, we want to estimate it in our sample
+
+- First, $\hat{\beta}_1$
+
+$$
+\begin{aligned}
+\hat{\beta}_1 &= \beta_1 + \frac{\sum(x_i - \bar{x})u_i}{SST_x} \\
+VAR(\hat{\beta}_1) &= 
+\end{aligned}
+$$
+
+
+```{r,message=F,echo=F,warning=F,results='hide'}
+dir <- getwd()
+type <- 'pdf'
+format <- 'landscape'
+f <- 'Lecture_16_slides'
+
+# system(paste('Rscript ../NFGH/chromeprint.R',dir,type,format,f),wait = F)
+```

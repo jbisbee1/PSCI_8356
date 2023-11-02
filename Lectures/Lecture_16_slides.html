@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Lecture 16</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Prof. Bisbee" />
+    <script src="libs/header-attrs-2.18/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/lexis.css" type="text/css" />
+    <link rel="stylesheet" href="css/lexis-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Lecture 16
+]
+.subtitle[
+## Quantitative Political Science
+]
+.author[
+### Prof. Bisbee
+]
+.institute[
+### Vanderbilt University
+]
+.date[
+### Lecture Date: 2023/11/02
+Slides Updated: 2023-10-31
+]
+
+---
+
+
+&lt;style type="text/css"&gt;
+.small .remark-code { /*Change made here*/
+  font-size: 85% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+&lt;/style&gt;
+
+
+
+# Agenda
+
+1. Variance of OLS estimators
+
+2. 
+
+---
+
+# Recap
+
+- We went over 4 assumptions to characterize the bias of our OLS estimators
+
+1. Relationship between `\(x\)` and `\(y\)` is **linear in its parameters**
+
+2. `\(x\)` and `\(y\)` are drawn from a random sample, making them **i.i.d.**
+
+3. `\(VAR(X) \neq 0\)`
+
+4. `\(E(u|x) = 0\)`
+
+- With these, we demonstrated that `\(\hat{\beta}_0\)` and `\(\hat{\beta}_1\)` are **unbiased** for `\(\beta_0\)` and `\(\beta_1\)`
+
+---
+
+# Sampling Distributions
+
+- `\(\hat{\beta}_0\)` and `\(\hat{\beta}_1\)` are statistics, just like `\(\bar{Y}\)`
+
+- When we evaluate statistics, we care about both their **bias** (last class) and their **variance**
+
+  - How far can we expect them to be from their true value (i.e., the population parameter) on average?
+  
+- In the univariate case, we were interested in the **sampling distribution** of `\(\bar{Y}\)`
+
+- Here, we are also interested in the sampling distributions of `\(\hat{\beta}_0\)` and `\(\hat{\beta}_1\)`
+
+---
+
+# Variance
+
+- We already know the means of `\(\hat{\beta}_0\)` and `\(\hat{\beta}_1\)`: they are `\(\beta_0\)` and `\(\beta_1\)` (from last class)
+
+- To compute the **variances** of `\(\hat{\beta}_0\)` and `\(\hat{\beta}_1\)`, we need a **fifth assumption**
+
+Assumption 5: `\(VAR(u|x) = \sigma^2\)`
+
+  - The error has the **same variance** regardless of the value of `\(x\)`
+  
+- This is known as **homoskedasticity**
+
+- If this fails, we have **heteroskedasticity**
+
+---
+
+# Variance
+
+
+```r
+require(tidyverse)
+set.seed(123)
+X &lt;- rnorm(500,mean = 12,sd = 4)
+Y &lt;- rnorm(500,mean = X,sd = X/3)
+Y2 &lt;- rnorm(500,mean = X,sd = 2)
+
+p &lt;- data.frame(X = X,Heteroskedastic = Y,Homoskedastic = Y2) %&gt;%
+  gather(outcome,value,-X) %&gt;%
+  mutate(outcome = factor(outcome,levels = c('Homoskedastic','Heteroskedastic'))) %&gt;%
+  ggplot(aes(x = X,y = value)) + 
+  geom_point() + 
+  geom_smooth(method = 'lm') + 
+  facet_wrap(~outcome)
+```
+
+---
+
+# Variance
+
+
+```r
+p
+```
+
+&lt;img src="Lecture_16_slides_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Variance
+
+- Note the difference between Assumptions 4 and 5!
+
+  - `\(E(u|x) = 0\)`
+  
+  - `\(VAR(u|x) = \sigma^2\)`
+  
+- We don't need assumption 5 for unbiasedness, but we do for variance!
+
+- What is `\(VAR(y|x)\)`?
+
+---
+
+# Variance
+
+$$
+`\begin{aligned}
+VAR(y|x) &amp;= VAR(\beta_0 + \beta_1 x + u | x)\\
+&amp;= VAR(\beta_0 | x) + VAR(\beta_1 x | x) + VAR(u | x)\\
+&amp;= 0 + 0 + \sigma^2\\
+&amp;= \sigma^2
+\end{aligned}`
+$$
+- What is `\(\sigma^2\)`?
+
+--
+
+- It is a measure of the **extent to which unexplained factors are affecting `\(y\)`**
+
+  - These factors are not related to `\(x\)` (from assumption 4)
+  
+  - These factors are constant regardless of `\(x\)` (from assumption 5)
+  
+  - When `\(\sigma^2\)` is big, it means that other factors explain a lot of variation in `\(y\)` beyond just `\(x\)`
+  
+  - When `\(\sigma^2\)` is small, it means that `\(x\)` explains a lot of variation in `\(y\)`
+  
+- Note that `\(\sigma^2\)` is a **parameter**, something that exists in the population
+  
+---
+
+# Sampling Variance
+
+- Since `\(\sigma^2\)` is a parameter, we want to estimate it in our sample
+
+- First, `\(\hat{\beta}_1\)`
+
+$$
+`\begin{aligned}
+\hat{\beta}_1 &amp;= \beta_1 + \frac{\sum(x_i - \bar{x})u_i}{SST_x} \\
+VAR(\hat{\beta}_1) &amp;= 
+\end{aligned}`
+$$
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "17:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
