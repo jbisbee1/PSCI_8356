@@ -168,18 +168,124 @@ $$
   
 ---
 
-# Sampling Variance
+# Variance of estimators
 
-- Since $\sigma^2$ is a parameter, we want to estimate it in our sample
+- $VAR(\hat{\beta}_0) = \frac{\sigma^2 \frac{\sum x_i^2}{n}}{SST_x}$ and $VAR(\hat{\beta}_1) = \frac{\sigma^2}{SST_x}$
 
-- First, $\hat{\beta}_1$
+- I'll leave it to you to prove $VAR(\hat{\beta}_0)$, but let's dig into $VAR(\hat{\beta}_1)$
 
 $$
 \begin{aligned}
 \hat{\beta}_1 &= \beta_1 + \frac{\sum(x_i - \bar{x})u_i}{SST_x} \\
-VAR(\hat{\beta}_1) &= 
+VAR(\hat{\beta}_1|x) &= VAR\bigg[\beta_1 + \frac{\sum(x_i - \bar{x})u_i}{SST_x}~\bigg|~x\bigg]\\
+&= VAR(\beta_1|x) + \frac{1}{SST_x^2}\sum(x_i-\bar{x})^2VAR(u_i~|~x)\\
+&= 0 + \frac{SST_x}{SST_x^2}VAR(u_i|x)\\
+&= \frac{\sigma^2}{SST_x}
 \end{aligned}
 $$
+
+---
+
+# Sampling Variance of $\hat{\beta}_1$
+
+- So $VAR(\hat{\beta}_1) = \frac{\sigma^2}{SST_x}$
+
+- Want this to be as small as possible (bias-variance tradeoff)
+
+- As $\sigma^2$ gets smaller, so does $VAR(\hat{\beta}_1)$
+
+- As $SST_x$ gets bigger, $VAR(\hat{\beta}_1)$ gets smaller
+
+- Unpack $SST_x$ for more insights!
+
+---
+
+# Sampling Variance of $\hat{\beta}_1$
+
+$$
+\begin{aligned}
+SST_x &= \sum(x_i - \bar{x})^2\\
+\frac{SST_x}{n} &= \frac{\sum(x_i - \bar{x})^2}{n}\\
+&= var(x) \text{ sample variance of }x\\
+SST_x &= n*var\\
+VAR(\hat{\beta}_1) &= \frac{\sigma^2}{n*var(x)}
+\end{aligned}
+$$
+- What can we actually manipulate here as a researcher?
+
+  - $\sigma^2$ is a parameter: it declines when $x$ explains $y$ well. But we don't have a lot of control over this.
+  
+  - $var(x)$ is the empirical variance of $x$ in our sample. It approximates the population variance, but we don't have a ton of control over this either.
+  
+  - $n$: we choose this!
+  
+---
+
+# Heteroskedasticity
+
+- The preceding results rely on the assumption of $VAR(u|x) = \sigma^2$
+
+- What if this doesn't hold?
+
+```{r,message=F,warning =F}
+p
+```
+
+---
+
+# Heteroskedasticity
+
+- We would then say that the variance of the errors conditional on $x$ is specific to that unit
+
+  - $VAR(u_i|x_i) = \sigma_i^2$
+  
+- Recall that $\hat{\beta}_1 = \frac{\sum(x_i - \bar{x})u_i}{\sum(x_i - \bar{x})^2}$ and that 
+
+$$
+\begin{aligned}
+VAR(\hat{\beta}_1) &= VAR\bigg[\frac{\sum(x_i - \bar{x})u_i}{\sum(x_i - \bar{x})^2}\bigg]\\
+&= \frac{1}{SST_x^2}\sum(x_i - \bar{x})^2 VAR(u_i|x_i)\\
+&= \frac{\sum(x_i - \bar{x})^2\sigma_i^2}{SST_x^2}
+\end{aligned}
+$$
+
+
+---
+
+# Heteroskedasticity
+
+- What to do?
+
+- In 1980, one of the most cited economics papers was written by Halbert White
+
+- In it, he proposed calculating heteroskedastic robust standard errors as $\widehat{VAR(\hat{\beta}_1)} = \frac{\sum(x_i - \bar{x})^2\hat{u}_i^2}{SST_x^2}$
+
+  - $\hat{u}_i^2$ is just the squared residual associated with each observation $i$
+  
+- These standard errors have LOTS of different names:
+
+  - "White standard errors"
+  
+  - "Huber-White standard errors"
+  
+  - "Robust standard errors"
+  
+  - "Heteroskedasticity-robust standard errors"
+  
+---
+
+# A Preview of What's to Come
+
+- The easiest thing to do is just calculate robust standard errors with $\widehat{VAR(\hat{\beta}_1)} = \frac{\sum(x_i - \bar{x})^2\hat{u}_i^2}{SST_x^2}$
+
+- However, if our fifth assumption fails (remember: $VAR(u|x) = \sigma^2$), it means that the OLS estimator is no longer the ``best'' estimator
+
+- What do we mean by ``best''? The lowest-variance!
+
+  - As an aside, **B**est **L**inear **U**nbiased **E**stimator or BLUE is a commonly used acronym for the OLS estimators. We will come back to this next week in more detail, but for now, note that we can prove **U**nbiasedness with the first four assumptions, and assumption 5 gives us **B**est
+  
+
+
 
 
 ```{r,message=F,echo=F,warning=F,results='hide'}
