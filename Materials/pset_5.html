@@ -12,7 +12,7 @@
 <meta name="author" content="[YOUR NAME]" />
 
 
-<title>Problem Set 4</title>
+<title>Problem Set 5</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -349,10 +349,10 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Problem Set 4</h1>
+<h1 class="title toc-ignore">Problem Set 5</h1>
 <h3 class="subtitle">Quantitative Political Science</h3>
 <h4 class="author">[YOUR NAME]</h4>
-<h4 class="date">Due Date: 2023-10-31</h4>
+<h4 class="date">Due Date: 2023-11-14</h4>
 
 </div>
 
@@ -367,181 +367,154 @@ font-size: 50% !important;
 </style>
 <div id="instructions" class="section level1">
 <h1>Instructions</h1>
-<p>For this assignment, you are to use the <code>cpsnov2012.dta</code>
-dataset found on our class github. This is the November 2012 Current
-Population Survey, conducted by the U.S. Census Bureau with a nationally
-representative sample of U.S. households. The codebook for the dataset
-(<a href="https://www2.census.gov/programs-surveys/cps/techdocs/cpsmar12.pdf"><code>cpsnov2012.pdf</code></a>)
-may also be found on our class github.</p>
-<p><em>Note:</em> Most of these questions require that you analyze the
-CPS’s household income variable (<code>hefaminc</code>). It is coded at
-the ordinal level, but the analyses require that it be at an interval
-level. To do this, create a recoded version of <code>hefaminc</code> in
-which each case is assigned a household income equal to the midpoint of
-its interval of <code>hefaminc</code>. For example, a household with
-income in the range of $5,000-$7,500 should be assigned the value
-$6,250, and so on.</p>
-<hr />
+<p>This problem set has three questions. The first question asks you to
+do some basic hypothesis testing to warm up. The second question asks
+you to think about how to express statistical inference with respect to
+a made-up dataset. The third question asks you to work directly with
+real data.</p>
 </div>
-<div id="question-1" class="section level1">
-<h1>Question 1</h1>
-<p>The following scatterplot was produced by an analyst interested in
-exploring the relationship between turnout (measured with variable
-<code>pes1</code>) and household income (<code>hefaminc</code>).</p>
-<pre class="r"><code>require(tidyverse)
-require(haven)
-
-dat &lt;- read_dta(&#39;./cpsnov2012.dta&#39;)
-
-dat %&gt;%
-  ggplot(aes(x = pes1,y = hefaminc)) + 
-  geom_point()</code></pre>
-<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABsAAAAPACAMAAAC8X0zrAAABOFBMVEUAAAAAADoAAGYAOjoAOmYAOpAAZrYzMzM6AAA6OgA6Ojo6OmY6ZmY6ZpA6ZrY6kLY6kNtNTU1NTW5NTY5Nbo5NbqtNjshmAABmADpmOgBmOjpmOpBmZjpmZmZmZpBmkGZmkJBmkLZmkNtmtttmtv9uTU1ubo5ujqtujshuq+SOTU2Obk2Obm6OyOSOyP+QOgCQOjqQZjqQZmaQkLaQtraQttuQ29uQ2/+rbk2rjm6ryOSr5P+2ZgC2Zjq2kDq2kGa2kJC2tpC2tra2ttu229u22/+2///Ijk3Ijm7IyKvI5P/I///bkDrbkGbbtmbbtpDbtrbbttvb27bb29vb2//b///kq27kyI7kyKvk///r6+v/tmb/yI7/25D/27b/29v/5Kv/5Mj/5OT//7b//8j//9v//+T////8Jl1kAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAgAElEQVR4nO2djbtb5X1ljxM+HAopInxMM0mnncThKwMDM52YBppO0sQNIUmngBuKIXbAvv//fzDS9ZHute+1zyudffR7V7LW87TG8ARtrXeLLekeycOJiIgIkKE6gIiIyCE4YCIigsQBExERJA6YiIggccBERASJAyYiIkgcMBERQeKAiYgIEgdMRESQOGAiIoLEARMRESQOmIiIIHHAREQEyXID9p/H45i3NYOjOpkDI6c6s+gzC8UnJebJ9lcHrAhKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMaEDNqyZvG+h21oYSqMhPtV5RsujZIr5PhMpGoCcexf9bDgSWD1hAzYMfRxBgi4a3QIjpzp3ND1KppjtM5KiAci599DPliOB1ZM1YMPQxxFE6KHRTTByqnNL26Nkirk+MykagJx7B/1sOhJYPVEDNgx9HEGGDhrdBiOnOkcaHyVTzPQZStEA5Nzr+9l2JLB6OmBl1De6EUZOdY44YF1S308HzAFLUt/oRhg51TnigHVJfT8dMAcsSX2jG2HkVOeIA9Yl9f10wKoHzIs4SmDkVOeWzHJ4EUeWDvrZx9P/bD1ZA+Zl9BUwcqpzR2Q5vIw+Sw/97OPpf7SesAHzg8wFMHKq84zEcvhB5ixd9LOPp//JetIGrOm+HfG2ZtBFo1tg5FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMSMztgX7/x8vYvVqd85zcO2ASURkN8qjOLPrNQfFJiZgfsxmocsNvXHLBGKI2G+FRnFn1mofikxEwO2L0bq+2A3dr+xcOEcg9rJu9b6LYWhtJoiE91ntHyKJlivs9EigYg595FPxuOBFbPxID94c3VbsBurF5fcsCGoY8jSNBFo1tg5FTnjqZHyRSzfUZSNAA59x762XIksHoGBuzmavXaf4wDdu/6Cz9dcMCGoY8jiNBDo5tg5FTnlrZHyRRzfWZSNAA59w762XQksHomBuzFf9y9c/j1Gy/9ev167EcfLjJgw9DHEWTooNFtMHKqc6TxUTLFTJ+hFA1Azr2+n21HAqtnYMA2bAdsew3H6q3tP3l65MB/8QOc3ffEv03kz5E+HiV9pJBz9HEky6aYO2C3VqvXPjv503ur3TuJDpjIMenjUdJHCjlHH0fS94DdHH+9eC1H4MWnbyHWwMipzhHfQuyS+n76FuL0gJ39/qXP8gPmRRwlMHKqc0tmObyII0sH/ezj6X+2ngsN2O1rD3+Sef4d39B01+ub0kQHjW6DkVOdOyLL4WX0WXroZx9P/6P1XGzAFnkF5geZK2DkVOcZieXwg8xZuuhnH0//k/XMDti96+Plhxe/kGNu4H3u2xFvawZdNLoFRk51ZtFnFopPSsxlXoHdeGjIHLBHQ2k0xKc6s+gzC8UnJeZinwN77bOTO29euIbDAbsApdEQn+rMos8sFJ+UmAv9DOzm+GX0F76K45j37Yi3NQNKoyE+1ZlFn1koPikxl7qI486PV6sXXnv49ZcDdhFKoyE+1ZlFn1koPikxswM2zTHv2xFvawaURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJaYDVg2l0RCf6syizywUn5SYDlg1lEZDfKoziz6zUHxSYjpg1VAaDfGpziz6zELxSYnpgFVDaTTEpzqz6DMLxSclpgNWDaXREJ/qzKLPLBSflJgOWDWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJaYDVg2l0RCf6syizywUn5SYDlg1lEZDfKoziz6zUHxSYjpg1VAaDfGpziz6zELxSYnpgFVDaTTEpzqz6DMLxSclpgNWDaXREJ/qzKLPLBSflJgOWDWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJSZ0wIY1k/ctdFsLQ2k0xKc6z2h5lEwx32ciRQOQc++inw1HAqsnbMCGoY8jSNBFo1tg5FTnjqZHyRSzfUZSNAA59x762XIksHqyBmwY+jiCCD00uglGTnVuaXuUTDHXZyZFA5Bz76CfTUcCqydqwIahjyPI0EGj22DkVOdI46Nkipk+QykagJx7fT/bjgRWTwesjPpGN8LIqc4RB6xL6vvpgDlgSeob3QgjpzpHHLAuqe+nA+aAJalvdCOMnOocccC6pL6fDlj1gHkRRwmMnOrcklkOL+LI0kE/+3j6n60na8C8jL4CRk517ogsh5fRZ+mhn308/Y/WEzZgfpC5AEZOdZ6RWA4/yJyli3728fQ/WU/agDXdtyPe1gy6aHQLjJzqzKLPLBSflJgOWDWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJaYDVg2l0RCf6syizywUn5SYDlg1lEZDfKoziz6zUHxSYjpg1VAaDfGpziz6zELxSYnpgFVDaTTEpzqz6DMLxSclpgNWDaXREJ/qzKLPLBSflJgOWDWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJaYDVg2l0RCf6syizywUn5SYDlg1lEZDfKoziz6zUHxSYjpg1VAaDfGpziz6zELxSYnpgFVDaTTEpzqz6DMLxSclpgNWDaXREJ/qzKLPLBSflJgOWDWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJaYDVg2l0RCf6syizywUn5SYDlg1lEZDfKoziz6zUHxSYjpg1VAaDfGpziz6zELxSYnpgFVDaTTEpzqz6DMLxSclJnTAhjWT9y10WwtDaTTEpzrPaHmUTDHfZyJFA5Bz76KfDUcCqydswIahjyNI0EWjW2DkVOeOpkfJFLN9RlI0ADn3HvrZciSwerIGbBj6OIIIPTS6CUZOdW5pe5RMMddnJkUDkHPvoJ9NRwKrJ2rAhqGPI8jQQaPbYORU50jjo2SKmT5DKRqAnHt9P9uOBFZPB6yM+kY3wsipzhEHrEvq++mAOWBJ6hvdCCOnOkccsC6p76cD5oAlqW90I4yc6hxxwLqkvp8OWPWAeRFHCYyc6tySWQ4v4sjSQT/7ePqfrSdrwLyMvgJGTnXuiCyHl9Fn6aGffTz9j9YTNmB+kLkARk51npFYDj/InKWLfvbx9D9ZT9qANd23I97WDLpodAuMnOrMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJaYDVg2l0RCf6syizywUn5SYDlg1lEZDfKoziz6zUHxSYjpg1VAaDfGpziz6zELxSYnpgFVDaTTEpzqz6DMLxSclpgNWDaXREJ/qzKLPLBSflJgOWDWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJaYDVg2l0RCf6syizywUn5SYDlg1lEZDfKoziz6zUHxSYh57wERERBbEV2DHg/KUDOJTnVn0mYXikxLTtxCroTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMSEDtiwZvK+hW5rYSiNhvhU5xktj5Ip5vtMpGgAcu5d9LPhSGD1hA3YMPRxBAm6aHQLjJzq3NH0KJlits9IigYg595DP1uOBFZP1oANQx9HEKGHRjfByKnOLW2Pkinm+sykaABy7h30s+lIYPVEDdgw9HEEGTpodBuMnOocaXyUTDHTZyhFA5Bzr+9n25HA6umAlVHf6EYYOdU54oB1SX0/HTAHLEl9oxth5FTniAPWJfX9dMAcsCT1jW6EkVOdIw5Yl9T30wGrHjAv4iiBkVOdWzLL4UUcWTroZx9P/7P1ZA2Yl9FXwMipzh2R5fAy+iw99LOPp//ResIGzA8yF8DIqc4zEsvhB5mzdNHPPp7+J+tJG7Cm+3bE25pBF41ugZFTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxIQO2LBm8r6FbmthKI2G+FTnGS2Pkinm+0ykaABy7l30s+FIYPWEDdgw9HEECbpodAuMnOrc0fQomWK2z0iKBiDn3kM/W44EVk/WgA1DH0cQoYdGN8HIqc4tbY+SKeb6zKRoAHLuHfSz6Uhg9UQN2DD0cQQZOmh0G4yc6hxpfJRMMdNnKEUDkHOv72fbkcDq6YCVUd/oRhg51TnigHVJfT8dMAcsSX2jG2HkVOeIA9Yl9f10wBywJPWNboSRU50jDliX1PfTAaseMC/iKIGRU51bMsvhRRxZOuhnH0//s/VkDZiX0VfAyKnOHZHl8DL6LD30s4+n/9F6wgbMDzIXwMipzjMSy+EHmbN00c8+nv4n60kbsKb7dsTbmkEXjW6BkVOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KzOyAff3Gy+Nf3Xvv2mr16ocO2CSURkN8qjOLPrNQfFJiZgfsxurl7ZKtNnznNw7YFJRGQ3yqM4s+s1B8UmImB+zejdV2wG6sXvrw5M711UufLTNgw5rJ+xa6rYWhNBriU51ntDxKppjvM5GiAci5d9HPhiOB1TMxYH94c7UdsNvXTl97ff3GCz9dZMCGoY8jSNBFo1tg5FTnjqZHyRSzfUZSNAA59x762XIksHoGBuzmavXaf4wDdnP36+tLDNgw9HEEEXpodBOMnOrc0vYomWKuz0yKBiDn3kE/m44EVs/EgL34jye3xuG6sXrr9Nft77MDNgx9HEGGDhrdBiOnOkcaHyVTzPQZStEA5Nzr+9l2JLB6Bgbs3GDduz6+dXj72vaHYE+PHPgvfoCz+574t4n8OdLHo6SPFHKOPo5k2RQOmAibPh4lfaSQc/RxJJQBe/hC+sCLT99CrIGRU50jvoXYJfX99C3EfQbs4evoA3fdizhqYORU55bMcngRR5YO+tnH0/9sPVkD5mX0FTByqnNHZDm8jD5LD/3s4+l/tJ7ZAVv4KsT/9IPMFTByqvOMxHL4QeYsXfSzj6f/yXqGB2z7+a+FPgfWeN+OeFsz6KLRLTByqjOLPrNQfFJiLjNgS38TR9t9O+JtzYDSaIhPdWbRZxaKT0rMZQbs3vXVi4t+F2LTfTvibc2A0miIT3Vm0WcWik9KzGUG7OSO30bfCqXREJ/qzKLPLBSflJgLDdjJnffW+/Xqw6+/HLCLUBoN8anOLPrMQvFJiZkdsGmOed+OeFszoDQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxoQM2rJm8b6HbWhhKoyE+1XlGy6Nkivk+EykagJx7F/1sOBJYPWEDNgx9HEGCLhrdAiOnOnc0PUqmmO0zkqIByLn30M+WI4HVkzVgw9DHEUToodFNMHKqc0vbo2SKuT4zKRqAnHsH/Ww6Elg9UQM2DH0cQYYOGt0GI6c6RxofJVPM9BlK0QDk3Ov72XYksHo6YGXUN7oRRk51jjhgXVLfTwfMAUtS3+hGGDnVOeKAdUl9Px0wByxJfaMbYeRU54gD1iX1/XTAqgfMizhKYORU55bMcngRR5YO+tnH0/9sPVkD5mX0FTByqnNHZDm8jD5LD/3s4+l/tJ6wAfODzAUwcqrzjMRy+EHmLF30s4+n/8l60gas6b4d8bZm0EWjW2DkVGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSszDBuxjBywGpdEQn+rMos8sFJ+UmHsO2N2f/dWvTk6+emV47pcOWAZKoyE+1ZlFn1koPikx9xuwz68O37g/YMOVHzpgESiNhvhUZxZ9ZqH4pMTca8C+uDoMT366/ot/e+fqcOUnDlgCSqMhPtWZRZ9ZKD4pMfcasPeHJ7bvHN59e3jKAUtAaTTEpzqz6DMLxScl5j4D9tUr5151fXF182aiAzYbSqMhPtWZRZ9ZKD4pMfcbsHOb9cBvHLDDoTQa4lOdWfSZheKTEtNXYNVQGg3xqc4s+sxC8UmJuefPwJ669K8dsBlQGg3xqc4s+sxC8UmJudeAfT4Mz31y+ld//GAYDrqO/pj37Yi3NQNKoyE+1ZlFn1koPikx9/sc2PvDMFx55plnrq5/PegFmAN2AUqjIT7VmUWfWSg+KTH3G7C7/zSMXPnvB+2XA3YBSqMhPtWZRZ9ZKD4pMff8KqmTu7//3voV2LP/69PD9ssBuwCl0RCf6syizywUn5SY+w7YXI553454WzOgNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSsz9B+zjLZ84YAkojYb4VGcWfWah+KTE3G/AvnxnOMMPMkegNBriU51Z9JmF4pMSc68B2/wxKg5YGEqjIT7VmUWfWSg+KTH3GrCPhuGJv/v5ll8cciXiMe/bEW9rBpRGQ3yqM4s+s1B8UmLuM2CH/hEqDtjjoDQa4lOdWfSZheKTEnOfAXvgy3wdsBCURkN8qjOLPrNQfFJi7jdgB/3YywF7LJRGQ3yqM4s+s1B8UmLu9/a9Wl4AACAASURBVBair8DyUBoN8anOLPrMQvFJibnnRRzPO2BpKI2G+FRnFn1mofikxNxrwNYvwX7ggIWhNBriU51Z9JmF4pMSc6+3EN/93jBcefb7I3/rZfQJKI2G+FRnFn1mofikxNzvIo7BDzLHoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0rMvX4GFuCY9+2ItzUDSqMhPtWZRZ9ZKD4pMaEDtnkFOHnfQre1MJRGQ3yq84yWR8kU830mUjQAOfcu+tlwJLB6wgbs/nuYU/ctc1tL00WjW2DkVOeOpkfJFLN9RlI0ADn3HvrZciSwek4M2N13N9ccrv//eequQtz+FG7ivkVua3F6aHQTjJzq3NL2KJlirs9MigYg595BP5uOBFbPiQH76pXNJRu9XMRxFuHx9y1xW8vTQaPbYORU50jjo2SKmT5DKRqAnHt9P9uOBFZPB6yM+kY3wsipzhEHrEvq+/mXOGA5AnfdAauBkVOdIw5Yl9T30wFzwJLUN7oRRk51jjhgXVLfTwesesC8iKMERk51bskshxdxZOmgn308/c/Ws3nA/u3nO35R912ITXe9vilNdNDoNhg51bkjshxeRp+lh3728fQ/Ws/GAfvt1bNXfqVfJdVy1ztoSgs9NLoJRk51npFYDj/InKWLfvbx9D9Zz7YB+3wYOhmwpvt2xNuaQReNboGRU51Z9JmF4pMSc58Bu/v2cOUfPt7xyQH75YBdgNJoiE91ZtFnFopPSsx9BuyrV4YfHjJaDtjjoDQa4lOdWfSZheKTEnO/ATvoXUMH7LFQGg3xqc4s+sxC8UmJud9biA5YHkqjIT7VmUWfWSg+KTH3uojjI99CzENpNMSnOrPoMwvFJyXmXgP21StXfuKAhaE0GuJTnVn0mYXikxJzv8+BffnK8EQHf5xK43074m3NgNJoiE91ZtFnFopPSsz9BuwDPwcWh9JoiE91ZtFnFopPSsw9fwbmgMWhNBriU51Z9JmF4pMSc+8PMh/yvqED9hgojYb4VGcWfWah+KTE3O9zYLOv4XDALkBpNMSnOrPoMwvFJyWmH2SuhtJoiE91ZtFnFopPSkw/yFwNpdEQn+rMos8sFJ+UmHtexPG8A5aG0miIT3Vm0WcWik9KzL0G7O7bV37ggIWhNBriU51Z9JmF4pMSc6+3EN/93jBcedYPMkehNBriU51Z9JmF4pMSc7+LOPwcWB5KoyE+1ZlFn1koPikxjz1gIiIiC/Kor5KazzHH+Yi3NQPKUzKIT3Vm0WcWik9KzP2+C9EBy0NpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmHsP2N2PR37/X72IIwGl0RCf6syizywUn5SY+w3Yl+94FWIaSqMhPtWZRZ9ZKD4pMfcasAcvQ3zSAUtAaTTEpzqz6DMLxScl5p5fJTVcefZ7Vzf/Nxz4nRzHvG9HvK0ZUBoN8anOLPrMQvFJibnXN3G8PTz56eb//3CzZU8e9CeDHfO+HfG2ZkBpNMSnOrPoMwvFJyXmfh9kPv3zwO5/pe/7mxlzwOZDaTTEpzqz6DMLxScl5n4DdnrdxufDU7v/74DNhtJoiE91ZtFnFopPSsyDBmzz7uFXrxz0HuIx79sRb2sGlEZDfKoziz6zUHxSYu73M7DTtxC/uLrZsQP/eOZj3rcj3tYMKI2G+FRnFn1mofikxNzrKsT3T3/6df9HYfdnzAGbDaXREJ/qzKLPLBSflJh7DdgXV4fnfrm5DPH5zZj5FmIESqMhPtWZRZ9ZKD4pMff7Jo73T79/4/NhuHJ1OH015oDNhtJoiE91ZtFnFopPSsz9Buzkt5s3Du++f/pFHH4OLAKl0RCf6syizywUn5SYew7Yycn/W+/W3d8988zfH7RfDtgFKI2G+FRnFn1mofikxGwbsPH6wz9+ctBoLTBgm5eAk/ctdFsLQ2k0xKc6z2h5lEwx32ciRQOQc++inw1HAqvnxIDdv2b+wCvnFxiw+98mPHXfMre1NF00ugVGTnXuaHqUTDHbZyRFA5Bz76GfLUcCq+fkgG1egXUzYNvvw5+4b5HbWpweGt0EI6c6t7Q9SqaY6zOTogHIuXfQz6YjgdVzYsA2X+P7i4///ZVv/MvHZxz0fuL8O35216uPIEMHjW6DkVOdI42Pkilm+gylaABy7vX9bDsSWD0nBmzzB6lcoOyDzA5YCYyc6hxxwLqkvp9/kQN29wMHbCHqG90II6c6RxywLqnv51/kgK0n7OOf/9+rV/73z8/4RdU3cThgJTByqnPEAeuS+n7+hQ7YiRdxLEN9oxth5FTnlsxyeBFHlg762cfT/2w9mwbs7rt/e9inl9MD5mX0FTByqnNHZDm8jD5LD/3s4+l/tJ5NA7bdsTkfZ559t+/Tctc7aEoLPTS6CUZOdZ6RWA4/yJyli3728fQ/Wc/mAfv9dzdXb3z1Xw78Jim/SuoCXTS6BUZOdWbRZxaKT0rM/Qbs/sWI6wF7ZXjisB+HHfO+HfG2ZkBpNMSnOrPoMwvFJyXmfgP2/jA88d+ufuNXd/+n30afgtJoiE91ZtFnFopPSsy9BuzzYfjBeC3i764OP3TAElAaDfGpziz6zELxSYm514C9v/lDLMeL6T8annLAElAaDfGpziz6zELxSYm512X0b5/7St8vrpZ9E0frfTvibc2A0miIT3Vm0WcWik9KzP0/yDwO2IGfaj7mfTvibc2A0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTH3ewtxc+HGuFyfH3YZ4jHv2xFvawaURkN8qjOLPrNQfFJi7nURx+mFG/cHbD1mXsQRgdJoiE91ZtFnFopPSsy9BuyLq8O3Pz0dsC//Zthc0OGAzYfSaIhPdWbRZxaKT0rM/T7IvPlzLZ+5euXZb61/ff6Q/XLALkBpNMSnOrPoMwvFJyXmfgN28tur22/BP2y/HLALUBoN8anOLPrMQvFJibnngJ388WfPrNfrm8/98rD9csAuQGk0xKc6s+gzC8UnJea+AzaXY963I97WDCiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMSc/8B+3jLQX+u5THv2xFvawaURkN8qjOLPrNQfFJi7jdgd98ZzvCbOCJQGg3xqc4s+sxC8UmJudeAffXK4ICloTQa4lOdWfSZheKTEnPPb+IYvvl3P9/yC79KKgGl0RCf6syizywUn5SY+wzYoV8f5YA9DkqjIT7VmUWfWSg+KTH3GbCvXjns66McsMdBaTTEpzqz6DMLxScl5n4DdtCPvRywx0JpNMSnOrPoMwvFJyXmfm8h+gosD6XREJ/qzKLPLBSflJh7XsRx4DcgOmCPhtJoiE91ZtFnFopPSsw9L6O/8gMHLAyl0RCf6syizywUn5SYbQN2993vn/LdYbjy7PdH/tbL6BNQGg3xqc4s+sxC8UmJ2TZgD36C2Q8yJ6E0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KzL1+BhbgmPftiLc1A0qjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMSEzpgm8+hTd630G0tDKXREJ/qPKPlUTLFfJ+JFA1Azr2LfjYcCayesAG7/0nqqfuWua2l6aLRLTByqnNH06Nkitk+IykagJx7D/1sORJYPVkDtv0ukIn7Frmtxemh0U0wcqpzS9ujZIq5PjMpGoCcewf9bDoSWD1RA3b2bVaPv2+J21qeDhrdBiOnOkcaHyVTzPQZStEA5Nzr+9l2JLB6OmBl1De6EUZOdY44YF1S308HzAFLUt/oRhg51TnigHVJfT8dMAcsSX2jG2HkVOeIA9Yl9f10wKoHzIs4SmDkVOeWzHJ4EUeWDvrZx9P/bD1ZA+Zl9BUwcqpzR2Q5vIw+Sw/97OPpf7SesAHzg8wFMHKq84zEcvhB5ixd9LOPp//JetIGrOm+HfG2ZtBFo1tg5FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMSc6EB+/qN1Snf+Y0DNgGl0RCf6syizywUn5SYCw3Y7WsOWCOURkN8qjOLPrNQfFJiLjRgt1YvX/4PQrmHNZP3LXRbC0NpNMSnOs9oeZRMMd9nIkUDkHPvop8NRwKrZ3rAbqxeX3LAhqGPI0jQRaNbYORU546mR8kUs31GUjQAOfce+tlyJLB6hgfs3vUXfrrggA1DH0cQoYdGN8HIqc4tbY+SKeb6zKRoAHLuHfSz6Uhg9QwP2NdvvPTrN1erH324yIANQx9HkKGDRrfByKnOkcZHyRQzfYZSNAA59/p+th0JrJ7hAdtew7F6a/t3nh6Z+S8+5ey+J/5tIn+O9PEo6SOFnKOPI1k2xdx/6a3V6rXPTv703mr3TqIDJnJM+niU9JFCztHHkfQ9YDfHixAvXssRePHpW4g1MHKqc8S3ELukvp++hdjOrdVLn+UHzIs4SmDkVOeWzHJ4EUeWDvrZx9P/bD0XGrDb1x7+JPP8O76h6a7XN6WJDhrdBiOnOndElsPL6LP00M8+nv5H67nYgC3yCswPMlfAyKnOMxLL4QeZs3TRzz6e/ifrmR2we9fHyw8vfiHH3MD73Lcj3tYMumh0C4yc6syizywUn5SYy7wCu3F/uHZD5oA9GkqjIT7VmUWfWSg+KTEX+xzYa5+d3HnzwjUcDtgFKI2G+FRnFn1mofikxFzoZ2A3xy+jv/BVHMe8b0e8rRlQGg3xqc4s+sxC8UmJudRFHHd+vFq98NrDr78csItQGg3xqc4s+sxC8UmJuexViBc55n074m3NgNJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEhA7YsGbyvoVua2EojYb4VOcZLY+SKeb7TKRoAHLuXfSz4Uhg9YQN2DD0cQQJumh0C4yc6tzR9CiZYrbPSIoGIOfeQz9bjgRWT9aADUMfRxChh0Y3wcipzi1tj5Ip5vrMpGgAcu4d9LPpSGD1RA3YMPRxBBk6aHQbjJzqHGl8lEwx02coRQOQc6/vZ9uRwOrpgJVR3+hGGDnVOeKAdUl9Px0wByxJfaMbYeRU54gD1iX1/XTAHLAk9Y1uhJFTnSMOWJfU99MBqx4wL+IogZFTnVsyy+FFHFk66GcfT/+z9WQNmJfRV8DIqc4dkeXwMvosPfSzj6f/0XrCBswPMhfAyKnOMxLL4QeZs3TRzz6e/ifrSRuwpvt2xNuaQReNboGRU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMSEDtiwZvK+hW5rYSiNhvhU5xktj5Ip5vtMpGgAcu5d9LPhSGD1hA3YMPRxBAm6aHQLjJzq3NH0KJlits9IigYg595DP1uOBFZP1oANQx9HEKGHRjfByKnOLW2Pkinm+sykaABy7h30s+lIYPVEDdgw9HEEGTpodBuMnOocaXyUTDHTZyhFA5Bzr+9n25HA6umAlVHf6EYYOdU54oB1SX0/HTAHLEl9oxth5FTniAPWJfX9dMAcsCT1jW6EkVOdIw5Yl9T30wGrHjAv4iiBkVOdWzLL4UUcWTroZx9P/7P1ZA2Yl9FXwMipzh2R5fAy+iw99LOPp//ResIGzA8yF8DIqc4zEsvhB5mzdNHPPp7+J+tJG7Cm+3bE25pBF41ugZFTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0pMB6waSqMhPtWZRZ9ZKD4pMR2waiiNhvhUZxZ9ZqH4pMR0wKqhNBriU51Z9JmF4pMS0wGrhtJoiE91ZtFnFopPSkwHrBpKoyE+1ZlFn1koPikxHbBqKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTAauG0miIT3Vm0WcWik9KTAesGkqjIT7VmUWfWSg+KTEdsGoojYb4VGcWfWah+KTEdMCqoTQa4lOdWfSZheKTEtMBq4bSaIhPdWbRZxaKT0rMYw+YiIjIgvgK7HhQnpJBfKoziz6zUHxSYvoWYjWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJaYDVg2l0RCf6syizywUn5SYDlg1lEZDfKoziz6zUHxSYjpg1VAaDfGpziz6zELxSYnpgFVDaTTEpzqz6DMLxSclpgNWDaXREJ/qzKLPLBSflJgOWDWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmNABG9ZM3rfQbS0MpdEQn+o8o+VRMsV8n4kUDUDOvYt+NhwJrJ6wARuGPo4gQReNboGRU507mh4lU8z2GUnRAOTce+hny5HA6skasGHo4wgi9NDoJhg51bml7VEyxVyfmRQNQM69g342HQmsnqgBG4Y+jiBDB41ug5FTnSONj5IpZvoMpWgAcu71/Ww7Elg9HbAy6hvdCCOnOkccsC6p76cD5oAlqW90I4yc6hxxwLqkvp8OmAOWpL7RjTByqnPEAeuS+n46YNUD5kUcJTByqnNLZjm8iCNLB/3s4+l/tp6sAfMy+goYOdW5I7IcXkafpYd+9vH0P1pP2ID5QeYCGDnVeUZiOfwgc5Yu+tnH0/9kPWkD1nTfjnhbM+ii0S0wcqoziz6zUHxSYjpg1VAaDfGpziz6zELxSYnpgFVDaTTEpzqz6DMLxSclpgNWDaXREJ/qzKLPLBSflJgOWDWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJaYDVg2l0RCf6syizywUn5SYDlg1lEZDfKoziz6zUHxSYjpg1VAaDfGpziz6zELxSYnpgFVDaTTEpzqz6DMLxSclpgNWDaXREJ/qzKLPLBSflJgOWDWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJaYDVg2l0RCf6syizywUn5SYDlg1lEZDfKoziz6zUHxSYjpg1VAaDfGpziz6zELxSYnpgFVDaTTEpzqz6DMLxSclpgNWDaXREJ/qzKLPLBSflJgOWDWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJSZ0wIY1k/ctdFsLQ2k0xKc6z2h5lEwx32ciRQOQc++inw1HAqsnbMCGoY8jSNBFo1tg5FTnjqZHyRSzfUZSNAA59x762XIksHqyBmwY+jiCCD00uglGTnVuaXuUTDHXZyZFA5Bz76CfTUcCqydqwIahjyPI0EGj22DkVOdI46Nkipk+QykagJx7fT/bjgRWTwesjPpGN8LIqc4RB6xL6vvpgDlgSeob3QgjpzpHHLAuqe+nA+aAJalvdCOMnOocccC6pL6fDlj1gHkRRwmMnOrcklkOL+LI0kE/+3j6n60na8C8jL4CRk517ogsh5fRZ+mhn308/Y/WEzZgfpC5AEZOdZ6RWA4/yJyli3728fQ/WU/agDXdtyPe1gy6aHQLjJzqzKLPLBSflJgOWDWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJaYDVg2l0RCf6syizywUn5SYDlg1lEZDfKoziz6zUHxSYjpg1VAaDfGpziz6zELxSYnpgFVDaTTEpzqz6DMLxSclpgNWDaXREJ/qzKLPLBSflJgOWDWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJaYDVg2l0RCf6syizywUn5SYDlg1lEZDfKoziz6zUHxSYjpg1VAaDfGpziz6zELxSYnpgFVDaTTEpzqz6DMLxSclpgNWDaXREJ/qzKLPLBSflJgOWDWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJaYDVg2l0RCf6syizywUn5SYDlg1lEZDfKoziz6zUHxSYi41YPfeu7ZavfqhAzYJpdEQn+rMos8sFJ+UmAsN2NdvrDZ85zcO2BSURkN8qjOLPrNQfFJiLjRgN1YvfXhy5/rqpc8csAkojYb4VGcWfWah+KTEXGbAbl87fe319Rsv/NQBm4DSaIhPdWbR1sc7ewAADHxJREFUZxaKT0rMZQbs5url8dfXHbAJKI2G+FRnFn1mofikxFxmwG6s3jr99dY4ZA7Yo6E0GuJTnVn0mYXikxJzkQG7d3186/D2te0PwZ4emfcvFhEReSwOmIiIIMkN2MMX0h/z1eURb2sGlPcUID7VmUWfWSg+KTGP9RaiA/YoKI2G+FRnFn1mofikxHTAqqE0GuJTnVn0mYXikxLTqxCroTQa4lOdWfSZheKTEnOpz4G9/sCvDtijoTQa4lOdWfSZheKTEtNv4qiG0miIT3Vm0WcWik9KzGUG7N711Yt+F2IblEZDfKoziz6zUHxSYi70Zb53/Db6ViiNhvhUZxZ9ZqH4pMRcaMBO7ry33q9XH3795YBdhNJoiE91ZtFnFopPSsylBuxRHPO+HfG2ZkBpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJaYDVg2l0RCf6syizywUn5SYDlg1lEZDfKoziz6zUHxSYjpg1VAaDfGpziz6zELxSYnpgFVDaTTEpzqz6DMLxSclpgNWDaXREJ/qzKLPLBSflJgOWDWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJaYDVg2l0RCf6syizywUn5SYDlg1lEZDfKoziz6zUHxSYjpg1VAaDfGpziz6zELxSYnpgFVDaTTEpzqz6DMLxSclpgNWDaXREJ/qzKLPLBSflJgOWDWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJaYDVg2l0RCf6syizywUn5SYDlg1lEZDfKoziz6zUHxSYjpg1VAaDfGpziz6zELxSYnpgFVDaTTEpzqz6DMLxSclpgNWDaXREJ/qzKLPLBSflJgOWDWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJaYDVg2l0RCf6syizywUn5SYDlg1lEZDfKoziz6zUHxSYjpg1VAaDfGpziz6zELxSYnpgFVDaTTEpzqz6DMLxSclpgNWDaXREJ/qzKLPLBSflJgOWDWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJaYDVg2l0RCf6syizywUn5SYDlg1lEZDfKoziz6zUHxSYjpg1VAaDfGpziz6zELxSYnpgFVDaTTEpzqz6DMLxSclpgNWDaXREJ/qzKLPLBSflJgOWDWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmI6YNVQGg3xqc4s+sxC8UmJ6YBVQ2k0xKc6s+gzC8UnJaYDVg2l0RCf6syizywUn5SYDlg1lEZDfKoziz6zUHxSYjpg1VAaDfGpziz6zELxSYnpgFVDaTTEpzqz6DMLxSclpgNWDaXREJ/qzKLPLBSflJgOWDWURkN8qjOLPrNQfFJiOmDVUBoN8anOLPrMQvFJiemAVUNpNMSnOrPoMwvFJyWmA1YNpdEQn+rMos8sFJ+UmA5YNZRGQ3yqM4s+s1B8UmIee8DkYZ5+ujrBnxXqzKLPLPqM8gidDtjxsNFR1JlFn1n0GcUBK8dGR1FnFn1m0WcUB6wcGx1FnVn0mUWfURywcmx0FHVm0WcWfUZxwMqx0VHUmUWfWfQZxQErx0ZHUWcWfWbRZxQHrBwbHUWdWfSZRZ9RHDAREflzwgETEREkDpiIiCBxwEREBIkDJiIiSBwwERFB4oCJiAgSB0xERJA4YAtz7/pqy3d+s/2bX7/x8N+RVi5zd++9a6vVqx/WhSLzhx+vVi88IM96HsolRbSbh9NQTQdsYS4dsNvX/C/EoVzibmy1Ng/hX+/rfOGnZ3/Leh7IJUW0m4fTUk0H7EjcvnbuHG6tXi6MwuYSdzdWL314cuf66qXPKgKxubV64X+cbOSd+0+s9TyQS4poNw+mqZoO2HFYvxB7/ex3N87/Rvbiorvb104b/vUb55+qSRPrXr61+XX9QuGt3d+0nodxSRHt5sG0VdMBOw43zz8Fu3fdOh/KJe5ujs/Kbvrf3b35+o3x6e25/zJYzwO5pIh282DaqumAHYUHnkWsf/fSr99crX7kT3b35xJ3N0a3vvM1g3P/lbCeB3JJEe3mfB5bTQfsKNx8oL/bn0SeHzVp46K73bOy29f8QcOhPPi2l/U8hEuKaDfn8/hqOmDH4KG3wG+tVq99dvKn91a+VbM3F935H4kA559hWc/DcMAW4fHVdMCOwa0HL0LaHok/LN+fi+7O/UfCi5UP5Nb5sbKeh3FJEe3mbCaq6YAdge31NA9zy4trD+bMnc9yZ3Pr2guXFNR67oevwBZgqpoO2ELcOvde7aOefvm0rJlbD/9U5tJnuf5HopUHfN68/M1C67kfDlieyWo6YAtx/r8Qj7oEyVY3c8mA7dx5pdf+nPf5r4/4YZf13BOvQkwzXU0H7Ag89MOE3TuKtnpvLnO3/YyNn7U5hHs3Vi8+8ELLeh7KJUW0mzNoqaYDtjwXPn13477+R/1oTB7DJe78toM53Ljwky7reSB+E0eWlmo6YMuz+0j5ltvXNheD3nnTH5LvzyXu1nV+0e+bO5CbF61ZzwO5pIh283CaqumALc+5nyWMX+l7c/xKZb/rYH/Ouxt13vEbvw9l+8dTrHnZes7lfBHt5kzaqumALc+5y5G330l/Z/MH3bzmk7JDOOdup/O9dalfVef+3Fpd8l8J63ko54poN2fSVk0HTEREkDhgIiKCxAETEREkDpiIiCBxwEREBIkDJiIiSBwwERFB4oCJiAgSB0xERJA4YCIigsQBExERJA6YiIggccBERASJAybSKV9cfao6gkjXOGAifXL37cEBE3kcDphIl6z3ywETeSwOmEiPfPk3gwMm8ngcMJH+uPuzq4MDJjKBAybSHZu3D6/8H38GJvJ4HDCRxfnqleH50xdVT/zD9m99+c76t1ee++X53w5/Nf7j9YB9+1Mv4hCZwAETWZz1gP3128MpT356+nc+Gka+ffrb321/+8SvNr+9+8+/9CpEkUkcMJHFWQ/YMDz3ycndD8afa633a/Pi648f3F+wL64OT24m65/O/9jLAROZwAETWZzNgN0fo/eHKz85Haxxmz46/f1Hwzd+Nf7j8S9OHDCRSRwwkcVZD9g4TOu/eurcYI0rdX/GHsIBE5nAARNZnPuzdcr7w5MPXJ6x+f3J55vrOf7lof+RAyYygQMmsjibqxDHv9y8SXj6I7EdmxdjH5z+1Tf//pNz/yMHTGQCB0xkcdaL9cPxLz+6dMBOfv/d8SrE3XX2DpjIFA6YyOJcfAV2yTT9+7vf2kzYdukcMJEpHDCRxXlgwE5/BjZ+HOwhNtfR7/6JAyYygQMmsjjrARt36f6Uvb+76vB0y85N1bnr6B0wkQkcMJHF2fzQ6/5LsN3nwMZB+/z0PcPdZfTnX5s5YCITOGAii3N61cZff3ry5TvjkH10/3KN7VuG639+5QfrX79825+BibTjgIksznqgnr16/zLD8Wdhu+9CvP+C64ur298/v/sfOWAiEzhgIouz+cnX5tXXsPv2+fWLsW+d+/r5k7s/e2bzQbBvn/sgmAMmMoEDJrI4565CFJEYDpjI4jhgIkvggIksjgMmsgQOmMjiOGAiS+CAiSyOAyayBA6YyOI4YCJL4ICJiAgSB0xERJA4YCIigsQBExERJA6YiIggccBERASJAyYiIkgcMBERQeKAiYgIEgdMRESQOGAiIoLEARMRESQOmIiIIHHAREQEyf8H+bQILgiZzzEAAAAASUVORK5CYII=" width="864" style="display: block; margin: auto;" /></p>
+<div id="q1-assessing-responsiveness" class="section level1">
+<h1>Q1: Assessing Responsiveness</h1>
+<p>Suppose that an elected official releases a statement that praises
+the responsiveness of its own office. “Congressperson Madeupname
+responds extremely quickly to all citizen queries! This last month, time
+to a response averaged only 2 hours!” You yourself were one of the
+citizens that made a query, and the congressperson took 4 hours to get
+back to you. You have nine friends who also made queries with
+Madeupname, so you ask them and they tell you that their experience with
+response times was: 2 hours, 90 minutes, 3 hours, 2 hours and 15
+minutes, 8 hours, 1 hour and 45 minutes, 1 hour, 3 hours, 1 hours and 30
+minutes. Use your combined 10 data points to perform the following
+hypothesis test:</p>
 <ol style="list-style-type: lower-alpha">
-<li>There are many, many things wrong with this figure with regard to
-both accuracy and style. Name as many as you can.</li>
+<li><p>What is the average response time in minutes in your
+sample?</p></li>
+<li><p>Suppose you think that these times seem high in light of the
+official statement. What would your one-sided alternative hypothesis
+be?</p></li>
+<li><p>What would the null hypothesis be?</p></li>
+<li><p>What is the test statistic for this sample?</p></li>
+<li><p>Would it be best to assess the likelihood of a test statistic of
+this sign and magnitude using a normal or a <span class="math inline">\(t\)</span> distribution?</p></li>
+<li><p>How likely is observing a test statistic at least as extreme as
+this one (i.e. what is the p-value)?</p></li>
+<li><p>Can you reject the null hypothesis at the 95% level?</p></li>
+<li><p>Can you reject the null hypothesis at the 99% level?</p></li>
+<li><p>What would the critical value of your test statistic be such that
+you would reject the null at the 95% confidence level if your test
+statistic were at least as extreme as that critical value?</p></li>
+<li><p>And what would the critical value of your test statistic be such
+that you would reject the null at the 99% confidence level?</p></li>
+<li><p>Now suppose that you find 10 more people, and they (in a weird
+coincidence) have exactly the same experience with response times as the
+10 of you (so each value in your 10-observation data is now in the
+20-observation dataset twice). If you were to perform a new hypothesis
+test, which of the following values would change: sample mean, test
+statistic, p-value, critical value for the 95% level?</p></li>
+<li><p>Would you reject the null at the 95% level? At the 99%
+level?</p></li>
+<li><p>These new data just repeated what you already knew{ why can the
+results of the hypothesis test be different?</p></li>
+<li><p>What is your overall conclusion about the claim of Congressperson
+Madeupname’s office?</p></li>
 </ol>
-<blockquote>
-<p>Write answer here</p>
-</blockquote>
-<ol start="2" style="list-style-type: lower-alpha">
-<li>Construct a well-designed figure that best displays the relationship
-between household income and turnout. This will require recoding
-variables and thinking carefully about the levels at which both
-variables are measured. Provide the <code>R</code> commands you used to
-recode variables and construct the figure. In a brief paragraph, explain
-why you made the choices that you did.</li>
-</ol>
-<pre class="r"><code># INSERT CODE HERE</code></pre>
-<ol start="3" style="list-style-type: lower-alpha">
-<li>In a few sentences, describe the relationship you see between income
-and turnout.</li>
-</ol>
-<blockquote>
-<p>Write answer here</p>
-</blockquote>
 </div>
-<div id="question-2" class="section level1">
-<h1>Question 2</h1>
-<p>Which relationship–that between income and turnout, or education and
-turnout–best approximates a linear relationship? The variable to use for
-educational attainment is <code>peeduca</code>. Note that it, like
-<code>hefaminc</code>, is coded at the ordinal level but you want to
-analyze it as an interval-level variable.</p>
-<pre class="r"><code># INSERT CODE HERE</code></pre>
-<blockquote>
-<p>Write answer here</p>
-</blockquote>
-</div>
-<div id="question-3" class="section level1">
-<h1>Question 3</h1>
-<p>You want to investigate the relationship between country of birth and
-current income.</p>
-<p>You wish to divide the sample into three groups: (1) those not born
-in the U.S.; (2) those born in the U.S. but who have at least one parent
-not born in the U.S.; and (3) those born in the U.S. with both parents
-born in the U.S. Using the variables <code>hefaminc</code>,
-<code>penatvty</code>, <code>pemntvty</code>, and <code>pefntvty</code>,
-construct a boxplot which displays the distribution of household income
-for each of these three groups.</p>
-<p><em>Hint:</em> doing this will require creating new variables from
-<code>penatvty</code>, <code>pemntvty</code>, and <code>pefntvty</code>.
-You will also need to make choices about how to deal with missing
-values. Justify any choices you make in a note accompanying the
-figure.</p>
-<pre class="r"><code># INSERT CODE HERE</code></pre>
-<blockquote>
-<p>Write answer here</p>
-</blockquote>
-<p>Using the proper statistical tests with an <span class="math inline">\(\alpha =.05\)</span>, answer the following
-questions. Note that additional recoding may be necessary.</p>
+<div id="q2-refugee-outflows-and-regression-coefficients" class="section level1">
+<h1>Q2: Refugee Outflows and Regression Coefficients</h1>
+<p>Suppose we have country-level data that measures our dependent
+variable, the number of refugees that fled in 2020
+(<code>REFOUT</code>), and the number of years since the formal end of
+the most recent civil war (<code>YRSSINCEWAR</code>). Suppose also that
+we ran the following regression model:</p>
+<p><span class="math display">\[
+\begin{eqnarray*}
+REFOUT = A + B*\textit{YRSSINCEWAR}
+\end{eqnarray*}
+\]</span></p>
 <ol style="list-style-type: lower-alpha">
-<li>Do native-born Americans have higher incomes than non-native born
-Americans?</li>
+<li><p>Substantively, why might we think that the number of years since
+a civil war has to do with refugee outflows?</p></li>
+<li><p>If we estimate <span class="math inline">\(A = 20,000\)</span>,
+what would that mean?</p></li>
+<li><p>How would we interpret a positive estimated <span class="math inline">\(B\)</span>?</p></li>
+<li><p>How would we interpret a negative estimated <span class="math inline">\(B\)</span>?</p></li>
+<li><p>If I said that a particular observation has a residual of -2,567,
+what would I mean exactly?</p></li>
+<li><p>If I said that the overall model’s RMSE was 2,567, what would I
+mean exactly?</p></li>
+<li><p>If we estimated <span class="math inline">\(B = 1,000\)</span>
+with a standard error of 1,000, what would we conclude?</p></li>
+<li><p>If we estimated <span class="math inline">\(B = 1,000\)</span>
+with a standard error of 500, what would we conclude?</p></li>
+<li><p>Assume that the dataset contains information on every country in
+the world. At what level of confidence can you conclude that there is a
+non-zero relationship between the years since the most recent civil war
+and the number of refugees fleeing in 2020? (NB: you can only choose
+90%, 95% or 99% because academia is <code>¯\_(ツ)_/¯</code>.)</p></li>
+<li><p>Assume that the dataset contains information on only a subset of
+30 countries. Re-answer question 2.i.</p></li>
+<li><p>What do we need to assume about how this subset of 30 countries
+was generated to feel <strong>comfortable</strong> in providing your
+answer?</p></li>
 </ol>
-<pre class="r"><code># INSERT CODE HERE</code></pre>
-<blockquote>
-<p>Write answer here</p>
-</blockquote>
-<ol start="2" style="list-style-type: lower-alpha">
-<li>Do native-born Americans whose parents were born in the U.S. have
-higher incomes than native-born Americans with at least one parent
-<strong>not</strong> born in the U.S.?</li>
-</ol>
-<pre class="r"><code># INSERT CODE HERE</code></pre>
-<blockquote>
-<p>Write answer here</p>
-</blockquote>
-<ol start="3" style="list-style-type: lower-alpha">
-<li>Do Americans with a foreign-born father and a native-born mother
-have lower incomes than Americans with a foreign-born mother and a
-native-born father?</li>
-</ol>
-<pre class="r"><code># INSERT CODE HERE</code></pre>
-<blockquote>
-<p>Write answer here</p>
-</blockquote>
-<p>In a few sentences, describe your results.</p>
-<blockquote>
-<p>Write answer here</p>
-</blockquote>
 </div>
-<div id="question-4" class="section level1">
-<h1>Question 4</h1>
-<p>Take some time to acquaint yourself with the dataset. It will be
-helpful to refer to the codebook as you do. Now pick three variables
-from the dataset to illustrate omitted variable bias as we discussed in
-class. That is, illustrate how if the true model is <span class="math display">\[
-y=\beta _{0}+\beta _{1}x+\beta _{2}z+u
-\]</span> but you estimate <span class="math display">\[
-y=\beta _{0}+\beta _{1}x+v,
-\]</span> you obtain a biased estimate of <span class="math inline">\(\beta _{1}.\)</span></p>
+<div id="q3-political-rhetoric-on-facebook" class="section level1">
+<h1>Q3: Political Rhetoric on Facebook</h1>
+<p>The Pew Research Center published a dataset associated with a report
+called ``Taking Sides on Facebook: How Congressional Outreach Changed
+Under President Trump” by van Kessel, Hughes, and Messing in 2018. This
+dataset records, among other things, the total number of Facebook posts
+that each member of congress posted in each session of congress, the
+proportion of a member of Congress’s Facebook posts that oppose the
+opposite party, the proportion of a member of Congress’s Facebook posts
+that support the politician’s own party, and the party of the
+Congressperson.</p>
+<p>You can find the dataset on <a href>GitHub</a>. The dataset and
+its codebook are also <a href="https://www.pewresearch.org/politics/dataset/congressional-rhetoric-on-facebook-2015-2017-estimated-support-opposition-and-local-topics/">here</a>,
+where you’ll be asked to create a PEW username and password to access
+it:</p>
+<p>Load the dataset into <code>R</code> and use it to answer the
+following:</p>
 <ol style="list-style-type: lower-alpha">
-<li>First, show how omitting a variable <span class="math inline">\(z\)</span> can bias estimates of <span class="math inline">\(\beta_{1}\)</span> in a <em>positive</em>
-direction:</li>
+<li><p>Make a dummy variable for party where Democrats take the value
+<span class="math inline">\(1\)</span> and add it to the dataframe. How
+many Democrat observations are in the data? How many non-Democrat
+observations? Why do these sum to a value that is larger than the total
+number of members of congress in the US? (Hint: use the
+codebook).</p></li>
+<li><p>I have a hypothesis that politicians use social media in order to
+go negative. Specifically, the more time a politician spends on social
+media, the more he or she is attacking the other party. Using the pooled
+(full) data, make a scatterplot with the proportion of opposing
+other-party Facebook posts on the vertical axis and the total number of
+Facebook posts on the horizontal axis. Depict each point that represents
+a Democrat with a blue cross and each point that represents a Republican
+or Independent with a red triangle.</p></li>
+<li><p>Now regress the proportion of opposing posts on total posts and
+the party dummy variable. Plot the regression lines for each party on
+the scatterplot and include a legend indicating which is which.</p></li>
+<li><p>What is the slope coefficient on total posts and how should we
+interpret it?</p></li>
+<li><p>This number is very small. Does that mean that the slope is
+meaningless? Why?</p></li>
+<li><p>What is the p-value on the total posts slope coefficient and how
+should we interpret it?</p></li>
+<li><p>Does the 95% confidence interval for the total posts slope
+coefficient contain 0? Why is this a relevant question?</p></li>
+<li><p>What is the intercept and how should we interpret it?</p></li>
+<li><p>What is the expected difference between the proportion of
+opposing facebook posts for a Democrat and a
+Republican/Independent?</p></li>
+<li><p>Are you confident in this difference? Why?</p></li>
+<li><p>Overall, what would you conclude about my hypothesis?</p></li>
+<li><p>In the last regression specifications, there are some politicians
+who post especially often on Facebook. Let’s see if they are unduly
+affecting the results above. To do so, create a new dataset that omits
+the ten observations with the largest number of Facebook posts. Now
+rerun the regression of opposing posts on total posts and a party dummy
+variable. Plot the new scatterplot and regression lines. How different
+are your results? Were these outliers influential?</p></li>
 </ol>
-<pre class="r"><code># INSERT CODE HERE</code></pre>
-<blockquote>
-<p>Write answer here</p>
-</blockquote>
-<ol start="2" style="list-style-type: lower-alpha">
-<li>Pick three variables from the dataset: a dependent variable (<span class="math inline">\(y\)</span>), an independent variable (<span class="math inline">\(x\)</span>) and a potential confound (<span class="math inline">\(z\)</span>).</li>
-</ol>
-<pre class="r"><code># INSERT CODE HERE</code></pre>
-<blockquote>
-<p>Write answer here</p>
-</blockquote>
-<ol start="3" style="list-style-type: lower-alpha">
-<li>Theoretically justify your designations of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> as independent and dependent variables,
-and <span class="math inline">\(z\)</span> as a potential
-confounder.</li>
-</ol>
-<pre class="r"><code># INSERT CODE HERE</code></pre>
-<blockquote>
-<p>Write answer here</p>
-</blockquote>
-<ol start="4" style="list-style-type: lower-alpha">
-<li>Recode the variables if necessary.</li>
-<li>Generate a correlation matrix with your three variables. Discuss how
-the matrix indicates that <span class="math inline">\(\widehat{\beta
-}_{1}\)</span>will be biased upward if you estimate the model <span class="math inline">\(y=\beta _{0}+\beta _{1}x+v\)</span> when the true
-model is <span class="math inline">\(y=\beta _{0}+\beta _{1}x+\beta
-_{2}z+u\)</span>.</li>
-</ol>
-<pre class="r"><code># INSERT CODE HERE</code></pre>
-<blockquote>
-<p>Write answer here</p>
-</blockquote>
-<ol start="6" style="list-style-type: lower-alpha">
-<li>Estimate the models <span class="math inline">\(y=\beta _{0}+\beta
-_{1}x+v\)</span> and <span class="math inline">\(y=\beta_{0}+\beta
-_{1}x+\beta _{2}z+u.\)</span> Discuss how the results confirm your
-expectations.</li>
-</ol>
-<pre class="r"><code># INSERT CODE HERE</code></pre>
-<blockquote>
-<p>Write answer here</p>
-</blockquote>
 </div>
 
 

@@ -48,7 +48,7 @@ require(ggpubr)
 
 1. Variance of OLS estimators
 
-2. 
+2. Heteroskedasticity
 
 ---
 

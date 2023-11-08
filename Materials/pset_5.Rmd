@@ -1,0 +1,133 @@
+---
+title: "Problem Set 5"
+subtitle: "Quantitative Political Science"
+author: "[YOUR NAME]"
+institute: "Vanderbilt University"
+date: "Due Date: 2023-11-14"
+output:
+  html_document: default
+---
+
+```{css,echo = F}
+.small .remark-code { /*Change made here*/
+  font-size: 85% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+```
+
+```{r,include=F}
+set.seed(123)
+options(width=60)
+knitr::opts_chunk$set(fig.align='center',fig.width=9,fig.height=5)
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+require(tidyverse)
+require(ggpubr)
+```
+
+# Instructions
+
+This problem set has three questions. The first question asks you to do some basic hypothesis testing to warm up. The second question asks you to think about how to express statistical inference with respect to a made-up dataset. The third question asks you to work directly with real data.
+
+# Q1: Assessing Responsiveness
+
+Suppose that an elected official releases a statement that praises the responsiveness of its own office. "Congressperson Madeupname responds extremely quickly to all citizen queries! This last month, time to a response averaged only 2 hours!" You yourself were one of the citizens that made a query, and the congressperson took 4 hours to get back to you. You have nine friends who also made queries with Madeupname, so you ask them and they tell you that their experience with response times was: 2 hours, 90 minutes, 3 hours, 2 hours and 15 minutes, 8 hours, 1 hour and 45 minutes, 1 hour, 3 hours, 1 hours and 30 minutes. Use your combined 10 data points to perform the following hypothesis test:
+
+a. What is the average response time in minutes in your sample?
+
+b. Suppose you think that these times seem high in light of the official statement. What would your one-sided alternative hypothesis be?
+
+c. What would the null hypothesis be?
+
+d. What is the test statistic for this sample?
+
+e. Would it be best to assess the likelihood of a test statistic of this sign and magnitude using a normal or a $t$ distribution?
+
+f. How likely is observing a test statistic at least as extreme as this one (i.e. what is the p-value)?
+
+g. Can you reject the null hypothesis at the 95% level?
+
+h. Can you reject the null hypothesis at the 99% level?
+
+i. What would the critical value of your test statistic be such that you would reject the null at the 95% confidence level if your test statistic were at least as extreme as that critical value?
+
+j. And what would the critical value of your test statistic be such that you would reject the null at the 99% confidence level?
+
+k. Now suppose that you find 10 more people, and they (in a weird coincidence) have exactly the same experience with response times as the 10 of you (so each value in your 10-observation data is now in the 20-observation dataset twice). If you were to perform a new hypothesis test, which of the following values would change: sample mean, test statistic, p-value, critical value for the 95% level?
+
+l. Would you reject the null at the 95% level? At the 99% level?
+
+m. These new data just repeated what you already knew{ why can the results of the hypothesis test be different?
+
+n. What is your overall conclusion about the claim of Congressperson Madeupname's office?
+
+
+# Q2: Refugee Outflows and Regression Coefficients
+
+Suppose we have country-level data that measures our dependent variable, the number of refugees that fled in 2020 (`REFOUT`), and the number of years since the formal end of the most recent civil war (`YRSSINCEWAR`).  Suppose also that we ran the following regression model:
+
+$$
+\begin{eqnarray*}
+REFOUT = A + B*\textit{YRSSINCEWAR}
+\end{eqnarray*}
+$$
+
+a. Substantively, why might we think that the number of years since a civil war has to do with refugee outflows?
+
+b. If we estimate $A = 20,000$, what would that mean?
+
+c. How would we interpret a positive estimated $B$?
+
+d. How would we interpret a negative estimated $B$?
+
+e. If I said that a particular observation has a residual of -2,567, what would I mean exactly?
+
+f. If I said that the overall model's RMSE was 2,567, what would I mean exactly?
+
+g. If we estimated $B = 1,000$ with a standard error of 1,000, what would we conclude?
+
+h. If we estimated $B = 1,000$ with a standard error of 500, what would we conclude?
+
+i. Assume that the dataset contains information on every country in the world. At what level of confidence can you conclude that there is a non-zero relationship between the years since the most recent civil war and the number of refugees fleeing in 2020? (NB: you can only choose 90%, 95% or 99% because academia is `¯\_(ツ)_/¯`.)
+
+j. Assume that the dataset contains information on only a subset of 30 countries. Re-answer question 2.i.
+
+k. What do we need to assume about how this subset of 30 countries was generated to feel **comfortable** in providing your answer?
+
+
+# Q3: Political Rhetoric on Facebook
+
+The Pew Research Center published a dataset associated with a report called ``Taking Sides on Facebook: How Congressional Outreach Changed Under President Trump" by van Kessel, Hughes, and Messing in 2018.  This dataset records, among other things, the total number of Facebook posts that each member of congress posted in each session of congress, the proportion of a member of Congress's Facebook posts that oppose the opposite party, the proportion of a member of Congress's Facebook posts that support the politician's own party, and the party of the Congressperson.
+
+You can find the dataset on [GitHub]().  The dataset and its codebook are also [here](https://www.pewresearch.org/politics/dataset/congressional-rhetoric-on-facebook-2015-2017-estimated-support-opposition-and-local-topics/), where you'll be asked to create a PEW username and password to access it:
+
+Load the dataset into `R` and use it to answer the following:
+
+a. Make a dummy variable for party where Democrats take the value $1$ and add it to the dataframe.  How many Democrat observations are in the data? How many non-Democrat observations?  Why do these sum to a value that is larger than the total number of members of congress in the US? (Hint: use the codebook).
+
+b. I have a hypothesis that politicians use social media in order to go negative.  Specifically, the more time a politician spends on social media, the more he or she is attacking the other party.  Using the pooled (full) data, make a scatterplot with the proportion of opposing other-party Facebook posts on the vertical axis and the total number of Facebook posts on the horizontal axis.  Depict each point that represents a Democrat with a blue cross and each point that represents a Republican or Independent with a red triangle.
+
+c. Now regress the proportion of opposing posts on total posts and the party dummy variable.  Plot the regression lines for each party on the scatterplot and include a legend indicating which is which.
+
+d. What is the slope coefficient on total posts and how should we interpret it?
+
+e. This number is very small.  Does that mean that the slope is meaningless?  Why?
+
+f. What is the p-value on the total posts slope coefficient and how should we interpret it?
+
+g. Does the 95\% confidence interval for the total posts slope coefficient contain 0?  Why is this a relevant question?
+
+h. What is the intercept and how should we interpret it?
+
+i. What is the expected difference between the proportion of opposing facebook posts for a Democrat and a Republican/Independent?
+
+j. Are you confident in this difference?  Why?
+
+k. Overall, what would you conclude about my hypothesis?
+
+l. In the last regression specifications, there are some politicians who post especially often on Facebook.  Let's see if they are unduly affecting the results above. To do so, create a new dataset that omits the ten observations with the largest number of Facebook posts.  Now rerun the regression of opposing posts on total posts and a party dummy variable.  Plot the new scatterplot and regression lines.  How different are your results?  Were these outliers influential?

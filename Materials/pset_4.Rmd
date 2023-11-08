@@ -33,7 +33,7 @@ require(ggpubr)
 # Instructions
 
 
-For this assignment, you are to use the `cpsnov2012.dta` dataset found on our class github. This is the November 2012 Current Population Survey, conducted by the U.S. Census Bureau with a nationally representative sample of U.S. households. The codebook for the dataset (`cpsnov2012.pdf`) may also be found on our class github.
+For this assignment, you are to use the `cpsnov2012.dta` dataset found on our class github. This is the November 2012 Current Population Survey, conducted by the U.S. Census Bureau with a nationally representative sample of U.S. households. The codebook for the dataset ([`cpsnov2012.pdf`](https://www2.census.gov/programs-surveys/cps/techdocs/cpsmar12.pdf)) may also be found on our class github.
 
 *Note:* Most of these questions require that you analyze the CPS's household income variable (`hefaminc`). It is coded at the ordinal level, but the analyses require that it be at an interval level. To do this, create a recoded version of `hefaminc` in which each case is assigned a household income equal to the midpoint of its interval of `hefaminc`. For example, a household with income in the range of $5,000-$7,500 should be assigned the value $6,250, and so on.
 

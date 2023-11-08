@@ -1,0 +1,791 @@
+---
+title: "Lecture 18"
+subtitle: "Quantitative Political Science"
+author: "Prof. Bisbee"
+institute: "Vanderbilt University"
+date: "Lecture Date: 2023/11/09\n Slides Updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    # self_contained: true
+    chakra: libs/remark-latest.min.js
+    lib_dir: libs
+    css:
+      - default
+      - css/lexis.css
+      - css/lexis-fonts.css
+    #seal: false
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "17:9"
+
+---
+
+```{css,echo = F}
+.small .remark-code { /*Change made here*/
+  font-size: 85% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+```
+
+```{r,include=F}
+set.seed(123)
+options(width=60)
+knitr::opts_chunk$set(fig.align='center',fig.width=9,fig.height=5)
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+require(tidyverse)
+require(ggpubr)
+```
+
+# Agenda
+
+1. Matrix Algebra fun!
+
+2. Multiple Regression
+
+3. Controls
+
+---
+
+# Matrix Algebra Fun! [Thanks BK!](https://bkenkel.com/pdaps/matrix.html#vector-operations)
+
+- Vectors: ordered arrays denoted $\mathbf{v} = (v_1,v_2,\dots,v_k)$ or 
+
+$$
+\begin{aligned}
+   \mathbf{v}=
+  \left( {\begin{array}{c}
+   v_1 \\
+   v_2 \\
+   \vdots\\
+   v_k
+  \end{array} } \right)
+\end{aligned}
+$$
+
+  - (Note that some will denote vectors with bold letters, or with $\vec{v}$)
+
+--
+
+- Addition and subtraction require two vectors of the same length, $\mathbf{u}$ and $\mathbf{v}$, but are then just adding or subtracting the elements
+
+$$
+\begin{aligned}
+   \mathbf{u} \pm \mathbf{v}=
+  \left( {\begin{array}{c}
+   u_1 \pm v_1 \\
+   u_2 \pm v_2 \\
+   \vdots\\
+   u_k \pm v_k
+  \end{array} } \right)
+\end{aligned}
+$$
+
+---
+
+# Vectors
+
+- Multiplication by a constant $c$ is just multiplying each element by $c$
+
+$$
+\begin{aligned}
+   c\mathbf{v}=
+  \left( {\begin{array}{c}
+   cv_1 \\
+   cv_2 \\
+   \vdots\\
+   cv_k
+  \end{array} } \right)
+\end{aligned}
+$$
+
+--
+
+- Multiplication of two vectors is called a **dot product**, written $\mathbf{u} \cdot \mathbf{v}$, and translates to multiplying each element in $\mathbf{u}$ by the corresponding element in $\mathbf{v}$ and then adding them all up
+
+$$
+\begin{aligned}
+\mathbf{u} \cdot \mathbf{v} &= u_1v_1 + u_2v_2 + \dots + u_kv_k\\
+&= \sum_{m=1}^k u_mv_m
+\end{aligned}
+$$
+
+---
+
+# Matrices
+
+- A matrix is a two-dimensional array with entries in $n$ rows and $m$ columns, called an $n\times m$ matrix
+
+$$
+\begin{aligned}
+   \mathbf{A}=
+  \left[ {\begin{array}{ccc}
+   a_{11} & a_{12} & a_{13} \\
+   a_{21} & a_{22} & a_{23} \\
+   a_{31} & a_{32} & a_{33}
+  \end{array} } \right]
+\end{aligned}
+$$
+
+--
+
+- As with vectors, matrices can be added and subtracted *as long as they are the same dimensions*
+
+$$
+\begin{aligned}
+   \mathbf{A} \pm \mathbf{B}=
+  \left[ {\begin{array}{ccc}
+   a_{11} \pm b_{11} & a_{12} \pm b_{12} & a_{13} \pm b_{13} \\
+   a_{21} \pm b_{21} & a_{22} \pm b_{22} & a_{23} \pm b_{23} \\
+   a_{31} \pm b_{31} & a_{32} \pm b_{32} & a_{33} \pm b_{33}
+  \end{array} } \right]
+\end{aligned}
+$$
+
+--
+
+- As with vectors, matrices multiplied by a constant are straightforward
+
+$$
+\begin{aligned}
+   c\mathbf{A}=
+  \left[ {\begin{array}{ccc}
+   ca_{11} & ca_{12} & ca_{13} \\
+   ca_{21} & ca_{22} & ca_{23} \\
+   ca_{31} & ca_{32} & ca_{33}
+  \end{array} } \right]
+\end{aligned}
+$$
+
+---
+
+# Matrices
+
+- Transposing: we can "rotate" $n\times m$ matrices into $m\times n$ matrices
+
+  - Meaning that the first row becomes the first column, the second row becomes the second column, etc.
+  
+  - Denoted with $\mathbf{A}^\top$ (or sometimes $\mathbf{A}'$)
+
+--
+
+- For example:
+
+$$
+\begin{aligned}
+\mathbf{A}=
+\left[ {\begin{array}{ccc}
+   99 & 73 & 2 \\
+   13 & 40 & 41
+  \end{array} } \right]
+  \qquad
+  \Leftrightarrow
+  \qquad
+\mathbf{A}^\top=
+\left[ {\begin{array}{cc}
+   99 & 13 \\
+   73 & 40 \\
+   2 & 41
+  \end{array} } \right]
+\end{aligned}
+$$
+
+---
+
+# Matrices
+
+- Properties of transposes
+
+$$
+\begin{aligned}
+(\mathbf{A}^\top)^\top &= \mathbf{A}, \\
+(c \mathbf{A})^\top &= c (\mathbf{A}^\top), \\
+(\mathbf{A} + \mathbf{B})^\top &= \mathbf{A}^\top + \mathbf{B}^\top, \\
+(\mathbf{A} - \mathbf{B})^\top &= \mathbf{A}^\top - \mathbf{B}^\top.
+\end{aligned}
+$$
+
+- Special types of matrices
+
+  - **Square** matrices: $n \times n$ size, meaning the same number of rows as columns
+  
+  - **Symmetric** square matrices: $\mathbf{A} = \mathbf{A}^\top$
+  
+  - **Diagonal** symmetric square matrices: zeros everywhere except the diagonal: if $i$ are rows and $j$ are columns, $i \neq j$, then $a_{ij} = 0$.
+  
+  - **Identity** diagonal symmetric square matrices: $\mathbf{I}_n$ is a diagonal matrix where the diagonals are 1s
+
+---
+
+# Matrix Multiplication
+
+- Refresher: need to multiply an $n \times m$ matrix by an $m \times p$ matrix.
+
+  - **NOTE**: the number of rows in the second matrix must be equal to the number of columns in the first matrix!
+  
+- Resulting matrix is an $n \times p$ matrix whose $ij$'th element is the **dot product** of the $i$'th row of the first matrix and the $j$'th column of the second matrix
+
+- Try it: solve $\mathbf{AB}$ where
+
+$$
+\begin{aligned}
+\mathbf{A} =\left[ {\begin{array}{ccc}
+   2 & 10 \\
+   0 & 1 \\
+   -1 & 5
+  \end{array} } \right]
+  \qquad 
+  \text{ and }
+  \qquad
+\mathbf{B} = 
+\left[ {\begin{array}{cc}
+   1 & 4 \\
+   -1 & 10
+  \end{array} } \right]
+\end{aligned}
+$$
+--
+
+$$
+\begin{aligned}
+\mathbf{A} \mathbf{B} = 
+\left[ {\begin{array}{cc}
+   2 \cdot 1 + 10 \cdot (-1) & 2 \cdot 4 + 10 \cdot 10 \\
+  0 \cdot 1 + 1 \cdot (-1) & 0 \cdot 4 + 1 \cdot 10 \\
+  (-1) \cdot 1 + 5 \cdot (-1) & (-1) \cdot 4 + 5 \cdot 10
+  \end{array} } \right]
+&= 
+\left[ {\begin{array}{cc}
+-8 & 108 \\
+  -1 & 10 \\
+  -6 & 46
+  \end{array} } \right]
+\end{aligned}
+$$
+
+---
+
+# Matrix Multiplication
+
+- Properties of matrix multiplication
+
+  - **Associative**: $(\mathbf{A}\mathbf{B})\mathbf{C} = \mathbf{A}(\mathbf{B}\mathbf{C})$
+  
+  - **Distributive**: $\mathbf{A} (\mathbf{B} + \mathbf{C}) = \mathbf{A} \mathbf{B} + \mathbf{A} \mathbf{C}$
+  
+  - **NOT** commutative: $\mathbf{A}\mathbf{B} \neq \mathbf{B}\mathbf{A}$
+  
+  - **Transpose Rule**: $(\mathbf{A} \mathbf{B})^\top = \mathbf{B}^\top \mathbf{A}^\top$
+
+
+---
+
+# Matrix Inversion
+
+- In the scalar world, we know we can rewrite a division problem $\frac{a}{b}$ as a multiplication problem $a \times \frac{1}{b} = a \times b^{-1}$
+
+  - $b^{-1}$ is the inverse of $b$
+  
+  - The (obvious) requirement for the inverse is that $b \times b^{-1} = \frac{b}{1} \times \frac{1}{b} = \frac{b}{b} = 1$
+  
+- In the matrix world, the inverse of a matrix $\mathbf{A}$ is denoted $\mathbf{A}^{-1}$ and must also satisfy: $\mathbf{A}\mathbf{A}^{-1} = \mathbf{I}_n$
+
+--
+
+- Some properties!
+
+  - If $\mathbf{C}$ is an inverse of $\mathbf{A}$, then $\mathbf{A}$ is also the inverse of $\mathbf{C}$
+
+--
+
+  - If $\mathbf{C}$ and $\mathbf{D}$ are both inverses of $\mathbf{A}$, then $\mathbf{C} = \mathbf{D}$
+
+--
+
+  - The inverse of an inverse of $\mathbf{A}$ is just $\mathbf{A}$: $(\mathbf{A}^{-1})^{-1} = \mathbf{A}$
+
+--
+
+  - The inverse of $\mathbf{A}^\top$ is the same as the inverse of $\mathbf{A}$, transposed: $(\mathbf{A}^\top)^{-1} = (\mathbf{A}^{-1})^\top$
+
+--
+
+  - If you have a scalar $c$ multiplied by a matrix $\mathbf{A}$, then $(c \mathbf{A})^{-1} = \frac{1}{c} \mathbf{A}^{-1}$
+  
+---
+
+# Matrix Inversion
+
+- To invert a $2\times 2$ matrix, follow this rule:
+
+- For 
+
+$$
+\begin{aligned}
+\mathbf{A} = 
+\left[ {\begin{array}{cc}
+   a & b  \\
+   c & d
+  \end{array} } \right]
+\end{aligned}
+$$
+
+- Invert using 
+
+$$
+\begin{aligned}
+\mathbf{A}^{-1} = \frac{1}{ad - bc} \left[ {\begin{array}{cc}
+   d & -b  \\
+   -c & a
+  \end{array} } \right]
+\end{aligned}
+$$
+
+- where $ad - bc$ is known as the **determinant** of the matrix $\mathbf{A}$, so named because it "determines" whether a matrix is invertible.
+
+  - Why would it not be invertible? If $ad - bc = 0$ or $ad = bc$!
+
+
+---
+
+# Matrix Inversion
+
+- Matrix inversion gets harder with larger matrices...you can learn how to do it manually, but this is where software like `R` comes in
+handy!
+
+```{r}
+A <- matrix(c(2, 1, 3, 4),
+            nrow = 2,
+            ncol = 2)
+A
+```
+
+--
+
+- Use the `solve()` function to get the inverse of A
+```{r}
+A_inv <- solve(A)
+A_inv
+```
+
+---
+
+# Matrix Math in `R`
+
+- `R` also can make our lives easier for matrix multiplication...just use `%*%` instead of the standard `*`
+
+```{r}
+# Use %*% to do matrix multiplication
+A*A_inv # Doesn't work...just does element-by-element multiplication
+A %*% A_inv # Works! We've proved that A_inv is the inverse of A!
+```
+
+---
+
+# Why all this!?
+
+- It helps us solve systems of equations!
+  
+- Back in the day, you probably had lots of practice with these types of things:
+
+$$
+\begin{aligned}
+2 x_1 + x_2 &= 10, \\
+2 x_1 - x_2 &= -10
+\end{aligned}
+$$
+- You probably learned to solve it various ways (i.e., solve for $x_1$ first then plug in)
+
+--
+
+- We can solve with matrix math instead!
+
+$$
+\begin{aligned}
+\mathbf{A} &= \begin{bmatrix}
+2 & 1 \\
+2 & -1
+\end{bmatrix}, \\
+\mathbf{x} &= \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}, \\
+\mathbf{b} &= \begin{bmatrix} 10 \\ -10 \end{bmatrix}
+\end{aligned}
+$$
+
+---
+
+# Systems of Equations
+
+- We can re-write the two equations with matrix notation as $\mathbf{A}\mathbf{x} = \mathbf{b}$
+
+- To solve for $\mathbf{x}$, we just invert $\mathbf{A}$ and write $\mathbf{x} = \mathbf{A}^{-1}\mathbf{b}$
+
+```{r}
+A <- matrix(c(2, 1, 2, -1),
+            nrow = 2,
+            ncol = 2)
+b <- matrix(c(10,-10),nrow = 2,ncol = 1)
+
+solve(A)%*%b
+```
+
+--
+
+- $x_1 = -2.5$ and $x_2 = 7.5$! So easy!
+
+- Note that there is a unique solution for $x_1$ and $x_2$ iff $\mathbf{A}$ is invertible
+
+  - If not, there is either no solution or infinitely many solutions
+  
+---
+
+# Multiple Regression
+
+- We can use matrix algebra to help us with **multiple regression** (one outcome with multiple predictors)
+
+  - Note: **multivariate regression** (multiple outcomes) $\neq$ multiple regression
+
+- Let's start with familiar notation and then break it down: $y_i = \beta_0 + \beta_1 x_{i} + \beta_2 z_{i} + u_i$
+
+- What does $y$ *look* like? I mean this literally...what is it in a dataset?
+
+--
+
+  - It is an $n$-length vector of values, one for each row in our dataset!
+  
+- $x$ and $z$ are the same
+
+```{r,echo=F,warning=F}
+require(tidyverse)
+Z <- rnorm(100)
+X <- rnorm(100,mean = Z)
+Y <- rnorm(100,mean = X - Z)
+
+dat <- data.frame(y = Y,x = X,z = Z) %>%
+  mutate(respondent_id = row_number()) %>%
+  select(respondent_id,y:z)
+
+dat
+```
+
+
+---
+
+# Multiple Regression
+
+- Let's now look at the data in a different way, from the perspective of a single unit of observation
+
+  - I.e., if we are dealing with a survey of individuals, our data might have some respondent $7$ for whom we observe both $y_7$ as well as $x_7$ and $z_7$
+  
+- From this perspective, unit $7$ is associated with an outcome $y_7$ (a single value) and then a vector of predictors: $\mathbf{x}_7 = (x_7,z_7)$
+
+```{r}
+dat %>% slice(7)
+```
+
+--
+
+- We can write our regression equation for this specific respondent as $y_7 = \beta_0 + \beta_1 x_7 + \beta_2 z_7 + u_7$, or we can write it as $y_7 = \beta \cdot \mathbf{x}_7 + u_7$
+
+  - $\beta$ is now itself a **vector** of coefficients: $\beta = (\beta_0,\beta_1,\beta_2)$
+  
+  - $\mathbf{x}_7$ now needs to include the number 1: $\mathbf{x}_7 = (1,x_7,z_7)$ in order to capture the $\beta_0$ coefficient.
+
+
+---
+
+# Multiple Regression
+
+- We can then think of $\beta$ as a $k\times 1$ vector (where $k$ is the number of predictors) and $\mathbf{x}_7$ as a $1 \times k$ vector, and then matrix multiply them!
+
+$$
+\begin{aligned}
+y_7 &= \beta \cdot \mathbf{x}_7 + u_7 \\
+&= \left[ {\begin{array}{c}
+   \beta_0 \\
+   \beta_1 \\
+   \beta_2
+  \end{array} } \right] \cdot 
+  \left[ {\begin{array}{ccc}
+   1 & x_7 & z_7
+  \end{array} } \right] + u_7 \\
+&= \beta_0 + \beta_1 x_{7} + \beta_2 z_7 + u_7,
+\end{aligned}
+$$
+--
+
+- Now this was just one observation in our data, but we can imagine doing this for every single row, and then stacking our equations on top of each other
+
+$$
+\begin{aligned}
+y_1 &= \beta \cdot \mathbf{x}_1 + u_1, \\
+y_2 &= \beta \cdot \mathbf{x}_2 + u_2, \\
+&\vdots \\
+y_n &= \beta \cdot \mathbf{x}_N + u_n.
+\end{aligned}
+$$
+
+---
+
+# Multiple Regression
+
+- As with any system of equations, we can re-write as vectors and matrices
+
+$$
+\begin{aligned}
+\mathbf{Y} = \left[ {\begin{array}{c}
+   Y_1  \\
+   Y_2 \\
+   \vdots \\
+   Y_n
+  \end{array} } \right]
+\end{aligned}
+,
+\qquad
+\mathbf{X} =
+\begin{bmatrix}
+  \mathbf{x}_{1} \\
+  \mathbf{x}_{2} \\
+  \vdots \\
+  \mathbf{x}_{n}
+\end{bmatrix}
+=
+\begin{bmatrix}
+  1 & x_{1} & z_{1} \\
+  1 & x_{2} & z_{2} \\
+  \vdots & \vdots \\
+  1 & x_{n} & z_{n}
+\end{bmatrix}
+,
+\qquad
+\mathbf{u} = \left[ {\begin{array}{c}
+   u_1  \\
+   u_2 \\
+   \vdots \\
+   u_n
+  \end{array} } \right]
+$$
+
+- Plugging in: $\mathbf{Y} = \mathbf{X}\cdot \beta + \mathbf{u}$
+
+--
+
+- Note that this is the same as writing:
+
+$$
+\begin{aligned}
+\begin{bmatrix} Y_1 \\ Y_2 \\ \vdots \\ Y_n \end{bmatrix}_{n\times 1} &= \begin{bmatrix}
+  1 & x_{1} & z_{1} \\
+  1 & x_{2} & z_{2} \\
+  \vdots & \vdots \\
+  1 & x_{n} & z_{n}
+\end{bmatrix}_{n\times k}\begin{bmatrix} \beta_0 \\ \beta_1 \\ \beta_2 \end{bmatrix}_{k \times 1} + \begin{bmatrix} u_1 \\ u_2 \\ \vdots \\ u_n \end{bmatrix}_{n \times 1}
+\end{aligned}
+$$
+
+- where $k$ is the number of parameters (in this case, 3) and $n$ is the number of observations
+
+---
+
+# Multiple Regression
+
+- Note that $\mathbf{Y} = \mathbf{X}\cdot \beta + \mathbf{u}$ is assumed to be a reflection of the real world
+
+- We estimate these, as before, with our OLS estimators $\hat{\beta}$
+
+- To do so, we first calculate our residuals as $u = y - X\hat{\beta}$, and then add them up and square them.
+
+  - In the **scalar** world, we would write this as $\sum u_i^2$.
+  
+  - In the **vector** world, we write this as $u^\top u$.
+
+--
+
+$$
+\begin{aligned}
+u^\top u = \begin{bmatrix} u_1 & u_2 & \dots & u_n \end{bmatrix}_{1 \times n} \cdot \begin{bmatrix} u_1 \\ u_2 \\ \vdots \\ u_n \end{bmatrix}_{n \times 1} &= \begin{bmatrix} u_1*u_1 + u_2*u_2 + \dots + u_n*u_n \end{bmatrix}_{1 \times n}
+\end{aligned}
+$$
+--
+
+- Note that $u^\top u = \begin{bmatrix} u_1*u_1 + u_2*u_2 + \dots + u_n*u_n \end{bmatrix}$ is the same as $\sum u_i^2$!!
+
+---
+
+# Multiple Regression
+
+- We can re-write the sum of squared residuals as $u^\top u = (y - X\hat{\beta})^\top (y - X\hat{\beta})$ by plugging in the definition of $u$
+
+--
+
+- Now let's try doing some reorganizing of this
+
+$$
+\begin{aligned}
+(y - X\hat{\beta})^\top (y - X\hat{\beta}) &= y^\top y - y^\top X\hat{\beta} - \hat{\beta}^\top X^\top y + \hat{\beta}^\top X^\top X \hat{\beta}
+\end{aligned}
+$$
+- Note that we can use the transpose of a vector to re-write $y^\top X\hat{\beta} = (y^\top X\hat{\beta})^\top = \hat{\beta}^\top X^\top y$
+
+--
+
+- Substitute this in to reduce to:
+
+$$
+\begin{aligned}
+u^\top u &= y^\top y - 2\hat{\beta}^\top X^\top y + \hat{\beta}^\top X^\top X \hat{\beta}
+\end{aligned}
+$$
+
+---
+
+# Multiple Regression
+
+- Take the derivative with respect to $\hat{\beta}$ and set it equal to zero, just like we did in the bivariate case
+
+$$
+\begin{aligned}
+\frac{\partial u^\top u}{\partial \hat{\beta}} &= -2X^\top y + 2 X^\top X \hat{\beta} = 0\\
+(X^\top X)\hat{\beta} &= X^\top y
+\end{aligned}
+$$
+
+- To solve for $\hat{\beta}$, we need to pre-multiply both the left and the right by the inverse of $(X^\top X)$, assuming it exists
+
+$$
+\begin{aligned}
+(X^\top X)\hat{\beta} &= X^\top y\\
+(X^\top X)^{-1}(X^\top X)\hat{\beta} &= (X^\top X)^{-1}X^\top y\\
+\mathbf{I}\hat{\beta} &= (X^\top X)^{-1}X^\top y\\
+\hat{\beta} &= (X^\top X)^{-1}X^\top y
+\end{aligned}
+$$
+
+---
+
+# Properties of the OLS Estimators
+
+- $X^\top u = 0$: To prove, substitute the definition of $y = X\hat{\beta} + u$ into the normal equation
+
+--
+
+$$
+\begin{aligned}
+(X^\top X)\hat{\beta} &= X^\top y\\
+(X^\top X)\hat{\beta} &= X^\top (X\hat{\beta} + u)\\
+(X^\top X)\hat{\beta} &= (X^\top X)\hat{\beta} + X^\top u)\\
+0 &= X^\top u
+\end{aligned}
+$$
+
+---
+
+# Properties of the OLS Estimators
+
+- If our regression specification includes a constant, $\sum u_i = 0$: To prove, look inside the matrices!
+
+$$
+\begin{aligned}
+\left[ {\begin{array}{ccc}
+x_{11} & x_{12} & \dots & x_{1k}  \\
+x_{21} & x_{22} & \dots & x_{2k}  \\
+\vdots & \vdots & \ddots & \vdots \\
+x_{n 1} & x_{n2} & \dots & x_{nk}  \\
+  \end{array} } \right]
+\cdot
+\left[ {\begin{array}{c}
+u_1 \\
+u_2 \\
+\vdots \\
+u_n \\
+  \end{array} } \right]
+=
+\left[ {\begin{array}{c}
+x_{11}*u_1 + x_{12}*u_2 + \dots + x_{1n}*u_n \\
+x_{21}*u_1 + x_{22}*u_2 + \dots + x_{2n}*u_n \\
+\vdots\\
+x_{k1}*u_1 + x_{k2}*u_2 + \dots + x_{kn}*u_n \\ 
+  \end{array} } \right]
+=
+\left[ {\begin{array}{c}
+0\\
+0\\
+\vdots\\
+0
+  \end{array} } \right]
+\end{aligned}
+$$
+--
+
+- If $X^\top e = 0$, then every column $\mathbf{x}_k$'s dot product with $\mathbf{u}$ must be zero
+
+- Since the first column of $\mathbf{X}$ is all 1, then this first column reduces to $\sum u_i = 0$
+
+--
+
+- Also note that therefore $\bar{u} = 0$ since $\bar{u} = \frac{\sum u_i}{n}$
+
+---
+
+# Properties of the OLS Estimators
+
+- The regression **hyperplane** (no longer a single line, since we have multiple predictors) will pass through $\bar{X}$ and $\bar{y}$
+
+  - We just showed that $\bar{u} = 0$, and we know that $u = y - X\hat{\beta}$
+  
+  - Thus $\bar{e} = \bar{y} - \bar{x}\hat{\beta}$, meaning $\bar{y} = \bar{x}\hat{\beta}$
+  
+--
+
+- The predicted values of $y$ are uncorrelated with the residuals
+
+  - $\hat{y} = X\hat{\beta}$, meaning that
+  
+$$
+\begin{aligned}
+\hat{y}^\top u &= X\hat{\beta}^\top u\\
+&= \hat{\beta}^\top X^\top u\\
+&= \hat{\beta}^\top \cdot 0
+\end{aligned}
+$$
+
+---
+
+# Inference about $\hat{\beta}$
+
+- All the preceding properties are purely statistical...they hold by construction
+
+- If we want to make inferences about $\beta$ (the true population parameters), we need some additional assumptions
+
+- The Gauss-Markov Assumptions (we've already seen these!)
+
+--
+
+  1. $y = X\beta + u$: assume that the relationship between $y$ and $X$ is linear in the parameters
+
+--
+
+  2. $X$ is an $n \times k$ matrix of **full rank**: There is no perfect multicollinearity in $X$, meaning that the columns are "linearly independent"
+
+--
+
+  3. $E(u|X) = 0$: Zero conditional mean assumption. The errors average out to zero for any value of $X$. Implies that $E(y) = X\beta$
+
+--
+
+  4. $E(uu^\top | X) = \sigma^2 \mathbf{I}$: **spherical errors**. This means that our errors are **homoskedastic** (i.e., the errors are the same value $\sigma^2$ for all observations) *AND* that the errors are uncorrelated
+
+```{r,message=F,echo=F,warning=F,results='hide'}
+dir <- getwd()
+type <- 'pdf'
+format <- 'landscape'
+f <- 'Lecture_18_slides'
+
+# system(paste('Rscript ../NFGH/chromeprint.R',dir,type,format,f),wait = F)
+```

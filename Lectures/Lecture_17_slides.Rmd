@@ -1,0 +1,677 @@
+---
+title: "Lecture 17"
+subtitle: "Quantitative Political Science"
+author: "Prof. Bisbee"
+institute: "Vanderbilt University"
+date: "Lecture Date: 2023/11/07\n Slides Updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    # self_contained: true
+    chakra: libs/remark-latest.min.js
+    lib_dir: libs
+    css:
+      - default
+      - css/lexis.css
+      - css/lexis-fonts.css
+    #seal: false
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "17:9"
+
+---
+
+```{css,echo = F}
+.small .remark-code { /*Change made here*/
+  font-size: 85% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+```
+
+```{r,include=F}
+set.seed(123)
+options(width=60)
+knitr::opts_chunk$set(fig.align='center',fig.width=9,fig.height=5)
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+require(tidyverse)
+require(ggpubr)
+```
+
+# Agenda
+
+1. Estimating Error Variance
+
+2. Hypothesis Testing
+
+3. Controls
+
+
+---
+
+# Estimating Error Variance
+
+- Ended last lecture talking about $VAR(\hat{\beta}_1) = \frac{\sigma^2}{SST_x}$
+
+  - This is a **conceptual** quantity
+  
+- How do we actually calculate it?
+
+  - Recall from the univariate case where we wrote $VAR(\bar{Y}) = \frac{\sigma^2}{n}$
+  
+  - We said it is rare that we actually know $\sigma^2$, but we still estimate it with $S_u^2 = \frac{\sum(y_i - \bar{y})^2}{n-1}$
+  
+- Here, we do something very similar: $\hat{\sigma}^2 = \frac{\sum(u_i)^2}{n-2} = \frac{SSR}{n-2}$
+
+  - Why $n-2$?
+  
+---
+
+# Estimating Error Variance
+
+- Thus we plug this into our two formulas for $VAR(\hat{\beta}_0)$ and $VAR(\hat{\beta}_1)$
+
+$$
+\begin{aligned}
+\widehat{VAR(\hat{\beta}_0)} &= \frac{\hat{\sigma}^2 \frac{\sum x_i^2}{n}}{SST_x}\\
+&= \frac{\frac{SSR}{n-2}\frac{\sum x_i^2}{n}}{SST_x}\\
+\widehat{VAR(\hat{\beta}_1)} &= \frac{\hat{\sigma}^2}{SST_x}\\
+&= \frac{\frac{SSR}{n-2}}{SST_x}\\
+\end{aligned}
+$$
+
+---
+
+# Estimating Error Variance
+
+- As we discussed last week in the theoretical case, $\hat{\sigma}^2$ is a very interesting quantity, because $\sqrt{\hat{\sigma}^2} = \hat{\sigma} \overset{p}\rightarrow \sigma$
+
+  - $\hat{\sigma}$ is expressed in units of $y$
+  
+  - Tell us how far the typical fitted value of $y$ is from the observed value
+  
+  - Theoretically, the extent to which unexplained factors are affecting the value of $y$
+  
+  - **VERY INFORMATIVE STATISTIC THAT NO ONE REALLY PAYS ATTENTION TO**
+  
+- Terms for $\hat{\sigma}$:
+
+  - Wooldridge: "standard error of regression" (SER)
+  
+  - Root MSE or RMSE
+  
+  - Standard error of the estimate (SEE)
+  
+  - `R`: Residual standard error
+
+
+
+---
+
+# Hypothesis Testing
+
+- Remember all these fun times we had?
+
+```{r,echo=F,warning=F,message=F}
+# Load necessary library
+library(ggplot2)
+
+# Define the mean and standard deviation
+mean <- 0
+sd <- 1
+
+# Define the range for x values
+x <- seq(-4, 4, length.out = 1000)
+
+# Define the density function for the normal distribution
+y <- dnorm(x, mean, sd)
+
+# Calculate the critical value for a 95% confidence interval
+z <- qnorm(c(0.025, 0.975))
+
+ggplot(data.frame(x, y), aes(x, y)) +
+  geom_ribbon(data = subset(data.frame(x, y), x > -Inf & x < Inf),
+              aes(ymin = 0, ymax = y),
+              fill = "gray40",
+              alpha = 0.5,color = 'black') +
+  geom_ribbon(data = subset(data.frame(x, y), x > z[1] & x < z[2]),
+              aes(ymin = 0, ymax = y),
+              fill = "white",
+              alpha = 1,color = 'black') +
+  labs(title = bquote("Sampling Distribution of"~ hat(theta)),
+       x = bquote(z),
+       y = bquote(f(hat(theta))==phi)) +
+  theme_minimal() + 
+  geom_vline(xintercept = 0,linetype = 'dashed') + 
+  annotate(geom = 'segment',x = 1.96,y = -.05,xend = Inf,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = -1.96,y = -.05,xend = -Inf,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = -Inf,y = -.05,xend = Inf,yend = -.05,
+           arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) +
+  annotate(geom = 'segment',x = 1.96,y = -.075,xend = 1.96,yend = -0.025) + 
+  annotate(geom = 'segment',x = -1.96,y = -.075,xend = -1.96,yend = -0.025) + 
+  annotate(geom = 'label',x = 0,y = -Inf,label = expression(theta[0]),vjust = 0,parse = T) + 
+  # annotate(geom = 'segment',x = -.95,xend = .95,y = .25,yend= .25,
+  #          arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) + 
+  annotate(geom = 'label',x = 0,y = Inf,label = expression(1-alpha),vjust = 5.5,parse = T) + 
+  annotate(geom = 'label',x = -2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  scale_x_continuous(breaks = c(-1.96,1.96),labels = c(expression(theta[0]-z[alpha/2]~sigma[hat(theta)]),expression(theta[0]+z[alpha/2]~sigma[hat(theta)]))) + 
+  theme(axis.title.x = element_text(hjust = 1))
+```
+
+---
+
+# Hypothesis Testing
+
+- We now have the tools to do this with $\hat{\beta}_1$! (And $\hat{\beta}_0$, although that is rarely the quantity of interest.)
+
+- Note that we typically are interested in whether $\hat{\beta}_1$ is zero:
+
+  - Null $H_0$: $\beta_1 = 0$
+  
+  - Alternative $H_A$: $\beta_1 \neq 0$
+  
+  - Test statistic: Critical $t$ value for Student's T-test for our estimator $\hat{\beta}_1$
+  
+  - Rejection Region: $\hat{\beta}_1 < 0 - t_{\alpha/2,\nu}*\sqrt{\widehat{VAR(\hat{\beta}_1)}}$ or $\hat{\beta}_1 > 0 + t_{\alpha/2,\nu}*\sqrt{\widehat{VAR(\hat{\beta}_1)}}$
+  
+---
+
+# Hypothesis Testing
+
+- What is $\sqrt{\widehat{VAR(\hat{\beta}_1)}}$? 
+
+--
+
+  - The **standard error** of the estimator $\hat{\beta}_1$, or $\widehat{se(\hat{\beta}_1)}$, (or often just $se_{\hat{\beta}_1}$)
+  
+- What is $\nu$?
+
+--
+
+  - The **degrees of freedom**: This will be $n - k - 1$. $n$ observations minus $k$ parameters (in this case just one: $\hat{\beta}_1$) - 1 (for the intercept $\hat{\beta}_0$)
+
+---
+
+# Hypothesis Testing
+
+
+```{r,echo=F,warning=F,message=F}
+# Load necessary library
+library(ggplot2)
+
+# Define the mean and standard deviation
+mean <- 0
+sd <- 1
+
+# Define the range for x values
+x <- seq(-4, 4, length.out = 1000)
+
+# Define the density function for the normal distribution
+y <- dnorm(x, mean, sd)
+
+# Calculate the critical value for a 95% confidence interval
+z <- qnorm(c(0.025, 0.975))
+
+ggplot(data.frame(x, y), aes(x, y)) +
+  geom_ribbon(data = subset(data.frame(x, y), x > -Inf & x < Inf),
+              aes(ymin = 0, ymax = y),
+              fill = "gray40",
+              alpha = 0.5,color = 'black') +
+  geom_ribbon(data = subset(data.frame(x, y), x > z[1] & x < z[2]),
+              aes(ymin = 0, ymax = y),
+              fill = "white",
+              alpha = 1,color = 'black') +
+  labs(title = bquote("Sampling Distribution of"~ hat(beta)[1]),
+       x = bquote(t),
+       y = bquote(f(hat(theta))==phi)) +
+  theme_minimal() + 
+  geom_vline(xintercept = 0,linetype = 'dashed') + 
+  annotate(geom = 'segment',x = 1.96,y = -.05,xend = Inf,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = -1.96,y = -.05,xend = -Inf,yend = -.05,
+             size = 1.6,color = 'gray40') +
+  annotate(geom = 'segment',x = -Inf,y = -.05,xend = Inf,yend = -.05,
+           arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) +
+  annotate(geom = 'segment',x = 1.96,y = -.075,xend = 1.96,yend = -0.025) + 
+  annotate(geom = 'segment',x = -1.96,y = -.075,xend = -1.96,yend = -0.025) + 
+  annotate(geom = 'label',x = 0,y = -Inf,label = expression(beta[1]==0),vjust = 0,parse = T) + 
+  # annotate(geom = 'segment',x = -.95,xend = .95,y = .25,yend= .25,
+  #          arrow = arrow(length=unit(0.30,"cm"), ends="both", type = "closed")) + 
+  annotate(geom = 'label',x = 0,y = Inf,label = expression(1-alpha),vjust = 5.5,parse = T) + 
+  annotate(geom = 'label',x = -2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  annotate(geom = 'label',x = 2.5,y = .01,label = expression(alpha/2),vjust = 0,parse = T) + 
+  scale_x_continuous(breaks = c(-1.96,1.96),labels = c(expression(0-t[alpha/2~nu]~se[hat(beta)[1]]),expression(0+t[alpha/2~nu]~se[hat(beta)[1]]))) + 
+  theme(axis.title.x = element_text(hjust = 1))
+```
+
+---
+
+```{r}
+require(tidyverse)
+set.seed(123)
+n <- 100
+X <- rnorm(n)
+Y <- rnorm(n,mean = X)
+
+summary(lm(Y~X))
+```
+
+---
+
+# Manual Calculation!
+
+```{r}
+b1_hat <- cov(X,Y)/var(X)
+b0_hat <- mean(Y) - (cov(X,Y)/var(X))*mean(X)
+
+preds <- b0_hat + b1_hat*X
+resids <- Y - preds
+mean(resids)
+```
+
+---
+
+# Manual Calculation!
+
+```{r}
+SSR <- sum(resids^2)
+sigma2_hat <- SSR/(n-2)
+sigma_hat <- sqrt(sigma2_hat)
+
+SST_x <- sum((X - mean(X))^2)
+S_xx <- sum(X^2) - n*mean(X)^2 # Equivalent ways
+
+VAR0_hat <- (sigma2_hat*(sum(X^2)/n))/SST_x
+se0_hat <- sqrt(VAR0_hat)
+
+VAR1_hat <- sigma2_hat/SST_x
+se1_hat <- sqrt(VAR1_hat)
+```
+
+---
+
+# Manual Calculation!
+
+```{r}
+cat(c(b0_hat,se0_hat),'\n',c(b1_hat,se1_hat))
+
+summary(lm(Y~X))
+```
+
+---
+
+# Other output
+
+- Regression output includes two additional columns
+
+  - `t value` and `Pr(>|t|)`
+  
+- `t value` is just $\frac{\hat{\beta}_1}{\widehat{se(\hat{\beta}_1)}}$ (or $\frac{\hat{\beta}_0}{\widehat{se(\hat{\beta}_0)}}$)
+
+  - `b1_hat / se1_hat = ` `r b1_hat / se1_hat`
+  
+- `Pr(>|t|)` is literally the probably of observing a value as large as the absolute value of the t-value
+
+  - I.e., the $p$**-value**!: "attained significance level" or "smallest level of $\alpha$ for which we would **reject** $H_0$
+
+---
+
+# Controlling for a variable
+
+- We talked last week about OVB (**O**mitted **V**ariable **B**ias)
+
+  - Subset of broader conversation about bias
+  
+- We might want to "control" for $z$ to remove OVB (preventing the $\beta_2 z_i + \nu_i$ from being "buried in the $u$)
+
+  - But remember that failing to control for $z$ is only a problem **if** either (1) $\beta_2 \neq 0$ or (2) $cov(z,x) \neq 0$
+  
+- *Ceteris paribus*: "all things being equal"
+  
+  - Want to estimate a *ceteris paribus* relationship between $X$ and $Y$
+  
+  - What would the relationship look like if all other aspects of our units were the same?
+  
+  - Commonly invoked for causal claims, but more on that next semester
+  
+---
+
+# Controlling for a variable
+
+- Let's get precise with our terminology:
+
+  - $Z$ is a potential **confound**
+  
+  - If $Z$ "confounds" the relationship between $X$ and $Y$, it **renders the relationship spurious**
+
+- How about some examples? 
+
+--
+
+| $X$ | $Y$ | $Z$ | 
+| ------------ | ------------------- | -------------------- |
+| College degree | Salary at age 25 | Ability |
+| Female | Pro-Choice | Democrat |
+| First-born | IQ Score | Parental involvement | 
+| Asian-American | Trump Support | Vietnamese | 
+| Own a home | Participated in Women's March | Year of Birth |
+| ... | ... | ... |
+
+---
+
+# Controlling for a variable
+
+- To determine whether $Z$ renders the relationship between $X$ and $Y$ spurious, we...
+
+  - "control for $Z$"
+  
+  - "condition on $Z$"
+  
+  - "hold $Z$ constant"
+  
+- These all mean the same thing conceptually, but there are several different ways to do this
+
+- Ideally, we would do exactly what "holding $Z$ constant" suggests: divide our units by categories of $Z$ and examine the relationship between $X$ and $Y$ within each category of $Z$
+
+  - I.e., if women are more pro-choice, we want to see this among *both* Democrats and Republicans
+  
+  - If the relationship persists after holding $Z$ constant, we say it is not spurious
+  
+  - If it no longer holds, we say that $Z$ is a confound rendering the relationship between $X$ and $Y$ spurious
+  
+- In practice, we usually do something much less careful
+
+---
+
+# Controlling for a variable
+
+- We often will make our assumptions explicit with a **D**irected **A**cyclic **G**raph (DAG)
+
+  - This encodes our intuition about what the population parameters of interest might be
+
+```{r test,echo=FALSE,message=F,warning=F}
+# library(DiagrammeR)
+# m <- mermaid("graph LR;
+# 		   X-->Y;
+# 		   Z-->X;
+# 		   Z-->Y
+# 		   ")
+# m
+# widgetframe::frameWidget(m)
+
+require(ggdag)
+simple_dag_with_coords <- dagify(
+  Y ~ X + Z,
+  X ~ Z,
+  # exposure = "x",
+  # outcome = "y",
+  coords = list(x = c(X = 1, Z = 2, Y = 3),
+                y = c(X = 2, Z = 3, Y = 2))
+)
+
+ggdag(simple_dag_with_coords,text_size = 5) +
+  theme_dag()
+```
+
+---
+
+# Controlling for a variable
+
+- Let's tackle a classic: education and income
+
+  - $Y$: income
+  
+  - $X$: education
+  
+- What is $Z$?
+
+--
+
+  - Parent's education?
+
+---
+
+# Controlling for a variable
+
+- Start by looking at all three relationships separately
+
+```{r,message=F,warning=F}
+require(tidyverse)
+require(haven) # To open .dta files
+
+dat <- read_dta('../Materials/gss7222_r1.dta')
+
+dat <- dat %>%
+  select(realinc,educ,paeduc) %>%
+  sample_n(size = 10000,replace = F) %>%
+  drop_na()
+
+gc()
+```
+
+- (`gc()` helps save memory after I dropped thousands of rows and columns)
+
+---
+
+# Controlling for a variable
+
+- Start by looking at all three relationships separately
+
+```{r,message=F,warning=F}
+dat %>%
+  group_by(educ) %>%
+  summarise(income = mean(realinc,na.rm=T))
+```
+
+---
+
+# Controlling for a variable
+
+- Start by looking at all three relationships separately
+
+```{r,message=F,warning=F}
+dat %>%
+  ggplot(aes(x = educ,y = realinc)) + 
+  geom_point()
+```
+
+---
+
+# Controlling for a variable
+
+- Start by looking at all three relationships separately
+
+```{r,message=F,warning=F,echo=F}
+dat %>%
+  ggplot(aes(x = educ,y = realinc)) + 
+  geom_jitter() + 
+  geom_smooth(aes(color = 'Local linear smoother')) + 
+  geom_smooth(aes(color = 'Linear regression'),method = 'lm',linetype = 'dashed') + 
+  scale_color_manual(name = 'Method',values = c('darkblue','red'))
+```
+
+---
+
+# Controlling for a variable
+
+- Start by looking at all three relationships separately
+
+```{r,message=F,warning=F,echo=F}
+dat %>%
+  ggplot(aes(x = paeduc,y = realinc)) + 
+  geom_jitter() + 
+  geom_smooth(aes(color = 'Local linear smoother')) + 
+  geom_smooth(aes(color = 'Linear regression'),method = 'lm',linetype = 'dashed') + 
+  scale_color_manual(name = 'Method',values = c('darkblue','red'))
+```
+
+---
+
+# Controlling for a variable
+
+- Start by looking at all three relationships separately
+
+```{r,message=F,warning=F,echo=F}
+dat %>%
+  ggplot(aes(x = paeduc,y = educ)) + 
+  geom_jitter() + 
+  geom_smooth(aes(color = 'Local linear smoother')) + 
+  geom_smooth(aes(color = 'Linear regression'),method = 'lm',linetype = 'dashed') + 
+  scale_color_manual(name = 'Method',values = c('darkblue','red'))
+```
+
+---
+
+# Controlling for a variable
+
+- Clearly evidence of:
+
+  - $\beta_1 \neq 0$
+  
+  - $\beta_2 \neq 0$
+  
+  - $cov(educ,paeduc) \neq 0$
+  
+- I.e., OVB!
+
+- Think through what this will mean for the following regression: $realinc_{i} = \beta_0 + \beta_1 educ_{i} + u_{i}$
+
+---
+
+# Controlling for a variable
+
+- Let's "control" for parent's education in three ways
+
+1. Fewest Assumptions: Just visualize it with a local linear smoother, and subset to different values of parent's education
+
+  - No linearity assumption between $X$ and $Y$
+  
+  - Different relationship between $X$ and $Y$ for different values of $Z$
+
+2. More Assumptions: Run multiple linear regressions, subsetting to different values of parent's education
+
+  - Linearity assumption between $X$ and $Y$
+  
+  - Different (linear) relationships between $X$ and $Y$ for different values of $Z$
+  
+3. Most Assumptions: Run single linear regression, adding $Z$ as an additional predictor
+
+  - Linearity assumption between $X$ and $Y$
+  
+  - Same linear relationship between $X$ and $Y$ for all values of $Z$
+
+
+---
+
+# Controlling for a variable
+
+- First, let's take `paeduc` and transform it into a categorical measure
+
+```{r}
+dat <- dat %>%
+  mutate(paeduc_cat = factor(ifelse(paeduc < 9,'8th gr or less',
+                             ifelse(paeduc < 12,'HS dropout',
+                                    ifelse(paeduc == 12,'HS degree',
+                                           ifelse(paeduc < 16,'Some college',
+                                                  ifelse(paeduc == 16,'College degree','Post grad'))))),
+                             levels = c('8th gr or less','HS dropout','HS degree','Some college','College degree','Post grad')))
+dat %>% count(paeduc_cat)
+```
+---
+
+# Controlling for a variable: Fewest assumptions
+
+```{r,message=F,warning=F}
+p <- dat %>%
+  ggplot(aes(x = educ,y = realinc)) + 
+  geom_point() + 
+  geom_smooth() + 
+  facet_wrap(~paeduc_cat)
+```
+
+---
+
+# Controlling for a variable: Fewest assumptions
+
+```{r,message=F,warning=F}
+p
+```
+
+---
+
+# Controlling for a variable: More assumptions
+
+```{r}
+res <- list()
+for(i in unique(dat$paeduc_cat)) {
+  res[[i]] <- lm(realinc ~ educ,dat %>% 
+                               filter(paeduc_cat == i))
+}
+
+# 8th grade or less
+summary(res$`8th gr or less`)$coefficients
+
+# High school dropout
+summary(res$`HS dropout`)$coefficients
+```
+
+---
+
+# Controlling for a variable: More assumptions
+
+```{r}
+summary(res$`HS degree`)$coefficients
+summary(res$`Some college`)$coefficients
+summary(res$`College degree`)$coefficients
+summary(res$`Post grad`)$coefficients
+```
+
+---
+
+# Controlling for a variable: More assumptions
+
+```{r,echo=F,warning=F,message=F}
+toplot <- NULL
+for(i in names(res)) {
+  toplot <- toplot %>%
+    bind_rows(summary(res[[i]])$coefficients %>%
+    data.frame() %>%
+      slice(2) %>%
+    mutate(parent_education = i) %>%
+    as_tibble())
+}
+
+toplot %>%
+  mutate(parent_education = factor(parent_education,levels = c('8th gr or less','HS dropout','HS degree','Some college','College degree','Post grad'))) %>%
+  ggplot(aes(x = Estimate,y = parent_education)) + 
+  geom_point() + 
+  geom_errorbarh(aes(xmin = Estimate - 1.96*`Std..Error`,xmax = Estimate + 1.96*`Std..Error`))
+```
+
+---
+
+# Controlling for a variable: Most assumptions
+
+```{r}
+summary(lm(realinc ~ educ + paeduc,dat))
+```
+
+
+
+```{r,message=F,echo=F,warning=F,results='hide'}
+dir <- getwd()
+type <- 'pdf'
+format <- 'landscape'
+f <- 'Lecture_17_slides'
+
+# system(paste('Rscript ../NFGH/chromeprint.R',dir,type,format,f),wait = F)
+```
