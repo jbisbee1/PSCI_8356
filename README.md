@@ -313,11 +313,11 @@ Lecture Content (2023/10/31): Inference
 
 Lecture Content (2023/11/02): Error variance and controls
 
-* Slides: 
+* Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_16_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_16_slides.html#1)
 
 Lecture Content (2023/11/07): Error variance and controls
 
-* Slides: 
+* Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_17_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_17_slides.html#1)
 * Homework: Problem set 5 (due November 14)
 
 **Review Session (2023/11/08): Review sections 7 and 8.**
