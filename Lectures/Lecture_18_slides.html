@@ -27,7 +27,7 @@ class: center, middle, inverse, title-slide
 ]
 .date[
 ### Lecture Date: 2023/11/09
-Slides Updated: 2023-11-05
+Slides Updated: 2023-11-13
 ]
 
 ---
@@ -166,7 +166,7 @@ $$
 
 ---
 
-# Matrices
+# Matrices: Transpose
 
 - Transposing: we can "rotate" `\(n\times m\)` matrices into `\(m\times n\)` matrices
 
@@ -199,7 +199,7 @@ $$
 
 ---
 
-# Matrices
+# Matrices: Transpose
 
 - Properties of transposes
 
@@ -208,19 +208,19 @@ $$
 (\mathbf{A}^\top)^\top &amp;= \mathbf{A}, \\
 (c \mathbf{A})^\top &amp;= c (\mathbf{A}^\top), \\
 (\mathbf{A} + \mathbf{B})^\top &amp;= \mathbf{A}^\top + \mathbf{B}^\top, \\
-(\mathbf{A} - \mathbf{B})^\top &amp;= \mathbf{A}^\top - \mathbf{B}^\top.
+(\mathbf{A} - \mathbf{B})^\top &amp;= \mathbf{A}^\top - \mathbf{B}^\top,\\
+(\mathbf{A}\mathbf{B})^\top &amp;= \mathbf{B}^\top\mathbf{A}^\top.
 \end{aligned}`
 $$
 
-- Special types of matrices
+--
 
-  - **Square** matrices: `\(n \times n\)` size, meaning the same number of rows as columns
+- Note that it doesn't make sense to transpose a scalar
+
+  - But also that this means a scalar is always equal to its transpose: `\(a = a^\top\)`
+
   
-  - **Symmetric** square matrices: `\(\mathbf{A} = \mathbf{A}^\top\)`
   
-  - **Diagonal** symmetric square matrices: zeros everywhere except the diagonal: if `\(i\)` are rows and `\(j\)` are columns, `\(i \neq j\)`, then `\(a_{ij} = 0\)`.
-  
-  - **Identity** diagonal symmetric square matrices: `\(\mathbf{I}_n\)` is a diagonal matrix where the diagonals are 1s
 
 ---
 
@@ -231,6 +231,8 @@ $$
   - **NOTE**: the number of rows in the second matrix must be equal to the number of columns in the first matrix!
   
 - Resulting matrix is an `\(n \times p\)` matrix whose `\(ij\)`'th element is the **dot product** of the `\(i\)`'th row of the first matrix and the `\(j\)`'th column of the second matrix
+
+--
 
 - Try it: solve `\(\mathbf{AB}\)` where
 
@@ -283,6 +285,181 @@ $$
   - **NOT** commutative: `\(\mathbf{A}\mathbf{B} \neq \mathbf{B}\mathbf{A}\)`
   
   - **Transpose Rule**: `\((\mathbf{A} \mathbf{B})^\top = \mathbf{B}^\top \mathbf{A}^\top\)`
+
+---
+
+# Matrix Expectations
+
+- Expectations are easily distributed throughout a matrix
+
+$$
+`\begin{aligned}
+\mathbf{X} =\left[ {\begin{array}{ccc}
+   x_{11} &amp; x_{12} &amp; x_{13} \\
+   x_{21} &amp; x_{22} &amp; x_{23} \\
+   x_{31} &amp; x_{32} &amp; x_{33}
+  \end{array} } \right]
+  \qquad 
+  \text{; }
+  \qquad
+E(\mathbf{X}) = 
+\left[ {\begin{array}{ccc}
+   E(x_{11}) &amp; E(x_{12}) &amp; E(x_{13}) \\
+   E(x_{21}) &amp; E(x_{22}) &amp; E(x_{23}) \\
+   E(x_{31}) &amp; E(x_{32}) &amp; E(x_{33})
+  \end{array} } \right]
+\end{aligned}`
+$$
+
+---
+
+# Matrix Derivatives
+
+- Consider a matrix equation of the form `\(\mathbf{y} = \mathbf{A}\mathbf{x}\)`, meaning that each row is `\(y_i = a_{1i}x_1 + a_{2i}x_2 + \dots + a_{ki}x_k\)`
+
+- In matrix notation:
+
+$$
+`\begin{aligned}
+\left[ {\begin{array}{c}
+   y_1\\
+   y_2\\
+   \vdots\\
+   y_n
+  \end{array} } \right]
+  =
+\left[ {\begin{array}{cccc}
+      a_{11} &amp; a_{21} &amp; \dots &amp; a_{k1} \\
+   a_{12} &amp; a_{22} &amp; \dots &amp; a_{k2} \\
+   \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+   a_{1n} &amp; a_{2n} &amp; \dots &amp; a_{kn}
+  \end{array} } \right]
+  \left[ {\begin{array}{c}
+   x_1\\
+   x_2\\
+   \vdots\\
+   x_k
+  \end{array} } \right]
+\end{aligned}`
+$$
+--
+
+- To take the partial derivative with respect to `\(\mathbf{x}\)`, we go element by element in `\(\mathbf{y}\)`: `\(\frac{\partial y_1}{\partial \mathbf{x}}\)`, `\(\frac{\partial y_2}{\partial \mathbf{x}}\)`, `\(\dots\)`, `\(\frac{\partial y_n}{\partial \mathbf{x}}\)`
+
+--
+
+- But to do THIS, we again go element by element through each value of `\(\mathbf{x}\)`, noting that `\(\frac{\partial y_1}{\partial x_1} = a_{11}\)` and `\(\frac{\partial y_1}{\partial x_2} = a_{21}\)`, and that `\(\frac{\partial y_2}{\partial x_1} = a_{12}\)` and `\(\frac{\partial y_2}{\partial x_2} = a_{22}\)`
+
+
+---
+
+# Matrix Derivatives
+
+- We can write these in vector form as follows:
+
+$$
+`\begin{aligned}
+\frac{\partial y_1}{\partial \mathbf{x}} =\left[ {\begin{array}{c}
+   \frac{\partial y_1}{\partial x_1} \\
+   \frac{\partial y_1}{\partial x_2} \\
+   \vdots \\
+   \frac{\partial y_1}{\partial x_k}
+  \end{array} } \right] = \left[ {\begin{array}{c}
+   a_{11}\\
+   a_{21}\\
+   \vdots \\
+   a_{k1}
+  \end{array} } \right]
+  \text{; }~
+\frac{\partial y_2}{\partial \mathbf{x}} =\left[ {\begin{array}{c}
+   \frac{\partial y_2}{\partial x_1} \\
+   \frac{\partial y_2}{\partial x_2} \\
+   \vdots \\
+   \frac{\partial y_2}{\partial x_k}
+  \end{array} } \right] = \left[ {\begin{array}{c}
+   a_{12}\\
+   a_{22}\\
+   \vdots \\
+   a_{k2}
+  \end{array} } \right]
+  \text{; }
+  ~\dots~
+\frac{\partial y_n}{\partial \mathbf{x}} =\left[ {\begin{array}{c}
+   \frac{\partial y_n}{\partial x_1} \\
+   \frac{\partial y_n}{\partial x_2} \\
+   \vdots \\
+   \frac{\partial y_n}{\partial x_k}
+  \end{array} } \right] = \left[ {\begin{array}{c}
+   a_{1n}\\
+   a_{2n}\\
+   \vdots \\
+   a_{kn}
+  \end{array} } \right]
+\end{aligned}`
+$$
+--
+
+- Now let's just combine each of these vectors of derivatives into its own matrix to yield:
+
+$$
+`\begin{aligned}
+\frac{\partial \mathbf{y}}{\partial \mathbf{x}} &amp;= \left[ {\begin{array}{cccc}
+   a_{11} &amp; a_{12} &amp; \dots &amp; a_{1n} \\
+   a_{21} &amp; a_{22} &amp; \dots &amp; a_{2n} \\
+   \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+   a_{k1} &amp; a_{k2} &amp; \dots &amp; a_{kn}
+  \end{array} } \right] = \mathbf{A}^\top
+\end{aligned}`
+$$
+
+---
+
+# Matrix Derivatives
+
+- Thus `\(\frac{\partial \mathbf{y}}{\partial \mathbf{x}} = \frac{\partial (\mathbf{A}\mathbf{x})}{\partial \mathbf{x}} = \mathbf{A}^\top\)`
+
+- From this, we can also note that, given `\(y = \mathbf{a}^\top \mathbf{x}\)`, `\(\frac{\partial y}{\partial \mathbf{x}} = \frac{\partial \mathbf{a}^\top \mathbf{x}}{\partial \mathbf{x}} = \mathbf{a}\)`
+
+- And also, given `\(y = \mathbf{x}^\top \mathbf{A} \mathbf{x}\)`, `\(\frac{\partial y}{\partial \mathbf{x}} = \frac{\partial \mathbf{x}^\top \mathbf{A} \mathbf{x}}{\partial \mathbf{x}} = 2\mathbf{A}\mathbf{x}\)`
+
+- And finally, given `\(y = \mathbf{x}^\top \mathbf{A} \mathbf{x}\)`, `\(\frac{\partial y}{\partial \mathbf{A}} = \frac{\partial \mathbf{x}^\top \mathbf{A} \mathbf{x}}{\partial \mathbf{x}} = \mathbf{x}\mathbf{x}^\top\)`
+
+---
+
+# Special Matrices
+
+- **Zero** matrices: `\(\mathbf{0}\)` has all entries as zero
+
+  - NB: `\(\mathbf{A}_{r \times c} \cdot \mathbf{0}_{c \times n} = \mathbf{0}_{r \times n}\)` and `\(\mathbf{0}_{n \times r} \cdot \mathbf{A}_{r \times c} = \mathbf{0}_{n \times c}\)`
+
+- **Square** matrices: `\(n \times n\)` size, meaning the same number of rows as columns
+
+- **Symmetric** square matrices: `\(\mathbf{A} = \mathbf{A}^\top\)`
+
+- **Diagonal** symmetric square matrices: zeros everywhere except the diagonal: if `\(i\)` are rows and `\(j\)` are columns, `\(i \neq j\)`, then `\(a_{ij} = 0\)`.
+
+- **Identity** diagonal symmetric square matrices: `\(\mathbf{I}_n\)` is a diagonal matrix where the diagonals are 1s
+
+  - What is
+  
+$$
+`\begin{aligned}
+\mathbf{A}=
+\left[ {\begin{array}{ccc}
+   99 &amp; 73 &amp; 2 \\
+   13 &amp; 40 &amp; 41
+  \end{array} } \right]
+  \qquad
+  \cdot
+  \qquad
+\mathbf{I}=
+\left[ {\begin{array}{ccc}
+   1 &amp; 0 &amp; 0 \\
+   0 &amp; 1 &amp; 0 \\
+   0 &amp; 0 &amp; 1
+  \end{array} } \right]
+\end{aligned}`
+$$
 
 
 ---
@@ -494,9 +671,9 @@ solve(A)%*%b
 
 --
 
-  - It is an `\(n\)`-length vector of values, one for each row in our dataset!
+  - It is an `\(n\)`-length vector of values `\(\mathbf{y}\)`, one for each row in our dataset!
   
-- `\(x\)` and `\(z\)` are the same
+- `\(\mathbf{x}\)` and `\(\mathbf{z}\)` are the same
 
 
 ```
@@ -626,7 +803,7 @@ dat %&gt;% slice(7)
 
 --
 
-- We can write our regression equation for this specific respondent as `\(y_7 = \beta_0 + \beta_1 x_7 + \beta_2 z_7 + u_7\)`, or we can write it as `\(y_7 = \beta \cdot \mathbf{x}_7 + u_7\)`
+- We can write our regression equation for this specific respondent as `\(y_7 = \beta_0 + \beta_1 x_7 + \beta_2 z_7 + u_7\)`, or we can write it as `\(y_7 = \mathbf{x}_7 \cdot \beta + u_7\)` (note that this is the same as writing )
 
   - `\(\beta\)` is now itself a **vector** of coefficients: `\(\beta = (\beta_0,\beta_1,\beta_2)\)`
   
@@ -641,14 +818,14 @@ dat %&gt;% slice(7)
 
 $$
 `\begin{aligned}
-y_7 &amp;= \beta \cdot \mathbf{x}_7 + u_7 \\
-&amp;= \left[ {\begin{array}{c}
+y_7 &amp;= \mathbf{x}_7 \cdot \beta + u_7 \\
+&amp;=  
+  \left[ {\begin{array}{ccc}
+   1 &amp; x_7 &amp; z_7
+  \end{array} } \right]\cdot\left[ {\begin{array}{c}
    \beta_0 \\
    \beta_1 \\
    \beta_2
-  \end{array} } \right] \cdot 
-  \left[ {\begin{array}{ccc}
-   1 &amp; x_7 &amp; z_7
   \end{array} } \right] + u_7 \\
 &amp;= \beta_0 + \beta_1 x_{7} + \beta_2 z_7 + u_7,
 \end{aligned}`
@@ -674,11 +851,11 @@ $$
 
 $$
 `\begin{aligned}
-\mathbf{Y} = \left[ {\begin{array}{c}
-   Y_1  \\
-   Y_2 \\
+\mathbf{y} = \left[ {\begin{array}{c}
+   y_1  \\
+   y_2 \\
    \vdots \\
-   Y_n
+   y_n
   \end{array} } \right]
 \end{aligned}`
 ,
@@ -707,7 +884,7 @@ $$
   \end{array} } \right]
 $$
 
-- Plugging in: `\(\mathbf{Y} = \mathbf{X}\cdot \beta + \mathbf{u}\)`
+- Plugging in: `\(\mathbf{y} = \mathbf{X}\cdot \beta + \mathbf{u}\)`
 
 --
 
@@ -715,7 +892,7 @@ $$
 
 $$
 `\begin{aligned}
-\begin{bmatrix} Y_1 \\ Y_2 \\ \vdots \\ Y_n \end{bmatrix}_{n\times 1} &amp;= \begin{bmatrix}
+\begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{bmatrix}_{n\times 1} &amp;= \begin{bmatrix}
   1 &amp; x_{1} &amp; z_{1} \\
   1 &amp; x_{2} &amp; z_{2} \\
   \vdots &amp; \vdots \\
@@ -730,7 +907,11 @@ $$
 
 # Multiple Regression
 
-- Note that `\(\mathbf{Y} = \mathbf{X}\cdot \beta + \mathbf{u}\)` is assumed to be a reflection of the real world
+- Note that `\(\mathbf{y} = \mathbf{X}\cdot \beta + \mathbf{u}\)` is assumed to be a reflection of the real world
+
+  - Aside: prove to yourself that `\(\mathbf{y} = \mathbf{X}\cdot \beta + \mathbf{u}\)` and `\(\mathbf{y} =  \beta^\top\cdot\mathbf{X} + \mathbf{u}\)` are equivalent
+
+--
 
 - We estimate these, as before, with our OLS estimators `\(\hat{\beta}\)`
 
@@ -738,24 +919,24 @@ $$
 
   - In the **scalar** world, we would write this as `\(\sum u_i^2\)`.
   
-  - In the **vector** world, we write this as `\(u^\top u\)`.
+  - In the **vector** world, we write this as `\(\mathbf{u}^\top \mathbf{u}\)`. Take a moment and try to see why!
 
 --
 
 $$
 `\begin{aligned}
-u^\top u = \begin{bmatrix} u_1 &amp; u_2 &amp; \dots &amp; u_n \end{bmatrix}_{1 \times n} \cdot \begin{bmatrix} u_1 \\ u_2 \\ \vdots \\ u_n \end{bmatrix}_{n \times 1} &amp;= \begin{bmatrix} u_1*u_1 + u_2*u_2 + \dots + u_n*u_n \end{bmatrix}_{1 \times n}
+\mathbf{u}^\top \mathbf{u} = \begin{bmatrix} u_1 &amp; u_2 &amp; \dots &amp; u_n \end{bmatrix}_{1 \times n} \cdot \begin{bmatrix} u_1 \\ u_2 \\ \vdots \\ u_n \end{bmatrix}_{n \times 1} &amp;= \begin{bmatrix} u_1*u_1 + u_2*u_2 + \dots + u_n*u_n \end{bmatrix}_{1 \times n}
 \end{aligned}`
 $$
 --
 
-- Note that `\(u^\top u = \begin{bmatrix} u_1*u_1 + u_2*u_2 + \dots + u_n*u_n \end{bmatrix}\)` is the same as `\(\sum u_i^2\)`!!
+- Note that `\(\mathbf{u}^\top \mathbf{u} = \begin{bmatrix} u_1*u_1 + u_2*u_2 + \dots + u_n*u_n \end{bmatrix}\)` is the same as `\(\sum u_i^2\)`!!
 
 ---
 
 # Multiple Regression
 
-- We can re-write the sum of squared residuals as `\(u^\top u = (y - X\hat{\beta})^\top (y - X\hat{\beta})\)` by plugging in the definition of `\(u\)`
+- We can re-write the sum of squared residuals as `\(\mathbf{u}^\top \mathbf{u} = (\mathbf{y} - \mathbf{X}\hat{\beta})^\top (\mathbf{y} - \mathbf{X}\hat{\beta})\)` by plugging in
 
 --
 
@@ -763,10 +944,15 @@ $$
 
 $$
 `\begin{aligned}
-(y - X\hat{\beta})^\top (y - X\hat{\beta}) &amp;= y^\top y - y^\top X\hat{\beta} - \hat{\beta}^\top X^\top y + \hat{\beta}^\top X^\top X \hat{\beta}
+(\mathbf{y} - \mathbf{X}\hat{\beta})^\top (\mathbf{y} - \mathbf{X}\hat{\beta}) &amp;= (\mathbf{y}^\top - \hat{\beta}^\top\mathbf{X}^\top)(\mathbf{y} - \mathbf{X}\hat{\beta})\\
+&amp;= \mathbf{y}^\top \mathbf{y} - \mathbf{y}^\top \mathbf{X}\hat{\beta} - \hat{\beta}^\top \mathbf{X}^\top \mathbf{y} + \hat{\beta}^\top \mathbf{X}^\top \mathbf{X} \hat{\beta}
 \end{aligned}`
 $$
-- Note that we can use the transpose of a vector to re-write `\(y^\top X\hat{\beta} = (y^\top X\hat{\beta})^\top = \hat{\beta}^\top X^\top y\)`
+- To subtract, it must be that `\(\mathbf{y}^\top \mathbf{y}\)` is conformable with `\(\mathbf{y}^\top \mathbf{X}\hat{\beta}\)`, meaning they must have the same dimensions
+
+  - Note that `\(\mathbf{y}^\top \mathbf{y}\)` is a scalar, meaning that `\(\mathbf{y}^\top \mathbf{X}\hat{\beta}\)` must also be a scalar (by conformability)
+  
+  - Thus we can re-write `\(\mathbf{y}^\top \mathbf{X}\hat{\beta} = (\mathbf{y}^\top \mathbf{X}\hat{\beta})^\top = \hat{\beta}^\top \mathbf{X}^\top \mathbf{y}\)` (by transpose of a scalar)
 
 --
 
@@ -774,7 +960,7 @@ $$
 
 $$
 `\begin{aligned}
-u^\top u &amp;= y^\top y - 2\hat{\beta}^\top X^\top y + \hat{\beta}^\top X^\top X \hat{\beta}
+\mathbf{u}^\top \mathbf{u} &amp;= \mathbf{y}^\top \mathbf{y} - 2\hat{\beta}^\top \mathbf{X}^\top \mathbf{y} + \hat{\beta}^\top \mathbf{X}^\top \mathbf{X} \hat{\beta}
 \end{aligned}`
 $$
 
@@ -786,8 +972,8 @@ $$
 
 $$
 `\begin{aligned}
-\frac{\partial u^\top u}{\partial \hat{\beta}} &amp;= -2X^\top y + 2 X^\top X \hat{\beta} = 0\\
-(X^\top X)\hat{\beta} &amp;= X^\top y
+\frac{\partial \mathbf{u}^\top \mathbf{u}}{\partial \hat{\beta}} &amp;= -2\mathbf{X}^\top \mathbf{y} + 2 \mathbf{X}^\top \mathbf{X} \hat{\beta} = 0\\
+(\mathbf{X}^\top \mathbf{X})\hat{\beta} &amp;= \mathbf{X}^\top \mathbf{y}
 \end{aligned}`
 $$
 
@@ -795,10 +981,64 @@ $$
 
 $$
 `\begin{aligned}
-(X^\top X)\hat{\beta} &amp;= X^\top y\\
-(X^\top X)^{-1}(X^\top X)\hat{\beta} &amp;= (X^\top X)^{-1}X^\top y\\
-\mathbf{I}\hat{\beta} &amp;= (X^\top X)^{-1}X^\top y\\
-\hat{\beta} &amp;= (X^\top X)^{-1}X^\top y
+(\mathbf{X}^\top \mathbf{X})\hat{\beta} &amp;= \mathbf{X}^\top \mathbf{y}\\
+(\mathbf{X}^\top \mathbf{X})^{-1}(\mathbf{X}^\top \mathbf{X})\hat{\beta} &amp;= (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top \mathbf{y}\\
+\mathbf{I}\hat{\beta} &amp;= (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top \mathbf{y}\\
+\hat{\beta} &amp;= (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top \mathbf{y}\\
+\end{aligned}`
+$$
+- **Welcome to the matrix definition of the OLS estimator!**
+
+---
+
+# Unbiasedness
+
+- Is this unbiased?
+
+- To start, let's fiddle with the preceding definition of `\(\hat{\beta}\)` a little bit by replacing `\(\mathbf{y}\)` with `\(\mathbf{X}\beta + \mathbf{u}\)`.
+
+  - Note that this requires **Assumption 1**: that the population model can be written as `\(\mathbf{y} = \mathbf{X}\beta + \mathbf{u}\)`
+
+$$
+`\begin{aligned}
+\hat{\beta} &amp;= (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top \mathbf{y}\\
+ &amp;= (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top(\mathbf{X}\beta + \mathbf{u})\\
+ &amp;= (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top\mathbf{X}\beta + (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\\
+ &amp;= \mathbf{I}\beta + (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\\
+ &amp;= \beta + (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\\
+\end{aligned}`
+$$
+
+---
+
+# Unbiasedness
+
+- Now let's invoke **Assumption 2** that these observations are drawn from an i.i.d. random sample, allowing us take expectations
+
+$$
+`\begin{aligned}
+E(\hat{\beta}) &amp;= E\bigg[\beta + (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\bigg]\\
+ &amp;= E(\beta) + E\bigg[(\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\bigg]\\
+&amp;= \beta + E\bigg[(\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\bigg]\\
+\end{aligned}`
+$$
+- Note that this requires `\((\mathbf{X}^\top \mathbf{X})^{-1}\)` to exist, so we'll invoke **Assumption 3**: there is no perfect multicollinearity among our `\(X\)` values
+
+  - *Compare this to the non-zero variance when we were working with scalars in the bivariate case*
+
+
+---
+
+# Unbiasedness
+
+- Finally, let's invoke our most heroic assumption **Assumption 4**: `\(E(\mathbf{u}|\mathbf{X}) = \mathbf{0}\)`, and then rely on the law of iterated expectations (LIE)
+
+$$
+`\begin{aligned}
+E(\hat{\beta}~|~\mathbf{X}) &amp;= \beta + E\bigg[(\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}~|~\mathbf{X}\bigg]\\
+ &amp;= \beta + (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top E(\mathbf{u}~|~\mathbf{X})\\
+  &amp;= \beta + (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}^\top \mathbf{0}\\
+  &amp;= \beta
 \end{aligned}`
 $$
 
@@ -806,16 +1046,16 @@ $$
 
 # Properties of the OLS Estimators
 
-- `\(X^\top u = 0\)`: To prove, substitute the definition of `\(y = X\hat{\beta} + u\)` into the normal equation
+- `\(\mathbf{X}^\top \mathbf{u} = 0\)`: To prove, substitute the definition of `\(\mathbf{y} = \mathbf{X}\hat{\beta} + \mathbf{u}\)` into the normal equation
 
 --
 
 $$
 `\begin{aligned}
-(X^\top X)\hat{\beta} &amp;= X^\top y\\
-(X^\top X)\hat{\beta} &amp;= X^\top (X\hat{\beta} + u)\\
-(X^\top X)\hat{\beta} &amp;= (X^\top X)\hat{\beta} + X^\top u)\\
-0 &amp;= X^\top u
+(\mathbf{X}^\top \mathbf{X})\hat{\beta} &amp;= \mathbf{X}^\top \mathbf{y}\\
+(\mathbf{X}^\top \mathbf{X})\hat{\beta} &amp;= \mathbf{X}^\top (\mathbf{X}\hat{\beta} + \mathbf{u})\\
+(\mathbf{X}^\top \mathbf{X})\hat{\beta} &amp;= (\mathbf{X}^\top \mathbf{X})\hat{\beta} + \mathbf{X}^\top \mathbf{u}\\
+0 &amp;= \mathbf{X}^\top \mathbf{u}
 \end{aligned}`
 $$
 
@@ -828,10 +1068,10 @@ $$
 $$
 `\begin{aligned}
 \left[ {\begin{array}{ccc}
-x_{11} &amp; x_{12} &amp; \dots &amp; x_{1k}  \\
-x_{21} &amp; x_{22} &amp; \dots &amp; x_{2k}  \\
+x_{11} &amp; x_{12} &amp; \dots &amp; x_{1n}  \\
+x_{21} &amp; x_{22} &amp; \dots &amp; x_{2n}  \\
 \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
-x_{n 1} &amp; x_{n2} &amp; \dots &amp; x_{nk}  \\
+x_{k 1} &amp; x_{k2} &amp; \dots &amp; x_{kn}  \\
   \end{array} } \right]
 \cdot
 \left[ {\begin{array}{c}
@@ -858,7 +1098,7 @@ x_{k1}*u_1 + x_{k2}*u_2 + \dots + x_{kn}*u_n \\
 $$
 --
 
-- If `\(X^\top e = 0\)`, then every column `\(\mathbf{x}_k\)`'s dot product with `\(\mathbf{u}\)` must be zero
+- If `\(\mathbf{X}^\top \mathbf{u} = \mathbf{0}\)`, then every column `\(\mathbf{x}_k\)`'s dot product with `\(\mathbf{u}\)` must be zero
 
 - Since the first column of `\(\mathbf{X}\)` is all 1, then this first column reduces to `\(\sum u_i = 0\)`
 
@@ -874,47 +1114,142 @@ $$
 
   - We just showed that `\(\bar{u} = 0\)`, and we know that `\(u = y - X\hat{\beta}\)`
   
-  - Thus `\(\bar{e} = \bar{y} - \bar{x}\hat{\beta}\)`, meaning `\(\bar{y} = \bar{x}\hat{\beta}\)`
+  - Thus `\(\bar{u} = \bar{y} - \bar{x}\hat{\beta}\)`, meaning `\(\bar{y} = \bar{x}\hat{\beta}\)`
   
 --
 
 - The predicted values of `\(y\)` are uncorrelated with the residuals
 
-  - `\(\hat{y} = X\hat{\beta}\)`, meaning that
+  - `\(\hat{\mathbf{y}} = \mathbf{X}\hat{\beta}\)`, meaning that
   
 $$
 `\begin{aligned}
-\hat{y}^\top u &amp;= X\hat{\beta}^\top u\\
-&amp;= \hat{\beta}^\top X^\top u\\
-&amp;= \hat{\beta}^\top \cdot 0
+\hat{\mathbf{y}}^\top \mathbf{u} &amp;= \mathbf{X}\hat{\beta}^\top \mathbf{u}\\
+&amp;= \hat{\beta}^\top \mathbf{X}^\top \mathbf{u}\\
+&amp;= \hat{\beta}^\top \cdot \mathbf{0}
 \end{aligned}`
 $$
 
 ---
 
-# Inference about `\(\hat{\beta}\)`
+# Errors
 
-- All the preceding properties are purely statistical...they hold by construction
+- The preceding has brought us to the statement that our OLS estimator is unbiased...but is it the "best"?
 
-- If we want to make inferences about `\(\beta\)` (the true population parameters), we need some additional assumptions
+- We require **Assumption 5**: `\(E(\mathbf{u}\mathbf{u}^\top~|~\mathbf{X}) = \sigma^2\mathbf{I}\)`. AKA: "spherical errors"
+  
+--
 
-- The Gauss-Markov Assumptions (we've already seen these!)
+- Let's write it out:
+
+$$
+`\begin{aligned}
+E(\mathbf{u}\mathbf{u}^\top~|~\mathbf{X}) &amp;= E\bigg(\left[ {\begin{array}{c}
+u_1~|~\mathbf{X}\\
+u_2~|~\mathbf{X}\\
+\vdots\\
+u_n~|~\mathbf{X}\\
+  \end{array} } \right] \left[ {\begin{array}{cccc}
+u_1~|~\mathbf{X} &amp; u_2~|~\mathbf{X} &amp; \dots &amp;u_n~|~\mathbf{X}\\
+  \end{array} } \right] \bigg)\\
+&amp;= E\left[ {\begin{array}{cccc}
+u_1^2~|~\mathbf{X} &amp; u_1u_2~|~\mathbf{X} &amp; \dots &amp; u_1u_n~|~\mathbf{X}\\
+u_2u_1~|~\mathbf{X} &amp; u_2^2~|~\mathbf{X} &amp; \dots &amp; u_2u_n~|~\mathbf{X}\\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+u_nu_1~|~\mathbf{X} &amp; u_nu_2~|~\mathbf{X} &amp; \dots &amp; u_n^2~|~\mathbf{X}\\
+  \end{array} } \right]
+\end{aligned}`
+$$
+
+---
+
+# Errors
+
+- Distribute expectations to get:
+
+$$
+`\begin{aligned}
+E(\mathbf{u}\mathbf{u}^\top~|~\mathbf{X}) &amp;= \left[ {\begin{array}{cccc}
+E(u_1^2~|~\mathbf{X}) &amp; E(u_1u_2~|~\mathbf{X}) &amp; \dots &amp; E(u_1u_n~|~\mathbf{X})\\
+E(u_2u_1~|~\mathbf{X}) &amp; E(u_2^2~|~\mathbf{X}) &amp; \dots &amp; E(u_2u_n~|~\mathbf{X})\\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+E(u_nu_1~|~\mathbf{X}) &amp; E(u_nu_2~|~\mathbf{X}) &amp; \dots &amp; E(u_n^2~|~\mathbf{X})\\
+  \end{array} } \right]
+\end{aligned}`
+$$
 
 --
 
-  1. `\(y = X\beta + u\)`: assume that the relationship between `\(y\)` and `\(X\)` is linear in the parameters
+- From **Assumption 5**:
 
---
+  - Homoskedasticity states that the variance of `\(u_i = \sigma^2\)` for all `\(i\)`, or `\(\textit{VAR}(u_i | \mathbf{X}) = \sigma^2~~ \forall~i\)`
+  
+  - No autocorrelation states that `\(cov(u_i,u_j | \mathbf{X}) = 0\)`
+  
+---
 
-  2. `\(X\)` is an `\(n \times k\)` matrix of **full rank**: There is no perfect multicollinearity in `\(X\)`, meaning that the columns are "linearly independent"
+# Errors
 
---
+- Thus, assumption 5 allows us to re-write:
 
-  3. `\(E(u|X) = 0\)`: Zero conditional mean assumption. The errors average out to zero for any value of `\(X\)`. Implies that `\(E(y) = X\beta\)`
+$$
+`\begin{aligned}
+E(\mathbf{u}\mathbf{u}^\top~|~\mathbf{X}) &amp;= \left[ {\begin{array}{cccc}
+E(u_1^2~|~\mathbf{X}) &amp; E(u_1u_2~|~\mathbf{X}) &amp; \dots &amp; E(u_1u_n~|~\mathbf{X})\\
+E(u_2u_1~|~\mathbf{X}) &amp; E(u_2^2~|~\mathbf{X}) &amp; \dots &amp; E(u_2u_n~|~\mathbf{X})\\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+E(u_nu_1~|~\mathbf{X}) &amp; E(u_nu_2~|~\mathbf{X}) &amp; \dots &amp; E(u_n^2~|~\mathbf{X})\\
+  \end{array} } \right]\\
+  &amp;= \left[ {\begin{array}{cccc}
+\sigma^2 &amp; 0 &amp; \dots &amp; 0\\
+0 &amp; \sigma^2 &amp; \dots &amp; 0\\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0 &amp; 0 &amp; \dots &amp; \sigma^2\\
+  \end{array} } \right]
+\end{aligned}`
+$$
+- which is the same as writing `\(\sigma^2\mathbf{I}\)`
 
---
+---
 
-  4. `\(E(uu^\top | X) = \sigma^2 \mathbf{I}\)`: **spherical errors**. This means that our errors are **homoskedastic** (i.e., the errors are the same value `\(\sigma^2\)` for all observations) *AND* that the errors are uncorrelated
+# Errors
+
+- Finally, let's calculate the variance of our OLS estimators, `\(\hat{\beta}\)`
+
+- But first, note that the variance of a **vector** is expressed as the covariance: `\(E[(\hat{\beta} - E(\hat{\beta}))(\hat{\beta}-E(\hat{\beta}))^\top]\)`
+
+  - Further note that we have already demonstrated that `\(E(\hat{\beta}) = \beta\)`
+  
+- Also note that `\(\hat{\beta} = \beta + (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\)`, or `\(\hat{\beta} - \beta = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\)`
+
+- Plug in
+
+$$
+`\begin{aligned}
+E[(\hat{\beta} - \beta)(\hat{\beta}-\beta)^\top] &amp;= E\bigg[\bigg((\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\bigg)\bigg((\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\bigg)^\top\bigg]\\
+&amp;= E\bigg[\bigg((\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\bigg)\bigg(\mathbf{u}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\bigg)\bigg]\\
+&amp;= E\bigg[(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\mathbf{u}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\bigg]
+\end{aligned}`
+$$
+
+---
+
+# Errors
+
+- Take the LIE conditional on `\(\mathbf{X}\)` to get
+
+$$
+`\begin{aligned}
+E[(\hat{\beta} - \beta)(\hat{\beta}-\beta)^\top~|~\mathbf{X}] &amp;= E\bigg[(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\mathbf{u}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}~\bigg|~\mathbf{X}\bigg]\\
+ &amp;= (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top E(\mathbf{u}\mathbf{u}^\top~|~\mathbf{X})\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\\
+ &amp;= (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top~~(\sigma^2\mathbf{I})~~\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\\
+ &amp;= \sigma^2\mathbf{I}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\\
+ &amp;= \sigma^2\mathbf{I}\mathbf{I}(\mathbf{X}^\top\mathbf{X})^{-1}\\
+ &amp;= \sigma^2(\mathbf{X}^\top\mathbf{X})^{-1}\\
+\end{aligned}`
+$$
+
+- In practice, we estimate the unknown `\(\sigma^2\)` with `\(\hat{\sigma}^2 = \frac{\mathbf{u}^\top\mathbf{u}}{n - k}\)`
 
 
     </textarea>
