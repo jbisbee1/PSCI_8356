@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Lecture 18</title>
+    <title>The Big Matrix OLS Jam</title>
     <meta charset="utf-8" />
     <meta name="author" content="Prof. Bisbee" />
-    <script src="libs/header-attrs-2.18/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.16/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/lexis.css" type="text/css" />
     <link rel="stylesheet" href="css/lexis-fonts.css" type="text/css" />
@@ -14,10 +14,10 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# Lecture 18
+# The Big Matrix OLS Jam
 ]
 .subtitle[
-## Quantitative Political Science
+## *Please email typos / corrections to <code>james.h.bisbee@vanderbilt.edu</code>
 ]
 .author[
 ### Prof. Bisbee
@@ -27,7 +27,7 @@ class: center, middle, inverse, title-slide
 ]
 .date[
 ### Lecture Date: 2023/11/09
-Slides Updated: 2023-11-13
+Slides Updated: 2023-11-16
 ]
 
 ---
@@ -422,7 +422,7 @@ $$
 
 - And also, given `\(y = \mathbf{x}^\top \mathbf{A} \mathbf{x}\)`, `\(\frac{\partial y}{\partial \mathbf{x}} = \frac{\partial \mathbf{x}^\top \mathbf{A} \mathbf{x}}{\partial \mathbf{x}} = 2\mathbf{A}\mathbf{x}\)`
 
-- And finally, given `\(y = \mathbf{x}^\top \mathbf{A} \mathbf{x}\)`, `\(\frac{\partial y}{\partial \mathbf{A}} = \frac{\partial \mathbf{x}^\top \mathbf{A} \mathbf{x}}{\partial \mathbf{x}} = \mathbf{x}\mathbf{x}^\top\)`
+- And finally, given `\(y = \mathbf{x}^\top \mathbf{A} \mathbf{x}\)`, `\(\frac{\partial y}{\partial \mathbf{A}} = \frac{\partial \mathbf{x}^\top \mathbf{A} \mathbf{x}}{\partial \mathbf{A}} = \mathbf{x}\mathbf{x}^\top\)`
 
 ---
 
@@ -534,7 +534,7 @@ $$
 
 # Matrix Inversion
 
-- Matrix inversion gets harder with larger matrices...you can learn how to do it manually, but this is where software like `R` comes in
+- Matrix inversion gets harder with larger matrices...you can [learn](https://metric.ma.ic.ac.uk/metric_public/matrices/inverses/inverses2.html) how to do it manually, but this is where software like `R` comes in
 handy!
 
 
@@ -633,9 +633,11 @@ $$
 
 - To solve for `\(\mathbf{x}\)`, we just invert `\(\mathbf{A}\)` and write `\(\mathbf{x} = \mathbf{A}^{-1}\mathbf{b}\)`
 
+--
+
 
 ```r
-A &lt;- matrix(c(2, 1, 2, -1),
+A &lt;- matrix(c(2, 2, 1, -1),
             nrow = 2,
             ncol = 2)
 b &lt;- matrix(c(10,-10),nrow = 2,ncol = 1)
@@ -645,13 +647,13 @@ solve(A)%*%b
 
 ```
 ##      [,1]
-## [1,] -2.5
-## [2,]  7.5
+## [1,]    0
+## [2,]   10
 ```
 
 --
 
-- `\(x_1 = -2.5\)` and `\(x_2 = 7.5\)`! So easy!
+- `\(x_1 = 0\)` and `\(x_2 = 10\)`! So easy!
 
 - Note that there is a unique solution for `\(x_1\)` and `\(x_2\)` iff `\(\mathbf{A}\)` is invertible
 
@@ -659,7 +661,7 @@ solve(A)%*%b
   
 ---
 
-# Multiple Regression
+# Multiple Regression (Thanks [PJE](https://as.nyu.edu/faculty/egan.html)!)
 
 - We can use matrix algebra to help us with **multiple regression** (one outcome with multiple predictors)
 
@@ -803,7 +805,7 @@ dat %&gt;% slice(7)
 
 --
 
-- We can write our regression equation for this specific respondent as `\(y_7 = \beta_0 + \beta_1 x_7 + \beta_2 z_7 + u_7\)`, or we can write it as `\(y_7 = \mathbf{x}_7 \cdot \beta + u_7\)` (note that this is the same as writing )
+- We can write our regression equation for this specific respondent as `\(y_7 = \beta_0 + \beta_1 x_7 + \beta_2 z_7 + u_7\)`, or we can write it as `\(y_7 = \mathbf{x}_7 \cdot \beta + u_7\)`
 
   - `\(\beta\)` is now itself a **vector** of coefficients: `\(\beta = (\beta_0,\beta_1,\beta_2)\)`
   
@@ -925,12 +927,10 @@ $$
 
 $$
 `\begin{aligned}
-\mathbf{u}^\top \mathbf{u} = \begin{bmatrix} u_1 &amp; u_2 &amp; \dots &amp; u_n \end{bmatrix}_{1 \times n} \cdot \begin{bmatrix} u_1 \\ u_2 \\ \vdots \\ u_n \end{bmatrix}_{n \times 1} &amp;= \begin{bmatrix} u_1*u_1 + u_2*u_2 + \dots + u_n*u_n \end{bmatrix}_{1 \times n}
+\mathbf{u}^\top \mathbf{u} = \begin{bmatrix} u_1 &amp; u_2 &amp; \dots &amp; u_n \end{bmatrix}_{1 \times n} \cdot \begin{bmatrix} u_1 \\ u_2 \\ \vdots \\ u_n \end{bmatrix}_{n \times 1} &amp;= \begin{bmatrix} u_1*u_1 + u_2*u_2 + \dots + u_n*u_n \end{bmatrix}_{1 \times n} = \sum u_i^2
 \end{aligned}`
 $$
---
 
-- Note that `\(\mathbf{u}^\top \mathbf{u} = \begin{bmatrix} u_1*u_1 + u_2*u_2 + \dots + u_n*u_n \end{bmatrix}\)` is the same as `\(\sum u_i^2\)`!!
 
 ---
 
@@ -948,9 +948,13 @@ $$
 &amp;= \mathbf{y}^\top \mathbf{y} - \mathbf{y}^\top \mathbf{X}\hat{\beta} - \hat{\beta}^\top \mathbf{X}^\top \mathbf{y} + \hat{\beta}^\top \mathbf{X}^\top \mathbf{X} \hat{\beta}
 \end{aligned}`
 $$
+--
+
 - To subtract, it must be that `\(\mathbf{y}^\top \mathbf{y}\)` is conformable with `\(\mathbf{y}^\top \mathbf{X}\hat{\beta}\)`, meaning they must have the same dimensions
 
-  - Note that `\(\mathbf{y}^\top \mathbf{y}\)` is a scalar, meaning that `\(\mathbf{y}^\top \mathbf{X}\hat{\beta}\)` must also be a scalar (by conformability)
+--
+
+- Note that `\(\mathbf{y}^\top \mathbf{y}\)` is a scalar, meaning that `\(\mathbf{y}^\top \mathbf{X}\hat{\beta}\)` must also be a scalar (by conformability)
   
   - Thus we can re-write `\(\mathbf{y}^\top \mathbf{X}\hat{\beta} = (\mathbf{y}^\top \mathbf{X}\hat{\beta})^\top = \hat{\beta}^\top \mathbf{X}^\top \mathbf{y}\)` (by transpose of a scalar)
 
@@ -977,7 +981,7 @@ $$
 \end{aligned}`
 $$
 
-- To solve for `\(\hat{\beta}\)`, we need to pre-multiply both the left and the right by the inverse of `\((X^\top X)\)`, assuming it exists
+- To solve for `\(\hat{\beta}\)`, we need to pre-multiply both the left and the right by the inverse of `\((\mathbf{X}^\top \mathbf{X})\)`, assuming it exists
 
 $$
 `\begin{aligned}
@@ -1024,7 +1028,7 @@ E(\hat{\beta}) &amp;= E\bigg[\beta + (\mathbf{X}^\top \mathbf{X})^{-1}\mathbf{X}
 $$
 - Note that this requires `\((\mathbf{X}^\top \mathbf{X})^{-1}\)` to exist, so we'll invoke **Assumption 3**: there is no perfect multicollinearity among our `\(X\)` values
 
-  - *Compare this to the non-zero variance when we were working with scalars in the bivariate case*
+  - *Compare this to the non-zero variance assumption invoked when we were working with scalars in the bivariate case*
 
 
 ---
@@ -1132,15 +1136,117 @@ $$
 
 ---
 
+# Variance in matrix world
+
+- Finally, let's calculate the variance of our OLS estimators, `\(\hat{\beta}\)`
+
+- In the scalar world, we calculate the variance of a random variable as `\(\textit{var}(x) = E(x - E(x))^2\)`
+
+- The matrix equivalent of this is called (confusingly) the **covariance** of a random vector, written `\(cov(\mathbf{x})\)`
+
+  - Defined as `\(cov(\mathbf{x}) = E[(\mathbf{x} - E(\mathbf{x}))(\mathbf{x} - E(\mathbf{x}))^\top]\)`
+  
+- Let's write this out!
+
+$$
+`\begin{aligned}
+cov(\mathbf{x}) &amp;= E\bigg\{\left[ {\begin{array}{c}
+x_{1} - E(x_{1})\\
+x_{2} - E(x_2) \\
+\vdots \\
+x_{n} - E(x_n) \\
+  \end{array} } \right]
+  \left[ {\begin{array}{cccc}
+x_{1} - E(x_{1}) &amp; x_{2} - E(x_2) &amp; \dots &amp; x_{n} - E(x_n) \\
+  \end{array} } \right]
+  \bigg\}
+\end{aligned}`
+$$
+
+---
+
+# Variance in matrix world
+
+$$
+`\begin{aligned}
+cov(\mathbf{x}) &amp;= E\bigg\{\left[ {\begin{array}{cccc}
+(x_{1} - E(x_{1}))^2 &amp; (x_1 - E(x_1))(x_2 - E(x_2)) &amp; \dots &amp; (x_1 - E(x_1))(x_n - E(x_n))\\
+(x_2 - E(x_2))(x_1 - E(x_1)) &amp; (x_{2} - E(x_{2}))^2 &amp; \dots &amp; (x_2 - E(x_2))(x_n - E(x_n)) \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+(x_n - E(x_n))(x_1 - E(x_1)) &amp; (x_n - E(x_n))(x_2 - E(x_2)) &amp; \dots &amp; (x_n - E(x_n))^2 \\
+  \end{array} } \right]\bigg\}
+\end{aligned}`
+$$
+
+- Distribute expectations throughout to get
+
+$$
+`\begin{aligned}
+cov(\mathbf{x})    &amp;= \left[ {\begin{array}{cccc}
+\sigma^2_{x_1} &amp; cov(x_1,x_2) &amp; \dots &amp; cov(x_1,x_n) \\
+cov(x_2,x_1) &amp; \sigma^2_{x_2} &amp; \dots &amp; cov(x_2,x_n) \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+cov(x_n,x_1) &amp; cov(x_n,x_2) &amp; \dots &amp; \sigma^2_{x_n} \\
+  \end{array} } \right]
+\end{aligned}`
+$$
+
+- NB: this is called the covariance matrix of the random vector `\(\mathbf{x}\)`, AKA the **variance-covariance** matrix
+
+  - Often depicted with `\(\mathbf{\Sigma}\)`
+
+---
+
+# Variance of `\(\hat{\beta}\)`
+
+- So now let's use this to calculate the **variance of `\(\hat{\beta}\)`**
+
+  - Note that we have already demonstrated that `\(E(\hat{\beta}) = \beta\)`
+  
+- Also note that `\(\hat{\beta} = \beta + (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\)`, or `\(\hat{\beta} - \beta = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\)`
+
+- Plug in
+
+$$
+`\begin{aligned}
+E[(\hat{\beta} - \beta)(\hat{\beta}-\beta)^\top] &amp;= E\bigg[\bigg((\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\bigg)\bigg((\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\bigg)^\top\bigg]\\
+&amp;= E\bigg[\bigg((\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\bigg)\bigg(\mathbf{u}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\bigg)\bigg]\\
+&amp;= E\bigg[(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\mathbf{u}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\bigg]
+\end{aligned}`
+$$
+
+
+---
+
 # Errors
 
-- The preceding has brought us to the statement that our OLS estimator is unbiased...but is it the "best"?
+- This is the variance of our estimator: `\(E\bigg[(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\mathbf{u}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\bigg]\)`
 
-- We require **Assumption 5**: `\(E(\mathbf{u}\mathbf{u}^\top~|~\mathbf{X}) = \sigma^2\mathbf{I}\)`. AKA: "spherical errors"
-  
+- Taking a step back:
+
 --
 
-- Let's write it out:
+  - We have a **L**inear **E**stimator `\(\hat{\beta}\)`
+  
+  - We have proved it is **U**nbiased
+
+- Is it the "best"? (Remember, **B**est **L**inear **U**nbiased **E**stimator is **BLUE**)
+
+--
+
+- To prove it is BLUE, we require **Assumption 5**: `\(E(\mathbf{u}\mathbf{u}^\top~|~\mathbf{X}) = \sigma^2\mathbf{I}\)`. AKA: "spherical errors"
+
+--
+
+  - a. **Homoskedasticity**: `\(var(u_1)  = var(u_2) = \dots = var(u_n) = \sigma^2\)`
+  
+  - b. **No autocorrelation**: `\(cov(u_i,u_j) = 0\)` for all `\(i \neq j\)`
+  
+---
+
+# Errors
+
+- Let's write out *Assumption 5**:
 
 $$
 `\begin{aligned}
@@ -1210,31 +1316,13 @@ E(u_nu_1~|~\mathbf{X}) &amp; E(u_nu_2~|~\mathbf{X}) &amp; \dots &amp; E(u_n^2~|~
 $$
 - which is the same as writing `\(\sigma^2\mathbf{I}\)`
 
----
 
-# Errors
-
-- Finally, let's calculate the variance of our OLS estimators, `\(\hat{\beta}\)`
-
-- But first, note that the variance of a **vector** is expressed as the covariance: `\(E[(\hat{\beta} - E(\hat{\beta}))(\hat{\beta}-E(\hat{\beta}))^\top]\)`
-
-  - Further note that we have already demonstrated that `\(E(\hat{\beta}) = \beta\)`
-  
-- Also note that `\(\hat{\beta} = \beta + (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\)`, or `\(\hat{\beta} - \beta = (\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\)`
-
-- Plug in
-
-$$
-`\begin{aligned}
-E[(\hat{\beta} - \beta)(\hat{\beta}-\beta)^\top] &amp;= E\bigg[\bigg((\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\bigg)\bigg((\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\bigg)^\top\bigg]\\
-&amp;= E\bigg[\bigg((\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\bigg)\bigg(\mathbf{u}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\bigg)\bigg]\\
-&amp;= E\bigg[(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\mathbf{u}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\bigg]
-\end{aligned}`
-$$
 
 ---
 
-# Errors
+# Variance of `\(\hat{\beta}\)`
+
+- So we have `\(E\bigg[(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{u}\mathbf{u}^\top\mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\bigg]\)`
 
 - Take the LIE conditional on `\(\mathbf{X}\)` to get
 
@@ -1249,7 +1337,308 @@ E[(\hat{\beta} - \beta)(\hat{\beta}-\beta)^\top~|~\mathbf{X}] &amp;= E\bigg[(\ma
 \end{aligned}`
 $$
 
+
+---
+
+# What does this give us?
+
+- The OLS estimator -- `\(\hat{\beta}\)` -- is a random vector, distributed with mean `\(\beta\)` and a variance-covariance matrix `\(\sigma^2(\mathbf{X}^\top\mathbf{X})^{-1}\)`
+
+- We might be particularly interested in just one of the coefficients contained within this vector (i.e., `\(\beta_1\)` speaks to a theoretical quantity of interest, while the other `\(\beta_2, \beta_3, \dots, \beta_k\)` are controls)
+
+- To find the mean of `\(\hat{\beta}_1\)`, we look inside our vector of expected values of `\(\hat{\beta}\)` and extract the element corresponding to `\(E(\hat{\beta}_1) = (\mathbf{X}^\top\mathbf{X}_1^{-1}\mathbf{X}_1^\top\mathbf{y})\)`
+
+- To find the variance of `\(\hat{\beta}_1\)`, we look inside our variance-covariance matrix `\(cov(\hat{\beta}) = \mathbf{\Sigma}_{\hat{\beta}}\)` and extract the entry corresponding to `\(E(\hat{\beta}_1 - E(\hat{\beta}_1))^2 = \sigma^2(\mathbf{X}^\top\mathbf{X})^{-1}_{11}\)`
+
+- As always, we never know `\(\sigma^2\)`, meaning we never really know `\(var(\hat{\beta})\)`
+
 - In practice, we estimate the unknown `\(\sigma^2\)` with `\(\hat{\sigma}^2 = \frac{\mathbf{u}^\top\mathbf{u}}{n - k}\)`
+
+--
+
+  - Note that we are assuming `\(k\)` includes `\(\beta_0\)`. If not, we write as `\(\hat{\sigma}^2 = \frac{\mathbf{u}^\top\mathbf{u}}{n - k - 1}\)`
+
+---
+
+# A few final comments
+
+- As in the univariate and bivariate cases, we can appeal to the **C**entral **L**imit **T**heorem (CLT) to assume that the sampling distribution of `\(\hat{\beta} \overset{d}{\rightarrow} \textit{MVN}(\beta,\sigma^2(\mathbf{X}^\top\mathbf{X})^{-1})\)`
+
+--
+
+  - The symbol `\(\overset{d}{\rightarrow}\)` means "distributed asymptotically as"
+  
+--
+
+- The multivariate normal (MVN) joint distribution means that we can extract any element of `\(\hat{\beta}\)` and standardize it, and it will be distributed asymptotically as the standard normal
+
+--
+
+  - I.e., `\(\frac{\hat{\beta}_k - \bar{\beta}_k}{\sqrt{\hat{\sigma}^2(\mathbf{X}^\top\mathbf{X})^{-1}_{kk}}} \overset{d}{\rightarrow}\mathcal{N}(0,1)\)`
+  
+  - NB: the statistic `\(\frac{\hat{\beta}_k - \bar{\beta}_k}{\sqrt{\hat{\sigma}^2(\mathbf{X}^\top\mathbf{X})^{-1}_{kk}}}\)` is distributed according to the Student's `\(t\)` distribution with `\(N-K-1\)` degrees of freedom: `\(\frac{\hat{\beta}_k - \bar{\beta}_k}{\sqrt{\hat{\sigma}^2(\mathbf{X}^\top\mathbf{X})^{-1}_{kk}}} \sim t_{N-k-1}\)`
+
+--
+
+- In small samples, we make **one more assumption** that the errors are normally distributed
+
+---
+
+# FWL and Partialling Out
+
+- To understand what multiple regression looks like in matrix form, we need some helper concepts
+
+- The "residual maker" is a matrix `\(\mathbf{M}\)` that, when multiplied by `\(\mathbf{y}\)`, creates **residuals** `\(\mathbf{u}\)`
+
+- Start with the definition of the residual: `\(\mathbf{u} = \mathbf{y} - \hat{\mathbf{y}}\)` and substitute `\(\hat{\mathbf{y}} = \mathbf{X}\hat{\beta}\)` in
+
+$$
+`\begin{aligned}
+\mathbf{u} &amp;= \mathbf{y} - \mathbf{X}\hat{\beta}
+\end{aligned}`
+$$
+- Now replace `\(\hat{\beta}\)` with the definition `\((\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{y}\)`
+
+$$
+`\begin{aligned}
+\mathbf{u} &amp;= \mathbf{y} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\mathbf{y}\\
+&amp;= (\mathbf{I} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top)\mathbf{y}\\
+&amp;= \mathbf{M}\mathbf{y}
+\end{aligned}`
+$$
+
+---
+
+# FWL and Partialling Out
+
+- `\(\mathbf{M}\)` is super helpful. It is both square and **idempotent**, meaning that `\(\mathbf{M}\mathbf{M} = \mathbf{M}\)`. (Try proving this for yourself!)
+
+- It also has the properties:
+
+  1. `\(\mathbf{M}\mathbf{X} = \mathbf{0}\)`
+  
+  2. `\(\mathbf{M}\mathbf{u} = \mathbf{u}\)`
+
+---
+
+# FWL and Partialling Out
+
+- The "hat" matrix is a matrix `\(\mathbf{H}\)` that, when multiplied by `\(\mathbf{y}\)`, creates **predicted values** `\(\mathbf{\hat{y}}\)`
+
+$$
+`\begin{aligned}
+\hat{\mathbf{y}} &amp;= \mathbf{y} - \mathbf{u} \\
+&amp;= (\mathbf{I} - \mathbf{M})\mathbf{y} \\
+&amp;= \mathbf{H}\mathbf{y}
+\end{aligned}`
+$$
+- So we now have `\(\mathbf{M} = \mathbf{I} - \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\)` and `\(\mathbf{H} = \mathbf{I} - \mathbf{M}\)`
+
+- But this just means `\(\mathbf{H} = \mathbf{X}(\mathbf{X}^\top\mathbf{X})^{-1}\mathbf{X}^\top\)`
+
+---
+
+# FWL and Partialling Out
+
+- These "hat" and "residual maker" matrices can help us understand OVB and, more generally, what "controlling" for a variable means in the matrix world
+
+- Consider the classic example where the true regression equation is given by `\(\mathbf{y} = \mathbf{x}_1\beta_1 + \mathbf{x}_2\beta_2 + u\)`, but we mistakenly omit `\(\mathbf{x}_2\)`
+
+- The true normal equation is:
+
+$$
+`\begin{aligned}
+\left[ {\begin{array}{cc}
+\mathbf{x}^\top_1\mathbf{x}_1 &amp; \mathbf{x}^\top_1\mathbf{x}_2 \\
+\mathbf{x}^\top_2\mathbf{x}_1 &amp; \mathbf{x}^\top_2\mathbf{x}_2 
+  \end{array} } \right]^{-1}\cdot 
+  \left[ {\begin{array}{c}
+\mathbf{x}_1\mathbf{y} \\
+\mathbf{x}_2\mathbf{y}
+  \end{array} } \right] &amp;= 
+  \left[ {\begin{array}{c}
+\hat{\beta}_1 \\
+\hat{\beta}_2
+  \end{array} } \right]
+\end{aligned}`
+$$
+
+---
+
+# FWL and Partialling Out
+
+- First, solve for `\(\hat{\beta}_1\)`
+
+$$
+`\begin{aligned}
+(\mathbf{x}_1^\top\mathbf{x}_1)\hat{\beta}_1 + (\mathbf{x}_1^\top\mathbf{x}_2)\hat{\beta}_2 &amp;= \mathbf{x}_1^\top\mathbf{y}\\
+(\mathbf{x}_1^\top\mathbf{x}_1)\hat{\beta}_1 &amp;= \mathbf{x}_1^\top\mathbf{y} -  (\mathbf{x}_1^\top\mathbf{x}_2)\hat{\beta}_2\\
+\hat{\beta}_1 &amp;= (\mathbf{x}_1^\top\mathbf{x}_1)^{-1}\mathbf{x}_1^\top\mathbf{y} - (\mathbf{x}_1^\top\mathbf{x}_1)^{-1}(\mathbf{x}_1^\top\mathbf{x}_2)\hat{\beta}_2\\
+\hat{\beta}_1 &amp;= (\mathbf{x}_1^\top\mathbf{x}_1)^{-1}\mathbf{x}_1^\top(\mathbf{y} - \mathbf{x}_2\hat{\beta}_2)
+\end{aligned}`
+$$
+
+- Recognize this? 
+
+--
+
+  - `\((\mathbf{x}^\top_1\mathbf{x}_1)^{-1}\mathbf{x}^\top_1\mathbf{x}_2\)` is the regression of `\(\mathbf{x}_2\)` on `\(\mathbf{x}_1\)`. This will be zero if `\(\mathbf{x}_2\)` is unrelated to `\(\mathbf{x}_1\)`
+  
+  - `\(\hat{\beta}_2\)` is the relationship between `\(\mathbf{y}\)` and `\(\mathbf{x}_2\)`.
+  
+--
+
+- **This is just OVB in matrix form**
+
+---
+
+# FWL and Partialling Out
+
+- Now let's see what happens when we control for `\(\mathbf{x}_2\)`
+
+- Start with `\(\hat{\beta}_1 = (\mathbf{x}^\top_1\mathbf{x}_1)^{-1}\mathbf{x}^\top_1(\mathbf{y} - \mathbf{x}_2\hat{\beta}_2)\)`
+
+- Then do direct multiplication on the second row in 
+
+$$
+`\begin{aligned}
+\left[ {\begin{array}{cc}
+\mathbf{x}^\top_1\mathbf{x}_1 &amp; \mathbf{x}^\top_1\mathbf{x}_2 \\
+\mathbf{x}^\top_2\mathbf{x}_1 &amp; \mathbf{x}^\top_2\mathbf{x}_2 
+  \end{array} } \right]^{-1}\cdot 
+  \left[ {\begin{array}{c}
+\mathbf{x}_1\mathbf{y} \\
+\mathbf{x}_2\mathbf{y}
+  \end{array} } \right] &amp;= 
+  \left[ {\begin{array}{c}
+\hat{\beta}_1 \\
+\hat{\beta}_2
+  \end{array} } \right]
+\end{aligned}`
+$$
+- to yield `\(\mathbf{x}_2^\top\mathbf{x}_1\hat{\beta}_1 + \mathbf{x}_2^\top\mathbf{x}_2\hat{\beta}_2 = \mathbf{x}_2^\top\mathbf{y}\)`
+
+- Finally, substitute in our definition of `\(\hat{\beta}_1\)` to get `\(\mathbf{x}_2^\top\mathbf{x}_1(\mathbf{x}_1^\top\mathbf{x}_1)^{-1}\mathbf{x}_1^\top\mathbf{y} - \mathbf{x}_2^\top\mathbf{x}_1(\mathbf{x}_1^\top\mathbf{x}_1)^{-1}\mathbf{x}_1^\top\mathbf{x}_2\hat{\beta}_2 + \mathbf{x}_2^\top\mathbf{x}_2\hat{\beta}_2 = \mathbf{x}_2^\top\mathbf{y}\)`
+
+---
+
+# FWL and Partialling Out
+
+- So this is horrible, but try this!
+
+$$
+`\begin{aligned}
+\mathbf{x}_2^\top\mathbf{y} - \mathbf{x}_2^\top\mathbf{x}_1(\mathbf{x}_1^\top\mathbf{x}_1)^{-1}\mathbf{x}_1^\top\mathbf{y} &amp;= \mathbf{x}_2^\top\mathbf{x}_2\hat{\beta}_2 - \mathbf{x}_2^\top\mathbf{x}_1(\mathbf{x}_1^\top\mathbf{x}_1)^{-1}\mathbf{x}_1^\top\mathbf{x}_2\hat{\beta}_2\\
+\mathbf{x}_2^\top\mathbf{y} - \mathbf{x}_2^\top\mathbf{x}_1(\mathbf{x}_1^\top\mathbf{x}_1)^{-1}\mathbf{x}_1^\top\mathbf{y} &amp;= [\mathbf{x}_2^\top\mathbf{x}_2 - \mathbf{x}_2^\top\mathbf{x}_1(\mathbf{x}_1^\top\mathbf{x}_1)^{-1}\mathbf{x}_1^\top\mathbf{x}_2]\hat{\beta}_2\\
+\mathbf{x}_2^\top\mathbf{y} - \mathbf{x}_2^\top\mathbf{x}_1(\mathbf{x}_1^\top\mathbf{x}_1)^{-1}\mathbf{x}_1^\top\mathbf{y} &amp;= [(\mathbf{x}_2^\top - \mathbf{x}_2^\top\mathbf{x}_1(\mathbf{x}_1^\top\mathbf{x}_1)^{-1}\mathbf{x}_1^\top)\mathbf{x}_2]\hat{\beta}_2\\
+\mathbf{x}_2^\top\mathbf{y} - \mathbf{x}_2^\top\mathbf{x}_1(\mathbf{x}_1^\top\mathbf{x}_1)^{-1}\mathbf{x}_1^\top\mathbf{y} &amp;= [(\mathbf{x}_2^\top(\mathbf{I} - \mathbf{x}_1(\mathbf{x}_1^\top\mathbf{x}_1)^{-1}\mathbf{x}_1^\top)\mathbf{x}_2]\hat{\beta}_2\\
+(\mathbf{x}_2^\top - \mathbf{x}_2^\top\mathbf{x}_1(\mathbf{x}_1^\top\mathbf{x}_1)^{-1}\mathbf{x}_1^\top)\mathbf{y} &amp;= [(\mathbf{x}_2^\top(\mathbf{I} - \mathbf{x}_1(\mathbf{x}_1^\top\mathbf{x}_1)^{-1}\mathbf{x}_1^\top)\mathbf{x}_2]\hat{\beta}_2\\
+\mathbf{x}_2^\top(\mathbf{I} - \mathbf{x}_1(\mathbf{x}_1^\top\mathbf{x}_1)^{-1}\mathbf{x}_1^\top)\mathbf{y} &amp;= [(\mathbf{x}_2^\top(\mathbf{I} - \mathbf{x}_1(\mathbf{x}_1^\top\mathbf{x}_1)^{-1}\mathbf{x}_1^\top)\mathbf{x}_2]\hat{\beta}_2\\
+\hat{\beta}_2 &amp;= [(\mathbf{x}_2^\top(\mathbf{I} - \mathbf{x}_1(\mathbf{x}_1^\top\mathbf{x}_1)^{-1}\mathbf{x}_1^\top)\mathbf{x}_2]^{-1}\mathbf{x}_2^\top(\mathbf{I} - \mathbf{x}_1(\mathbf{x}_1^\top\mathbf{x}_1)^{-1}\mathbf{x}_1^\top)\mathbf{y}\\
+&amp;= (\mathbf{x}_2^\top\mathbf{M}_1\mathbf{x}_2)^{-1}(\mathbf{x}_2^\top\mathbf{M}_1\mathbf{y})
+\end{aligned}`
+$$
+
+---
+
+# FWL and Partialling Out
+
+- So we now have `\(\hat{\beta}_2 = (\mathbf{x}_2^\top\mathbf{M}_1\mathbf{x}_2)^{-1}(\mathbf{x}_2^\top\mathbf{M}_1\mathbf{y})\)`
+
+- Remember that `\(\mathbf{M}\)` is the residual maker, meaning that `\(\mathbf{M}_1\)` is making residuals for regressions on the `\(\mathbf{x}_1\)` variables
+
+--
+
+  - `\(\mathbf{M}_1\mathbf{y}\)` therefore creates residuals from regressing `\(\mathbf{y}\)` on `\(\mathbf{x}_1\)`
+  
+  - `\(\mathbf{M}_1\mathbf{x}_2\)` therefore creates residuals from regressing `\(\mathbf{x}_2\)` on `\(\mathbf{x}_1\)`
+  
+--
+
+- Since `\(\mathbf{M}\)` is both idempotent and symmetric, we can rewrite as `\(\hat{\beta}_2 = (\mathbf{x}^{*\top}_2\mathbf{x}_2)^{-1}\mathbf{x}^{*\top}_2\mathbf{y}^*\)`
+
+  - Where `\(\mathbf{x}_2^* = \mathbf{M}_1\mathbf{x}_2\)` and `\(\mathbf{y}^* = \mathbf{M}_1\mathbf{y}\)`
+  
+--
+
+- This leads to the **Frisch-Waugh-Lovell** Theorem: In the OLS regression of a vector `\(\mathbf{y}\)` on two sets of variables `\(\mathbf{x}_1\)` and `\(\mathbf{x}_2\)`, `\(\hat{\beta}_2\)` is the coefficient obtained when the residuals from a regression of `\(\mathbf{y}\)` on `\(\mathbf{x}_1\)` alone are regressed on the set of residuals obtained when `\(\mathbf{x}_2\)` is regressed on `\(\mathbf{x}_1\)`
+
+---
+
+# FWL and Partialling Out
+
+- Imagine the following model (reverting back to the layperson's notation here): `\(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + u\)`
+
+- According to FWL:
+
+  1. Regress `\(Y\)` on `\(X_1\)` and obtain the residuals `\(\hat{u}_1\)` (i.e., `\(\mathbf{M}_1\mathbf{y}\)` in matrix notation)
+  
+  2. Regress `\(X_2\)` on `\(X_1\)` and obtain the residuals `\(\hat{u}_2\)` (i.e., `\(\mathbf{M}_1\mathbf{x}_2\)` in matrix notation)
+  
+  3. Regress `\(X_3\)` on `\(X_1\)` and obtain the residuals `\(\hat{u}_3\)` (i.e., `\(\mathbf{M}_1\mathbf{x}_3\)` in matrix notation)
+  
+  4. Regress `\(\hat{u}_1\)` on `\(\hat{u}_2\)` and `\(\hat{u}_3\)`: `\(\hat{u}_1 = \rho_0 + \rho_1 \hat{u}_2 + \rho_2 \hat{u}_3 + \epsilon\)`
+  
+--
+
+- `\(\hat{\beta}_2\)` will be equal to `\(\hat{\rho}_1\)` and `\(\hat{\beta}_3\)` will be equal to `\(\hat{\rho}_3\)`!
+
+--
+
+- Steps 2 and 3 are called "partialling out" or "netting out" the effect of `\(X_1\)`. For this reason, the coefficients in multiple regression are often referred to as "partial regression coefficients". 
+
+---
+
+# FWL and Partialling Out
+
+- Let's try it!
+
+
+```r
+X1 &lt;- rnorm(100)
+X2 &lt;- rnorm(100)
+X3 &lt;- rnorm(100)
+
+# True beta_1 = 1, beta_2 = -1, beta_3 = 3
+Y &lt;- X1 - X2 + 3*X3 + rnorm(100) 
+
+# Multiple regression
+mFull &lt;- lm(Y ~ X1 + X2 + X3)
+
+# FWL way
+u_1 &lt;- resid(lm(Y ~ X1))
+u_2 &lt;- resid(lm(X2 ~ X1))
+u_3 &lt;- resid(lm(X3 ~ X1))
+mRes &lt;- lm(u_1 ~ u_2 + u_3)
+```
+
+---
+
+# FWL and Partialling Out
+
+- As promised, we get the same estimates for `\(\hat{\beta}_2\)` and `\(\hat{\beta}_3\)` whether we estimate them in the standard multiple regression setting, or if we use the FWL residualizer approach
+
+
+```r
+# Same coefficients!
+round(coef(mFull)[c(3,4)],4)
+```
+
+```
+##      X2      X3 
+## -0.9926  2.9206
+```
+
+```r
+round(coef(mRes)[c(2,3)],4)
+```
+
+```
+##     u_2     u_3 
+## -0.9926  2.9206
+```
+
+
 
 
     </textarea>
