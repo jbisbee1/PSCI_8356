@@ -1,0 +1,627 @@
+---
+title: "Odds and Ends"
+subtitle: ""
+author: "Prof. Bisbee"
+institute: "Vanderbilt University"
+date: "Lecture Date: 2023/11/30\n Slides Updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    # self_contained: true
+    chakra: libs/remark-latest.min.js
+    lib_dir: libs
+    css:
+      - default
+      - css/lexis.css
+      - css/lexis-fonts.css
+    #seal: false
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "17:9"
+
+---
+
+```{css,echo = F}
+.small .remark-code { /*Change made here*/
+  font-size: 85% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+```
+
+```{r,include=F}
+set.seed(123)
+options(width=60)
+knitr::opts_chunk$set(fig.align='center',fig.width=9,fig.height=5)
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+require(tidyverse)
+require(ggpubr)
+```
+
+# Agenda
+
+1. Regression Diagnostics
+
+2. Goodness of Fit
+
+3. Overspecification
+
+4. 
+
+---
+
+# Regression Diagnostics
+
+- We have so many assumptions at this point! (How many can you list?)
+
+--
+
+  1. Linearity
+  
+  2. I.i.d. random sample
+  
+  3. Non-zero variance / no multicolinearity
+  
+  4. Zero-conditional mean
+  
+  5. Homoskedasticity / spherical errors
+  
+  6. Normally distributed errors (small samples)
+  
+--
+
+- How can we be confident in these assumptions? **Diagnostics** (to an extent)
+
+---
+
+# Regression Diagnostics
+
+- Running example of two DGPs
+
+--
+
+- DGP 1:
+
+$$
+\begin{aligned}
+\textit{Income}_i &= 15 + 6*\textit{Labor}_i + 40*\textit{PhD}_i + u_i
+\end{aligned}
+$$
+
+where $u \sim \mathcal{N}(0,5)$ and i.i.d. holds
+
+--
+
+- DGP 2:
+
+$$
+\begin{aligned}
+\textit{Income}_i &= 15 + 6*\textit{Labor}_i + 40*\textit{PhD}_i + \textit{Labor}_i^2 + u_i
+\end{aligned}
+$$
+where $u_i = 0.5*\textit{Labor}_i*e_i$,  $e_i \sim \mathcal{N}(0,5)$ and i.i.d. holds
+
+--
+
+- Note that our assumptions hold by construction in DGP 1, but not in DGP 2
+
+--
+
+  - Specifically, zero conditional mean holds only if *Labor* is mean zero
+  
+  - In addition, the errors are not homoskedastic
+  
+---
+
+# Regression Diagnostics
+
+- Estimate with $\textit{Income}_i = \beta_0 + \beta_1 \textit{Labor}_i + \beta_2 \textit{PhD}_i + u_i$
+
+```{r,echo=F,warning=F}
+# PROPS TO JML!
+set.seed(12345)
+
+
+################################################################
+## This file aims to do three things:
+## 1) Demonstrate what is meant by repeated sampling in the regression context
+## 2) Make crystal clear what the assumptions required for inference say about
+## the data generating process
+## 3) Show how to use diagnostic plots to glean that something might be off
+## about the assumptions.
+
+
+################################################################
+## First, let's make some data that perfectly comports with the assumptions
+## required for inference in OLS
+
+
+## To start, we need to conjure up our independent variables.  
+## Let's make a dummy variable for holding a PhD or not, and an interval
+## variable for years in the labor force.
+
+phd <- c(rep(0, 75), rep(1, 75))
+labor <- sample(c(1:30), size = 150, replace = TRUE)
+
+
+## Now let's generate our dependent variable, income, as a linear function of 
+## years in labor market and degree status.
+## In other words, we're assuming we know the data generating process.
+## Let's have our DGP meet the assumptions of inference in OLS, and
+## let's use it to generate some data (by which we mean generate the DV, income)
+
+## We'll need a normally-distributed error term with mean 0 and a constant SD
+error <- rnorm(150, mean = 0, sd = 5)
+
+## Let's assume the true parameters are:
+beta0 <- 15
+beta1 <- 6
+beta2 <- 40
+
+## So now, let's generate one sample of our DV:
+
+inc <- beta0 + beta1*labor + beta2*phd + error
+
+## This is the step that would be repeated under "repeated sampling."
+
+## Now let's collect our IVs and this DV into a dataframe.
+
+data <- as.data.frame(cbind(inc, labor, phd))
+
+## So we've created our outcome variable as a linear function of labor and phd,
+## with normally-distributed error cenetered on zero with constant variance (sd = 5)
+
+
+## Ok, now let's see what we get when we regress income on labor and phd
+## using these data
+```
+
+```{r}
+m1 <- lm(inc ~ labor + phd, data = data)
+## Did we reproduce the truth?
+summary(m1)
+```
+
+---
+
+# Regression Diagnostics
+
+- Visualize the results
+
+```{r,echo=F,warning=F,fig.width=16,fig.height=6}
+## And let's plot the regression lines separately for PhD and not
+plot(labor, inc)
+abline(coef(m1)[1], coef(m1)[2], lty = 2)
+abline(coef(m1)[1]+coef(m1)[3], coef(m1)[2], lty = 1)
+
+legend("topleft", legend = c("PhD", "No PhD"), title = "Degree", lty = c(1,2), lwd = c(1,1), cex = 1)
+```
+
+---
+
+# Regression Diagnostics
+
+- What if we are in the DGP2 world?
+
+```{r,echo=F,warning=F}
+## Let's contrast this with a true DGP that violates some of the assumptions
+## for inference in OLS:
+
+## For comparison, let's make another dataset
+
+## Let's use the same IVs
+phd <- c(rep(0, 75), rep(1, 75))
+labor <- sample(c(1:30), size = 150, replace = TRUE)
+
+## But notice the differences in the error term we're going to assume:
+
+error <- .5*labor * rnorm(150, mean = 0, sd = 5)
+
+## Let's keep the same assumed true parameter values
+
+beta0 <- 15
+beta1 <- 6
+beta2 <- 40
+
+## And let's generate our DV in this way:
+
+inc <- beta0 + beta1*labor + beta2*phd + (labor^2) +  error
+
+data2 <- as.data.frame(cbind(inc, labor, phd))
+```
+
+```{r}
+m2 <- lm(inc ~ labor + phd, data = data2)
+
+summary(m2)
+```
+
+---
+
+# Regression Diagnostics
+
+```{r,echo=F,warning=F,fig.height=6,fig.width=16}
+## And plot it:
+
+par(mfrow = c(1,1))
+plot(labor, inc)
+abline(coef(m2)[1], coef(m2)[2], lty = 2)
+abline(coef(m2)[1]+coef(m2)[3], coef(m2)[2], lty = 1)
+
+legend("topleft", legend = c("PhD", "No PhD"), title = "Degree", lty = c(1,2), lwd = c(5,5), cex = 1)
+# plot(m2)
+```
+
+---
+
+# Regression Diagnostics
+
+- We are doing a bad job because:
+
+  1. Income is not a linear function of labor and degree
+  
+  2. Errors are not mean zero
+  
+  3. Errors are not homoskedastic
+  
+--
+
+- We **know** all this because we simulated these data
+
+- But in reality, we typically never know what the true DGP is...how can we be alerted to the fact something is wrong with our model?
+
+---
+
+# Regression Diagnostics
+
+- We can **look** at our residuals in a number of ways that inform us about our model's fit
+
+--
+
+1. Residuals vs. Fitted Values: Tells us if the data are roughly linear (smoother is roughly a horizontal line) and if there is heteroskedasticity (residuals are larger for some observations than for others)
+
+2. Normal Q-Q Plot: Compares quantiles of our observed residuals to quantiles of hypothetical residuals that are normally distributed. If points cling to the 45 degree line, the residuals are normally distributed.
+
+3. Scale-Location Plot: Similar to Residuals vs. Fitted, except we put the y-axis is now the square root of the standardized residuals. Also informs us about heteroskedasticity (shouldn't see a pattern) and identifies potential outliers
+
+4. Residuals vs.k Leverage: Visualizes the **influence** of each observation on the regression coefficients. Points that are far from other points, especially those that are close to the dashed red lines, are problematic.
+
+--
+
+- Let's look at each in turn (`R` will produce all four by default if you simply run `plot(m1)` on your regression model)
+
+---
+
+# Residuals vs. Fitted
+
+
+```{r,echo=F,warning=F,fig.width=14,fig.height=7}
+par(mfrow = c(1,2))
+plot(m1,which = 1)
+plot(m2,which = 1)
+```
+
+---
+
+# Normal Q-Q Plot
+
+
+```{r,echo=F,warning=F,fig.width=14,fig.height=7}
+par(mfrow = c(1,2))
+plot(m1,which = 2)
+plot(m2,which = 2)
+```
+
+---
+
+# Scale-Location
+
+
+```{r,echo=F,warning=F,fig.width=14,fig.height=7}
+par(mfrow = c(1,2))
+plot(m1,which = 3)
+plot(m2,which = 3)
+```
+
+---
+
+# Residuals vs. Leverage
+
+
+```{r,echo=F,warning=F,fig.width=14,fig.height=7}
+par(mfrow = c(1,2))
+plot(m1,which = 5)
+plot(m2,which = 5)
+```
+
+---
+
+# Regression Diagnostics
+
+- Problematic points: points can be unusual, but not all unusual points are problems
+
+--
+
+- Consider three types of points:
+
+--
+
+  1. Outlier Point: an observation with a **large residual**
+  
+  2. Leverage Point: an observation with an extreme value for $x$
+  
+  3. Influential Point: an observation that changes the slope of the regression line
+  
+--
+
+- Always good to look at **influential points** to ensure there isn't an error in the measurement
+
+--
+
+  - But NOT always necessary to blindly throw them out
+  
+  - Better to characterize how sensitive the results are to them
+
+---
+
+# Choosing Variables
+
+- With all this in mind, **how do you choose your variables** and **specify your regression equation**?
+
+--
+
+- We know we want to specify the true relationships, but how do we do this in practice?
+
+--
+
+- Theory, *theory*, **theory** is essential and should come first
+
+--
+
+  - This can be formalized with models, or it can be described with intuition, but no amount of diagnostic plots can replace careful theorizing prior to analysis
+  
+--
+
+- That being said, let's consider some additional tests
+
+--
+
+- One simple method is to compare two specifications, say one that includes $x_2$ as a control and another that doesn't
+
+--
+
+  - How can we compare these models?
+
+---
+
+# Goodness of Fit
+
+- Recall the definition of the $R^2$ from the simple regression case
+
+$$
+\begin{aligned}
+R^2 &= \frac{\sum(\hat{y}_i - \bar{y})^2}{\sum(y_i - \bar{y})^2}\\
+&= \frac{SSE}{SST} \\
+&= 1 - \frac{SSR}{SST}
+\end{aligned}
+$$
+- where $SSE$ is the explained sum of squares and $SSR$ is the residual sum of squares
+
+--
+
+- The $R^2$ will never decrease as we add additional predictors
+
+--
+
+  - This is because the denominator doesn't change, but the numerator will either increase or stay the same with additional predictors
+  
+--
+
+- This makes the $R^2$ a pretty terrible metric for comparing models!
+
+---
+
+# Goodness of Fit
+
+- Instead, we typically use the adjusted $R$-square value:
+
+$$
+\begin{aligned}
+R^2_{adj} &= 1 - \left[\frac{\frac{SSR}{(n-k-1)}}{\frac{SST}{(n-1)}}\right]\\
+&= 1 - \frac{\frac{\hat{\sigma}^2_u}{(n-k-1)}}{\frac{SST}{(n-1)}}\\
+\end{aligned}
+$$
+--
+
+- By construction, this will only increase with a new predictor if that variable's $t$-statistic is greater than 1 in absolute value
+
+--
+
+$$
+R^2_{adj} = 1 - \frac{(1-R^2)(n-1)}{(n-k-1)}
+$$
+
+--
+
+- On your own, think about when the $R^2$ and $R^2_{adj}$ will be similar and different?
+
+---
+
+# Too many variables
+
+- Define a variable (denoted $W$) as **irrelevant** if it has not partial effect on $y$ in the population: $\frac{\partial y}{\partial W} = 0$
+
+--
+
+- If we include $W$ in our model (aka "overspecifying the model") will not bias the estimates since it does not violate our assumptions 1 through 4
+
+  - In other words, if the true model is $y = \beta_0 + \beta_1 x + u$ but we specify $y = \beta_0 + \beta_1 x + \beta_2 W + u$, all $\hat{\beta}$ will be unbiased
+  
+--
+
+- However, we can still harm our model if $W$ is collinear with $x$
+
+--
+
+  - Recall that $Var(\hat{\beta}_j) = \frac{\sigma^2}{n*var(x_j)*(1 - R^2_j)}$ where $R^2_j$ is the $R$-squared obtained from regressing $x_j$ on all other independent variables in the model
+  
+  - If $W$ is correlated with $x$, then $Var(\hat{\beta}_1)$ will become inflated, meaning our model is less **efficient**
+  
+  - Put a different way, our statistical power decreases, increasing the likelihood of falsely accepting the null
+  
+---
+
+# Too many variables
+
+- You can assess this threat by calculating each $R^2_j$ yourself
+
+--
+
+  - Also can calculate the **variance inflation factor** (VIF): $VIF(\hat{\beta}_j) = \frac{1}{1 - R^2_j}$
+  
+  - Can rewrite $Var(\hat{\beta}_j) = \frac{\sigma^2}{n*var(x_j)}VIF(\hat{\beta}_j)$, which is where it gets it's name...the factor by which $Var(\hat{\beta}_j)$ is inflated due to the fact that $x_j$ is correlated with other $x$'s in the model
+  
+--
+
+- However, we will sometimes *want* to include controls that are correlated with $y$ but are **not** correlated with $x$
+
+--
+
+  - Note that these are not necessary to recover unbiased estimates (remember the definition of OVB?)
+  
+--
+
+- Why do we want to control for some $Z$ where $\frac{\partial x}{\partial Z} = 0$ but $\frac{\partial y}{\partial Z} \neq 0$?
+
+--
+
+  - It helps explain variation in $y$, meaning that $\sigma^2$ is lower, meaning $Var(\hat{\beta}_j)$ is also lower
+  
+  - In other words, it makes all our estimates more **efficient**
+
+---
+
+# Hypotheses about Parameters
+
+- Thus far, we've always been implicitly interested in a single coefficient, or testing each one at a time
+
+--
+
+- But we might be interested in how two coefficients related to each other
+
+  - For example, your book has the example where researchers are interested whether the effect on income of an additional year of education at a junior college is as much as the effect of an additional year of education at four-year university.
+  
+  - The idea here is that $jc$'s are lower status in the U.S. than universities, so maybe employers value these years of education less.
+  
+  - (A complementary hypothesis would be that a jc education may be of lower quality.) 
+  
+- The model assumed is $\log(wage) = \beta_{0}+\beta_{1}jc+\beta_{2}univ+\beta_{3}work+u$
+
+---
+
+# Hypotheses about Parameters
+
+- If we are interested in whether there is a **difference** in returns to education from junior colleges and universities, what is the appropriate null hypothesis?
+
+--
+
+- $H_0: \beta_1 = \beta_2$
+
+- And the alternative?
+
+--
+
+- $H_A: \beta_1 < \beta_2$
+
+- We can re-write as:
+
+$$
+\begin{aligned}
+H_0&: \beta_1 - \beta_2 = 0\\
+H_A&: \beta_1 - \beta_2 < 0
+\end{aligned}
+$$
+
+- Thus our quantity of interest is $\beta_1 - \beta_2$ and our test statistic is $\frac{\hat{\beta}_1 - \hat{\beta}_2}{se(\hat{\beta}_1 - \hat{\beta}_2)}$
+
+---
+
+# Hypotheses about Parameters
+
+- What is $se(\hat{\beta}_1 - \hat{\beta}_2)$?
+
+$$
+\begin{aligned}
+se(\hat{\beta}_1 - \hat{\beta}_2) &= \sqrt{var(\hat{\beta}_1 - \hat{\beta}_2)}~~~\text{and}\\
+var(\hat{\beta}_1 - \hat{\beta}_2) &= var(\hat{\beta}_1) + var(\hat{\beta}_2) - 2cov(\hat{\beta}_1,\hat{\beta}_2) ~~\text{so}\\
+se(\hat{\beta}_1 - \hat{\beta}_2) &= \sqrt{var(\hat{\beta}_1) + var(\hat{\beta}_2) - 2cov(\hat{\beta}_1,\hat{\beta}_2)}
+\end{aligned}
+$$
+--
+
+- We can just grab these values from the variance-covariance matrix of estimated betas
+
+--
+
+- Or we can do an even easier trick! Let's denote $\theta = \beta_1 - \beta_2$, meaning that $\beta_1 = \theta + \beta_2$
+
+- Therefore:
+
+$$
+\begin{aligned}
+\log (wage) &= \beta_{0}+\beta_{1}jc+\beta_{2}univ+\beta _{3}work+u\\
+&= \beta_{0}+(\theta + \beta_2)jc+\beta_{2}univ+\beta _{3}work+u\\
+&= \beta_{0}+\theta jc+\beta_{2}(univ+jc) + \beta _{3}work+u\\
+\end{aligned}
+$$
+--
+
+- So easy! Just create a new variable that is the sum of $univ$ and $jc$ and look at the coefficient on $jc$!
+
+---
+
+# Multiple Linear Restrictions
+
+
+- What if we want to know if a **group** of predictors are **jointly** significant?
+
+- Start by defining an **unrestricted** model as $UR: y = \beta_0 + \beta_1 x_1 + \dots + \beta_k x_k + u$
+
+- Then take the group of variables we are interested in evaluating and move them to the end of the regression
+
+--
+
+  - I.e., if there are $q$ variables we want to test are jointly significant, denote these as $\beta_{k-q+1}, \beta_{k-q+2}$ etc.
+  
+  - Thus our null hypothesis is $H_0: \beta_{k-q+1} = \beta_{k-q+2} = \dots = \beta_k = 0$
+  
+--
+
+- We can write a restricted model as $R: y = \beta_0 + \beta_1 x_1 + \dots + \beta_{k-q}x_{k-q} + u$
+
+- To test, we use the $F$-statistic defined as $F \equiv \frac{(SSR_r - SSR_{ur})/q}{SSR_{ur}/ (n-k-1)}$
+
+--
+
+  - Note that, since $SSR_r \geq SSR_{ur}$, $F > 0$
+  
+--
+
+- This is the ratio of two independent $\chi^2$ random variables, divided by their respective degrees of freedom
+
+- We can therefore conduct hypothesis testing using this: if it is extremely unlikely that we would obtain the observed $F$-statistic by chance, we reject the null $H_0$
+
+```{r,message=F,echo=F,warning=F,results='hide'}
+dir <- getwd()
+type <- 'pdf'
+format <- 'landscape'
+f <- 'Lecture_20_slides'
+
+# system(paste('Rscript ../NFGH/chromeprint.R',dir,type,format,f),wait = F)
+```
