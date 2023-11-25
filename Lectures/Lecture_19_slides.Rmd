@@ -1,0 +1,931 @@
+---
+title: "Interpreting Regressions"
+subtitle: ""
+author: "Prof. Bisbee"
+institute: "Vanderbilt University"
+date: "Lecture Date: 2023/11/28\n Slides Updated: `r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    # self_contained: true
+    chakra: libs/remark-latest.min.js
+    lib_dir: libs
+    css:
+      - default
+      - css/lexis.css
+      - css/lexis-fonts.css
+    #seal: false
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "17:9"
+
+---
+
+```{css,echo = F}
+.small .remark-code { /*Change made here*/
+  font-size: 85% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 50% !important;
+}
+```
+
+```{r,include=F}
+set.seed(123)
+options(width=60)
+knitr::opts_chunk$set(fig.align='center',fig.width=9,fig.height=5)
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+require(tidyverse)
+require(ggpubr)
+```
+
+# Agenda
+
+1. Derivatives
+
+2. Continuous predictors
+
+3. Categorical predictors
+
+4. Interaction terms
+
+---
+
+# Derivatives
+
+- Two standard ways to indicate a derivative: 
+
+--
+
+  1. $\frac{d}{dx}$ stands for "the derivative with respect to x" using Leibniz notation
+  
+  2. $f^{\prime}(x)$ stands for "the derivative of $f$ with respect to x" using Lagrange notation
+
+--
+
+- Regardless of notation, the underlying logic here is an attempt to fine the slope of a line
+
+--
+
+  - In a linear function of the form $y = mx + b$, we can find $m$ by plugging in the change in $y$ over the change in $x$, or $\frac{y_2 - y_1}{x_2 - x_1}$
+  
+  - In a nonlinear function denoted $y = f(x)$, the line might be curved. Denote $\Delta x = x_2 - x_1$ and $y_1 = f(x)$ and $y_2 = f(x + \Delta x)$ and plug in to yield $m = \frac{f(x + \Delta x) - f(x)}{\Delta x}$
+  
+---
+
+# Derivatives
+
+- Of course, if $\Delta x$ is large (meaning $x_2$ is far from $x_1$), we are just calculating the **secant line**, the line that connects the two points
+
+  - Substantively, this is just the average rate of change between $y$ and $x$
+  
+  - Depending on the curve, this might be a *very* poor approximation of the slope
+
+--
+
+- As such, we want to calculate by taking the limit as $\Delta x \rightarrow 0$, which gives us the instantaneous rate of change at a given value of $x$, where the slope is now equal to the **tangent line** to the curve. Denote the derivative $f'(x)$
+
+$$
+f'(x) = \lim_{\Delta x \rightarrow 0} \frac{f(x + \Delta x) - f(x)}{\Delta x}
+$$
+
+
+---
+
+# Derivatives
+
+```{r,echo=F,message=F,warning=F,fig.width=16,fig.height=7}
+require(tidyverse)
+X <- seq(-2,2,by = .1)
+Y <- X + X^2
+
+data.frame(X = X,Y = Y) %>%
+  ggplot(aes(x = X,y = Y)) + 
+  geom_line()
+```
+
+---
+
+# Derivatives
+
+```{r,echo=F,message=F,warning=F,fig.width=16,fig.height=7}
+data.frame(X = X,Y = Y) %>%
+  ggplot(aes(x = X,y = Y)) + 
+  geom_line() + 
+  annotate(geom = 'point',x = c(-2,1),y = c(2,2),color = 'red',size = 4)
+```
+
+---
+
+# Derivatives
+
+```{r,echo=F,message=F,warning=F,fig.width=16,fig.height=7}
+data.frame(X = X,Y = Y) %>%
+  ggplot(aes(x = X,y = Y)) + 
+  geom_line() + 
+  annotate(geom = 'point',x = c(-2,1),y = c(2,2),color = 'red',size = 4) + 
+  annotate(geom = 'segment',x = -2,y = 2,xend = 1,yend = 2,color = 'red') + 
+  annotate(geom = 'text',x = 0,y = 4,label = bquote(over(y[2]-y[1],x[2]-x[1])==over(2 - 2,1--2)~'or'~0))
+```
+
+---
+
+# Derivatives
+
+```{r,echo=F,message=F,warning=F,fig.width=16,fig.height=7}
+data.frame(X = X,Y = Y) %>%
+  ggplot(aes(x = X,y = Y)) + 
+  geom_line() + 
+  annotate(geom = 'point',x = c(-1,1),y = c(0,2),color = 'red',size = 4) + 
+  annotate(geom = 'segment',x = -1,y = 0,xend = 1,yend = 2,color = 'red') + 
+  annotate(geom = 'text',x = 0,y = 4,label = bquote(over(y[2]-y[1],x[2]-x[1])==over(2 - 0,1--1)~'or'~1))
+```
+
+---
+
+# Derivatives
+
+```{r,echo=F,message=F,warning=F,fig.width=16,fig.height=7}
+data.frame(X = X,Y = Y) %>%
+  ggplot(aes(x = X,y = Y)) + 
+  geom_line() + 
+  annotate(geom = 'point',x = c(0,1),y = c(0,2),color = 'red',size = 4) + 
+  annotate(geom = 'segment',x = 0,y = 0,xend = 1,yend = 2,color = 'red') + 
+  annotate(geom = 'text',x = 0,y = 4,label = bquote(over(y[2]-y[1],x[2]-x[1])==over(2 - 0,1-0)~'or'~2))
+```
+
+---
+
+# Derivatives
+
+```{r,echo=F,message=F,warning=F,fig.width=16,fig.height=7}
+data.frame(X = X,Y = Y) %>%
+  ggplot(aes(x = X,y = Y)) + 
+  geom_line() + 
+  annotate(geom = 'point',x = c(.5,1),y = c(.5+.25,2),color = 'red',size = 4) + 
+  annotate(geom = 'segment',x = .5,y = .5+.25,xend = 1,yend = 2,color = 'red') + 
+  annotate(geom = 'text',x = 0,y = 4,label = bquote(over(y[2]-y[1],x[2]-x[1])==over(2 - .75,1-.5)~'or'~2.5))
+```
+
+---
+
+# Derivatives
+
+```{r,echo=F,message=F,warning=F,fig.width=16,fig.height=7}
+data.frame(X = X,Y = Y) %>%
+  ggplot(aes(x = X,y = Y)) + 
+  geom_line() + 
+  annotate(geom = 'point',x = c(.75,1),y = c(.75+.75^2,2),color = 'red',size = 4) + 
+  annotate(geom = 'segment',x = .75,y = .75+.75^2,xend = 1,yend = 2,color = 'red') + 
+  annotate(geom = 'text',x = 0,y = 4,label = bquote(over(y[2]-y[1],x[2]-x[1])==over(2 - 1.3125,1-.75)~'or'~2.75))
+```
+
+---
+
+# Derivatives
+
+```{r,echo=F,message=F,warning=F,fig.width=16,fig.height=7}
+data.frame(X = X,Y = Y) %>%
+  ggplot(aes(x = X,y = Y)) + 
+  geom_line() + 
+  annotate(geom = 'point',x = c(.95,1),y = c(.95+.95^2,2),color = 'red',size = 4) + 
+  annotate(geom = 'segment',x = .95,y = .95+.95^2,xend = 1,yend = 2,color = 'red') + 
+  annotate(geom = 'text',x = 0,y = 4,label = bquote(over(y[2]-y[1],x[2]-x[1])==over(2 - 1.8525,1-.95)~'or'~2.95))
+```
+
+---
+
+# Derivatives
+
+```{r,echo=F,message=F,warning=F,fig.width=16,fig.height=7}
+data.frame(X = X,Y = Y) %>%
+  ggplot(aes(x = X,y = Y)) + 
+  geom_line() + 
+  annotate(geom = 'point',x = c(.99,1),y = c(.99+.99^2,2),color = 'red',size = 4) + 
+  annotate(geom = 'segment',x = .99,y = .99+.99^2,xend = 1,yend = 2,color = 'red') + 
+  annotate(geom = 'text',x = 0,y = 4,label = bquote(over(y[2]-y[1],x[2]-x[1])==over(2 - 1.9701,1-.99)~'or'~2.99))
+```
+
+---
+
+# Derivatives
+
+```{r,echo=F,message=F,warning=F,fig.width=16,fig.height=7}
+data.frame(X = X,Y = Y) %>%
+  ggplot(aes(x = X,y = Y)) + 
+  geom_line() + 
+  annotate(geom = 'point',x = c(.999,1),y = c(.999+.999^2,2),color = 'red',size = 4) + 
+  annotate(geom = 'segment',x = .999,y = .999+.999^2,xend = 1,yend = 2,color = 'red') + 
+  annotate(geom = 'text',x = 0,y = 4,label = bquote(over(y[2]-y[1],x[2]-x[1])==over(2 - 1.997,1-.999)~'or ~'~3)) + 
+  geom_abline(intercept = -1,slope = 3,color = 'red',linetype = 'dotted',size = 2)
+```
+
+---
+
+# Derivates
+
+
+$$
+f'(x) = \lim_{\Delta x \rightarrow 0} \frac{f(x + \Delta x) - f(x)}{\Delta x}
+$$
+
+- Given this equation, we *could* expand the numerator, cancel some things out, and then evaluate the limit
+
+- But we often just rely on four **rules** that are easy to remember
+
+---
+
+# Derivatives: Rules
+
+`1.` Derivative of a variable to a power:
+
+$$
+\frac{d}{dx} ax^{k} = akx^{k-1}
+$$
+
+--
+
+`2.` Derivative of a sum of terms to a power:
+
+$$
+\begin{aligned}
+\frac{d}{dx} \sum_{i = 1}^{n} x_{i} ^{k} = \sum_{i = 1}^{n} \frac{d}{dx} x_{i}^{k} = \sum_{i = 1}^{n} kx_{i}^{k-1}
+\end{aligned}
+$$
+  
+  - (the derivative of a sum is the sum of the derivatives).
+
+--
+
+`3.` Chain rule:
+
+$$
+\frac{d}{dx} [f(g(x))] = f^{\prime}(g(x))g^{\prime}(x)
+$$
+
+---
+
+# Derivatives: Rules
+
+`4.` Partial derivatives of a function of multiple variables $f(x,y)$
+
+$$
+\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}
+$$
+
+treat the other variables as constants.
+
+--
+
+  - e.g. suppose $f(x,y) = 2x - y + 6$.  Then
+
+$$
+\begin{aligned}
+\frac{\partial f}{\partial x} &=& 2\\
+\frac{\partial f}{\partial y} &=& -1
+\end{aligned}
+$$
+
+--
+
+- This winds up being the most important for interpreting regressions, as you'll see!
+
+---
+
+# Continuous Predictors
+
+- Given a theoretical regression $y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + u$, what is the relationship between $y$ and $x_1$?
+
+--
+
+- To answer, we can typically just reply on the **Power Rule** for calculating derivatives: $\frac{\partial x^n}{\partial x} = n*x^{n-1}$.
+
+--
+
+  - In our setting, we take the partial derivative of $y$ with respect to $x_1$: 
+  
+$$
+\begin{aligned}
+\frac{\partial y}{\partial x_1} &= \frac{\partial (\beta_0 + \beta_1 x_1 + \beta_2 x_2 + u)}{\partial x_1}\\
+&= 0 + \beta_1*1*x_1^0 + 0 + 0\\
+&= \beta_1
+\end{aligned}
+$$
+  
+--
+
+- Substantively, we say that "a one unit change in $x_1$ corresponds to a $\beta_1$ unit change in $y$"
+
+
+---
+
+# Continuous Predictors: Polynomials
+
+- Recall assumption 1?
+
+--
+
+  - True model is **linear**
+  
+--
+
+- In some cases, we might have good reason to believe that the true relationship between $y$ and $x$ is **non-linear** (i.e., age and annual wage income)
+
+--
+
+  - In this setting, we can **transform** $x$ to make our model "linear in the parameters"
+  
+  - A very typical transformation is to add **polynomial terms** of $x$ as additional predictors
+  
+  - A polynomial regression model of degree $r$ is written: $y = \beta_0 + \beta_1 x + \beta_2 x^2 + \dots + \beta_r x^r + u$
+  
+  - **NB:** Each additional degree allows for $r-1$ additional curves
+  
+---
+
+# Continuous Predictors: Polynomials
+
+```{r,echo=F,message=F,warning=F,fig.width=16,fig.height=7}
+data.frame(X = X,Y = Y) %>%
+  ggplot(aes(x = X,y = Y)) + 
+  geom_line() + 
+  labs(title = 'Degree 2',
+       subtitle = 'One Curve')
+```
+
+---
+
+# Continuous Predictors: Polynomials
+
+```{r,echo=F,message=F,warning=F,fig.width=16,fig.height=7}
+Y <- X + X^2 - X^3
+data.frame(X = X,Y = Y) %>%
+  ggplot(aes(x = X,y = Y)) + 
+  geom_line() + 
+  labs(title = 'Degree 3',
+       subtitle = 'Two Curves')
+```
+
+---
+
+# Continuous Predictors: Polynomials
+
+```{r,echo=F,message=F,warning=F,fig.width=16,fig.height=7}
+Y <- X + 1*X^2 - .2*X^3 - .5*X^4
+data.frame(X = X,Y = Y) %>%
+  ggplot(aes(x = X,y = Y)) + 
+  geom_line() + 
+  labs(title = 'Degree 4',
+       subtitle = 'Three Curves')
+```
+
+---
+
+# Continuous Predictors: Polynomials
+
+- One of the most commonly occurring polynomials used in social science is the **quadradic** model: 
+
+$$
+y = \beta_0 + \beta_1 x + \beta_2 x^2 + u
+$$
+
+--
+
+- How do we interpret this slope? Take the partial derivative with respect to $x$ as always!
+
+--
+
+$$
+\begin{aligned}
+\frac{\partial y}{\partial x} &= \frac{\partial (\beta_0 + \beta_1 x + \beta_2 x^2 + u)}{\partial x}\\
+&= 0 + \beta_1*1*x^0 + \beta_2*2*x^1 + 0\\
+&= \beta_1 + 2\beta_2 x
+\end{aligned}
+$$
+
+---
+
+# Continuous Predictors: Polynomials
+
+- How do we make inferential statements about $\frac{\partial y}{\partial x} = \beta_1 + 2\beta_2 x$? Answer one of two questions:
+
+--
+
+`1.` Is the quadratic model a **better fit** to the data than the linear model?
+
+--
+
+  - To answer, just interpret the $p$-value and $t$-test associated with $\hat{\beta}_2$
+  
+--
+
+`2.` At what values of $x$ is the relationship between $x$ and $y$ **statistically distinct**, and are these values **substantively meaningful**?
+
+--
+
+  - This is often the much more important question. When $x$ is a predictor of interest (as opposed to simply being a control variable) and we fit it with a quadratic, it is usually because we want to make the claim that the effect of $x$ on $y$ is significantly higher (or lower) somewhere in the middle of the range of $x$ than at lower and higher values of $x$.
+  
+  - This is distinct from (1) because either (a) the quadratic might provide a better fit, but the effect of $x$ doesn't attain an extremum in the empirical range of $x$; or (b) the quadratic might provide a better fit, and the effect of $x$ attains an extremum in the empirical range of $x$, but $\frac{\partial y}{\partial x}$ at this extremum is not significantly different from $\frac{\partial y}{\partial x}$ at other meaningful values of $x$
+
+---
+
+# Categorical Predictors
+
+- Sometimes we are interested in a dichotomous predictor, such as whether an individual has a PhD or whether a village was given mosquito nets
+
+--
+
+  - We can represent this predictor as either 0 (meaning no PhD, or no mosquito nets) or a 1 (meaning a PhD or mosquito nets), often referred to as a **dummy** variable
+  
+  - Then we just add it to our regression as normal
+  
+--
+
+- Consider this example where we predict income as a function of years in the labor market and whether the individual $i$ has a PhD (our dichotomous predictor)
+
+$$
+\textit{Income}_i = \beta_0 + \beta_1 \textit{Labor}_i + \beta_2 \textit{PhD}_i + u_i
+$$
+--
+
+- What is the partial derivative of income with respect to the PhD dummy variable?
+
+
+
+---
+
+# Categorical Predictors
+
+- Here is an example using dummy data (see raw code for details)
+
+```{r,echo=F,warning=F}
+# HT to Jenn Larson, the queen of all the world, recipient of its finest meats and cheeses!
+set.seed(12345)
+
+
+################################################################
+## This file aims to do three things:
+## 1) Demonstrate what is meant by repeated sampling in the regression context
+## 2) Make crystal clear what the assumptions required for inference say about
+## the data generating process
+## 3) Show how to use diagnostic plots to glean that something might be off
+## about the assumptions.
+
+
+################################################################
+## First, let's make some data that perfectly comports with the assumptions
+## required for inference in OLS
+
+
+## To start, we need to conjure up our independent variables.  
+## Let's make a dummy variable for holding a PhD or not, and an interval
+## variable for years in the labor force.
+
+phd <- c(rep(0, 75), rep(1, 75))
+labor <- sample(c(1:30), size = 150, replace = TRUE)
+
+
+## Now let's generate our dependent variable, income, as a linear function of 
+## years in labor market and degree status.
+## In other words, we're assuming we know the data generating process.
+## Let's have our DGP meet the assumptions of inference in OLS, and
+## let's use it to generate some data (by which we mean generate the DV, income)
+
+## We'll need a normally-distributed error term with mean 0 and a constant SD
+error <- rnorm(150, mean = 0, sd = 5)
+
+## Let's assume the true parameters are:
+beta0 <- 15
+beta1 <- 6
+beta2 <- 40
+
+## So now, let's generate one sample of our DV:
+
+inc <- beta0 + beta1*labor + beta2*phd + error
+
+## This is the step that would be repeated under "repeated sampling."
+
+## Now let's collect our IVs and this DV into a dataframe.
+
+data <- as.data.frame(cbind(inc, labor, phd))
+
+## So we've created our outcome variable as a linear function of labor and phd,
+## with normally-distributed error cenetered on zero with constant variance (sd = 5)
+
+
+## Ok, now let's see what we get when we regress income on labor and phd
+## using these data
+```
+
+```{r}
+m1 <- lm(inc ~ labor + phd, data = data)
+summary(m1)
+```
+
+---
+
+# Categorical Predictors
+
+- How do we interpret this result? (NB: outcome is measured in thousands of dollars)
+
+```{r}
+coef(m1)
+```
+
+--
+
+- A one unit change in $x$ corresponds to a $\beta$ unit change in $y$
+
+--
+
+- A one unit change in *PhD* corresponds to a 40.97 unit change in *Income*
+
+--
+
+  - And a one unit change in *PhD* just means going from 0 (no PhD) to 1 (has a PhD)
+  
+---
+
+# Categorical Predictors
+
+```{r,echo=F,warning=F,fig.width=16,fig.height=6}
+## And let's plot the regression lines separately for PhD and not
+plot(labor, inc)
+abline(coef(m1)[1], coef(m1)[2], lty = 2)
+abline(coef(m1)[1]+coef(m1)[3], coef(m1)[2], lty = 1)
+
+legend("topleft", legend = c("PhD", "No PhD"), title = "Degree", lty = c(1,2), lwd = c(1,1), cex = 1)
+```
+
+
+
+---
+
+# Categorical Predictors
+
+- What if our categorical measure is not dichotomous? (I.e., college degree or less, masters degree, PhD?)
+
+--
+
+- Any multi-level categorical variable can be "dummied out" by creating dichotomous versions of it's levels
+
+--
+
+  - NB: we **can't** include all levels though...we always need to drop one. Why?
+  
+--
+
+  - Assumption 3: no perfect multicollinearity in $\mathbf{X}$! 
+  
+  - If we include dummies of every level, then we can perfectly predict *PhD* with *College degree or less* and *MA degree*
+  
+  - $\mathbf{X}^\top\mathbf{X}$ is therefore not invertible, meaning that $(\mathbf{X}^\top\mathbf{X})^{-1}$ doesn't exist
+  
+--
+
+- Thus, for a categorical predictor with $k$ levels, we only add $k-1$ dummies for each of its levels
+
+  - In this example, we don't include the dummy for "College degree or less"
+
+$$
+\textit{Income}_i = \beta_0 + \beta_1 \textit{Labor}_i + \beta_2 \textit{PhD}_i + \beta_3 \textit{MA}_i + u_i
+$$
+
+---
+
+# Categorical Predictors
+
+```{r,echo=F,warning=F}
+## What if we want our DGP to account for more categories?
+## We can make dummy variables for PhD and MA degrees as the final degree earned.
+## Notice that we made these in a way that makes sure someone has a 1 in EITHER
+## PhD OR MA OR neither.
+
+phd <- c(rep(0, 75), rep(1, 75))
+ma <- c(rep(0,30), rep(1,45), rep(0,75))
+labor <- sample(c(1:30), size = 150, replace = TRUE)
+
+## Let's assume this is the true error distribution:
+error <- rnorm(150, mean = 0, sd = 5)
+
+## And let's assume these are the true parameter values:
+
+beta0 <- 15
+beta1 <- 6
+beta2 <- 40
+beta3 <- 12
+
+## Now we can again generate our DV as a function of this different DGP.
+
+inc <- beta0 + beta1*labor + beta2*phd + beta3*ma + error
+
+## And collect our data in a dataframe
+
+data2 <- as.data.frame(cbind(inc, labor, phd, ma))
+
+## And run the regression
+```
+
+```{r}
+m2 <- lm(inc ~ labor + phd + ma, data = data2)
+
+summary(m2)
+```
+
+---
+
+# Categorical Predictors
+
+- How to interpret?
+
+```{r}
+coef(m2)
+```
+
+--
+
+- What is 0 for the *PhD* dummy? What is 0 for the *MA* dummy?
+
+--
+
+  - Be mindful of the **reference category** when working with categorical variables!
+  
+--
+
+- Note: `R` can dummy out categorical variables automatically as long as they are either stored as `factor` or `character` types. But you still need to pay attention to the **reference category** when it does so!
+
+---
+
+# Categorical Predictors
+
+```{r}
+data2a <- data2 %>%
+  mutate(educCat = ifelse(phd == 1,'PhD',
+                          ifelse(ma == 1,'MA','<MA')))
+
+m2a <- lm(inc ~ labor + educCat, data = data2a)
+coef(m2a)
+```
+
+---
+
+# Categorical Predictors
+
+```{r}
+data2b <- data2 %>%
+  mutate(educCat = ifelse(phd == 1,'1-PhD',
+                          ifelse(ma == 1,'2-MA','3-<MA')))
+
+m2b <- lm(inc ~ labor + educCat, data = data2b)
+coef(m2b)
+```
+
+---
+
+# Categorical Predictors
+
+```{r}
+data2c <- data2a %>%
+  mutate(educCat = factor(educCat,
+                          levels = c('MA','PhD','<MA')))
+
+m2c <- lm(inc ~ labor + educCat, data = data2c)
+coef(m2c)
+```
+
+---
+
+# Categorical Predictors
+
+```{r,echo=F,warning=F,fig.width=16,fig.height=6}
+## And plot these regression lines
+
+plot(labor, inc)
+abline(coef(m2)[1], coef(m2)[2], lwd = 2, lty = 3)
+abline(coef(m2)[1]+coef(m2)[3], coef(m2)[2], lty = 1, lwd = 2)
+abline(coef(m2)[1]+coef(m2)[4], coef(m2)[2], lty = 2, lwd = 2)
+
+legend("topleft", legend = c("PhD", "MA", "Neither"), title = "Degree", lty = c(1,2,3), lwd = c(2,2,2), cex = 1)
+```
+
+---
+
+# Interactions
+
+- Finally, what if we theorize that the relationship between $y$ and $x$ varies by some other predictor $z$?
+
+--
+
+  - I.e., we think that additional experience in the labor market increases income more for PhDs than non-PhDs
+  
+--
+
+- To test this, we "interact" the two variables by multiplying them together
+
+$$
+\textit{Income}_i = \beta_0 + \beta_1 \textit{Labor}_i + \beta_2 \textit{PhD}_i + \beta_3 \textit{Labor}_i*\textit{PhD}_i + u_i
+$$
+--
+
+- What is the relationship between the outcome and *Labor* now?
+
+--
+
+$$
+\begin{aligned}
+\frac{\partial \textit{Income}}{\partial \textit{Labor}} &= \frac{\partial (\beta_0 + \beta_1 \textit{Labor} + \beta_2 \textit{PhD} + \beta_3 \textit{Labor}*\textit{PhD} + u)}{\partial x}\\
+&= 0 + \beta_1*1*\textit{Labor}^0 + 0 + \beta_3*\textit{PhD}*\textit{Labor}^0\\
+&= \beta_1 + \beta_3 \textit{PhD}
+\end{aligned}
+$$
+--
+
+- On your own, calculate the relationship between the outcome and *PhD*
+
+---
+
+# Interactions
+
+- **NB**: You must *always* include the "constitutive terms" of an interaction along with the interaction itself
+
+--
+
+  - I.e., if you interact $x_1$ with $x_2$, your regression cannot be written $y = \beta_0 + \beta_1 x_1 * x_2 + u$, nor can it be written $y = \beta_0 + \beta_1 x_1 + \beta_2 x_1* x_2 + u$, nor can it be written $y = \beta_0 + \beta_1 x_2 + \beta_2 x_1* x_2 + u$
+  
+  - It **must** be written as $y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_1* x_2 + u$
+  
+  - (However, there are instances in which the constitutive terms might drop out depending on the specification...see [Brambor, Clark and Golder (2006)](https://www.jstor.org/stable/pdf/25791835.pdf?casa_token=jt66B4IiiNQAAAAA:s5d3SdhfH-8aWMy5M6KNtyCBgvW2Nvka0LinCZLjjsmmC8_z4_SBb2i2RAESCScCd8FFD6cluDu70LyS3sYrikloNEoIGzBvmi7HiL42-xKjXiZX06Uf))
+  
+--
+
+- As with categorical variables, `R` will make your life easier by always including the constitutive terms for you
+
+--
+
+  - I.e., you can run `lm(y ~ x1*x2)` and `R` will automatically re-write as `lm(y ~ x1 + x2 + x1*x2)`
+  
+---
+
+# Interactions
+
+```{r,echo=F,warning=F}
+## What if we want to make a DGP where the relationship between degree and income
+## varies by number of years in the labor force?  
+## (In other words, where the true DGP has an interaction?)
+
+phd <- c(rep(0, 75), rep(1, 75))
+labor <- sample(c(1:30), size = 150, replace = TRUE)
+
+error <- rnorm(150, mean = 0, sd = 5)
+
+## Let's assume these for the true parameter values
+
+beta0 <- 15
+beta1 <- 6
+beta2 <- 40
+beta3 <- 8
+
+## Now let's generate our DV from this DGP:
+inc <- beta0 + beta1*labor + beta2*phd + beta3*labor*phd + error
+
+data3 <- as.data.frame(cbind(inc, labor, phd))
+```
+
+```{r}
+m3 <- lm(inc ~ labor + phd + labor*phd, data = data3)
+summary(m3)
+```
+
+---
+
+# Interactions
+
+- How do we interpret this?
+
+```{r}
+coef(m3)
+```
+--
+
+$$
+\frac{\partial \textit{Income}}{\partial \textit{Labor}} = \beta_1 + \beta_3 \textit{PhD}
+$$
+
+1. Among those **with** a PhD, the relationship between years in the labor market and income is 14k ( $\beta_1 + \beta_3*1$ )
+
+2. Among those **without** a PhD, the relationship is 6k ( $\beta_1 + \beta_3*0$ )
+
+--
+
+- Often best practice is to visualize this
+
+---
+
+# Interactions
+
+```{r,echo=F,warning=F,fig.width=16,fig.height=6}
+plot(labor, inc)
+abline(coef(m3)[1], coef(m3)[2], lty = 2, lwd = 2)
+abline(coef(m3)[1]+coef(m3)[3], coef(m3)[2]+coef(m3)[4], lty = 1, lwd = 2)
+legend("topleft", legend = c("PhD", "No PhD"), title = "Degree", lty = c(1,2), lwd = c(2,2), cex = 1)
+```
+
+---
+
+# Interactions
+
+- What if we interact two continuous variables? Math stays the same!
+
+```{r,echo=F,warning=F}
+age <- sample(18:65,size = 150,replace = T)
+labor <- sample(c(1:30), size = 150, replace = TRUE)
+
+error <- rnorm(150, mean = 0, sd = 15)
+
+## Let's assume these for the true parameter values
+
+beta0 <- 15
+beta1 <- 9
+beta2 <- 3
+beta3 <- -.2
+
+## Now let's generate our DV from this DGP:
+inc <- beta0 + beta1*labor + beta2*age + beta3*labor*age + error
+
+data4 <- as.data.frame(cbind(inc, labor, age))
+```
+
+```{r}
+m4 <- lm(inc ~ labor + age + labor*age,data4)
+summary(m4)
+```
+
+---
+
+# Interactions
+
+- How to interpret?
+
+```{r}
+coef(m4)
+```
+
+--
+
+$$
+\begin{aligned}
+\frac{\partial \textit{Income}}{\partial \textit{Labor}} &= \frac{\partial (\beta_0 + \beta_1 \textit{Labor} + \beta_2 \textit{Age} + \beta_3 \textit{Labor}*\textit{Age} + u)}{\partial x}\\
+&= 0 + \beta_1*1*\textit{Labor}^0 + 0 + \beta_3*\textit{Age}*\textit{Labor}^0\\
+&= \beta_1 + \beta_3 \textit{Age}
+\end{aligned}
+$$
+--
+
+- As with the quadratic discussion, we want to evaluate this at different values of *Age*
+
+`2.` At what values of *Age* is the relationship between *Income* and *Labor* **statistically distinct**, and are these values **substantively meaningful**?
+
+---
+
+# Interactions
+
+- Marginal Effects plots are especially useful here
+
+--
+
+  - Visualize the $\beta_1$ slope ( $\hat{\beta}_1$ on the y-axis) at different values of *Age* (on the x-axis)
+  
+  - Literally answer, what is the additional income expected with an additional year experience for a 20 year old versus a 60 year old?
+  
+  - (What do you think this would be?)
+
+
+---
+
+# Interactions
+
+```{r,echo=F,warning=F,message=F,fig.width=16,fig.height=6}
+# Marginal Effects package is SO COOL (as is Vincent)
+require(marginaleffects)
+
+plot_cme(m4,variables = 'labor',condition = 'age') + 
+  geom_hline(yintercept = 0,linetype = 'dashed') + 
+  theme_bw() + 
+  labs(x = 'Age',y = bquote(beta[1]~'relationship between labor and income'))
+```
+
+
+
+```{r,message=F,echo=F,warning=F,results='hide'}
+dir <- getwd()
+type <- 'pdf'
+format <- 'landscape'
+f <- 'Lecture_19_slides'
+
+system(paste('Rscript ../NFGH/chromeprint.R',dir,type,format,f),wait = F)
+```
