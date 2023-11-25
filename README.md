@@ -181,7 +181,7 @@ All these can also be found on the [Campuswire calendar](https://campuswire.com/
 
 [9. Confounders](#9-confounders): Nov 14 - Nov 16
 
-[10. BLUE and Heteroskedasticity](#10-blue-and-heteroskedasticity): Nov 28 - Nov 30
+[10. Final Things](#10-final-things): Nov 28 - Nov 30
 
 [11. Final](#11-final-exam): Dec 7 - Dec 11
 
@@ -318,7 +318,7 @@ Lecture Content (2023/11/02): Error variance and controls
 Lecture Content (2023/11/07): Error variance and controls
 
 * Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_17_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_17_slides.html#1)
-* Homework: Problem set 5 (due November 14)
+* Homework: [Problem set 5](https://github.com/jbisbee1/PSCI_8356/blob/main/Materials/pset_5.Rmd) (due November 28)
 
 **Review Session (2023/11/08): Review sections 7 and 8.**
 
@@ -326,14 +326,14 @@ Lecture Content (2023/11/07): Error variance and controls
 
 ### 9\. Confounders
 
-Lecture Content (2023/11/14): Confounders and OVB
+Lecture Content (2023/11/14): MATRIX FUN TIMES WOO HOO!
 
-* Slides:
+* Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_18_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_18_slides.html#1)
 * Homework: Wooldridge chapters 5 and 6
 
 Lecture Content (2023/11/16): Sampling distribution of estimates
 
-* Slides:
+* Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_18_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_18_slides.html#1)
 
 **Holiday: (2023/11/21)**
 
@@ -341,16 +341,16 @@ Lecture Content (2023/11/16): Sampling distribution of estimates
 
 *[Back to Syllabus](#syllabus)*
 
-### 10\. BLUE and Heteroskedasticity
+### 10\. Final Things
 
-Lecture Content (2023/11/28): BLUE
+Lecture Content (2023/11/28): Interpreting Regressions
 
-* Slides:
-* Homework: Wooldridge chapters 6 and 7
+* Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_19_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_19_slides.html#1)
+* Homework: Wooldridge chapters 6 and 7. [Problem set 6](https://github.com/jbisbee1/PSCI_8356/blob/main/Materials/pset_6.Rmd) (due December 5)
 
-Lecture Content (2023/11/30): Heteroskedasticity
+Lecture Content (2023/11/30): Regression Diagnostics
 
-* Slides:
+* Slides: [PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lecture_20_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lecture_20_slides.html#1)
 * Homework: Wooldridge chapter 9
 
 *[Back to Syllabus](#syllabus)*
@@ -360,7 +360,7 @@ Lecture content (2023/12/05): Data exercise presentations part 1
 
 Lecture content (2023/12/07): Data exercise presentations part 2
 
-**Final Exam (2023/12/11): In-Class Exam**
+**Final Exam (2023/12/11): Take Home Exam due 12/11/2023**
 
 *[Back to Syllabus](#syllabus)*
 
