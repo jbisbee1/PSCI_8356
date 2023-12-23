@@ -294,5 +294,5 @@ type <- 'pdf'
 format <- 'landscape'
 f <- 'Lecture_16_slides'
 
-# system(paste('Rscript ../NFGH/chromeprint.R',dir,type,format,f),wait = F)
+system(paste('Rscript ../NFGH/chromeprint.R',dir,type,format,f),wait = F)
 ```
