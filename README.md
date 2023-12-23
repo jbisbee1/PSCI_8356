@@ -227,7 +227,7 @@ Lecture Content (2023/09/07): Continuous random variables
 
 **Review Session (2023/09/12): Review sections 1 and 2**
 * Slides:
-[PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lectures_1_4_slides.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lectures_1_4_slides.html#1)
+[PDF](https://github.com/jbisbee1/PSCI_8356/blob/main/Lectures/Lectures_1_4_review.pdf); [HTML](https://www.jamesbisbee.com/PSCI_8356/Lectures/Lectures_1_4_review.html#1)
 
 
 *[Back to Syllabus](#syllabus)*
